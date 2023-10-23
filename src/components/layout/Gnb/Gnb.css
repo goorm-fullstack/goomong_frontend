@@ -1,0 +1,146 @@
+.gnb-container {
+  display: flex;
+}
+
+.burger-btn {
+  position: relative;
+}
+.burger-menu {
+  margin-top: 15px;
+  z-index: 10000;
+}
+.burger-icon {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.bar {
+  height: 3px;
+  background-color: #333;
+  transition: transform 0.2s ease;
+}
+
+.open .bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.open .bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+.menu-items {
+  list-style: none;
+  padding: 0;
+  width: 57%;
+  height: 448px;
+  display: flex;
+  border: 1px solid var(--dim-black);
+  position: absolute;
+  top: 110px;
+  background-color: white;
+  z-index: 1;
+}
+
+.burger-btn {
+  border-right: 1px solid var(--dim-black);
+}
+
+.burger-btn > div {
+  width: 238px;
+  height: 40px;
+  line-height: 40px;
+  cursor: pointer;
+  margin-left: 2px;
+}
+.burger-btn > div:hover {
+  color: var(--blue);
+  background-color: #f5f8ff;
+}
+.burger-local-btn,
+.burger-service-btn,
+li {
+  color: var(--black);
+  font-size: 15px;
+}
+.local-menu {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 10px;
+}
+
+.local-menu > li {
+  width: 50%;
+  height: 40px;
+  line-height: 40px;
+}
+.left {
+  margin-top: 11px;
+}
+.left-menu {
+  display: flex;
+  align-items: center;
+}
+.ll-menu,
+.lr-menu {
+  display: flex;
+  margin-left: 10px;
+}
+.ll-menu li,
+.lr-menu li {
+  width: 125px;
+  color: var(--black);
+  font-weight: bold;
+}
+
+.lr-find {
+  position: relative;
+  font-size: 16px;
+  color: #333;
+  margin-right: 30px;
+}
+
+.lr-find::before {
+  content: 'NEW';
+  position: absolute;
+  font-size: 12px;
+  top: -3px;
+  left: 120px;
+  color: var(--green);
+}
+
+.right {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.right-txt,
+.right-btn {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.right-btn {
+  margin-left: 20px;
+  border: 0;
+  background-color: var(--blue);
+  border-radius: 20px;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+.right-btn:hover {
+  background-color: #fff;
+  color: var(--blue);
+}

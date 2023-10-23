@@ -1,0 +1,16 @@
+* {
+  list-style: none;
+  margin: 3px 0;
+  box-sizing: border-box;
+  padding: 0;
+  text-decoration: none;
+}
+
+:root {
+  --black: #101c33;
+  --dim-black: #404a5c;
+  --blue: #4285f4;
+  --yellow: #fbbc04;
+  --red: #ea4335;
+  --green: #34a853;
+}

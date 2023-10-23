@@ -1,0 +1,15 @@
+.popular-container {
+  width: 80%;
+  margin: 100px auto 0 auto;
+}
+
+.popular-sub-title {
+  color: var(--black);
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.ranking-container {
+  display: flex;
+  
+}

@@ -1,0 +1,40 @@
+.hotitem-container {
+  width: 80%;
+  margin: 200px auto 0px auto;
+}
+
+.hotitem-btn {
+  display: flex;
+  margin-top: 30px;
+}
+
+.hotitem-btn li {
+  font-size: 15px;
+  border: 1px solid #dbdee2;
+  border-radius: 50px;
+  margin-right: 15px;
+  font-weight: bold;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: var(--dim-black);
+}
+.hotitem-btn li:hover {
+  color: #dbdee2;
+}
+.hotitem-btn li:nth-child(1) {
+  background-color: var(--blue);
+  color: #fff;
+}
+
+.more-btn {
+  text-align: center;
+  margin-top: 10px;
+}
+.more-btn > button {
+  border: 1px solid #dbdee2;
+  background-color: transparent;
+  border-radius: 6px;
+  padding: 10px 100px;
+  font-size: 15px;
+  cursor: pointer;
+}
