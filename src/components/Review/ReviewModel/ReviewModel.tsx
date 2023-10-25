@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import '../../../Style/global.css';
 import './ReviewModel.css';
 
 interface ReviewProps {
