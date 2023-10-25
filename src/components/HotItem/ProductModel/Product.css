@@ -3,8 +3,8 @@
   height: 350px;
   margin-top: 50px;
   margin-right: 50px;
+  border-radius: 10px;
 }
-
 
 .product-image {
   background-color: #c0bebe;

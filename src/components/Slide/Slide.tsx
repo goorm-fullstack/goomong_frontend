@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
-import '../../style/global.css';
 import './Slide.css';
 
 interface SlideProps {
@@ -10,9 +9,15 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
   const [translateX, setTranslateX] = useState(0);
   const animationFrameRef = useRef<number | null>(null);
 
+  const slideWidth = children.length * 266;
+
   useEffect(() => {
     const slide = () => {
-      setTranslateX((prev) => prev - 0.5);
+      if (translateX <= -slideWidth) {
+        setTranslateX(0);
+      } else {
+        setTranslateX((prev) => prev - 0.5);
+      }
       animationFrameRef.current = requestAnimationFrame(slide);
     };
 
@@ -23,7 +28,7 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [translateX]);
 
   return (
     <div
@@ -43,7 +48,7 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
           animationFrameRef.current = requestAnimationFrame(slide);
         }
       }}>
-      {children.map((child, index) => (
+      {children.concat(children).map((child, index) => (
         <div key={index} style={{ transform: `translateX(${translateX}px)`, display: 'inline-block' }}>
           {child}
         </div>

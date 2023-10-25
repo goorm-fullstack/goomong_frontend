@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../style/global.css';
+import '../../../Style/global.css';
 import './Footer.css';
 import Logo from '../../../assets/images/common/logo.png';
 import Arrow from '../../../assets/svg/ico_arrow.svg';

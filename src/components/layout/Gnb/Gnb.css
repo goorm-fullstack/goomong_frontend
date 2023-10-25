@@ -38,7 +38,6 @@
 }
 
 .menu-items {
-  list-style: none;
   padding: 0;
   width: 57%;
   height: 448px;
@@ -47,7 +46,6 @@
   position: absolute;
   top: 110px;
   background-color: white;
-  z-index: 1;
 }
 
 .burger-btn {

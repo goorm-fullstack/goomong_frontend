@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../style/global.css';
-import './Category.css';
+import * as S from './Style';
 import CategoryItem from './CategoryItem';
+import { Link, Route, Router, Routes } from 'react-router-dom';
 
 function Category() {
   const categories = [
@@ -16,19 +16,20 @@ function Category() {
     { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_14.png', title: '세무 법무 노무' },
   ];
   return (
-    <div className="category-container">
-      <h2>
-        어떤 <span>재능</span>이 필요하세요?
-      </h2>
-
-      <div className="category-items">
-        <ul className="item-list">
-          {categories.map((category, index) => (
-            <CategoryItem key={index} imageUrl={category.imageUrl} title={category.title} />
-          ))}
-        </ul>
-      </div>
-    </div>
+      <S.category>
+        <div className="category-container">
+          <div className="category-title">
+            어떤 <span>재능</span>이 필요하세요?
+          </div>
+          <div className="category-items">
+            <ul className="item-list">
+                {categories.map((category, index) => (
+                  <CategoryItem key={index} imageUrl={category.imageUrl} title={category.title} />
+                ))}
+            </ul>
+          </div>
+        </div>
+      </S.category>
   );
 }
 

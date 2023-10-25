@@ -4,7 +4,7 @@ import GoldMedal from '../../../assets/svg/ico_gold.png';
 import SilverMedal from '../../../assets/svg/ico_silver.png';
 import BronzeMedal from '../../../assets/svg/ico_bronze.png';
 
-import '../../../style/global.css';
+import '../../../Style/global.css';
 import './RankModel.css';
 
 interface SellerInfo {

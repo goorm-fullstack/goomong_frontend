@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import '../../../style/global.css';
+import '../../../Style/global.css';
 import './ReviewModel.css';
 
 interface ReviewProps {
@@ -30,21 +30,27 @@ const ReviewModel: React.FC<ReviewProps> = ({ imageUrl, writer, date, rating, ca
   return (
     <div className="review-model">
       <div className="review-model-top">
-        {/* <img src={imageUrl} alt={writer} className="writer-image" /> */}
-        <div className="writer-image">image</div>
+        <div className="image-container">
+          <img src={imageUrl} alt={writer} className="writer-image" />
+        </div>
         <div className="writer-info">
           <div className="writer-date">
             <span className="writer">{writer}</span>
             <span className="date">{date}</span>
           </div>
-          <div className="rating">{'★'.repeat(rating)}</div>
+          <div className="review-rating">
+            <span className="rating-star">{'★'.repeat(Math.round(rating))} </span>
+            {rating}
+          </div>
           <div className="category-review-product-name">
-            <span className="category">{category}</span>
-            <span className="review-product-name">{productName}</span>
+            <div className="category">{category}</div>
+            <div className="review-product-name">{productName}</div>
           </div>
         </div>
       </div>
-      <div className="review-content" ref={contentRef}>{content}</div>
+      <div className="review-content" ref={contentRef}>
+        {content}
+      </div>
     </div>
   );
 };

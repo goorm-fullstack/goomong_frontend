@@ -1,6 +1,6 @@
 import React from 'react';
 import RankModel from './RankModel/RankModel';
-import '../../style/global.css';
+import '../../Style/global.css';
 import './Popular.css';
 
 interface SellerInfo {
