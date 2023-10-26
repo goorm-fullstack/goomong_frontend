@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const header = styled.header`
+export const Header = styled.header`
   .header-container {
     width: 1280px;
     padding: 0px 40px;
@@ -103,5 +103,16 @@ export const header = styled.header`
     letter-spacing: -0.04em;
     text-align: center;
     padding: 0px 15px;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 `;

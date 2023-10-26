@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const category = styled.div`
+export const Category = styled.div`
   .category-container {
     width: 1280px;
     padding: 0px 40px;

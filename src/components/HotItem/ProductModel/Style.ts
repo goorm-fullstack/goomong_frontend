@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const product = styled.div`
+export const Product = styled.div`
   .product {
     width: 264px;
     height: 316px;

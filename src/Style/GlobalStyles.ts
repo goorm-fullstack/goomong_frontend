@@ -1,9 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-    * { box-sizing: border-box;  font-family: 'Noto Sans KR', sans-serif;}
+    * { box-sizing: border-box;  
+		font-family: 'Noto Sans KR', sans-serif;
+	}
 
     html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -50,6 +51,9 @@ table {
 a {
 	color: var(--black);
 }
+a, button,li {
+	transition: .2s all ease-in-out;
+}
 
 
 
@@ -62,5 +66,4 @@ a {
         --green: #34a853;
     }
 `;
-
 export default GlobalStyle;

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
-import './Slide.css';
+import * as S from './Style';
 
 interface SlideProps {
   children: ReactNode[];
@@ -31,29 +31,31 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
   }, [translateX]);
 
   return (
-    <div
-      className="slide-container"
-      onMouseEnter={() => {
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-          animationFrameRef.current = null;
-        }
-      }}
-      onMouseLeave={() => {
-        if (!animationFrameRef.current) {
-          const slide = () => {
-            setTranslateX((prev) => prev - 1);
+    <S.Slide>
+      <div
+        className="slide-container"
+        onMouseEnter={() => {
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
+          }
+        }}
+        onMouseLeave={() => {
+          if (!animationFrameRef.current) {
+            const slide = () => {
+              setTranslateX((prev) => prev - 1);
+              animationFrameRef.current = requestAnimationFrame(slide);
+            };
             animationFrameRef.current = requestAnimationFrame(slide);
-          };
-          animationFrameRef.current = requestAnimationFrame(slide);
-        }
-      }}>
-      {children.concat(children).map((child, index) => (
-        <div key={index} style={{ transform: `translateX(${translateX}px)`, display: 'inline-block' }}>
-          {child}
-        </div>
-      ))}
-    </div>
+          }
+        }}>
+        {children.concat(children).map((child, index) => (
+          <div key={index} style={{ transform: `translateX(${translateX}px)`, display: 'inline-block' }}>
+            {child}
+          </div>
+        ))}
+      </div>
+    </S.Slide>
   );
 };
 

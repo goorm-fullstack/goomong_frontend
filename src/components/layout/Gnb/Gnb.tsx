@@ -42,7 +42,7 @@ const Gnb = () => {
   };
 
   return (
-      <S.gnb>
+      <S.Gnb>
         <div className="gnb-container" onMouseLeave={handleMouseLeave} ref={menuRef}>
           <div className={`burger-menu ${isOpen ? 'open' : ''}`}>
             <div className="burger-icon" onClick={toggleMenu}>
@@ -199,7 +199,7 @@ const Gnb = () => {
             </ul>
           )}
         </div>
-      </S.gnb>
+      </S.Gnb>
   );
 };
 

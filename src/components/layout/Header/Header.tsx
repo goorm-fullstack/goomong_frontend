@@ -19,7 +19,7 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <S.header>
+    <S.Header>
       <div className="header-container">
         <div className="header-top">
           <h1>
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           <Gnb />
         </div>
       </div>
-    </S.header>
+    </S.Header>
   );
 };
 

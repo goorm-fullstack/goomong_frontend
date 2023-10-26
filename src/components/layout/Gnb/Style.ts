@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const gnb = styled.div`
+export const Gnb = styled.div`
   .gnb-container {
     display: flex;
     width: 100%;
@@ -138,6 +138,7 @@ export const gnb = styled.div`
     margin-top: 25px;
     padding-left: 25px;
     cursor: pointer;
+    transition: 0.2s all ease-in-out;
   }
   .burger-local-btn:hover,
   .burger-service-btn:hover {
@@ -152,6 +153,7 @@ export const gnb = styled.div`
   }
   .local-menu > li,
   .service-menu > li {
+    color: var(--black);
     width: 50%;
     height: 40px;
     line-height: 40px;
@@ -166,5 +168,10 @@ export const gnb = styled.div`
   .service-menu > li:hover {
     color: var(--blue);
     background-color: #f5f8ff;
+  }
+
+  .local-menu > li:hover a,
+  .service-menu > li:hover a {
+    color: var(--blue);
   }
 `;

@@ -16,7 +16,7 @@ function Category() {
     { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_14.png', title: '세무 법무 노무' },
   ];
   return (
-      <S.category>
+      <S.Category>
         <div className="category-container">
           <div className="category-title">
             어떤 <span>재능</span>이 필요하세요?
@@ -29,7 +29,7 @@ function Category() {
             </ul>
           </div>
         </div>
-      </S.category>
+      </S.Category>
   );
 }
 

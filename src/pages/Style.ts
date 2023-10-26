@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const main = styled.div`
+export const Main = styled.div`
   .green-bg,
   .blue-bg,
   .black-bg {

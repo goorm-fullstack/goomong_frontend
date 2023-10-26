@@ -64,7 +64,7 @@ const HotItem: React.FC = () => {
   ];
 
   return (
-    <S.hotitem>
+    <S.Hotitem>
       <div className="hotitem-container">
         <div className="hotitem-top">
           <div className="hotitem-title">
@@ -116,7 +116,7 @@ const HotItem: React.FC = () => {
           </Link>
         </div>
       </div>
-    </S.hotitem>
+    </S.Hotitem>
   );
 };
 

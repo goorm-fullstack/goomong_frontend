@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import './ReviewModel.css';
+import * as S from './Style';
 
 interface ReviewProps {
   imageUrl: string;
@@ -27,30 +27,32 @@ const ReviewModel: React.FC<ReviewProps> = ({ imageUrl, writer, date, rating, ca
   }, [content]);
 
   return (
-    <div className="review-model">
-      <div className="review-model-top">
-        <div className="image-container">
-          <img src={imageUrl} alt={writer} className="writer-image" />
+    <S.ReviewModel>
+      <div className="review-model">
+        <div className="review-model-top">
+          <div className="image-container">
+            <img src={imageUrl} alt={writer} className="writer-image" />
+          </div>
+          <div className="writer-info">
+            <div className="writer-date">
+              <span className="writer">{writer}</span>
+              <span className="date">{date}</span>
+            </div>
+            <div className="review-rating">
+              <span className="rating-star">{'★'.repeat(Math.round(rating))} </span>
+              {rating}
+            </div>
+            <div className="category-review-product-name">
+              <div className="category">{category}</div>
+              <div className="review-product-name">{productName}</div>
+            </div>
+          </div>
         </div>
-        <div className="writer-info">
-          <div className="writer-date">
-            <span className="writer">{writer}</span>
-            <span className="date">{date}</span>
-          </div>
-          <div className="review-rating">
-            <span className="rating-star">{'★'.repeat(Math.round(rating))} </span>
-            {rating}
-          </div>
-          <div className="category-review-product-name">
-            <div className="category">{category}</div>
-            <div className="review-product-name">{productName}</div>
-          </div>
+        <div className="review-content" ref={contentRef}>
+          {content}
         </div>
       </div>
-      <div className="review-content" ref={contentRef}>
-        {content}
-      </div>
-    </div>
+    </S.ReviewModel>
   );
 };
 

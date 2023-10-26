@@ -1,6 +1,5 @@
 import React from 'react';
 import * as S from './Style';
-import Header from '../components/layout/Header/Header';
 import Banner from '../components/Banner/Banner';
 import Category from '../components/Category/Category';
 import HotItem from '../components/HotItem/HotItem';
@@ -14,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 function Main() {
   return (
-    <S.main>
+    <S.Main>
       <div className="main">
         <Banner />
         <Category />
@@ -40,7 +39,7 @@ function Main() {
             <button className="bg-btn">회원가입 바로가기</button>
           </Link>
         </div>
-        {/* <Popular /> */}
+        <Popular />
         <div className="black-bg">
           <img src={Bg_Black} alt="bg-black" />
           <div className="bg-text">
@@ -51,9 +50,9 @@ function Main() {
             <button className="bg-btn">판매자 등록하기</button>
           </Link>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
-    </S.main>
+    </S.Main>
   );
 }
 

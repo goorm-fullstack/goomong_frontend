@@ -40,7 +40,7 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
   };
 
   return (
-    <S.banner>
+    <S.Banner>
       <div className="banner-container">
         {ads.map((ad, index) => (
           <a
@@ -90,7 +90,7 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
           <span>/{ads.length}</span>
         </div>
       </div>
-    </S.banner>
+    </S.Banner>
   );
 };
 

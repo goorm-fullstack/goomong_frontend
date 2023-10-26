@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const banner = styled.div`
+export const Banner = styled.div`
   .banner-container {
     border-top: 1px solid #c5c7ca;
     width: 100%;
@@ -77,10 +77,10 @@ export const banner = styled.div`
   }
   .left-arrow {
     transform: rotate(180deg);
-    left: 20%;
+    left: 27%;
   }
   .right-arrow {
-    right: 20%;
+    right: 27%;
   }
 
   .ad-number {

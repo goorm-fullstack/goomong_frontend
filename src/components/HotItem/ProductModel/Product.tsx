@@ -13,7 +13,7 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, price, rating, review }) => {
   return (
-    <S.product>
+    <S.Product>
       <div className="product">
         <div className="image-container">
           <img src={imageUrl} alt={productName} className="product-image" />
@@ -35,7 +35,7 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
           </div>
         </div>
       </div>
-    </S.product>
+    </S.Product>
   );
 };
 

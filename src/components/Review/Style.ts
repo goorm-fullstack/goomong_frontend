@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const review = styled.div`
+export const Review = styled.div`
   .review-container {
     width: 100%;
     margin-top: 100px;
