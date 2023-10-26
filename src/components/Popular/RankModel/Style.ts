@@ -47,7 +47,7 @@ export const RankModelStyle = styled.div`
   }
   .money-seller-name {
     margin-left: 31px;
-    width: 140px;
+    width: 150px;
   }
   .top4 .money-seller-name,
   .top5 .money-seller-name {
