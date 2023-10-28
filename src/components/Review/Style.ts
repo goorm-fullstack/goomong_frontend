@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const Review = styled.div`
   .review-container {
     width: 100%;
-    margin-top: 100px;
+    padding: 100px 0;
+    background-color: #f5f8ff;
   }
 
   .review-main-top {

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as S from './Style';
 import { Link, NavLink } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 const Gnb = () => {
   const [isOpen, setIsOpen] = useState(false);

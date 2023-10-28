@@ -30,8 +30,8 @@ export const Header = styled.header`
     justify-content: flex-end;
   }
   .searchBtn {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
   }
   .search-term {
@@ -97,12 +97,14 @@ export const Header = styled.header`
     margin-top: 20px;
   }
   .join-list > li {
-    font-size: 15px;
-    color: #6e6d7a;
     cursor: pointer;
+    padding: 0px 15px;
+  }
+  .join-list > li a {
     letter-spacing: -0.04em;
     text-align: center;
-    padding: 0px 15px;
+    font-size: 15px;
+    color: #6e6d7a;
   }
 
   @keyframes slideUp {
@@ -114,5 +116,78 @@ export const Header = styled.header`
       transform: translateY(0);
       opacity: 1;
     }
+  }
+  .keyword {
+    position: absolute;
+    width: 570px;
+    height: 210px;
+    border: 1px solid #f5f6f7;
+    border-radius: 15px;
+    display: flex;
+    background-color: #fff;
+    z-index: 10000;
+    left: 630px;
+    top: 55px;
+  }
+  .current,
+  .popular {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04;
+    color: var(--black);
+    height: 100;
+    padding: 25px 32px;
+  }
+  .current {
+    width: 409px;
+    border-right: 1px solid #f5f6f7;
+  }
+  .popular {
+    width: 161px;
+    padding-left: 21px;
+    padding-right: 0px;
+  }
+  .current li {
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.04;
+    display: flex;
+    justify-content: space-between;
+  }
+  .title {
+    margin-bottom: 19px;
+  }
+  .current li {
+    margin-bottom: 16px;
+  }
+  .popular li {
+    margin-bottom: 15px;
+  }
+  .popular li a {
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.04;
+  }
+  .popular li a span {
+    color: var(--blue);
+    display: inline-block;
+  }
+  .svg-container {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background-color: #f5f6f7;
+  }
+  .svg-container svg {
+    width: 9px;
+    height: 9px;
+  }
+  .delete-btn {
+    cursor: pointer;
+  }
+  .delete-btn svg {
+    width: 8px;
+    height: 8px;
   }
 `;

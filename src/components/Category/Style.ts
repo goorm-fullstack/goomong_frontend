@@ -23,7 +23,7 @@ export const Category = styled.div`
   .item-list li div {
     text-align: center;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     color: var(--black);
     margin-top: 15px;
     letter-spacing: -0.04em;

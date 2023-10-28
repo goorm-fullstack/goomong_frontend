@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import RankModel from './RankModel';
 
 export const RankModelStyle = styled.div`
   .rank-model-container {
@@ -81,6 +80,10 @@ export const RankModelStyle = styled.div`
     height: 48px;
     border-radius: 50%;
     margin-left: 83px;
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .image-container img {
     width: 100%;

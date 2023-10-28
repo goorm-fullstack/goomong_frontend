@@ -45,7 +45,7 @@ export const Popular = styled.div`
     color: var(--dim-black);
   }
   .more-btn button svg {
-    width: 50px;
+    width: 25px;
     height: 25px;
   }
   .more-btn button:hover {

@@ -1,7 +1,6 @@
 import React from 'react';
 import * as S from './Style';
 import CategoryItem from './CategoryItem';
-import { Link, Route, Router, Routes } from 'react-router-dom';
 
 function Category() {
   const categories = [

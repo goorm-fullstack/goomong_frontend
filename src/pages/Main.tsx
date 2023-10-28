@@ -20,35 +20,54 @@ function Main() {
         <HotItem />
         <div className="green-bg">
           <img src={Bg_Green} alt="bg-green" />
-          <div className="bg-text">구몽에서 국내 최고의 재능 판매자에게</div>
-          <div className="bg-text bg-second-text">
-            <strong>무료 견적</strong>을 받아보세요
+          <div className="main-bg-text">
+            <div className="text">
+              <div className="bg-text">구몽에서 국내 최고의 재능 판매자에게</div>
+              <div className="bg-text bg-second-text">
+                <strong>무료 견적</strong>을 받아보세요
+              </div>
+            </div>
+            <div className="btn">
+              <Link to="#null">
+                <button className="bg-btn">견적요청 바로가기</button>
+              </Link>
+            </div>
           </div>
-          <Link to="#null">
-            <button className="bg-btn">견적요청 바로가기</button>
-          </Link>
         </div>
+
         <Review />
         <div className="blue-bg">
           <img src={Bg_Blue} alt="bg-blue" />
-          <div className="bg-text">구몽 회원가입 하면</div>
-          <div className="bg-text bg-second-text">
-            <strong>100,000포인트</strong>를 드려요!
+          <div className="main-bg-text">
+            <div className="text">
+              <div className="bg-text">구몽 회원가입 하면</div>
+              <div className="bg-text bg-second-text">
+                <strong>100,000포인트</strong>를 드려요!
+              </div>
+            </div>
+            <div className="btn">
+              <Link to="#null">
+                <button className="bg-btn">회원가입 바로가기</button>
+              </Link>
+            </div>
           </div>
-          <Link to="#null">
-            <button className="bg-btn">회원가입 바로가기</button>
-          </Link>
         </div>
         <Popular />
         <div className="black-bg">
           <img src={Bg_Black} alt="bg-black" />
-          <div className="bg-text">
-            구몽에 <strong>판매자 등록</strong>하고
+          <div className="main-bg-text">
+            <div className="text">
+              <div className="bg-text">
+                구몽에 <strong>판매자 등록</strong>하고
+              </div>
+              <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
+            </div>
+            <div className="btn">
+              <Link to="#null">
+                <button className="bg-btn">판매자 등록하기</button>
+              </Link>
+            </div>
           </div>
-          <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          <Link to="#null">
-            <button className="bg-btn">판매자 등록하기</button>
-          </Link>
         </div>
         <Footer />
       </div>

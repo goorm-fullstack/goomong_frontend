@@ -13,6 +13,7 @@ export const Gnb = styled.div`
   }
   .burger-menu {
     z-index: 100;
+    margin-top: 8px;
   }
   .burger-icon {
     display: flex;
@@ -83,8 +84,8 @@ export const Gnb = styled.div`
     content: 'NEW';
     position: absolute;
     font-size: 10px;
-    top: -3px;
-    right: -20px;
+    top: -2px;
+    right: -22px;
     color: var(--green);
   }
   .lr-menu > li:nth-child(2) {

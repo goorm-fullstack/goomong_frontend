@@ -94,7 +94,7 @@ function Footer() {
           <div className="footer-bottom-left">
             <ul className="footer-bottom-left-list">
               <li>
-                <Link to="#null">회사 소개</Link>회사 소개
+                <Link to="#null">회사 소개</Link>
               </li>
               <li>
                 <Link to="#null">공지 사항</Link>
@@ -120,7 +120,7 @@ function Footer() {
                   height="23px"
                   viewBox="0 0 512.000000 512.000000"
                   preserveAspectRatio="xMidYMid meet">
-                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#bbc1c9" stroke="none">
+                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#6f7785" stroke="none">
                     <path
                       d="M1463 4680 c-321 -32 -580 -147 -786 -348 -191 -188 -309 -429 -352
 -719 -14 -94 -15 -248 -12 -1213 3 -1213 -1 -1129 64 -1335 136 -432 486 -737
@@ -159,7 +159,7 @@ m392 -428 c125 -34 220 -92 321 -193 103 -102 159 -196 196 -331 28 -98 30
                   height="18px"
                   viewBox="0 0 64.000000 64.000000"
                   preserveAspectRatio="xMidYMid meet">
-                  <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" fill="#bbc1c9" stroke="none">
+                  <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" fill="#6f7785" stroke="none">
                     <path
                       d="M73 529 c-59 -17 -68 -45 -68 -209 0 -221 -2 -220 315 -220 317 0
 315 -1 315 220 0 168 -8 192 -72 209 -47 13 -445 13 -490 0z m270 -162 c37

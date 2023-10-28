@@ -6,6 +6,7 @@ export const Footer = styled.div`
     padding: 0px 40px;
     margin: 0 auto;
     margin-top: 32px;
+    margin-bottom: 30px;
   }
 
   .footer-top {
@@ -151,5 +152,14 @@ export const Footer = styled.div`
   }
   .instagram {
     margin-right: 17px;
+  }
+  .youtube svg g path,
+  .instagram svg g path {
+    fill: #6f7785;
+    transition: fill 0.3s ease;
+  }
+  .instagram:hover svg g path,
+  .youtube:hover a svg g path {
+    fill: #bbc1c9;
   }
 `;

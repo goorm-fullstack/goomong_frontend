@@ -1,6 +1,5 @@
 import React from 'react';
 import * as S from './Style';
-import { AiTwotoneStar } from 'react-icons/ai';
 
 interface ProductProps {
   imageUrl: string;
@@ -12,11 +11,15 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, price, rating, review }) => {
+  const formatRating = (rating: number) => {
+    return rating.toFixed(1);
+  };
+
   return (
     <S.Product>
       <div className="product">
         <div className="image-container">
-          <img src={imageUrl} alt={productName} className="product-image" />
+          {/* <img src={imageUrl} alt={productName} className="product-image" /> */}
         </div>
         <div className="product-info">
           <div className="product-left">
@@ -27,8 +30,8 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
             <div className="product-price">{price}</div>
             <ul className="product-rating-review">
               <li className="product-rating">
-                <span className="rating-star">{'★'.repeat(Math.round(rating))} </span>
-                {rating}
+                <span className="rating-star">★</span>
+                <span className="rating">{formatRating(rating)}</span>
               </li>
               <li className="product-review">{review}개의 평가</li>
             </ul>

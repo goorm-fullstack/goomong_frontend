@@ -8,12 +8,16 @@ export const Main = styled.div`
     margin-top: 100px;
     height: 160px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .green-bg {
     background-color: #34a853;
   }
   .blue-bg {
     background-color: #4285f4;
+    margin-top: 0px;
   }
   .black-bg {
     background-color: #161c1c;
@@ -24,29 +28,48 @@ export const Main = styled.div`
   .black-bg img {
     width: 100%;
   }
-  .bg-text {
+  .main-bg-text {
     position: absolute;
-    left: 360px;
-    top: 52px;
+    width: 1280px;
+    height: 100%;
+    padding: 0px 40px;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .text {
+    margin-top: 53px;
+  }
+  .bg-text {
     font-size: 22px;
     color: #fff;
     letter-spacing: -0.04em;
   }
   .bg-second-text {
-    top: 87px;
+    margin-top: 15px;
+  }
+  .btn {
+    width: 160px;
+    height: 45px;
+    margin-top: 59px;
   }
   .bg-btn {
-    position: absolute;
-    right: 360px;
-    top: 58px;
     font-size: 15px;
     color: var(--black);
     font-weight: 600;
     width: 160px;
     height: 45px;
     border: 0;
-    background-color: #fff;
     border-radius: 10px;
     cursor: pointer;
+    background-color: #fff;
+  }
+  .btn a {
+    display: inline-block;
+    height: 45px;
+    border-radius: 10px;
+  }
+  .btn a:hover button {
+    background-color: #f5f6f7;
   }
 `;

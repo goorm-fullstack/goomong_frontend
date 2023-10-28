@@ -11,12 +11,13 @@ export const Product = styled.div`
     width: 100%;
     height: 200px;
     margin-bottom: 20px;
+    background-color: #f5f6f7;
   }
   .product-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 30px;
+    border-radius: 10px;
   }
   .product-left {
     margin-bottom: 18px;
@@ -57,6 +58,11 @@ export const Product = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .product-rating {
+    font-size: 12px;
+    color: #8e94a0;
+    letter-spacing: 0.02;
   }
   .rating-star {
     color: var(--yellow);

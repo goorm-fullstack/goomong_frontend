@@ -88,11 +88,25 @@ export const ReviewModel = styled.div`
   .review-content {
     letter-spacing: 0.04;
     margin-top: 24px;
-    overflow: hidden;
     font-size: 15px;
     color: var(--black);
     font-weight: 400;
     width: 312px;
     height: 130px;
+    line-height: 23px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    height: 120px;
+  }
+  .image-container {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
+    border-radius: 50%;
   }
 `;
