@@ -73,11 +73,12 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
     centerPadding: '0px',
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 2.63,
     slidesToScroll: 1,
+    variableWidth: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     afterChange: handleAfterChange,
   };
@@ -88,7 +89,7 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
         {ads.map((ad, index) => (
           <div key={index}>
             <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer">
-              <img src="" alt="" className="ad-image" />
+              <img src="#" alt="" className="ad-image" width={'100%'} />
             </a>
           </div>
         ))}
