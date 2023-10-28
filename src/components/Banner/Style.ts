@@ -3,10 +3,12 @@ import styled from 'styled-components';
 export const Banner = styled.div`
   .slick-slider {
     // border-top: 1px solid #c5c7ca;  header에 border-bottom으로 들어가야 다른 페이지에서도 선이 보이겠죠?
-    overflow-x: hidden;
+    // overflow: hidden;
     // position: relative;
-    padding-top: 40px;
-    padding-bottom: 14px;
+    margin-top: 40px;
+    margin-bottom: 14px;
+    height: 395px;
+    min-width: 1280px;
   }
   .slick-slide {
     width: 724px;
