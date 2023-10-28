@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export const Header = styled.header`
+  .header {
+    width: 100%;
+    border-bottom: 1px solid #c5c7ca;
+  }
   .header-container {
     width: 1280px;
     padding: 0px 40px;
@@ -14,6 +18,7 @@ export const Header = styled.header`
     margin-top: 16px;
     width: 145px;
     height: 24px;
+    cursor: pointer;
   }
   .search-bar {
     position: relative;
@@ -125,9 +130,9 @@ export const Header = styled.header`
     border-radius: 15px;
     display: flex;
     background-color: #fff;
-    z-index: 10000;
-    left: 630px;
-    top: 55px;
+    z-index: 1000;
+    left: 33%;
+    top: 8%;
   }
   .current,
   .popular {
@@ -158,7 +163,7 @@ export const Header = styled.header`
     margin-bottom: 19px;
   }
   .current li {
-    margin-bottom: 16px;
+    margin-bottom: 13px;
   }
   .popular li {
     margin-bottom: 15px;
@@ -189,5 +194,21 @@ export const Header = styled.header`
   .delete-btn svg {
     width: 8px;
     height: 8px;
+  }
+  .keyword-bottom ul {
+    display: flex;
+    width: 409px;
+    position: absolute;
+    left: 33%;
+    top: 27%;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 1001;
+  }
+  .keyword-bottom ul li {
+    color: var(--dim-black);
+    font-size: 11px;
+    font-weight:400;
+    letter-spacing: 0.04;
   }
 `;

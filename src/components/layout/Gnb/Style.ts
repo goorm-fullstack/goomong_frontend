@@ -12,7 +12,7 @@ export const Gnb = styled.div`
     position: relative;
   }
   .burger-menu {
-    z-index: 100;
+    z-index: 1002;
     margin-top: 8px;
   }
   .burger-icon {
@@ -119,7 +119,7 @@ export const Gnb = styled.div`
     background-color: #fff;
     top: 111px;
     position: absolute;
-    z-index: 101;
+    z-index: 1003;
     display: flex;
   }
   .burger-btn {

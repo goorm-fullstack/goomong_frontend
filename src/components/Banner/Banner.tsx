@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as S from './Style';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -60,7 +60,7 @@ const ArrowSGV: React.FC<{ rotate?: boolean }> = ({ rotate = false }) => (
   </svg>
 );
 
-const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) => {
+const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
   const totalAds = ads.length;
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -73,11 +73,12 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
     centerPadding: '0px',
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 2.63,
     slidesToScroll: 1,
+    variableWidth: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     afterChange: handleAfterChange,
   };
@@ -88,12 +89,12 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds, interval = 3000 }) =>
         {ads.map((ad, index) => (
           <div key={index}>
             <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer">
-              <img src="" alt="" className="ad-image" />
+              <img src="#" alt="" className="ad-image" width={'100%'} />
             </a>
           </div>
         ))}
       </Slider>
-      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <div >
         {currentSlide + 1}/{totalAds}
       </div>
     </S.Banner>
