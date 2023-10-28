@@ -212,12 +212,14 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
               </ul>
             </div>
           )}
-          <div className="keyword-bottom">
-            <ul>
-              <li>전체 삭제</li>
-              <li>자동완성 끄기</li>
-            </ul>
-          </div>
+          {isFocused && (
+            <div className="keyword-bottom">
+              <ul>
+                <li>전체 삭제</li>
+                <li>자동완성 끄기</li>
+              </ul>
+            </div>
+          )}
           <div className="gnb">
             <Gnb />
           </div>
