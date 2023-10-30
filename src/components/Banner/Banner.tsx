@@ -81,7 +81,7 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
     variableWidth: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 3000,
     afterChange: handleAfterChange,
   };
