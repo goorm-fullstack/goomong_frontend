@@ -67,6 +67,9 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
   const handleAfterChange = (current: number) => {
     setCurrentSlide(current);
   };
+  const twoDigitFormat = (number: number) => {
+    return number < 10 ? `0${number}` : `${number}`;
+  };
   const settings = {
     className: 'center',
     centerMode: true,
@@ -94,8 +97,9 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
           </div>
         ))}
       </Slider>
-      <div >
-        {currentSlide + 1}/{totalAds}
+      <div className="ad-number">
+        {twoDigitFormat(currentSlide + 1)}
+        <span>/{twoDigitFormat(totalAds)}</span>
       </div>
     </S.Banner>
   );

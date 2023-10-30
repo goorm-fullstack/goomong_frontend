@@ -6,6 +6,7 @@ export const Banner = styled.div`
     margin-bottom: 14px;
     height: 395px;
     min-width: 1280px;
+    position: relative;
   }
   .slick-slide {
     width: 724px;
@@ -46,5 +47,16 @@ export const Banner = styled.div`
   }
   .prev-arrow {
     transform: translateX(-430px);
+  }
+  .ad-number {
+    position: absolute;
+    color: #fff;
+    top: 55%;
+    font-size: 14px;
+    font-weight:600;
+    letter-spacing: 0.04;
+  }
+  .ad-number span {
+    opacity: 0.8;
   }
 `;
