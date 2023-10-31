@@ -6,7 +6,7 @@ import Google from '../../assets/oauth/ico_google.png';
 import Naver from '../../assets/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
-function Register() {
+const Register: React.FC = () => {
   return (
     <S.Register>
       <div className="register-container">
@@ -51,6 +51,6 @@ function Register() {
       </div>
     </S.Register>
   );
-}
+};
 
 export default Register;

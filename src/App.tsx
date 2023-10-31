@@ -7,9 +7,9 @@ import GlobalStyle from './Style/GlobalStyles';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 
-function App() {
+const App: React.FC = () => {
   const location = useLocation();
-  const hideHeaderComponent = ['/login', '/register'];
+  const hideHeaderComponent: string[] = ['/login', '/register'];
   return (
     <div className="App">
       <Helmet>
@@ -24,6 +24,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

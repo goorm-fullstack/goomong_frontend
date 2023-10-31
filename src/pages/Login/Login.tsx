@@ -6,7 +6,7 @@ import Google from '../../assets/oauth/ico_google.png';
 import Naver from '../../assets/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
-function Login() {
+const Login: React.FC = () =>  {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
