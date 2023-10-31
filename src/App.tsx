@@ -1,20 +1,26 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import Main from './pages/Main';
+import Main from './pages/Main/Main';
 import Header from './components/layout/Header/Header';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import GlobalStyle from './Style/GlobalStyles';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
 
 function App() {
+  const location = useLocation();
+  const hideHeaderComponent = ['/login', '/register'];
   return (
     <div className="App">
       <Helmet>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </Helmet>
       <GlobalStyle />
-      <Header />
+      {!hideHeaderComponent.includes(location.pathname) && <Header />}
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );

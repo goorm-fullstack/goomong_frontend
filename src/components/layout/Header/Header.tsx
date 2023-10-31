@@ -43,7 +43,7 @@ const Header: React.FC = () => {
             <div className="join">
               <ul className="join-list">
                 <li className="login">
-                  <Link to="#null">로그인</Link>
+                  <Link to="/login">로그인</Link>
                 </li>
                 <li className="new-in">
                   <Link to="#null">회원가입</Link>
