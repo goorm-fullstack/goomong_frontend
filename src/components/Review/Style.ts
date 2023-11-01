@@ -5,6 +5,7 @@ export const Review = styled.div`
     width: 100%;
     padding: 100px 0;
     background-color: #f5f8ff;
+    padding-bottom:0;
   }
 
   .review-main-top {
@@ -17,7 +18,7 @@ export const Review = styled.div`
     font-size: 28px;
     letter-spacing: -0.04em;
     font-weight: 600;
-    margin-bottom: 70px;
+    margin-bottom: 64px;
     color: var(--black);
   }
 

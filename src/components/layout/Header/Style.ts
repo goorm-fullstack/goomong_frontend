@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const Header = styled.header`
   .header {
     width: 100%;
-    border-bottom: 1px solid #c5c7ca;
+    height: 111px;
+    border-bottom: 1px solid #e9e9e9;
   }
   .header-container {
     width: 1280px;
@@ -21,7 +22,9 @@ export const Header = styled.header`
     cursor: pointer;
   }
   .search-bar {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     overflow: hidden;
     width: 570px;
     height: 40px;
@@ -103,7 +106,10 @@ export const Header = styled.header`
   }
   .join-list > li {
     cursor: pointer;
-    padding: 0px 15px;
+    margin-right: 23px;
+  }
+  .join-list > li:nth-child(3) {
+    margin-right: 0px;
   }
   .join-list > li a {
     letter-spacing: -0.04em;
@@ -131,14 +137,15 @@ export const Header = styled.header`
     display: flex;
     background-color: #fff;
     z-index: 1000;
-    left: 33%;
-    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 57px;
   }
   .current,
   .popular {
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     color: var(--black);
     height: 100;
     padding: 25px 32px;
@@ -155,7 +162,7 @@ export const Header = styled.header`
   .current li {
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     display: flex;
     justify-content: space-between;
   }
@@ -166,15 +173,16 @@ export const Header = styled.header`
     margin-bottom: 13px;
   }
   .popular li {
-    margin-bottom: 15px;
+    margin-bottom: 13px;
   }
   .popular li a {
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
   }
   .popular li a span {
     color: var(--blue);
+    font-weight: 600;
     display: inline-block;
   }
   .svg-container {
@@ -195,20 +203,23 @@ export const Header = styled.header`
     width: 8px;
     height: 8px;
   }
+  .keyword-bottom {
+    width: 343px;
+    position: absolute;
+    left: calc(45% + 32px);
+    transform: translateX(calc(-45% - 32px));
+    top: 235px;
+    z-index: 1001;
+  }
   .keyword-bottom ul {
     display: flex;
-    width: 409px;
-    position: absolute;
-    left: 33%;
-    top: 27%;
     justify-content: space-between;
-    padding: 0 32px;
-    z-index: 1001;
   }
   .keyword-bottom ul li {
     color: var(--dim-black);
     font-size: 11px;
-    font-weight:400;
-    letter-spacing: 0.04;
+    font-weight: 400;
+    letter-spacing: -0.04;
+    cursor: pointer;
   }
 `;

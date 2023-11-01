@@ -4,36 +4,33 @@ export const Register = styled.div`
   .register-container {
     width: 640px;
     padding: 0px 160px;
-    margin: 0 auto;
-    margin-top: 90px;
+    margin: 90px auto;
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: calc(100vh - 90px);
-    margin-bottom: 90px;
+    height: calc(100vh - 180px);
+    justify-content: space-between;
   }
   .logo {
     width: 146px;
     height: 24px;
-    margin-bottom: 205px;
-  }
-  .reg-text {
-    margin-bottom: 70px;
+    cursor: pointer;
   }
   .big {
     font-size: 20px;
     font-weight: 500;
     color: var(--black);
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     text-align: center;
-    margin-bottom: 16px;
   }
   .small {
+    width: 236px;
     font-size: 14px;
     font-weight: 400;
     color: #4b4b4b;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     text-align: center;
+    line-height: 19.6px;
   }
   .kakao,
   .google,
@@ -47,29 +44,45 @@ export const Register = styled.div`
     align-items: center;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     margin-bottom: 12px;
   }
   .kakao {
     background-color: #fee500;
+  }
+  .kakao-btn {
     color: #000;
   }
   .google {
     border: 1px solid #eee;
     background-color: #f8f9fd;
+  }
+  .google-btn {
     color: var(--black);
   }
   .naver {
     background-color: #1ec800;
-    color: #fefeff;
     margin-bottom: 24px;
+  }
+  .naver-btn {
+    color: #fefeff;
+  }
+  .btn {
+    background-color: transparent;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .goomong-reg {
     border: 1px solid #ccc;
-    background-color: #fff;
-    color: var(--black);
     margin-top: 18px;
-    margin-bottom: 210px;
+    width: 320px;
+    height: 46px;
+    cursor: pointer;
+  }
+  .goomong-btn {
+    color: var(--black);
   }
   .kakao img,
   .google img,
@@ -82,11 +95,12 @@ export const Register = styled.div`
     font-size: 12px;
     color: #4b4b4b;
     font-weight: 400;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     float: left;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
   }
   .and::before,
   .and::after {
@@ -119,7 +133,7 @@ export const Register = styled.div`
   .bottom .text {
     font-size: 14px;
     color: #4b4b4b;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     font-weight: 400;
     margin-right: 16px;
   }

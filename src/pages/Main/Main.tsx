@@ -24,12 +24,12 @@ const Main: React.FC = () => {
             <div className="text">
               <div className="bg-text">구몽에서 국내 최고의 재능 판매자에게</div>
               <div className="bg-text bg-second-text">
-                <strong>무료 견적</strong>을 받아보세요
+                <strong>무료 견적</strong>을 받아보세요.
               </div>
             </div>
             <div className="btn">
               <Link to="#null">
-                <button className="bg-btn">견적요청 바로가기</button>
+                <button type='submit' className="bg-btn">견적요청 바로가기</button>
               </Link>
             </div>
           </div>
@@ -47,7 +47,7 @@ const Main: React.FC = () => {
             </div>
             <div className="btn">
               <Link to="#null">
-                <button className="bg-btn">회원가입 바로가기</button>
+                <button type='submit' className="bg-btn">회원가입 바로가기</button>
               </Link>
             </div>
           </div>
@@ -64,7 +64,7 @@ const Main: React.FC = () => {
             </div>
             <div className="btn">
               <Link to="#null">
-                <button className="bg-btn">판매자 등록하기</button>
+                <button type='submit' className="bg-btn">판매자 등록하기</button>
               </Link>
             </div>
           </div>

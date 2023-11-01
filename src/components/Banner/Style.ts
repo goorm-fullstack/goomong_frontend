@@ -3,10 +3,11 @@ import styled from 'styled-components';
 export const Banner = styled.div`
   .slick-slider {
     margin-top: 40px;
-    margin-bottom: 14px;
-    height: 395px;
     min-width: 1280px;
-    position: relative;
+    height: 395px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .slick-slide {
     width: 724px;
@@ -30,7 +31,6 @@ export const Banner = styled.div`
 
   .slick-arrow {
     position: absolute;
-    top: 50%;
     left: 50%;
     z-index: 3;
     cursor: pointer;
@@ -52,11 +52,41 @@ export const Banner = styled.div`
     position: absolute;
     color: #fff;
     top: 55%;
+    left: 65%;
     font-size: 14px;
-    font-weight:600;
-    letter-spacing: 0.04;
+    font-weight: 600;
+    letter-spacing: -0.04;
   }
   .ad-number span {
     opacity: 0.8;
+  }
+  @media (max-width: 1199px) {
+    .slick-slider {
+      height: 340px;
+    }
+    .slick-slide {
+      max-width: 620px;
+      height: 340px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .slick-slider {
+      height: 280px;
+    }
+    .slick-slide {
+      max-width: 520px;
+      height: 280px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .slick-slider {
+      height: 240px;
+    }
+    .slick-slide {
+      max-width: 420px;
+      height: 240px;
+    }
   }
 `;

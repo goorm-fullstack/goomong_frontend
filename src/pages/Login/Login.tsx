@@ -6,7 +6,7 @@ import Google from '../../assets/oauth/ico_google.png';
 import Naver from '../../assets/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
-const Login: React.FC = () =>  {
+const Login: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -16,13 +16,13 @@ const Login: React.FC = () =>  {
   return (
     <S.Login>
       <div className="login-container">
-        <Link to="#null">
+        <Link to="/">
           <div className="logo">
             <img src={Logo} alt="goomongLogo" />
           </div>
         </Link>
         <form onSubmit={handleLoginSubmit}>
-          <div className="text">회원아이디</div>
+          <div className="text">회원 아이디</div>
           <input className="id-box box" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
           <div className="text">비밀번호</div>
           <input className="pw-box box" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -44,8 +44,8 @@ const Login: React.FC = () =>  {
                 <svg
                   version="1.0"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="17px"
-                  height="17px"
+                  width="20px"
+                  height="20px"
                   viewBox="0 0 48.000000 48.000000"
                   preserveAspectRatio="xMidYMid meet">
                   <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
@@ -64,8 +64,8 @@ const Login: React.FC = () =>  {
                 <svg
                   version="1.0"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="17px"
-                  height="17px"
+                  width="20px"
+                  height="20px"
                   viewBox="0 0 48.000000 48.000000"
                   preserveAspectRatio="xMidYMid meet">
                   <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
@@ -79,17 +79,33 @@ const Login: React.FC = () =>  {
             </Link>
           </div>
         </div>
-        <Link to="/register">
+        <Link to="/">
           <div className="easy-login">간편 로그인</div>
         </Link>
-
+        <div className="oauth">
+          <Link to="#null">
+            <div className="kakao">
+              <img src={Kakao} alt="kakao" />
+            </div>
+          </Link>
+          <Link to="#null">
+            <div className="google">
+              <img src={Google} alt="google" />
+            </div>
+          </Link>
+          <Link to="#null">
+            <div className="naver">
+              <img src={Naver} alt="naver" />
+            </div>
+          </Link>
+        </div>
         <div className="bottom">
           <span className="text">아직 구몽 회원이 아니세요?</span>
-          <Link to="#null">회원가입 하기</Link>
+          <Link to="/register">회원가입 하기</Link>
         </div>
       </div>
     </S.Login>
   );
-}
+};
 
 export default Login;

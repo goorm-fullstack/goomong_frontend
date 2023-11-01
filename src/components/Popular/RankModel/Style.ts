@@ -3,9 +3,10 @@ import styled from 'styled-components';
 export const RankModelStyle = styled.div`
   .rank-model-container {
     width: 380px;
-    height: 550px;
     margin-top: 56px;
     margin-right: 30px;
+    border: 1px solid #e9ebed;
+    border-radius: 10px;
   }
 
   .rank-model-title {
@@ -31,15 +32,30 @@ export const RankModelStyle = styled.div`
   .top5 {
     padding: 30px 20px;
     display: flex;
-    border: 1px solid #e9ebed;
     border-top: 0;
-    border-radius: 0 0 10px 10px;
   }
 
   .top1 {
     border: 1px solid var(--yellow);
   }
+  .top2::before,
+  .top3::before,
+  .top4::before {
+    content: '';
+    width: 338px;
+    height: 1px;
+    background-color: #e9ebed;
+    position: absolute;
+    margin: 0 20px;
+    bottom: 0;
+    left: 0;
+  }
 
+  .top2,
+  .top3,
+  .top4 {
+    position: relative;
+  }
   .top4,
   .top5 {
     padding-left: 34px;
@@ -74,16 +90,17 @@ export const RankModelStyle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-style: italic;
   }
   .image-container {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    margin-left: 83px;
     background-color: #f9fafb;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: auto;
   }
   .image-container img {
     width: 100%;

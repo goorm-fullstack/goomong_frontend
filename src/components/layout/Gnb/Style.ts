@@ -59,6 +59,8 @@ export const Gnb = styled.div`
   .ll-menu,
   .lr-menu {
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .ll-menu::after {
     content: '';
@@ -70,7 +72,7 @@ export const Gnb = styled.div`
   .ll-menu > li,
   .lr-menu > li {
     text-align: center;
-    padding: 0px 10px;
+    padding: 0px 12px;
     font-size: 15px;
     letter-spacing: -0.04em;
     color: var(--black);
@@ -84,7 +86,7 @@ export const Gnb = styled.div`
     content: 'NEW';
     position: absolute;
     font-size: 10px;
-    top: -2px;
+    top: 3px;
     right: -22px;
     color: var(--green);
   }
@@ -110,6 +112,7 @@ export const Gnb = styled.div`
     margin-left: 12px;
     background-color: var(--blue);
     border: 0;
+    text-align: center;
     color: #fff;
   }
 

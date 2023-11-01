@@ -96,7 +96,7 @@ const HotItem: React.FC = () => {
 
         <div className="more-btn">
           <Link to="#null">
-            <button>
+            <button type='submit'>
               재능 더보기
               <svg
                 version="1.0"

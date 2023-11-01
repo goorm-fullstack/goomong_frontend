@@ -17,7 +17,7 @@ export const Main = styled.div`
   }
   .blue-bg {
     background-color: #4285f4;
-    margin-top: 0px;
+    margin-top: 64px;
   }
   .black-bg {
     background-color: #161c1c;
@@ -60,7 +60,7 @@ export const Main = styled.div`
     width: 160px;
     height: 45px;
     border: 0;
-    border-radius: 10px;
+    border-radius: 4px;
     cursor: pointer;
     background-color: #fff;
   }

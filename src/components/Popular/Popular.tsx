@@ -49,7 +49,7 @@ const Popular: React.FC = () => {
 
         <div className="more-btn">
           <Link to="#null">
-            <button>
+            <button type='submit'>
               판매자 더보기
               <svg
                 version="1.0"

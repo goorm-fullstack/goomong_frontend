@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 export const ReviewModel = styled.div`
   .review-model {
-    margin-top: 50px;
+    margin-top: 30px;
     width: 380px;
     height: 285px;
     border: 1px solid #e9ebed;
     border-radius: 5px;
-    padding: 25px;
+    padding: 25px 40px 30px 25px;
     margin-right: 30px;
+    background-color: #fff;
   }
 
   .review-model-top {
@@ -63,13 +64,13 @@ export const ReviewModel = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 16px;
   }
   .category {
     color: var(--blue);
     font-weight: 600;
     font-size: 12px;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     width: 50px;
     height: 23px;
     background-color: #e1edff;
@@ -82,23 +83,21 @@ export const ReviewModel = styled.div`
     font-size: 12px;
     font-weight: 500;
     color: #6f7785;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     margin-left: 12px;
   }
   .review-content {
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     margin-top: 24px;
     font-size: 15px;
     color: var(--black);
     font-weight: 400;
     width: 312px;
-    height: 130px;
     line-height: 23px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
-    height: 120px;
   }
   .image-container {
     width: 80px;
@@ -108,5 +107,6 @@ export const ReviewModel = styled.div`
     justify-content: center;
     background-color: #f9fafb;
     border-radius: 50%;
+    margin-right: 12px;
   }
 `;

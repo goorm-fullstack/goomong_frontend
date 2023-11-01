@@ -5,7 +5,7 @@ export const Product = styled.div`
     width: 264px;
     height: 316px;
     margin-top: 30px;
-    margin-left: 50px;
+    margin-left: 48px;
   }
   .image-container {
     width: 100%;
@@ -17,10 +17,10 @@ export const Product = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 4px;
   }
   .product-left {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
   .seller-name {
     letter-spacing: -0.04em;
@@ -63,6 +63,9 @@ export const Product = styled.div`
     font-size: 12px;
     color: #8e94a0;
     letter-spacing: 0.02;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .rating-star {
     color: var(--yellow);

@@ -14,7 +14,7 @@ export const Hotitem = styled.div`
     font-size: 28px;
     font-weight: 600;
     letter-spacing: -0.04em;
-    margin-bottom: 44px;
+    margin-bottom: 40px;
   }
   .hotitem-title > span {
     color: var(--blue);
@@ -25,13 +25,12 @@ export const Hotitem = styled.div`
     justify-content: space-between;
   }
   .hotitem-btn li {
+    padding: 10px;
     font-size: 14px;
-    width: 60px;
-    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #f5f6f7;
+    border: 1px solid #dbdee2;
     border-radius: 30px;
     font-weight: 400;
     cursor: pointer;
@@ -44,14 +43,15 @@ export const Hotitem = styled.div`
     font-weight: 600;
     background-color: #4285f4;
     color: #fff;
+    border: 1px solid #4285f4;
   }
   .more-btn {
-    margin-top: 67px;
+    margin-top: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .more-btn  button {
+  .more-btn button {
     letter-spacing: -0.04em;
     width: 340px;
     height: 50px;
@@ -65,14 +65,11 @@ export const Hotitem = styled.div`
     cursor: pointer;
     color: var(--dim-black);
   }
-  .more-btn  button  svg {
-    width: 25px;
-    height: 25px;
+  .more-btn button svg {
+    width: 21px;
+    height: 21px;
   }
-  .more-btn  button:hover {
+  .more-btn button:hover {
     color: #8e94a0;
-  }
-  .more-btn  button:hover svg path {
-    fill: var(--dim-black);
   }
 `;

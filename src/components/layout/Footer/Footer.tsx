@@ -12,7 +12,7 @@ function Footer() {
             <img src={Logo} alt="Logo" className="footer-logo" />
             <ul className="footer-top-left-list">
               <li>
-                팀명 <span></span> 파이널 스터디2조 R=VD
+                팀명 <span></span> 파이널 스터디 2조 R=VD
               </li>
               <li>
                 팀장 <span></span> 이동규
@@ -80,12 +80,15 @@ function Footer() {
               </ul>
               <ul className="e-mail">
                 이메일
-                <li>goomongshop@gmail.com</li>
+                <li>
+                  {' '}
+                  <a href="mailto: goomongshop@gmail.com">goomongshop@gmail.com</a>
+                </li>
               </ul>
             </div>
             <div className="footer-top-right-1-by-1">
               <Link to="#null">
-                <button className="footer-top-right-1-by-1-btn">1:1 문의</button>
+                <button type='submit' className="footer-top-right-1-by-1-btn">1:1 문의</button>
               </Link>
             </div>
           </div>

@@ -18,9 +18,7 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
   return (
     <S.Product>
       <div className="product">
-        <div className="image-container">
-          {/* <img src={imageUrl} alt={productName} className="product-image" /> */}
-        </div>
+        <div className="image-container">{/* <img src={imageUrl} alt={productName} className="product-image" /> */}</div>
         <div className="product-info">
           <div className="product-left">
             <div className="seller-name">{sellerName}</div>
@@ -30,8 +28,7 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
             <div className="product-price">{price}</div>
             <ul className="product-rating-review">
               <li className="product-rating">
-                <span className="rating-star">★</span>
-                <span className="rating">{formatRating(rating)}</span>
+                <span className="rating-star">★</span> <span className="rating">{formatRating(rating)}</span>
               </li>
               <li className="product-review">{review}개의 평가</li>
             </ul>

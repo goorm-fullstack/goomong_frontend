@@ -54,7 +54,7 @@ const Gnb = () => {
             <div className="left">
               <div className="left-menu">
                 <ul className="ll-menu">
-                  <li>
+                  <li onClick={toggleMenu}>
                     <NavLink to="#null">전체 카테고리</NavLink>
                   </li>
                   <li>
@@ -89,9 +89,9 @@ const Gnb = () => {
               <div className="right-txt">
                 재능을 판매하고 <strong>수익</strong>을 만들어 보세요!
               </div>
-              <NavLink to="#null">
-                <button className="right-btn">판매자 등록하기</button>
-              </NavLink>
+              <Link to="#null">
+                <button type='submit' className="right-btn">판매자 등록하기</button>
+              </Link>
             </div>
           </div>
 

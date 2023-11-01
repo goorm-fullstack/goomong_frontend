@@ -4,17 +4,16 @@ export const Popular = styled.div`
   .popular-container {
     width: 1280px;
     padding: 0px 40px;
-    margin: 0 auto;
-    margin-top: 100px;
+    margin: 100px auto 0;
   }
   .popular-title {
     font-size: 28px;
     font-weight: 600;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     color: var(--black);
   }
   .popular-sub-title {
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     color: var(--black);
     font-weight: 500;
     margin-top: 16px;
@@ -50,8 +49,5 @@ export const Popular = styled.div`
   }
   .more-btn button:hover {
     color: #8e94a0;
-  }
-  .more-btn button:hover svg path {
-    fill: var(--dim-black);
   }
 `;

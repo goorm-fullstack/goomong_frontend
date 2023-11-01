@@ -3,8 +3,7 @@ import styled from 'styled-components';
 export const Login = styled.div`
   .login-container {
     width: 320px;
-    margin: 0 auto;
-    margin-top: 184px;
+    margin: 184px auto 0px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -20,7 +19,7 @@ export const Login = styled.div`
   form .text {
     color: var(--black);
     font-weight: 600;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     font-size: 14px;
     margin-bottom: 10px;
   }
@@ -46,7 +45,7 @@ export const Login = styled.div`
     color: #fefeff;
     font-weight: 600;
     font-size: 15px;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     background-color: #4285f4;
     border: 0;
     border-radius: 3px;
@@ -57,6 +56,7 @@ export const Login = styled.div`
     display: flex;
     margin-top: 26px;
     justify-content: space-between;
+    align-items: center;
   }
   .find {
     display: flex;
@@ -68,7 +68,7 @@ export const Login = styled.div`
   .find-pw {
     font-size: 14px;
     color: var(--black);
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     font-weight: 400;
     display: flex;
     justify-content: center;
@@ -85,14 +85,14 @@ export const Login = styled.div`
     font-size: 14px;
     font-weight: 400;
     color: var(--black);
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
   }
   .easy-login {
     margin-top: 70px;
     color: #4b4b4b;
     font-weight: 400;
     font-size: 14px;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     cursor: pointer;
   }
   .oauth {
@@ -137,7 +137,7 @@ export const Login = styled.div`
   .bottom .text {
     font-size: 14px;
     color: #4b4b4b;
-    letter-spacing: 0.04;
+    letter-spacing: -0.04;
     font-weight: 400;
     margin-right: 16px;
   }
@@ -156,5 +156,8 @@ export const Login = styled.div`
   .google:hover {
     border: 1px solid rgba(238, 238, 238, 0.9);
     transition: 0.2s all ease-in-out;
+  }
+  input[type='checkbox'] {
+    border: 1px solid #ccc;
   }
 `;
