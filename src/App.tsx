@@ -12,7 +12,7 @@ import Admin from './pages/Admin/Admin';
 
 const App: React.FC = () => {
   const location = useLocation();
-  const hideHeaderComponent: string[] = ['/login', '/register', '/findid', '/findpw', '/admin'];
+  const hideHeaderComponent: string[] = ['/login', '/reg', '/findid', '/findpw', '/admin'];
   return (
     <div className="App">
       <GlobalStyle />

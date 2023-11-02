@@ -73,6 +73,7 @@ export const Register = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .goomong-reg {
     border: 1px solid #ccc;
