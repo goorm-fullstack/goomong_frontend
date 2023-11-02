@@ -1,4 +1,4 @@
-import * as S from './Style';
+import * as S from './HotItemStyles';
 import React from 'react';
 import Slide from '../Slide/Slide';
 import Product from './ProductModel/Product';

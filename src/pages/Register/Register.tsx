@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Style';
+import * as S from './RegisterStyles';
 import Logo from '../../assets/images/common/logo.png';
 import Kakao from '../../assets/oauth/ico_kakao.png';
 import Google from '../../assets/oauth/ico_google.png';

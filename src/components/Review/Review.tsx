@@ -1,7 +1,7 @@
 import React from 'react';
 import Slide from '../Slide/Slide';
 import ReviewModel from './ReviewModel/ReviewModel';
-import * as S from './Style';
+import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
 
 const Review: React.FC = () => {

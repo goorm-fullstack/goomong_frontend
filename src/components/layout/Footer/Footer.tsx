@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Style';
+import * as S from './FooterStyles';
 import Logo from '../../../assets/images/common/logo.png';
 import { Link } from 'react-router-dom';
 
@@ -88,7 +88,9 @@ function Footer() {
             </div>
             <div className="footer-top-right-1-by-1">
               <Link to="#null">
-                <button type='submit' className="footer-top-right-1-by-1-btn">1:1 문의</button>
+                <button type="submit" className="footer-top-right-1-by-1-btn">
+                  1:1 문의
+                </button>
               </Link>
             </div>
           </div>
@@ -109,7 +111,7 @@ function Footer() {
                 <Link to="#null">이용약관</Link>
               </li>
               <li>
-                <Link to="#null">관리자 로그인</Link>
+                <Link to="/admin">관리자 로그인</Link>
               </li>
             </ul>
           </div>

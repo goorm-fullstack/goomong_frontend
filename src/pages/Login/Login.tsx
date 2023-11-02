@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../../assets/images/common/logo.png';
-import * as S from './Style';
+import * as S from './LoginStyles';
 import Kakao from '../../assets/oauth/ico_kakao.png';
 import Google from '../../assets/oauth/ico_google.png';
 import Naver from '../../assets/oauth/ico_naver.png';
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
             </label>
           </div>
           <div className="find">
-            <Link to="#null">
+            <Link to="/findid">
               <span className="find-id">
                 아이디찾기
                 <svg
@@ -58,7 +58,7 @@ const Login: React.FC = () => {
               </span>
             </Link>
 
-            <Link to="#null">
+            <Link to="/findpw">
               <span className="find-pw">
                 비밀번호 찾기
                 <svg

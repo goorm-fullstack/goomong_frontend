@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
-import * as S from './Style';
+import * as S from './SlideStyles';
 
 interface SlideProps {
   children: ReactNode[];

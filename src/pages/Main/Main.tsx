@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Style';
+import * as S from './MainStyles';
 import Banner from '../../components/Banner/Banner';
 import Category from '../../components/Category/Category';
 import HotItem from '../../components/HotItem/HotItem';

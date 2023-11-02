@@ -1,6 +1,6 @@
 import React from 'react';
 import RankModel from './RankModel/RankModel';
-import * as S from './Style';
+import * as S from './PopularStyles';
 import { Link } from 'react-router-dom';
 
 interface SellerInfo {

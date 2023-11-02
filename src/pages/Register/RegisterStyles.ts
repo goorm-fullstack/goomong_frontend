@@ -4,7 +4,7 @@ export const Register = styled.div`
   .register-container {
     width: 640px;
     padding: 0px 160px;
-    margin: 90px auto;
+    margin: 90px auto 0px;
     display: flex;
     align-items: center;
     flex-direction: column;

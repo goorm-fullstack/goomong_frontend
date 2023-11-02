@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as S from './Style';
+import * as S from './GnbStyles';
 import { Link, NavLink } from 'react-router-dom';
 
 const Gnb = () => {

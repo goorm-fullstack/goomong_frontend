@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as S from './Style';
+import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';

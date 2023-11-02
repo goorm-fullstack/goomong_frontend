@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Style';
+import * as S from './ReviewModelStyles';
 
 interface ReviewProps {
   imageUrl: string;

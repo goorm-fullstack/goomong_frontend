@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Style';
+import * as S from './CategoryStyles';
 import CategoryItem from './CategoryItem';
 
 function Category() {

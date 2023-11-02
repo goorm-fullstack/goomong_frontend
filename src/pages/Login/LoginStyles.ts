@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const Login = styled.div`
   .login-container {
-    width: 320px;
-    margin: 184px auto 0px;
+    width: 640px;
+    padding: 95px 160px 0 160px;
+    margin: 90px auto 0px;
     display: flex;
     align-items: center;
     flex-direction: column;
