@@ -1,7 +1,18 @@
 import React from 'react';
+import * as S from './Style';
+import AdminHeader from '../../components/Admin/Layout/Header/AdminHeader';
+import AdminSidebar from '../../components/Admin/Layout/Sidebar/AdminSidebar';
 
-const Admin: React.FC = () => {
-  return <div>Admin 페이지 입니다.</div>;
+const Admin = () => {
+  return (
+    <S.Admin>
+      <AdminHeader />
+      <S.Contents>
+        <S.PageTitle>관리자 홈</S.PageTitle>
+      </S.Contents>
+      <AdminSidebar />
+    </S.Admin>
+  );
 };
 
 export default Admin;
