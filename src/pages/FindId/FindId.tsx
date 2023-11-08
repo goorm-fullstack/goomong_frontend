@@ -7,7 +7,7 @@ const FindId: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleIdSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
   return (
@@ -24,7 +24,7 @@ const FindId: React.FC = () => {
           <p>아이디를 확인할 수 있는 메일을 보내드릴게요.</p>
         </div>
         <div className="find-id">
-          <form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleIdSubmit}>
             <div className="text">회원 이름</div>
             <input className="name-box box" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
             <div className="text email-text">이메일 주소</div>
