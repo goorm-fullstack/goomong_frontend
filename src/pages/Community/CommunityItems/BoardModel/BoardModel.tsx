@@ -36,8 +36,8 @@ const BoardModel: React.FC<BoardModelProps> = ({
     </svg>
   );
   return (
-    <S.BoardModelStyles isLastItem={isLastItem}>
-      <Link to="#null">
+    <S.BoardModelStyles $isLastItem={isLastItem}>
+      <Link to="/community_detail">
         <div className="board-model-container">
           <div className="board-model-right">
             <div className="board-model-image-container">{imageURL ? <img src={imageURL} alt="" /> : defaultImage}</div>

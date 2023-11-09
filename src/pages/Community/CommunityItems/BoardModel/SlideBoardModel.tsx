@@ -12,7 +12,7 @@ interface SlideBoardModelProps {
 const SlideBoardModel: React.FC<SlideBoardModelProps> = ({ category, title, writer, comment }) => {
   return (
     <S.SlideBoardModelStyles>
-      <Link to="#null">
+      <Link to="/community_detail">
         <div className="sboard-container">
           <div className="sboard-type">{category}</div>
           <div className="sboard-title">{title}</div>

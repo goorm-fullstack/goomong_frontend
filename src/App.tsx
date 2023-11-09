@@ -10,6 +10,7 @@ import RegisterByGoomong from './pages/RegisterByGoomong/RegisterByGoomong';
 import Admin from './pages/Admin/Admin';
 import Agreement from './pages/Agreement/Agreement';
 import Community from './pages/Community/Community';
+import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/agreement" element={<Agreement />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/community_detail" element={<CommunityDetail />} />
       </Routes>
     </div>
   );

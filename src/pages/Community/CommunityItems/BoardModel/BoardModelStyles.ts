@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface BoardModelStyleProps {
-  isLastItem?: boolean;
+  $isLastItem?: boolean;
 }
 
 export const BoardModelStyles = styled.div<BoardModelStyleProps>`
@@ -10,11 +10,7 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
     justify-content: space-between;
     padding: 14px 0;
     border-bottom: 1px solid #e9ebed;
-    ${(props) =>
-      props.isLastItem &&
-      `
-      border-bottom: none;
-    `}
+    ${(props) => (props.$isLastItem ? 'border-bottom: none;' : '')}
   }
   .board-model-image-container {
     width: 160px;

@@ -174,19 +174,15 @@ const Community: React.FC = () => {
     },
   ];
 
-  // 페이지네이션을 위한 상태
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 3; // 페이지 당 아이템 수
+  const itemsPerPage: number = 3;
 
-  // 전체 페이지 수 계산
   const pageCount: number = Math.ceil(boardItems.length / itemsPerPage);
 
-  // 현재 페이지에 표시할 아이템 결정
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
   const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  // 페이지 변경 함수
   const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
