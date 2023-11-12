@@ -33,12 +33,13 @@ export default function OrderWrite() {
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
   const [detail, setDetail] = useState('');
-  const [showIframe, setShowIframe] = useState(false);
+  const [status, setStatus] = useState('')
   const [iframeUrl, setiframeUrl] = useState('https://www.example.com');
 
   useEffect(() => {
     Instance.get(`/api/item/${itemId}`).then((response) => {
       setItem(response.data);
+      setStatus(response.data.status);
     });
 
 
@@ -67,9 +68,30 @@ export default function OrderWrite() {
 
     await Instance.post('/api/payment/kakao/ready', data).then((response) => {
       setiframeUrl(response.data.next_redirect_pc_url);
-    });
 
-    window.open(iframeUrl, "width=600,height=400");    
+      if(response.status === 200) {
+        window.open(response.data.next_redirect_pc_url, "width=600,height=400");  
+      }
+    });
+  }
+
+  const handleOrderClick = async () => {
+    let data = {
+      orderItem : [item?.id],
+      memberId : 1,
+      address : {
+          state : state,
+          city : city,
+          street: street,
+          detail : detail
+      }
+    }
+
+    Instance.post('/api/order/success', data).then((response) => {
+      if(response.status === 200) {
+        window.location.href = '/order/success';
+      }
+    })
   }
 
   return (
@@ -81,7 +103,11 @@ export default function OrderWrite() {
             <img src={img.path} alt='썸네일'></img>
           ))}
           <p>{item.title}</p>
-          <p>{item.price}</p>
+          {item.status === 'SALE' ? (
+            <p>{item.price}</p>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <span>잘못된 접근입니다.</span>
@@ -101,7 +127,9 @@ export default function OrderWrite() {
           <input value={detail} onChange={(e) => setDetail(e.target.value)}></input>
         </div>
       </div>
-      <button onClick={handleBuyClick}>주문하기</button>
+      {status === 'SALE' ? 
+        (<button onClick={handleBuyClick}>주문하기</button>) : (<button onClick={handleOrderClick}>주문하기</button>)
+      }
     </>
   )
 }
