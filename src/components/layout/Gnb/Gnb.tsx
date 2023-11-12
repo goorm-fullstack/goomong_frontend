@@ -80,7 +80,7 @@ const Gnb = () => {
                   <NavLink to="/community">구몽 생활</NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">고객 후기</NavLink>
+                  <NavLink to="/review">고객 후기</NavLink>
                 </li>
               </ul>
             </div>

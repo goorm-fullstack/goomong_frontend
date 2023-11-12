@@ -55,7 +55,9 @@ a, button,li {
 	transition: .2s all ease-in-out;
 }
 
-
+input:focus {
+    outline: none;
+  }
 
     :root {
         --black: #101c33;

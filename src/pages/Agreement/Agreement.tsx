@@ -535,9 +535,6 @@ const Agreement: React.FC = () => {
             <div className="footer-left">
               <ul className="footer-left-list">
                 <li>
-                  <Link to="#null">회사 소개</Link>
-                </li>
-                <li>
                   <Link to="#null">공지 사항</Link>
                 </li>
                 <li>

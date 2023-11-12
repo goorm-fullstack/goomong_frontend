@@ -13,6 +13,7 @@ interface BoardModelProps {
   comment: number;
   time: number;
   isLastItem?: boolean;
+  clickLike?: boolean;
 }
 
 const BoardModel: React.FC<BoardModelProps> = ({

@@ -11,6 +11,8 @@ import Admin from './pages/Admin/Admin';
 import Agreement from './pages/Agreement/Agreement';
 import Community from './pages/Community/Community';
 import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
+import ReviewPage from './pages/ReviewPage/ReviewPage';
+import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +29,8 @@ const App: React.FC = () => {
         <Route path="/agreement" element={<Agreement />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community_detail" element={<CommunityDetail />} />
+        <Route path="/review" element={<ReviewPage />} />
+        <Route path="/cs_home" element={<CustomerServiceHome />} />
       </Routes>
     </div>
   );

@@ -7,6 +7,7 @@ interface SlideBoardModelProps {
   title: string;
   writer: string;
   comment: number;
+  clickLike?: boolean;
 }
 
 const SlideBoardModel: React.FC<SlideBoardModelProps> = ({ category, title, writer, comment }) => {
