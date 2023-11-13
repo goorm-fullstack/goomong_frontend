@@ -8,7 +8,7 @@ const FindPw: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleFindPwSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
   return (
@@ -25,7 +25,7 @@ const FindPw: React.FC = () => {
           <p>비밀번호를 변결할 수 있는 메일을 보내드릴게요.</p>
         </div>
         <div className="find-pw">
-          <form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleFindPwSubmit}>
             <div className="text">회원 아이디</div>
             <input className="id-box box" type="text" value={userid} onChange={(e) => setUserid(e.target.value)} />
             <div className="text name-text">회원 이름</div>

@@ -15,11 +15,15 @@ export const ReviewModel = styled.div`
   .review-model-top {
     display: flex;
   }
-  .writer-image {
-    width: 90px;
-    height: 90px;
+  .image-container {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 12px;
   }
 
   .writer-date {
@@ -98,15 +102,5 @@ export const ReviewModel = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
-  }
-  .image-container {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f9fafb;
-    border-radius: 50%;
-    margin-right: 12px;
   }
 `;

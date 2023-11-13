@@ -99,9 +99,6 @@ function Footer() {
           <div className="footer-bottom-left">
             <ul className="footer-bottom-left-list">
               <li>
-                <Link to="#null">회사 소개</Link>
-              </li>
-              <li>
                 <Link to="#null">공지 사항</Link>
               </li>
               <li>

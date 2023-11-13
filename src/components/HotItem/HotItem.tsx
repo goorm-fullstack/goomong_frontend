@@ -81,8 +81,8 @@ const HotItem: React.FC = () => {
 
         <Slide>
           {products.map((product, index) => (
-            <Link to="#null" key={index}>
               <Product
+                key={index}
                 imageUrl={product.imageUrl}
                 sellerName={product.sellerName}
                 productName={product.productName}
@@ -90,13 +90,12 @@ const HotItem: React.FC = () => {
                 rating={product.rating}
                 review={product.review}
               />
-            </Link>
           ))}
         </Slide>
 
         <div className="more-btn">
           <Link to="#null">
-            <button type='submit'>
+            <button type="submit">
               재능 더보기
               <svg
                 version="1.0"

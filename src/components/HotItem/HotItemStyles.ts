@@ -4,6 +4,7 @@ export const Hotitem = styled.div`
   .hotitem-container {
     width: 100%;
     margin-top: 180px;
+    /* overflow-x: hidden; */
   }
   .hotitem-top {
     width: 1280px;
