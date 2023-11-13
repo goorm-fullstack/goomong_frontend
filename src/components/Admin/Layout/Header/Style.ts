@@ -156,4 +156,10 @@ export const AdminHeader = styled.header`
       }
     }
   }
+
+  &.login {
+    .right {
+      width: 70px;
+    }
+  }
 `;

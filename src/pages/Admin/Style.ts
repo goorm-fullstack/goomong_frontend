@@ -40,6 +40,11 @@ export const Admin = styled.div`
 
 export const Contents = styled.section`
   padding: 32px;
+
+  &.login {
+    padding-right: 312px;
+    text-align: center;
+  }
 `;
 
 export const PageTitle = styled.h2`

@@ -20,7 +20,9 @@ import OrderSuccess from './pages/Order/OrderSuccess';
 
 const App: React.FC = () => {
   const location = useLocation();
-  const hideHeaderComponent: string[] = ['/login', '/reg', '/findid', '/findpw', '/admin', '/admin/mail', '/admin/mail/template'];
+  const hideHeaderComponent: string[] = ['/login', '/reg', '/findid', '/findpw', '/admin', '/admin/mail', '/admin/mail/template', '/admin/login'];
+  // 모든 admin 주소를 상단 배열에 포함시키는 것보다는 header 표시 방법을 바꾸는게 나을 것 같습니다.
+
   return (
     <div className="App">
       <GlobalStyle />
@@ -41,6 +43,7 @@ const App: React.FC = () => {
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
         <Route path='/admin/item/category' element={<AdminItemCategory/>}></Route>
