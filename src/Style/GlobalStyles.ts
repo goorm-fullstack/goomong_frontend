@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
 		list-style: none;
 	}
 
+<<<<<<< HEAD
 	blockquote, q {
 		quotes: none;
 	}
@@ -48,6 +49,11 @@ const GlobalStyle = createGlobalStyle`
 		content: '';
 		content: none;
 	}
+=======
+input:focus {
+    outline: none;
+  }
+>>>>>>> feature/sunwoong
 
 	table {
 		border-collapse: collapse;

@@ -1,7 +1,6 @@
 import React from 'react';
 import Main from './pages/Main/Main';
-import Header from './components/layout/Header/Header';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import GlobalStyle from './Style/GlobalStyles';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
@@ -17,17 +16,17 @@ import AdminItemCategory from './pages/Admin/Item/AdminItemCategory';
 import ItemList from './pages/Item/ItemList';
 import OrderWrite from './pages/Order/OrderWrite';
 import OrderSuccess from './pages/Order/OrderSuccess';
+import Agreement from './pages/Agreement/Agreement';
+import Community from './pages/Community/Community';
+import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
+import ReviewPage from './pages/ReviewPage/ReviewPage';
+import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
+import AdminLogin from './pages/Admin/Login/AdminLogin';
 
 const App: React.FC = () => {
-  const location = useLocation();
-  const hideHeaderComponent: string[] = ['/login', '/reg', '/findid', '/findpw', '/admin', '/admin/mail', '/admin/mail/template', '/admin/login'];
-  // 모든 admin 주소를 상단 배열에 포함시키는 것보다는 header 표시 방법을 바꾸는게 나을 것 같습니다.
-
   return (
     <div className="App">
       <GlobalStyle />
-      {!hideHeaderComponent.includes(location.pathname) && <Header />}
-      {/* 모든 admin 주소를 상단 배열에 포함시키는 것보다는 header 표시 방법을 바꾸는게 나을 것 같습니다. */}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
@@ -47,6 +46,11 @@ const App: React.FC = () => {
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
         <Route path='/admin/item/category' element={<AdminItemCategory/>}></Route>
+        <Route path="/agreement" element={<Agreement />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community_detail" element={<CommunityDetail />} />
+        <Route path="/review" element={<ReviewPage />} />
+        <Route path="/cs_home" element={<CustomerServiceHome />} />
       </Routes>
     </div>
   );

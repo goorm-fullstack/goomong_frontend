@@ -23,7 +23,7 @@ export const Footer = styled.div`
 
   .footer-top-left-list li {
     display: inline-block;
-    color: var(--dim-black);
+    color: #878d99;
     font-size: 12px;
     letter-spacing: -0.04;
     font-weight: 400;
@@ -136,7 +136,7 @@ export const Footer = styled.div`
     background-color: #e9ebed;
     margin: 0px 17px;
   }
-  .footer-bottom-left-list li:nth-child(5)::after {
+  .footer-bottom-left-list li:nth-child(4)::after {
     content: none;
   }
 

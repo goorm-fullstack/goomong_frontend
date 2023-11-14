@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './RegisterStyles';
 import Logo from '../../assets/images/common/logo.png';
-import Kakao from '../../assets/oauth/ico_kakao.png';
-import Google from '../../assets/oauth/ico_google.png';
-import Naver from '../../assets/oauth/ico_naver.png';
+import Kakao from '../../assets/images/oauth/ico_kakao.png';
+import Google from '../../assets/images/oauth/ico_google.png';
+import Naver from '../../assets/images/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
 const Register: React.FC = () => {
@@ -24,7 +24,7 @@ const Register: React.FC = () => {
         <div className="oauth">
           <Link to="#null">
             <div className="kakao">
-              <button type='submit' className="btn kakao-btn">
+              <button type="submit" className="btn kakao-btn">
                 <img src={Kakao} alt="kakao" />
                 카카오로 가입하기
               </button>
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
           </Link>
           <Link to="#null">
             <div className="google">
-              <button type='submit' className="btn google-btn">
+              <button type="submit" className="btn google-btn">
                 <img src={Google} alt="google" />
                 구글로 가입하기
               </button>
@@ -40,18 +40,20 @@ const Register: React.FC = () => {
           </Link>
           <Link to="#null">
             <div className="naver">
-              <button type='submit'  className="btn naver-btn">
+              <button type="submit" className="btn naver-btn">
                 <img src={Naver} alt="naver" />
                 네이버로 가입하기
               </button>
             </div>
           </Link>
           <div className="and">또는</div>
-          <div className="goomong-reg">
-            <Link to="#null">
-              <button type='submit' className="btn goomong-btn">구몽으로 회원가입하기</button>
-            </Link>
-          </div>
+          <Link to="/reg_goomong">
+            <div className="goomong-reg">
+              <button type="submit" className="btn goomong-btn">
+                구몽으로 회원가입하기
+              </button>
+            </div>
+          </Link>
         </div>
 
         <div className="bottom">

@@ -10,11 +10,13 @@ import Review from '../../components/Review/Review';
 import Popular from '../../components/Popular/Popular';
 import Footer from '../../components/layout/Footer/Footer';
 import { Link } from 'react-router-dom';
+import Header from '../../components/layout/Header/Header';
 
 const Main: React.FC = () => {
   return (
     <S.Main>
       <div className="main">
+        <Header />
         <Banner />
         <Category />
         <HotItem />
@@ -29,7 +31,9 @@ const Main: React.FC = () => {
             </div>
             <div className="btn">
               <Link to="#null">
-                <button type='submit' className="bg-btn">견적요청 바로가기</button>
+                <button type="submit" className="bg-btn">
+                  견적요청 바로가기
+                </button>
               </Link>
             </div>
           </div>
@@ -47,7 +51,9 @@ const Main: React.FC = () => {
             </div>
             <div className="btn">
               <Link to="#null">
-                <button type='submit' className="bg-btn">회원가입 바로가기</button>
+                <button type="submit" className="bg-btn">
+                  회원가입 바로가기
+                </button>
               </Link>
             </div>
           </div>
@@ -64,7 +70,9 @@ const Main: React.FC = () => {
             </div>
             <div className="btn">
               <Link to="#null">
-                <button type='submit' className="bg-btn">판매자 등록하기</button>
+                <button type="submit" className="bg-btn">
+                  판매자 등록하기
+                </button>
               </Link>
             </div>
           </div>
