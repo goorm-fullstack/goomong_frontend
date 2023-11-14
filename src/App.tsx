@@ -34,18 +34,18 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/reg_goomong" element={<RegisterByGoomong />} />
-        <Route path='/item' element={<ItemList/>}></Route>
-        <Route path='/item/detail/:id' element={<ItemDetail/>}></Route>
-        <Route path='/item/write' element={<ItemWrite/>}></Route>
-        <Route path='/order/write' element={<OrderWrite/>}></Route>
-        <Route path='/order/success' element={<OrderSuccess/>}></Route>
+        <Route path="/item/:type" element={<ItemList />}></Route>
+        <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
+        <Route path="/item/write" element={<ItemWrite />}></Route>
+        <Route path="/order/write" element={<OrderWrite />}></Route>
+        <Route path="/order/success" element={<OrderSuccess />}></Route>
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
-        <Route path='/admin/item/category' element={<AdminItemCategory/>}></Route>
+        <Route path="/admin/item/category" element={<AdminItemCategory />}></Route>
         <Route path="/agreement" element={<Agreement />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community_detail" element={<CommunityDetail />} />

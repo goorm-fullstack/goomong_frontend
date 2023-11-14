@@ -59,24 +59,6 @@ const Main: React.FC = () => {
           </div>
         </div>
         <Popular />
-        <div className="black-bg">
-          <img src={Bg_Black} alt="bg-black" />
-          <div className="main-bg-text">
-            <div className="text">
-              <div className="bg-text">
-                구몽에 <strong>판매자 등록</strong>하고
-              </div>
-              <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-            </div>
-            <div className="btn">
-              <Link to="#null">
-                <button type="submit" className="bg-btn">
-                  판매자 등록하기
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
         <Footer />
       </div>
     </S.Main>

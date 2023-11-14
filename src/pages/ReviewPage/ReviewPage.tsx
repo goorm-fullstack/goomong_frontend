@@ -577,18 +577,18 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
-              <Link to='#null'>
+              <Link to="#null">
                 <ReviewPageModel
-                key={index}
-                b_category={item.b_category}
-                p_category={item.p_category}
-                title={item.title}
-                content={item.content}
-                like={item.like}
-                comment={item.comment}
-                time={item.time}
-                star={item.star}
-              />
+                  key={index}
+                  b_category={item.b_category}
+                  p_category={item.p_category}
+                  title={item.title}
+                  content={item.content}
+                  like={item.like}
+                  comment={item.comment}
+                  time={item.time}
+                  star={item.star}
+                />
               </Link>
             ))}
           </div>
@@ -598,24 +598,6 @@ const Review: React.FC = () => {
                 {number}
               </button>
             ))}
-          </div>
-        </div>
-      </div>
-      <div className="black-bg">
-        <img src={Bg_Black} alt="bg-black" />
-        <div className="main-bg-text">
-          <div className="text">
-            <div className="bg-text">
-              구몽에 <strong>판매자 등록</strong>하고
-            </div>
-            <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          </div>
-          <div className="btn">
-            <Link to="#null">
-              <button type="submit" className="bg-btn">
-                판매자 등록하기
-              </button>
-            </Link>
           </div>
         </div>
       </div>
