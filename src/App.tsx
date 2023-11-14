@@ -25,6 +25,9 @@ import OrderWrite from './pages/Order/OrderWrite';
 import OrderSuccess from './pages/Order/OrderSuccess';
 import ItemDetail from './pages/Item/ItemDetail';
 import ItemWrite from './pages/Item/ItemWrite';
+import SellerMap from './pages/SellerMap/SellerMap';
+import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
+import SellerAll from './pages/SellerAll/SellerAll';
 
 const App: React.FC = () => {
   return (
@@ -37,19 +40,23 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/detail" element={<CommunityDetail />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
         <Route path="/cs/faq" element={<CSFaq />} />
+        <Route path="/cs/inquiry" element={<CSInquiry />} />
+        <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/rank" element={<SellerRank />} />
         <Route path="/item/:type" element={<ItemList />}></Route>
         <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
         <Route path="/item/write" element={<ItemWrite />}></Route>
         <Route path="/order/write" element={<OrderWrite />}></Route>
         <Route path="/order/success" element={<OrderSuccess />}></Route>
+        <Route path="/seller/rank" element={<SellerRank />} />
+        <Route path="/seller/map" element={<SellerMap />} />
+        <Route path="/seller/all" element={<SellerAll />} />
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />
