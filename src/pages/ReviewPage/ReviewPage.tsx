@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import * as C from '../../Style/CommonStyles';
+import * as C from '../../style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
-
-import Bg_Black from '../../assets/images/index/bg_black.png';
 const Review: React.FC = () => {
   const topInfo = {
     evaluation: 13913,
@@ -578,14 +576,8 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
-<<<<<<< HEAD
               <Link to="#null" key={index}>
                 <ReviewPageModel
-=======
-              <Link to="#null">
-                <ReviewPageModel
-                  key={index}
->>>>>>> 5848a645e6f9e82c7b643e2db4767fa6b2339885
                   b_category={item.b_category}
                   p_category={item.p_category}
                   title={item.title}

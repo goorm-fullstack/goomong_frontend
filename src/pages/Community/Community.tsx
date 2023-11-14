@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
-import * as C from '../../Style/CommonStyles';
+import * as C from '../../style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
 import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel';
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
-import { Link } from 'react-router-dom';
-
-import Bg_Black from '../../assets/images/index/bg_black.png';
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 

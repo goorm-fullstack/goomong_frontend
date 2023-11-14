@@ -5,7 +5,6 @@ import Header from '../../components/layout/Header/Header';
 import { Link } from 'react-router-dom';
 import RankModel from '../../components/Popular/RankModel/RankModel';
 import Footer from '../../components/layout/Footer/Footer';
-import Bg_Black from '../../assets/images/index/bg_black.png';
 
 interface SellerInfo {
   money: string;
@@ -163,24 +162,6 @@ const SellerRank: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="black-bg">
-        <img src={Bg_Black} alt="bg-black" />
-        <div className="main-bg-text">
-          <div className="text">
-            <div className="bg-text">
-              구몽에 <strong>판매자 등록</strong>하고
-            </div>
-            <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          </div>
-          <div className="btn">
-            <Link to="#null">
-              <button type="submit" className="bg-btn">
-                판매자 등록하기
-              </button>
-            </Link>
           </div>
         </div>
       </div>

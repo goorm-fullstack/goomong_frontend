@@ -5,7 +5,6 @@ import Category from '../../components/Category/Category';
 import HotItem from '../../components/HotItem/HotItem';
 import Bg_Green from '../../assets/images/index/bg_green.png';
 import Bg_Blue from '../../assets/images/index/bg_blue.png';
-import Bg_Black from '../../assets/images/index/bg_black.png';
 import Review from '../../components/Review/Review';
 import Popular from '../../components/Popular/Popular';
 import Footer from '../../components/layout/Footer/Footer';
