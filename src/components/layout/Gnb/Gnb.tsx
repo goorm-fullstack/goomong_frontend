@@ -58,13 +58,13 @@ const Gnb = () => {
                   <NavLink to="#null">전체 카테고리</NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">재능 마켓</NavLink>
+                  <NavLink to="/item/market">재능 마켓</NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">재능 교환</NavLink>
+                  <NavLink to="/item/exchange">재능 교환</NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">재능 기부</NavLink>
+                  <NavLink to="/item/contribution">재능 기부</NavLink>
                 </li>
               </ul>
               <ul className="lr-menu">

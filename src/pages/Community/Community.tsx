@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
@@ -192,7 +193,7 @@ const Community: React.FC = () => {
       <div className="community">
         <Header />
         <div className="community-container">
-          <div className="title">구몽생활</div>
+          <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
             <form action="submit" className="search-form">
@@ -302,24 +303,6 @@ const Community: React.FC = () => {
                   </button>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="black-bg">
-          <img src={Bg_Black} alt="bg-black" />
-          <div className="main-bg-text">
-            <div className="text">
-              <div className="bg-text">
-                구몽에 <strong>판매자 등록</strong>하고
-              </div>
-              <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-            </div>
-            <div className="btn">
-              <Link to="#null">
-                <button type="submit" className="bg-btn">
-                  판매자 등록하기
-                </button>
-              </Link>
             </div>
           </div>
         </div>

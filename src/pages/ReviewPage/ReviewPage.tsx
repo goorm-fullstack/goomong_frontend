@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
@@ -229,7 +229,8 @@ const Review: React.FC = () => {
     <S.ReviewPageStyles>
       <Header />
       <div className="review-container">
-        <div className="title">고객 후기</div>
+        <C.PageTitle>고객 후기</C.PageTitle>
+        <div className="title"></div>
         <div className="total-score">
           <div className="score-list">
             <div className="star">
@@ -577,8 +578,14 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
+<<<<<<< HEAD
               <Link to="#null" key={index}>
                 <ReviewPageModel
+=======
+              <Link to="#null">
+                <ReviewPageModel
+                  key={index}
+>>>>>>> 5848a645e6f9e82c7b643e2db4767fa6b2339885
                   b_category={item.b_category}
                   p_category={item.p_category}
                   title={item.title}
@@ -597,24 +604,6 @@ const Review: React.FC = () => {
                 {number}
               </button>
             ))}
-          </div>
-        </div>
-      </div>
-      <div className="black-bg">
-        <img src={Bg_Black} alt="bg-black" />
-        <div className="main-bg-text">
-          <div className="text">
-            <div className="bg-text">
-              구몽에 <strong>판매자 등록</strong>하고
-            </div>
-            <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          </div>
-          <div className="btn">
-            <Link to="#null">
-              <button type="submit" className="bg-btn">
-                판매자 등록하기
-              </button>
-            </Link>
           </div>
         </div>
       </div>
