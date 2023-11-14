@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
 import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel';
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
-import { Link } from 'react-router-dom';
-
-import Bg_Black from '../../assets/images/index/bg_black.png';
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -191,8 +189,8 @@ const Community: React.FC = () => {
     <S.CommunityStyles>
       <div className="community">
         <Header />
-        <div className="community-container">
-          <div className="title">구몽생활</div>
+        <C.Container>
+          <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
             <form action="submit" className="search-form">
@@ -304,25 +302,7 @@ const Community: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="black-bg">
-          <img src={Bg_Black} alt="bg-black" />
-          <div className="main-bg-text">
-            <div className="text">
-              <div className="bg-text">
-                구몽에 <strong>판매자 등록</strong>하고
-              </div>
-              <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-            </div>
-            <div className="btn">
-              <Link to="#null">
-                <button type="submit" className="bg-btn">
-                  판매자 등록하기
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </C.Container>
         <Footer />
       </div>
     </S.CommunityStyles>

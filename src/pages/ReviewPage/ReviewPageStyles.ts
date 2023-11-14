@@ -17,18 +17,6 @@ export const ReviewPageStyles = styled.div`
     fill: #474747;
   }
 
-  .review-container {
-    width: 1280px;
-    padding: 0px 40px;
-    margin: 0 auto;
-  }
-  .title {
-    color: #101c33;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.04;
-    margin: 30px 0;
-  }
   .score-list {
     display: flex;
   }

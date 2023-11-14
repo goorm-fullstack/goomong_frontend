@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
-
-import Bg_Black from '../../assets/images/index/bg_black.png';
 const Review: React.FC = () => {
   const topInfo = {
     evaluation: 13913,
@@ -228,8 +226,9 @@ const Review: React.FC = () => {
   return (
     <S.ReviewPageStyles>
       <Header />
-      <div className="review-container">
-        <div className="title">고객 후기</div>
+      <C.Container>
+        <C.PageTitle>고객 후기</C.PageTitle>
+        <div className="title"></div>
         <div className="total-score">
           <div className="score-list">
             <div className="star">
@@ -577,18 +576,17 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
-              <Link to='#null'>
+              <Link to="#null" key={index}>
                 <ReviewPageModel
-                key={index}
-                b_category={item.b_category}
-                p_category={item.p_category}
-                title={item.title}
-                content={item.content}
-                like={item.like}
-                comment={item.comment}
-                time={item.time}
-                star={item.star}
-              />
+                  b_category={item.b_category}
+                  p_category={item.p_category}
+                  title={item.title}
+                  content={item.content}
+                  like={item.like}
+                  comment={item.comment}
+                  time={item.time}
+                  star={item.star}
+                />
               </Link>
             ))}
           </div>
@@ -600,25 +598,7 @@ const Review: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="black-bg">
-        <img src={Bg_Black} alt="bg-black" />
-        <div className="main-bg-text">
-          <div className="text">
-            <div className="bg-text">
-              구몽에 <strong>판매자 등록</strong>하고
-            </div>
-            <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          </div>
-          <div className="btn">
-            <Link to="#null">
-              <button type="submit" className="bg-btn">
-                판매자 등록하기
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
+      </C.Container>
       <Footer />
     </S.ReviewPageStyles>
   );

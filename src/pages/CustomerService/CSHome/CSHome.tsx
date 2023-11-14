@@ -2,20 +2,22 @@ import React from 'react';
 
 import * as S from './CSHomeStyles';
 
-import Logo from '../../../assets/images/common/logo.png';
 import MegaPhone from '../../../assets/images/cs/ico_megaphone.png';
 import { Link } from 'react-router-dom';
 import CSHeader from '../CSHeader/CSHeader';
+import Logo_White from '../../../assets/images/common/logo_white.png';
 function CS_Home() {
   const handleCSSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
+
+
   return (
     <S.CSHomeStyles>
+      <CSHeader />
       <div className="cs-home-container">
         <div className="cs-home-top">
           <div className="cs-top-content">
-            <CSHeader />
             <div className="cs-home-center">
               <div className="cs-home-center-title-container">
                 <div className="cs-home-center-title">궁금하신 내용을</div>
@@ -126,7 +128,9 @@ function CS_Home() {
                 <li>우승후보작 선정 옵션은 무엇인가요?</li>
                 <li>등록된 시안을 실시간으로 확인할 수 있나요?</li>
               </ul>
-              <button className="more-btn">더보기+</button>
+              <Link to="/cs_notice">
+                <button className="more-btn">더보기+</button>
+              </Link>
             </div>
             <div className="right">
               <div className="right-title">공지사항</div>
@@ -137,7 +141,9 @@ function CS_Home() {
                 <li>우승후보작 선정 옵션은 무엇인가요?</li>
                 <li>등록된 시안을 실시간으로 확인할 수 있나요?</li>
               </ul>
-              <button className="more-btn">더보기+</button>
+              <Link to="/cs_faq">
+                <button className="more-btn">더보기+</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -145,7 +151,7 @@ function CS_Home() {
           <div className="footer-content">
             <div className="footer-right">
               <div className="footer-top">
-                <img src={Logo} alt="logo" />
+                <img src={Logo_White} alt="logo" />
               </div>
               <ul className="footer-top-left-list">
                 <li>
