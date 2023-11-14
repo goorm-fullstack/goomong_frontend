@@ -33,6 +33,7 @@ const GlobalStyle = createGlobalStyle`
 	body {
 		line-height: 1;
 		font-family: 'Noto Sans KR', sans-serif;
+		letter-spacing: -0.02em;
 	}
 
 	ol, ul {
@@ -62,8 +63,9 @@ input:focus {
 		color: var(--black);
 	}
 
-	a, button, li, svg, g, path {
+	a, button, svg, g, path {
 		transition: .2s all ease-in-out;
+		// 보통 li에는 transition이 안 들어갑니다. 필요한 경우 GlobalStyle로 넣지 말고 개별적으로 넣어주세요.
 	}
 
 	img {
@@ -78,9 +80,29 @@ input:focus {
 		font-family: inherit;
 	}
 
+	input[type="checkbox"] {
+		width: 16px;
+		height: 16px;
+		border: 1px solid #bfc6d2;
+		border-radius: 3px;
+		appearance: none;
+		background-color: white;
+		background-size: 110% 110%;
+		background-position: 50%;
+		background-repeat: no-repeat;
+		margin: 0;
+
+		&:checked {
+			background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/></svg>");
+			background-color: var(--blue);
+			border-color: var(--blue);
+		}
+	}
+
   :root {
     --black: #101c33;
     --dim-black: #404a5c;
+		--gray: #6f7785;
     --blue: #4285f4;
     --yellow: #fbbc04;
     --red: #ea4335;

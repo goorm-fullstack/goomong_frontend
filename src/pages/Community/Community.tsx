@@ -189,7 +189,7 @@ const Community: React.FC = () => {
     <S.CommunityStyles>
       <div className="community">
         <Header />
-        <div className="community-container">
+        <C.Container>
           <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
@@ -302,7 +302,7 @@ const Community: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </C.Container>
         <Footer />
       </div>
     </S.CommunityStyles>

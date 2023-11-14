@@ -1,12 +1,6 @@
 import styled from 'styled-components';
 
 export const CommunityStyles = styled.div`
-  .community-container {
-    width: 1280px;
-    padding: 0px 40px;
-    margin: 0 auto;
-  }
-
   .search-container {
     width: 1200px;
     height: 105px;
