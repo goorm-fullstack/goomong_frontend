@@ -228,7 +228,7 @@ const Review: React.FC = () => {
   return (
     <S.ReviewPageStyles>
       <Header />
-      <div className="review-container">
+      <C.Container>
         <C.PageTitle>고객 후기</C.PageTitle>
         <div className="title"></div>
         <div className="total-score">
@@ -601,7 +601,7 @@ const Review: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </C.Container>
       <Footer />
     </S.ReviewPageStyles>
   );

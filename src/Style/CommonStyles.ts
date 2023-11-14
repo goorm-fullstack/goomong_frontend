@@ -7,3 +7,9 @@ export const PageTitle = styled.h2`
   letter-spacing: -0.04;
   color: var(--black);
 `;
+
+export const Container = styled.div`
+  width: 1280px;
+  padding: 0px 40px;
+  margin: 0 auto;
+`;
