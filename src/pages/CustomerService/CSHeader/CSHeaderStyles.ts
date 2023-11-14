@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 
 export const CSHeaderStyles = styled.div`
+  .cs-header-container {
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
   .cs-home-header {
     display: flex;
     justify-content: space-between;
     padding-bottom: 23px;
+    width: 1280px;
+    margin: 0 auto;
   }
   .cs-home-header .left {
     display: flex;

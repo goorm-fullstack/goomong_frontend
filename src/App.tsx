@@ -13,6 +13,9 @@ import Community from './pages/Community/Community';
 import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
 import ReviewPage from './pages/ReviewPage/ReviewPage';
 import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
+import CSNotice from './pages/CustomerService/CSNotice/CSNotice';
+import CSFaq from './pages/CustomerService/CSFaq/CSFaq'
+import SellerRank from './pages/SellerRank/SellerRank';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +34,9 @@ const App: React.FC = () => {
         <Route path="/community_detail" element={<CommunityDetail />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs_home" element={<CustomerServiceHome />} />
+        <Route path="/cs_notice" element={<CSNotice />} />
+        <Route path="/cs_faq" element={<CSFaq />} />
+        <Route path="/seller_rank" element={<SellerRank />} />
       </Routes>
     </div>
   );
