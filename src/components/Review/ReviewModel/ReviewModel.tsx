@@ -12,7 +12,6 @@ interface ReviewProps {
 }
 
 const ReviewModel: React.FC<ReviewProps> = ({ imageUrl, writer, date, rating, category, productName, content }) => {
-  console.log(imageUrl);
   const formatRating = (rating: number) => {
     return rating.toFixed(1);
   };

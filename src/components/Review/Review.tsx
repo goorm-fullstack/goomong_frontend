@@ -5,8 +5,7 @@ import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
-import { formattingDate } from '../../util/func/functions';
-import { NoItem } from '../../Style/CommonStyles';
+import { detailDate } from '../../util/func/functions';
 
 const Review: React.FC = () => {
   const [reviewData, setReviewData] = useState<ReviewData[]>();
@@ -16,6 +15,7 @@ const Review: React.FC = () => {
     Instance.get('/api/reviews')
       .then((response) => {
         const data = response.data;
+        console.log(data);
         setReviewData(data);
       })
       .catch((error) => {
@@ -81,11 +81,11 @@ const Review: React.FC = () => {
         {reviewData && (
           <Slide>
             {reviewData.map((reviewModel, index) => (
-              <Link to="#null">
+              <Link to={`/item/detail/${reviewModel.itemId}`} key={index}>
                 <ReviewModel
                   key={`reviewModel-${index}`}
                   writer={reviewModel.memberId}
-                  date={formattingDate(reviewModel.regDate)}
+                  date={detailDate(reviewModel.regDate)}
                   rating={reviewModel.rate}
                   category={reviewModel.itemCategory}
                   productName={reviewModel.itemName}

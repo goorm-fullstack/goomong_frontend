@@ -4,7 +4,7 @@ import * as S from './ReviewPageModelStyles';
 
 interface ReviewPageModelProps {
   imageUrl?: string;
-  b_category: string;
+  b_category?: string;
   p_category: string;
   title: string;
   content: string;

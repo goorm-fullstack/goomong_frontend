@@ -578,7 +578,6 @@ const Review: React.FC = () => {
             {currentItems.map((item, index) => (
               <Link to="#null" key={index}>
                 <ReviewPageModel
-                  b_category={item.b_category}
                   p_category={item.p_category}
                   title={item.title}
                   content={item.content}
