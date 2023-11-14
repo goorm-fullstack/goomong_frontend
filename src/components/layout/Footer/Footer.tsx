@@ -77,7 +77,7 @@ function Footer() {
               </div>
               <div className="footer-customer-center">
                 <Link to="#null">
-                  고객 센터
+                  고객센터
                   <svg
                     version="1.0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +122,7 @@ function Footer() {
             <div className="footer-bottom-left">
               <ul className="footer-bottom-left-list">
                 <li>
-                  <Link to="#null">공지 사항</Link>
+                  <Link to="#null">공지사항</Link>
                 </li>
                 <li>
                   <Link to="#null">개인정보처리방침</Link>
