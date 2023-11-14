@@ -577,18 +577,17 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
-              <Link to='#null'>
+              <Link to="#null" key={index}>
                 <ReviewPageModel
-                key={index}
-                b_category={item.b_category}
-                p_category={item.p_category}
-                title={item.title}
-                content={item.content}
-                like={item.like}
-                comment={item.comment}
-                time={item.time}
-                star={item.star}
-              />
+                  b_category={item.b_category}
+                  p_category={item.p_category}
+                  title={item.title}
+                  content={item.content}
+                  like={item.like}
+                  comment={item.comment}
+                  time={item.time}
+                  star={item.star}
+                />
               </Link>
             ))}
           </div>
