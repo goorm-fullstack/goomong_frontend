@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
-import * as C from '../../style/CommonStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';

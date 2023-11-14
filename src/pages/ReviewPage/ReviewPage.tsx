@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as C from '../../style/CommonStyles';
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
