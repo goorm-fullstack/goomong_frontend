@@ -1,66 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slide from '../Slide/Slide';
 import ReviewModel from './ReviewModel/ReviewModel';
 import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
+import { ReviewData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { formattingDate } from '../../util/func/functions';
+import { NoItem } from '../../Style/CommonStyles';
 
 const Review: React.FC = () => {
-  const reviewModel = [
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-  ];
+  const [reviewData, setReviewData] = useState<ReviewData[]>();
+  const [imageUrls, setImageUrls] = useState<string[]>();
+
+  useEffect(() => {
+    Instance.get('/api/reviews')
+      .then((response) => {
+        const data = response.data;
+        setReviewData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
+
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data) as string;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadImageUrl = async (path: string) => {
+    try {
+      const imageUrl = await getImageFile(path);
+      return imageUrl || '';
+    } catch (error) {
+      console.error(error);
+      return '';
+    }
+  };
+
+  const loadImages = async () => {
+    const urls = await Promise.all(
+      reviewData?.map(async (reviewModel) => {
+        if (reviewModel.imageList.length > 0) {
+          return await loadImageUrl(reviewModel.imageList[0].path);
+        }
+        return '';
+      }) || []
+    );
+    setImageUrls(urls);
+  };
+
+  useEffect(() => {
+    loadImages();
+  }, [reviewData]);
 
   return (
     <S.Review>
@@ -72,21 +77,25 @@ const Review: React.FC = () => {
             <div className="score">4.9점</div>
           </div>
         </div>
-        <Slide>
-          {reviewModel.map((reviewModel, index) => (
-            <Link to="#null" key={index}>
-              <ReviewModel
-                key={index}
-                writer={reviewModel.writer}
-                date={reviewModel.date}
-                rating={reviewModel.rating}
-                category={reviewModel.category}
-                productName={reviewModel.productName}
-                content={reviewModel.content}
-              />
-            </Link>
-          ))}
-        </Slide>
+
+        {reviewData && (
+          <Slide>
+            {reviewData.map((reviewModel, index) => (
+              <Link to="#null">
+                <ReviewModel
+                  key={`reviewModel-${index}`}
+                  writer={reviewModel.memberId}
+                  date={formattingDate(reviewModel.regDate)}
+                  rating={reviewModel.rate}
+                  category={reviewModel.itemCategory}
+                  productName={reviewModel.itemName}
+                  content={reviewModel.content}
+                  imageUrl={imageUrls && imageUrls[index]}
+                />
+              </Link>
+            ))}
+          </Slide>
+        )}
       </div>
     </S.Review>
   );
