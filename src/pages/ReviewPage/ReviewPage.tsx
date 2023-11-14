@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
@@ -229,7 +229,8 @@ const Review: React.FC = () => {
     <S.ReviewPageStyles>
       <Header />
       <div className="review-container">
-        <div className="title">고객 후기</div>
+        <C.PageTitle>고객 후기</C.PageTitle>
+        <div className="title"></div>
         <div className="total-score">
           <div className="score-list">
             <div className="star">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
@@ -192,7 +193,7 @@ const Community: React.FC = () => {
       <div className="community">
         <Header />
         <div className="community-container">
-          <div className="title">구몽생활</div>
+          <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
             <form action="submit" className="search-form">
