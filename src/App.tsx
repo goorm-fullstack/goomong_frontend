@@ -19,6 +19,9 @@ import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
 import CSNotice from './pages/CustomerService/CSNotice/CSNotice';
 import CSFaq from './pages/CustomerService/CSFaq/CSFaq';
 import SellerRank from './pages/SellerRank/SellerRank';
+import SellerMap from './pages/SellerMap/SellerMap';
+import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
+import SellerAll from './pages/SellerAll/SellerAll';
 
 const App: React.FC = () => {
   return (
@@ -42,7 +45,10 @@ const App: React.FC = () => {
         <Route path="/cs_home" element={<CustomerServiceHome />} />
         <Route path="/cs_notice" element={<CSNotice />} />
         <Route path="/cs_faq" element={<CSFaq />} />
+        <Route path="/cs_inquiry" element={<CSInquiry />} />
         <Route path="/seller_rank" element={<SellerRank />} />
+        <Route path="/seller_map" element={<SellerMap />} />
+        <Route path="/seller_all" element={<SellerAll />} />
       </Routes>
     </div>
   );

@@ -11,7 +11,6 @@ function CS_Home() {
     e.preventDefault();
   };
 
-
   return (
     <S.CSHomeStyles>
       <CSHeader />
@@ -47,7 +46,6 @@ function CS_Home() {
               <div className="megaphone">
                 <img src={MegaPhone} alt="megaphone" />
               </div>
-              CS
             </div>
           </div>
         </div>
@@ -76,7 +74,7 @@ function CS_Home() {
               </svg>
               <div>채팅상담</div>
             </Link>
-            <Link to="#null">
+            <Link to="/cs_inquiry">
               <svg
                 data-name="Layer 2"
                 id="b6b3c632-959e-430c-923d-e86193c4d165"
