@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams, Link } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
 import { blob } from 'stream/consumers';
+<<<<<<< HEAD
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import * as C from '../../Style/CommonStyles';
@@ -11,6 +12,15 @@ import Pagination from '../../components/Pagination/Pagination';
 import Slider from 'react-slick';
 import { NextArrow, PrevArrow } from '../../components/Banner/Banner';
 import Sort from '../../components/Sort/Sort';
+=======
+<<<<<<< Updated upstream
+=======
+import Header from '../../components/layout/Header/Header';
+import Footer from '../../components/layout/Footer/Footer';
+import * as C from '../../style/CommonStyles';
+import * as S from './Style';
+>>>>>>> Stashed changes
+>>>>>>> feature/sunwoong
 
 interface Item {
   id: number;

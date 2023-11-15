@@ -2,13 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Instance from '../../util/API/axiosInstance';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
+<<<<<<< HEAD
 import * as C from '../../Style/CommonStyles';
+=======
+<<<<<<< Updated upstream
+=======
+import * as C from '../../style/CommonStyles';
+>>>>>>> feature/sunwoong
 import { useParams } from 'react-router-dom';
 import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
+<<<<<<< HEAD
 import Pagination from '../../components/Pagination/Pagination';
+=======
+>>>>>>> Stashed changes
+>>>>>>> feature/sunwoong
 
 interface Item {
   // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!

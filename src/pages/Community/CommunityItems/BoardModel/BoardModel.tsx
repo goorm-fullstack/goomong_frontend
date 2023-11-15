@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 interface BoardModelProps {
   imageURL?: string;
-  b_category: string;
   p_category: string;
   title: string;
   content: string;
@@ -18,7 +17,6 @@ interface BoardModelProps {
 
 const BoardModel: React.FC<BoardModelProps> = ({
   imageURL,
-  b_category,
   p_category,
   title,
   content,
@@ -38,13 +36,12 @@ const BoardModel: React.FC<BoardModelProps> = ({
   );
   return (
     <S.BoardModelStyles $isLastItem={isLastItem}>
-      <Link to="/community_detail">
+      <Link to="/community/detail">
         <div className="board-model-container">
           <div className="board-model-right">
             <div className="board-model-image-container">{imageURL ? <img src={imageURL} alt="" /> : defaultImage}</div>
             <div className="board-model-image-right">
               <ul className="board-model-category-list">
-                <li>{b_category}</li>
                 <li>{p_category}</li>
               </ul>
               <div className="board-model-title">{title}</div>
