@@ -2,23 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Instance from '../../util/API/axiosInstance';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
-<<<<<<< HEAD
 import * as C from '../../Style/CommonStyles';
-=======
-<<<<<<< Updated upstream
-=======
-import * as C from '../../style/CommonStyles';
->>>>>>> feature/sunwoong
 import { useParams } from 'react-router-dom';
 import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
-<<<<<<< HEAD
 import Pagination from '../../components/Pagination/Pagination';
-=======
->>>>>>> Stashed changes
->>>>>>> feature/sunwoong
 
 interface Item {
   // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
@@ -129,12 +119,19 @@ const categories = [
 
 export default function ItemList() {
   const location = useParams().type;
-  // be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-  // const [itemList, setItemList] = useState<Item[]>([]);
+  const [itemList, setItemList] = useState<Item[]>([]);
+  const {page} = useParams();
+  const pageSize = 10;
 
+  // //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   // useEffect(() => {
-  //   Instance.get('/api/item/list').then((response) => {
-  //     setItemList(response.data);
+  //   Instance.get('/api/item/list', {
+  //     params : {
+  //       page : page,
+  //       pageSize : pageSize
+  //     }
+  //   }).then((response) => {
+  //     setItemList(response.data.data);
   //     console.log(response.data);
   //   });
   // }, []);
@@ -182,7 +179,7 @@ export default function ItemList() {
                 </li>
               ))}
             </ul>
-            <Pagination item={itemList} />
+            <Pagination currentPage={0} totalPages={0} onPageChange={}/>
           </div>
         </S.ItemList>
       </C.Container>
