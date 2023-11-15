@@ -136,6 +136,10 @@ export default function ItemList() {
   //   });
   // }, []);
 
+  const mockOnChangeNumber = (num : number) => {
+
+  }
+
   return (
     <>
       <Header />
@@ -179,7 +183,7 @@ export default function ItemList() {
                 </li>
               ))}
             </ul>
-            <Pagination currentPage={0} totalPages={0} onPageChange={}/>
+            <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber}/>
           </div>
         </S.ItemList>
       </C.Container>
