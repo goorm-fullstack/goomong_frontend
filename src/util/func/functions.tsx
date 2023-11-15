@@ -45,3 +45,8 @@ export const getImageFile = async (path: string) => {
     console.error(error);
   }
 };
+
+// 숫자 콤마 표시
+export const commaNumber = (num: number): string => {
+  return num.toLocaleString();
+};

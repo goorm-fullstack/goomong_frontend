@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
@@ -6,6 +6,10 @@ import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
+import { commaNumber, detailDate } from '../../util/func/functions';
+import { ReviewData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+
 const Review: React.FC = () => {
   const topInfo = {
     evaluation: 13913,
@@ -14,12 +18,9 @@ const Review: React.FC = () => {
     accumulate: 37120,
     money: 115120,
   };
-  const formatNumber1 = (num: number) => {
-    return num.toFixed(1);
-  };
-  const formatNumber2 = (num: number): string => {
-    return num.toLocaleString();
-  };
+  // const formatNumber1 = (num: number) => {
+  //   return num.toFixed(1);
+  // };
 
   const [slideIndex, setSlideIndex] = useState(0);
   const reviewSlideItems = [
@@ -87,141 +88,166 @@ const Review: React.FC = () => {
     setSlideIndex((prevIndex) => (prevIndex === 0 ? reviewSlideItems.length - 1 : prevIndex - 1));
   };
 
-  const reviewItems = [
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-  ];
+  // const reviewItems = [
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  //   {
+  //     b_category: '게시판 카테고리',
+  //     p_category: '재능 카테고리',
+  //     title: '게시글 제목',
+  //     content: '게시글 내용입니다.',
+  //     like: 40,
+  //     comment: 40,
+  //     time: 30,
+  //     star: 4.9,
+  //   },
+  // ];
+  const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
+  const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
+  const [pageCount, setPageCount] = useState<number>(); // 전체 페이지 상태 저장
+  const [totalData, setTotalData] = useState<number>(); // 전체 데이터 갯수
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 8;
+  const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
-  const pageCount: number = Math.ceil(reviewItems.length / itemsPerPage);
+  // const indexOfLastItem: number = currentPage * itemsPerPage;
+  // const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
+  // const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
-
+  // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
   const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
+
+  // 리뷰 리스트 가져오기 및 전체 데이터 갯수 저장
+  useEffect(() => {
+    Instance.get(`/api/reviews?size=${itemsPerPage}&page=${currentPage}`)
+      .then((response) => {
+        const data = response.data;
+        setReviewData(data);
+        setTotalData(data[0].pageInfo.totalElements);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [currentPage]);
+
+  // 전체 페이지 갯수 저장
+  useEffect(() => {
+    if (totalData) {
+      const pageCount: number = Math.ceil(totalData / itemsPerPage); // 전체 페이지
+      setPageCount(pageCount);
+    }
+  }, [totalData]);
+
+  console.log(reviewData);
 
   return (
     <S.ReviewPageStyles>
@@ -252,10 +278,10 @@ const Review: React.FC = () => {
                 </g>
               </svg>
               <div className="star-text">
-                <div className="top">총 {topInfo.evaluation}개의 평가</div>
+                <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {formatNumber1(topInfo.star)}
+                  {topInfo.star}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -308,7 +334,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="gift-text">
                 <div className="top">고객 만족도</div>
-                <div className="bottom">{formatNumber1(topInfo.satisfaction)}% </div>
+                <div className="bottom">{topInfo.satisfaction}% </div>
               </div>
             </div>
             <div className="graph">
@@ -335,7 +361,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="graph-text">
                 <div className="top">누적거래건수</div>
-                <div className="bottom">{formatNumber2(topInfo.evaluation)}건</div>
+                <div className="bottom">{commaNumber(topInfo.evaluation)}건</div>
               </div>
             </div>
 
@@ -497,7 +523,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="money-text">
                 <div className="top">누적거래금액</div>
-                <div className="bottom">{formatNumber2(topInfo.money)}원</div>
+                <div className="bottom">{commaNumber(topInfo.money)}원</div>
               </div>
             </div>
           </div>
@@ -575,26 +601,28 @@ const Review: React.FC = () => {
             </div>
           </div>
           <div className="all-review-list">
-            {currentItems.map((item, index) => (
-              <Link to="#null" key={index}>
-                <ReviewPageModel
-                  p_category={item.p_category}
-                  title={item.title}
-                  content={item.content}
-                  like={item.like}
-                  comment={item.comment}
-                  time={item.time}
-                  star={item.star}
-                />
-              </Link>
-            ))}
+            {reviewData &&
+              reviewData.map((item, index) => (
+                <Link to="#null" key={index}>
+                  <ReviewPageModel
+                    p_category={item.itemCategory}
+                    title={item.title}
+                    content={item.content}
+                    like={item.likeNo}
+                    comment={item.commentNo}
+                    time={detailDate(item.regDate)}
+                    star={item.rate}
+                  />
+                </Link>
+              ))}
           </div>
           <div className="pagination">
-            {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-              <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                {number}
-              </button>
-            ))}
+            {pageCount &&
+              Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
+                <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
+                  {number}
+                </button>
+              ))}
           </div>
         </div>
       </C.Container>

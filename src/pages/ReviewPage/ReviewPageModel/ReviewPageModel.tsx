@@ -10,7 +10,7 @@ interface ReviewPageModelProps {
   content: string;
   like: number;
   comment: number;
-  time: number;
+  time: string;
   isLastItem?: boolean;
   clickLike?: boolean;
   star: number;
@@ -38,7 +38,7 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
         </ul>
         <div className="review-page-model-title">{title}</div>
         <div className="review-page-model-content">{content}</div>
-        <div className="review-page-model-time">{time}분 전</div>
+        <div className="review-page-model-time">{time}</div>
         <div className="review-page-model-bottom">
           <div className="review-page-model-left">
             <span className="review-page-model-star">{'★'.repeat(Math.round(star))} </span>
