@@ -6,5 +6,6 @@ export const Slide = styled.div`
     position: relative;
     height: 354px;
     overflow: hidden;
+    width: 100%;
   }
 `;

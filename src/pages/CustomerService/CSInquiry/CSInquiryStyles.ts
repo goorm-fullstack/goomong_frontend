@@ -1,0 +1,284 @@
+import styled from 'styled-components';
+
+export const CSInquiryStyles = styled.div`
+  .cs-inquiry-container {
+    width: 1280px;
+    margin: 0 auto;
+  }
+  .inquiry-location {
+    margin: 20px 0px 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .total-location {
+    color: #101c33;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.04;
+  }
+  .left {
+    display: flex;
+  }
+  .small-location {
+    color: #4285f4;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: -0.04;
+  }
+  .inquiry-location svg {
+    margin: 0 10px;
+  }
+
+  .search-bar {
+    width: 260px;
+    height: 48px;
+    border: 1px solid #dbdee2;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .search-bar input {
+    border: 0;
+    padding-left: 18px;
+  }
+  .dropdown-type ul {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #dbdee2;
+    border-radius: 8px;
+    height: 220px;
+  }
+  .dropdown-type ul li {
+    padding: 10px 0;
+    padding-left: 18px;
+    border-radius: 8px;
+  }
+  .dropdown-type ul li:hover {
+    background-color: #4285f4;
+    color: #fff;
+  }
+  .search-btn {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  .cs-inquiry-title {
+    color: #101c33;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.04;
+    margin-bottom: 40px;
+  }
+  .input-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #6f7785;
+    margin-bottom: 12px;
+  }
+  .inquiry-form input {
+    width: 1200px;
+    height: 46px;
+    border-radius: 8px;
+    padding: 0 17px;
+    margin-bottom: 30px;
+    border: 1px solid #dbdee2;
+    color: rgba(85, 85, 85, 0.6);
+    font-size: 15px;
+  }
+  .inquiry-type {
+    width: 1200px;
+    height: 46px;
+    border-radius: 8px;
+    padding: 0 17px;
+    margin-bottom: 30px;
+    color: #555;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #dbdee2;
+    cursor: pointer;
+  }
+  textarea {
+    width: 1200px;
+    height: 280px;
+    border-radius: 8px;
+    padding: 17px;
+    margin-bottom: 30px;
+    color: #555;
+    border: 1px solid #dbdee2;
+    resize: none;
+  }
+  textarea:focus {
+    outline: none;
+  }
+
+  input[type='file'] {
+    display: none;
+  }
+
+  label.file-upload {
+    width: 1200px;
+    height: 46px;
+    border-radius: 8px;
+    padding: 0 17px;
+    margin-bottom: 30px;
+    border: 1px solid #dbdee2;
+    color: #4285f4;
+    font-size: 15px;
+    display: inline-block;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.04;
+  }
+  label.file-upload::after {
+    content: '파일 추가 또는 파일을 여기로 드래그하세요.';
+  }
+  .submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+  .submit-btn button {
+    width: 116px;
+    height: 38px;
+    background-color: #4285f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fefeff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.04;
+    border: 0;
+    border-radius: 4px;
+    margin-top: 70px;
+  }
+  .inquiry-form .bottom .top {
+    color: #404a5c;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.04;
+    margin-bottom: 12px;
+  }
+  .inquiry-form .bottom p {
+    color: #aab1bc;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.04;
+  }
+  .inquiry-form .bottom {
+    margin-bottom: 17px;
+  }
+
+  .check-agreement {
+    color: #666;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.04;
+  }
+  .checkbox {
+    display: none;
+  }
+  .agreement {
+    display: flex;
+    align-items: center;
+  }
+  .agreement svg {
+    margin-right: 8px;
+  }
+  label:hover svg g[id='Core'] path {
+    fill: #4285f4;
+    transition: 0.2s all ease-in-out;
+  }
+  .inquiry-type {
+    position: relative;
+  }
+  .dropdown-type {
+    position: absolute;
+    top: 101%;
+    left: 0%;
+    z-index: 100;
+    background-color: #fff;
+    width: 1200px;
+  }
+
+  .footer {
+    width: 100%;
+    height: 260px;
+    background-color: #161c1c;
+    padding-top: 40px;
+  }
+  .footer-content {
+    width: 1200px;
+    padding: 0 40px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer-top {
+    margin-bottom: 40px;
+  }
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-top-left-list {
+    width: 450px;
+  }
+
+  .footer-top-left-list li {
+    display: inline-block;
+    color: var(--dim-black);
+    font-size: 12px;
+    letter-spacing: -0.04;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  .footer-top-left-list li:nth-child(1) {
+    margin-right: 24px;
+  }
+  .footer-top-left-list li:nth-child(3) {
+    margin-right: 17px;
+  }
+  .footer-top-left-list li span {
+    display: inline-block;
+    width: 1px;
+    height: 11px;
+    background-color: #666;
+    margin: 0px 7px;
+  }
+  .footer-left-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-left-list li {
+    position: relative;
+  }
+
+  .footer-left-list li a {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.04;
+    padding: 0 17px;
+  }
+
+  .footer-left-list li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    height: 17px;
+    width: 1px;
+    background-color: #fff;
+  }
+`;

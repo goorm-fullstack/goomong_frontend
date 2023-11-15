@@ -88,10 +88,10 @@ const SellerRank: React.FC = () => {
       <Header />
       <div className="seller-rank-container">
         <div className="top-nav">
-          <Link to="/seller-rank" className="rank">
+          <Link to="/seller_rank" className="rank">
             랭킹
           </Link>
-          <Link to="/seller-find" className="find">
+          <Link to="/seller_all" className="find">
             찾기
           </Link>
         </div>
@@ -146,15 +146,15 @@ const SellerRank: React.FC = () => {
                       <div className="seller-name">{item.sellerName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익<span className="number">{formatCurrency(item.totalMoney)}</span>
+                          총수익 <span className="number">{formatCurrency(item.totalMoney)}</span>
                         </span>
                         <span className="transaction">
-                          총거래<span className="number">{item.totalTransaction}</span>
+                          총거래 <span className="number">{item.totalTransaction}</span>
                         </span>
                         <span className="review">
-                          총리뷰<span className="number">{item.totalReview}</span>
+                          총리뷰 <span className="number">{item.totalReview}</span>
                         </span>
-                        <span className="star">★</span>
+                        <span className="star"> ★</span>
                         <span className=" star-number">{formatRating(item.star)}</span>
                       </div>
                     </div>
