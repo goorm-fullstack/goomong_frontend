@@ -22,6 +22,7 @@ import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
 import ReviewPage from './pages/ReviewPage/ReviewPage';
 import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
 import AdminLogin from './pages/Admin/Login/AdminLogin';
+import MemberOrderList from './pages/Member/MemberOrderList';
 
 const App: React.FC = () => {
   return (
@@ -34,11 +35,12 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/reg_goomong" element={<RegisterByGoomong />} />
-        <Route path='/item' element={<ItemList/>}></Route>
+        <Route path='/item/:page' element={<ItemList/>}></Route>
         <Route path='/item/detail/:id' element={<ItemDetail/>}></Route>
         <Route path='/item/write' element={<ItemWrite/>}></Route>
         <Route path='/order/write' element={<OrderWrite/>}></Route>
         <Route path='/order/success' element={<OrderSuccess/>}></Route>
+        <Route path='/member/order/list' element={<MemberOrderList/>}></Route>
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />

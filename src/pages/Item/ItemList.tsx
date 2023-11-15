@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Instance from '../../util/API/axiosInstance';
+import { useParams } from 'react-router-dom';
 
 interface Item {
   id : number;
@@ -9,10 +10,17 @@ interface Item {
 
 export default function ItemList() {
   const [itemList, setItemList] = useState<Item[]>([]);
+  const {page} = useParams();
+  const pageSize = 10;
 
   useEffect(() => {
-    Instance.get("/api/item/list").then((response) => {
-      setItemList(response.data);
+    Instance.get("/api/item/list", {
+      params : {
+        page : page,
+        pageSize : pageSize
+      }
+    }).then((response) => {
+      setItemList(response.data.data);
       console.log(response.data)
     })
   }, [])
