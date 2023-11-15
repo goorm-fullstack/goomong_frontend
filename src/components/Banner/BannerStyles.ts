@@ -4,7 +4,6 @@ export const Banner = styled.div`
   .slick-slider {
     margin-top: 40px;
     min-width: 1280px;
-    height: 395px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,9 +60,7 @@ export const Banner = styled.div`
     opacity: 0.8;
   }
   @media (max-width: 1199px) {
-    .slick-slider {
-      height: 340px;
-    }
+    
     .slick-slide {
       max-width: 620px;
       height: 340px;
@@ -71,9 +68,7 @@ export const Banner = styled.div`
   }
 
   @media (max-width: 991px) {
-    .slick-slider {
-      height: 280px;
-    }
+    
     .slick-slide {
       max-width: 520px;
       height: 280px;
@@ -81,9 +76,7 @@ export const Banner = styled.div`
   }
 
   @media (max-width: 767px) {
-    .slick-slider {
-      height: 240px;
-    }
+    
     .slick-slide {
       max-width: 420px;
       height: 240px;

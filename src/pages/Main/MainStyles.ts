@@ -17,7 +17,7 @@ export const Main = styled.div`
   }
   .blue-bg {
     background-color: #4285f4;
-    margin-top: 64px;
+    margin-top: 0px;
   }
   .black-bg {
     background-color: #161c1c;
