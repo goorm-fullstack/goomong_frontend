@@ -23,7 +23,13 @@ const Login: React.FC = () => {
         </Link>
         <form onSubmit={handleLoginSubmit}>
           <div className="text">회원 아이디</div>
-          <input className="id-box box" type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='example@goomong.com'/>
+          <input
+            className="id-box box"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="example@goomong.com"
+          />
           <div className="text">비밀번호</div>
           <input className="pw-box box" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit" className="submit-btn">
@@ -101,7 +107,7 @@ const Login: React.FC = () => {
         </div>
         <div className="bottom">
           <span className="text">아직 구몽 회원이 아니세요?</span>
-          <Link to="/reg">회원가입 하기</Link>
+          <Link to="/register/step1">회원가입 하기</Link>
         </div>
       </div>
     </S.Login>

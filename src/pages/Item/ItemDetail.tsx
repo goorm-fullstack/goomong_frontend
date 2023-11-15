@@ -2,6 +2,13 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
 import { blob } from 'stream/consumers';
+<<<<<<< Updated upstream
+=======
+import Header from '../../components/layout/Header/Header';
+import Footer from '../../components/layout/Footer/Footer';
+import * as C from '../../style/CommonStyles';
+import * as S from './Style';
+>>>>>>> Stashed changes
 
 interface Item {
   id: number;

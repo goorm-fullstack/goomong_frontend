@@ -29,7 +29,7 @@ const Main: React.FC = () => {
               </div>
             </div>
             <div className="btn">
-              <Link to="#null">
+              <Link to="/hire">
                 <button type="submit" className="bg-btn">
                   견적요청 바로가기
                 </button>
@@ -37,7 +37,6 @@ const Main: React.FC = () => {
             </div>
           </div>
         </div>
-
         <Review />
         <div className="blue-bg">
           <img src={Bg_Blue} alt="bg-blue" />

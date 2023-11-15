@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import * as S from './CSInquiryStyles';
-import CSHeader from '../CSHeader/CSHeader';
-import { Link } from 'react-router-dom';
-import CSFooter from '../CSFooter/CSFooter';
 
-const CSInquiry: React.FC = () => {
+import * as S from './HireStyles';
+import Header from '../../components/layout/Header/Header';
+import { Link } from 'react-router-dom';
+import Footer from '../../components/layout/Footer/Footer';
+
+const Hire: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [title, setTitle] = useState<string>('');
@@ -15,9 +16,6 @@ const CSInquiry: React.FC = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const handleInquierySearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
   const handleInquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -26,31 +24,10 @@ const CSInquiry: React.FC = () => {
     setIsDropdownOpen(false);
   };
   return (
-    <S.CSInquiryStyles>
-      <CSHeader />
-      <div className="cs-inquiry-container">
-        <div className="inquiry-location">
-          <div className="left">
-            <div className="total-location">
-              <Link to="/cs/home">구몽 고객센터</Link>
-            </div>
-            <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg" fill="#8e94a0">
-              <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-            </svg>
-            <div className="small-location">문의하기</div>
-          </div>
-          <div className="search-bar">
-            <form onSubmit={handleInquierySearchSubmit}>
-              <input type="text" placeholder="검색" />
-            </form>
-            <button className="search-btn" type="submit">
-              <svg fill="#dbdee2" height="19px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="19px" xmlns="http://www.w3.org/2000/svg">
-                <path d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className="cs-inquiry-title">문의하기</div>
+    <S.HireStyles>
+      <Header />
+      <div className="hire-container">
+        <div className="hire-title">문의하기</div>
         <form onSubmit={handleInquirySubmit} className="inquiry-form">
           <div className="input-text">문의항목을 선택해주세요</div>
           <div className="inquiry-type" onClick={toggleDropdown}>
@@ -85,9 +62,8 @@ const CSInquiry: React.FC = () => {
             <div className="top">개인정보 수집 및 이용에 대한 동의 내용</div>
             <p>
               정보통신망 이용촉진 및 정보보호 등 관한 법률을 준수하며 고객님의 개인정보를 수집하고 소중하게 다루고 있습니다. 1. 수집 및 이용 항목 :
-              이메일, 이름, 연락처 2. 수집 및 이용 목적 : 앱 이용 문의에 대한 답변 관련 업무 3, 보유 및 이용 기간 : 수집 목적이 달성되면 모든
-              개인정보를 파기합니다. 동의를 하지 않을 경우 문의한 내용에 대한 답변에 제한이 있을 수 있습니다
-            </p>
+              이메일, 이름, 연락처 2. 수집 및 이용 목적 : 앱 이용 문의에 대한 답변 관련 업무 3, 보유 및 이용 기간 : 수집 목적이 달성되면{' '}
+            모든 개인정보를 파기합니다. 동의를 하지 않을 경우 문의한 내용에 대한 답변에 제한이 있을 수 있습니다</p>
           </div>
           <input
             type="checkbox"
@@ -138,9 +114,9 @@ const CSInquiry: React.FC = () => {
           </div>
         </form>
       </div>
-      <CSFooter />
-    </S.CSInquiryStyles>
+      <Footer />
+    </S.HireStyles>
   );
 };
 
-export default CSInquiry;
+export default Hire;

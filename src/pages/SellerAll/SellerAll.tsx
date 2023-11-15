@@ -12,10 +12,10 @@ const SellerAll: React.FC = () => {
       <Header />
       <div className="seller-all-container">
         <div className="top-nav">
-          <Link to="/seller_rank" className="rank">
+          <Link to="/seller/rank" className="rank">
             랭킹
           </Link>
-          <Link to="/seller_all" className="find">
+          <Link to="/seller/all" className="find">
             찾기
           </Link>
         </div>
@@ -73,7 +73,7 @@ const SellerAll: React.FC = () => {
             <p className="title">내 주변 판매자 찾기</p>
             <p className="bottom">우리 동네 재능 판매자는?</p>
             <p className="bottom last">근처 재능 판매자를 빠르게 찾아드려요</p>
-            <Link to="/seller_map">
+            <Link to="/seller/map">
               <button type="button">내 주변 판매자 찾기</button>
             </Link>
           </div>

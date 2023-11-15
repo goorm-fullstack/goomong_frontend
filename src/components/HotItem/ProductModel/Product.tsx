@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './ProductStyles';
 import { Link } from 'react-router-dom';
 interface ProductProps {
-  imageUrl: string;
+  imageUrl?: string;
   sellerName: string;
   productName: string;
   price: string;
@@ -17,9 +17,15 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
 
   return (
     <S.Product>
-      <Link to="#null">
+      <Link to="/item/detail/1">
         <div className="product">
+<<<<<<< Updated upstream
           <div className="image-container">{/* <img src={imageUrl} alt={productName} className="product-image" /> */}</div>
+=======
+          <div className="image-container">
+            <img src={imageUrl} alt={productName} className="product-image" />
+          </div>
+>>>>>>> Stashed changes
           <div className="product-info">
             <div className="product-left">
               <div className="seller-name">{sellerName}</div>

@@ -88,10 +88,10 @@ const SellerRank: React.FC = () => {
       <Header />
       <div className="seller-rank-container">
         <div className="top-nav">
-          <Link to="/seller_rank" className="rank">
+          <Link to="/seller/rank" className="rank">
             랭킹
           </Link>
-          <Link to="/seller_all" className="find">
+          <Link to="/seller/all" className="find">
             찾기
           </Link>
         </div>
