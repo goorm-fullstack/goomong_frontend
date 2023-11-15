@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Slide from '../Slide/Slide';
 import ReviewModel from './ReviewModel/ReviewModel';
 import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
-import { detailDate } from '../../util/func/functions';
+import { detailDate, getImageFile } from '../../util/func/functions';
 
 const Review: React.FC = () => {
-  const [reviewData, setReviewData] = useState<ReviewData[]>();
-  const [imageUrls, setImageUrls] = useState<string[]>();
+  const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터 상태 관리
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터 상태 관리
 
+  // 전체 리뷰 중 최신 10건 상태 저장
   useEffect(() => {
     Instance.get('/api/reviews')
       .then((response) => {
         const data = response.data;
-        console.log(data);
         setReviewData(data);
       })
       .catch((error) => {
@@ -23,49 +23,43 @@ const Review: React.FC = () => {
       });
   }, []);
 
-  const getImageFile = async (path: string) => {
-    try {
-      const response = await Instance.get('/api/image', {
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        responseType: 'blob',
-        params: {
-          imagePath: path,
-        },
-      });
-
-      if (response.status === 200) {
-        return URL.createObjectURL(response.data) as string;
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (reviewData) {
+        const urls = await Promise.all(
+          reviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
-  const loadImageUrl = async (path: string) => {
-    try {
-      const imageUrl = await getImageFile(path);
-      return imageUrl || '';
-    } catch (error) {
-      console.error(error);
-      return '';
-    }
-  };
-
-  const loadImages = async () => {
-    const urls = await Promise.all(
-      reviewData?.map(async (reviewModel) => {
-        if (reviewModel.imageList.length > 0) {
-          return await loadImageUrl(reviewModel.imageList[0].path);
-        }
-        return '';
-      }) || []
-    );
-    setImageUrls(urls);
-  };
-
-  useEffect(() => {
-    loadImages();
+    fetchImages();
   }, [reviewData]);
+
+  // const reviewModel = [
+  //   {
+  //     writer: '닉네임1',
+  //     date: '2023.10.18',
+  //     rating: 5,
+  //     category: '디자인',
+  //     productName: '이거 구매했어요 상품명',
+  //     content:
+  //       '123456리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
+  //   },
+  //   {
+  //     writer: '닉네임2',
+  //     date: '2023.10.18',
+  //     rating: 5,
+  //     category: '디자인',
+  //     productName: '이거 구매했어요 상품명',
+  //     content:
+  //       '12345리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
+  //   },
+  // ]
 
   return (
     <S.Review>
