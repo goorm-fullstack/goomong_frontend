@@ -19,11 +19,15 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
     <S.Product>
       <Link to="#null">
         <div className="product">
-          <div className="image-container">{/* <img src={imageUrl} alt={productName} className="product-image" /> */}</div>
+          <div className="image-container">
+            <Link to="/item/detail/1">{/* <img src={imageUrl} alt={productName} className="product-image" /> */}</Link>
+          </div>
           <div className="product-info">
             <div className="product-left">
               <div className="seller-name">{sellerName}</div>
-              <div className="product-name">{productName}</div>
+              <div className="product-name">
+                <Link to="/item/detail/1">{productName}</Link>
+              </div>
             </div>
             <div className="product-right">
               <div className="product-price">{price}</div>

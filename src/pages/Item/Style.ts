@@ -40,7 +40,7 @@ export const ItemList = styled.div`
       display: flex;
       flex-flow: wrap;
       width: 100%;
-      gap: 24px 16px;
+      gap: 32px 16px;
 
       & > li {
         width: calc((100% - 32px) / 3);
