@@ -8,6 +8,7 @@ import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
+import Pagination from '../../components/Pagination/Pagination';
 
 interface Item {
   // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
@@ -128,19 +129,6 @@ export default function ItemList() {
   //   });
   // }, []);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 3;
-
-  const pageCount: number = Math.ceil(itemList.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = itemList.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <>
       <Header />
@@ -156,7 +144,7 @@ export default function ItemList() {
             <h3>전체 카테고리</h3>
             <ul>
               {categories.map((category, index) => (
-                <li>
+                <li key={index}>
                   <label htmlFor={category.title}>
                     <input type="checkbox" id={category.title} />
                     {category.title}
@@ -171,7 +159,7 @@ export default function ItemList() {
             <ul>
               {/* 선웅님표 컴포넌트 Product 재사용 */}
               {itemList.map((item, index) => (
-                <li>
+                <li key={index}>
                   <Product
                     key={index}
                     imageUrl={item.imageUrl}
@@ -184,13 +172,7 @@ export default function ItemList() {
                 </li>
               ))}
             </ul>
-            <C.Pagination>
-              {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-                <button type="button" key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                  {number}
-                </button>
-              ))}
-            </C.Pagination>
+            <Pagination item={itemList} />
           </div>
         </S.ItemList>
       </C.Container>
