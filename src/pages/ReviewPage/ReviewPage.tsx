@@ -212,8 +212,8 @@ const Review: React.FC = () => {
   // ];
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
-  const [pageCount, setPageCount] = useState<number>(); // 전체 페이지 상태 저장
-  const [totalData, setTotalData] = useState<number>(); // 전체 데이터 갯수
+  const [pageCount, setPageCount] = useState<number>(1); // 전체 페이지 상태 저장
+  const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -232,7 +232,9 @@ const Review: React.FC = () => {
       .then((response) => {
         const data = response.data;
         setReviewData(data);
-        setTotalData(data[0].pageInfo.totalElements);
+        if (data.length > 0) {
+          setTotalData(data[0].pageInfo.totalElements);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -601,6 +603,7 @@ const Review: React.FC = () => {
             </div>
           </div>
           <div className="all-review-list">
+            {reviewData?.length === 0 && <C.NoItem>등록된 리뷰가 없습니다.</C.NoItem>}
             {reviewData &&
               reviewData.map((item, index) => (
                 <Link to="#null" key={index}>
