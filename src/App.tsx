@@ -10,19 +10,26 @@ import RegisterByGoomong from './pages/RegisterByGoomong/RegisterByGoomong';
 import Admin from './pages/Admin/Admin';
 import AdminMail from './pages/Admin/Mail/AdminMail';
 import AdminMailTemplate from './pages/Admin/Mail/AdminMailTemplate';
-import ItemDetail from './pages/Item/ItemDetail';
-import ItemWrite from './pages/Item/ItemWrite';
-import AdminItemCategory from './pages/Admin/Item/AdminItemCategory';
-import ItemList from './pages/Item/ItemList';
-import OrderWrite from './pages/Order/OrderWrite';
-import OrderSuccess from './pages/Order/OrderSuccess';
+import AdminLogin from './pages/Admin/Login/AdminLogin';
 import Agreement from './pages/Agreement/Agreement';
 import Community from './pages/Community/Community';
 import CommunityDetail from './pages/CommunityDetail/CommunityDetail';
 import ReviewPage from './pages/ReviewPage/ReviewPage';
 import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
-import AdminLogin from './pages/Admin/Login/AdminLogin';
-import MemberOrderList from './pages/Member/MemberOrderList';
+import CSNotice from './pages/CustomerService/CSNotice/CSNotice';
+import CSFaq from './pages/CustomerService/CSFaq/CSFaq';
+import SellerRank from './pages/SellerRank/SellerRank';
+import AdminItemCategory from './pages/Admin/Item/AdminItemCategory';
+import ItemList from './pages/Item/ItemList';
+import OrderWrite from './pages/Order/OrderWrite';
+import OrderSuccess from './pages/Order/OrderSuccess';
+import ItemDetail from './pages/Item/ItemDetail';
+import ItemWrite from './pages/Item/ItemWrite';
+import SellerMap from './pages/SellerMap/SellerMap';
+import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
+import SellerAll from './pages/SellerAll/SellerAll';
+import Write from './pages/Write/Write';
+import Hire from './pages/Hire/Hire';
 
 const App: React.FC = () => {
   return (
@@ -31,28 +38,36 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/reg" element={<Register />} />
+        <Route path="/register/step1" element={<Register />} />
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
-        <Route path="/reg_goomong" element={<RegisterByGoomong />} />
-        <Route path='/item/:page' element={<ItemList/>}></Route>
-        <Route path='/item/detail/:id' element={<ItemDetail/>}></Route>
-        <Route path='/item/write' element={<ItemWrite/>}></Route>
-        <Route path='/order/write' element={<OrderWrite/>}></Route>
-        <Route path='/order/success' element={<OrderSuccess/>}></Route>
-        <Route path='/member/order/list' element={<MemberOrderList/>}></Route>
+        <Route path="/register/step2" element={<RegisterByGoomong />} />
+        <Route path="/community" element={<Community />}/>
+        <Route path="/community/detail" element={<CommunityDetail />} />
+        <Route path="/review" element={<ReviewPage />} />
+        <Route path="/cs/home" element={<CustomerServiceHome />} />
+        <Route path="/cs/notice" element={<CSNotice />} />
+        <Route path="/cs/faq" element={<CSFaq />} />
+        <Route path="/cs/inquiry" element={<CSInquiry />} />
+        <Route path="/cs/agreement" element={<Agreement />} />
+        <Route path="/rank" element={<SellerRank />} />
+        <Route path="/item/:type:/page" element={<ItemList />}></Route>
+        <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
+        <Route path="/item/write" element={<ItemWrite />}></Route>
+        <Route path="/order/write" element={<OrderWrite />}></Route>
+        <Route path="/order/success" element={<OrderSuccess />}></Route>
+        <Route path="/seller/rank" element={<SellerRank />} />
+        <Route path="/seller/map" element={<SellerMap />} />
+        <Route path="/seller/all" element={<SellerAll />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/hire" element={<Hire />} />
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
-        <Route path='/admin/item/category' element={<AdminItemCategory/>}></Route>
-        <Route path="/agreement" element={<Agreement />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/community_detail" element={<CommunityDetail />} />
-        <Route path="/review" element={<ReviewPage />} />
-        <Route path="/cs_home" element={<CustomerServiceHome />} />
+        <Route path="/admin/item/category" element={<AdminItemCategory />}></Route>
       </Routes>
     </div>
   );

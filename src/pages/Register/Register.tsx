@@ -47,7 +47,7 @@ const Register: React.FC = () => {
             </div>
           </Link>
           <div className="and">또는</div>
-          <Link to="/reg_goomong">
+          <Link to="/register/step2">
             <div className="goomong-reg">
               <button type="submit" className="btn goomong-btn">
                 구몽으로 회원가입하기

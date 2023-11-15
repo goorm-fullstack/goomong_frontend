@@ -25,6 +25,11 @@ export const ReviewModel = styled.div`
     border-radius: 50%;
     margin-right: 12px;
   }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .writer-date {
     display: flex;
@@ -91,7 +96,7 @@ export const ReviewModel = styled.div`
     margin-left: 12px;
   }
   .review-content {
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-top: 24px;
     font-size: 15px;
     color: var(--black);

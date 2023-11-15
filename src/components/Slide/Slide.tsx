@@ -17,6 +17,8 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
         setTranslateX(0);
       } else {
         setTranslateX((prev) => prev - 0.5);
+
+        
       }
       animationFrameRef.current = requestAnimationFrame(slide);
     };

@@ -1,40 +1,189 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Instance from '../../util/API/axiosInstance';
+import Header from '../../components/layout/Header/Header';
+import Footer from '../../components/layout/Footer/Footer';
+import * as C from '../../Style/CommonStyles';
 import { useParams } from 'react-router-dom';
+import Sort from '../../components/Sort/Sort';
+import Product from '../../components/HotItem/ProductModel/Product';
+import CategoryItem from '../../components/Category/CategoryItem';
+import * as S from './Style';
+import Pagination from '../../components/Pagination/Pagination';
 
 interface Item {
-  id : number;
-  title : string;
-  itemCategories : Array<any>;
+  // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
+  id: number;
+  title: string;
+  itemCategories: Array<any>;
+
+  imageUrl: string;
+  sellerName: string;
+  productName: string;
+  price: string;
+  rating: number;
+  review: number;
 }
 
+const TitleData: TitleType = {
+  market: '재능 마켓',
+  exchange: '재능 교환',
+  contribution: '재능 기부',
+};
+
+type LocationType = 'market' | 'exchange' | 'contribution';
+
+type TitleType = {
+  [location in LocationType]: string | undefined;
+};
+
+const itemList = [
+  // 선웅님표 Product 컴포넌트 가데이터 재사용
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+1',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 3.9,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+2',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+3',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+4',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+5',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+6',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+  {
+    imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
+    sellerName: '판매자 브랜드명',
+    productName: '상품 이름을 이렇게 적고요.',
+    price: '150,000원~',
+    rating: 5,
+    review: 3560,
+  },
+];
+
+const categories = [
+  // 선웅님표 Category 컴포넌트 가데이터 재사용
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_1.png', title: '디자인' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_6.png', title: 'IT 프로그래밍' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_7.png', title: '영상 사진 음향' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_2.png', title: '마케팅' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_3.png', title: '번역 통역' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_4.png', title: '문서 글쓰기' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_8.png', title: '창업 사업' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_11.png', title: '주문제작' },
+  { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_14.png', title: '세무 법무 노무' },
+];
+
 export default function ItemList() {
+  const location = useParams().type;
   const [itemList, setItemList] = useState<Item[]>([]);
   const {page} = useParams();
   const pageSize = 10;
 
-  useEffect(() => {
-    Instance.get("/api/item/list", {
-      params : {
-        page : page,
-        pageSize : pageSize
-      }
-    }).then((response) => {
-      setItemList(response.data.data);
-      console.log(response.data)
-    })
-  }, [])
+  // //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
+  // useEffect(() => {
+  //   Instance.get('/api/item/list', {
+  //     params : {
+  //       page : page,
+  //       pageSize : pageSize
+  //     }
+  //   }).then((response) => {
+  //     setItemList(response.data.data);
+  //     console.log(response.data);
+  //   });
+  // }, []);
 
   return (
     <>
-    <h1>아이템 리스트 테스트</h1>
-    {itemList.map((item : Item) => (
-        <>
-          <div>
-            <a href={`/item/detail/${item.id}`}><p>{item.title}</p></a>
+      <Header />
+      <C.Container>
+        <C.PageTitle>{TitleData[location as LocationType]}</C.PageTitle>
+        <C.SortWrapper>
+          <p className="total">총 17,153개</p>
+          <Sort type="order" />
+        </C.SortWrapper>
+        <S.ItemList>
+          {/* 카테고리 */}
+          <div className="category-wrapper">
+            <h3>전체 카테고리</h3>
+            <ul>
+              {categories.map((category, index) => (
+                <li key={index}>
+                  <label htmlFor={category.title}>
+                    <input type="checkbox" id={category.title} />
+                    {category.title}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            {/* 지역도 추가하실거면 이쯤에 추가하시면 됩니다. sort로 넣어도 되고요. */}
           </div>
-        </>
-      ))}
+          {/* 상품 */}
+          <div className="item-wrapper">
+            <ul>
+              {/* 선웅님표 컴포넌트 Product 재사용 */}
+              {itemList.map((item, index) => (
+                <li key={index}>
+                  <Product
+                    key={index}
+                    imageUrl={item.imageUrl}
+                    sellerName={item.sellerName}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    review={item.review}
+                  />
+                </li>
+              ))}
+            </ul>
+            <Pagination currentPage={0} totalPages={0} onPageChange={}/>
+          </div>
+        </S.ItemList>
+      </C.Container>
+      <Footer />
     </>
-  )
+  );
 }

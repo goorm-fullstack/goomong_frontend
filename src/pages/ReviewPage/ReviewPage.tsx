@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
-
-import Bg_Black from '../../assets/images/index/bg_black.png';
+import Pagination from '../../components/Pagination/Pagination';
 const Review: React.FC = () => {
   const topInfo = {
     evaluation: 13913,
@@ -16,9 +15,8 @@ const Review: React.FC = () => {
     accumulate: 37120,
     money: 115120,
   };
-  const formatNumber1 = (num: number) => {
-    return num.toFixed(1);
-  };
+
+  //1000단위에 ,찍기
   const formatNumber2 = (num: number): string => {
     return num.toLocaleString();
   };
@@ -212,24 +210,58 @@ const Review: React.FC = () => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // 페이지당 표시할 아이템 수
+  const totalPages = Math.ceil(reviewItems.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
-  const pageCount: number = Math.ceil(reviewItems.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
+  // 현재 페이지에 따라 표시할 아이템 목록 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
+
+
+   //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
+  // const [notices, setNotices] = useState<Notice[]>([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
+
+  // useEffect(() => {
+  //   // 백엔드에서 데이터 가져오기
+  //   const fetchData = async () => {
+  //     try {
+  //       // 백엔드 API 호출
+  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
+  //       const data = await response.json();
+        
+  //       setNotices(data.items); // 현재 페이지 아이템
+  //       setTotalPages(data.totalPages); // 총 페이지 수
+  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [currentPage, itemsPerPage]);
+
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage);
+  // };
+
+
+
+  
   return (
     <S.ReviewPageStyles>
       <Header />
-      <div className="review-container">
-        <div className="title">고객 후기</div>
+      <C.Container>
+        <C.PageTitle>고객 후기</C.PageTitle>
+        <div className="title"></div>
         <div className="total-score">
           <div className="score-list">
             <div className="star">
@@ -256,7 +288,7 @@ const Review: React.FC = () => {
                 <div className="top">총 {topInfo.evaluation}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {formatNumber1(topInfo.star)}
+                  {topInfo.star}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -309,7 +341,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="gift-text">
                 <div className="top">고객 만족도</div>
-                <div className="bottom">{formatNumber1(topInfo.satisfaction)}% </div>
+                <div className="bottom">{topInfo.satisfaction}% </div>
               </div>
             </div>
             <div className="graph">
@@ -577,48 +609,23 @@ const Review: React.FC = () => {
           </div>
           <div className="all-review-list">
             {currentItems.map((item, index) => (
-              <Link to='#null'>
+              <Link to="#null" key={index}>
                 <ReviewPageModel
-                key={index}
-                b_category={item.b_category}
-                p_category={item.p_category}
-                title={item.title}
-                content={item.content}
-                like={item.like}
-                comment={item.comment}
-                time={item.time}
-                star={item.star}
-              />
+                  b_category={item.b_category}
+                  p_category={item.p_category}
+                  title={item.title}
+                  content={item.content}
+                  like={item.like}
+                  comment={item.comment}
+                  time={item.time}
+                  star={item.star}
+                />
               </Link>
             ))}
           </div>
-          <div className="pagination">
-            {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-              <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                {number}
-              </button>
-            ))}
-          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
-      </div>
-      <div className="black-bg">
-        <img src={Bg_Black} alt="bg-black" />
-        <div className="main-bg-text">
-          <div className="text">
-            <div className="bg-text">
-              구몽에 <strong>판매자 등록</strong>하고
-            </div>
-            <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-          </div>
-          <div className="btn">
-            <Link to="#null">
-              <button type="submit" className="bg-btn">
-                판매자 등록하기
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
+      </C.Container>
       <Footer />
     </S.ReviewPageStyles>
   );

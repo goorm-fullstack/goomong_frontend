@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
 import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel';
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
+import Pagination from '../../components/Pagination/Pagination';
 import { Link } from 'react-router-dom';
 
-import Bg_Black from '../../assets/images/index/bg_black.png';
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -43,7 +44,6 @@ const Community: React.FC = () => {
 
   const boardItems = [
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -53,7 +53,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -63,7 +62,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -73,7 +71,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -83,7 +80,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -93,7 +89,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -103,7 +98,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -113,7 +107,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -123,7 +116,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -133,7 +125,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -143,7 +134,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -153,7 +143,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -163,7 +152,6 @@ const Community: React.FC = () => {
       time: 30,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -174,25 +162,54 @@ const Community: React.FC = () => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // 페이지당 표시할 아이템 수
+  const totalPages = Math.ceil(boardItems.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
-  const pageCount: number = Math.ceil(boardItems.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  // 현재 페이지에 따라 표시할 아이템 목록 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
+  // const [notices, setNotices] = useState<Notice[]>([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
+
+  // useEffect(() => {
+  //   // 백엔드에서 데이터 가져오기
+  //   const fetchData = async () => {
+  //     try {
+  //       // 백엔드 API 호출
+  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
+  //       const data = await response.json();
+
+  //       setNotices(data.items); // 현재 페이지 아이템
+  //       setTotalPages(data.totalPages); // 총 페이지 수
+  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [currentPage, itemsPerPage]);
+
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage);
+  // };
 
   return (
     <S.CommunityStyles>
       <div className="community">
         <Header />
-        <div className="community-container">
-          <div className="title">구몽생활</div>
+        <C.Container>
+          <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
             <form action="submit" className="search-form">
@@ -268,8 +285,6 @@ const Community: React.FC = () => {
                       <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
                     </svg>
                   </div>
-                </div>
-                <div className="right">
                   <div className="align-standard">
                     정렬 기준
                     <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
@@ -277,13 +292,20 @@ const Community: React.FC = () => {
                     </svg>
                   </div>
                 </div>
+
+                <div className="right">
+                  <Link to="/write">
+                    <button type="button" className="write-btn">
+                      작성하기
+                    </button>
+                  </Link>
+                </div>
               </div>
 
               <div className="board-list">
                 {currentItems.map((item, index) => (
                   <BoardModel
                     key={index}
-                    b_category={item.b_category}
                     p_category={item.p_category}
                     title={item.title}
                     content={item.content}
@@ -295,34 +317,10 @@ const Community: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className="pagination">
-                {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-                  <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                    {number}
-                  </button>
-                ))}
-              </div>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
           </div>
-        </div>
-        <div className="black-bg">
-          <img src={Bg_Black} alt="bg-black" />
-          <div className="main-bg-text">
-            <div className="text">
-              <div className="bg-text">
-                구몽에 <strong>판매자 등록</strong>하고
-              </div>
-              <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
-            </div>
-            <div className="btn">
-              <Link to="#null">
-                <button type="submit" className="bg-btn">
-                  판매자 등록하기
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </C.Container>
         <Footer />
       </div>
     </S.CommunityStyles>
