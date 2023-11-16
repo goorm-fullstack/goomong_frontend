@@ -90,15 +90,10 @@ const Review: React.FC = () => {
   };
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
-  const [pageCount, setPageCount] = useState<number>(1); // 전체 페이지 상태 저장
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
   const [totalPage, setTotalPage] = useState<number>(0);
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
-
-  // const indexOfLastItem: number = currentPage * itemsPerPage;
-  // const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  // const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
 
   // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
   const handlePageChange = (pageNumber: number): void => {
@@ -120,14 +115,6 @@ const Review: React.FC = () => {
         console.error(error);
       });
   }, [currentPage]);
-
-  // 전체 페이지 갯수 저장
-  useEffect(() => {
-    if (totalData) {
-      const pageCount: number = Math.ceil(totalData / itemsPerPage); // 전체 페이지
-      setPageCount(pageCount);
-    }
-  }, [totalData]);
 
   console.log(reviewData);
 
