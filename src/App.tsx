@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from './pages/Main/Main';
 import { Route, Routes } from 'react-router-dom';
-import GlobalStyle from './style/GlobalStyles';
+import GlobalStyle from './Style/GlobalStyles';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import FindId from './pages/FindId/FindId';
@@ -19,6 +19,12 @@ import CustomerServiceHome from './pages/CustomerService/CSHome/CSHome';
 import CSNotice from './pages/CustomerService/CSNotice/CSNotice';
 import CSFaq from './pages/CustomerService/CSFaq/CSFaq';
 import SellerRank from './pages/SellerRank/SellerRank';
+import AdminItemCategory from './pages/Admin/Item/AdminItemCategory';
+import ItemList from './pages/Item/ItemList';
+import OrderWrite from './pages/Order/OrderWrite';
+import OrderSuccess from './pages/Order/OrderSuccess';
+import ItemDetail from './pages/Item/ItemDetail';
+import ItemWrite from './pages/Item/ItemWrite';
 import SellerMap from './pages/SellerMap/SellerMap';
 import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
 import SellerAll from './pages/SellerAll/SellerAll';
@@ -32,7 +38,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/reg" element={<Register />} />
+        <Route path="/register/step1" element={<Register />} />
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
@@ -61,17 +67,7 @@ const App: React.FC = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
-        <Route path="/agreement" element={<Agreement />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/community_detail" element={<CommunityDetail />} />
-        <Route path="/review" element={<ReviewPage />} />
-        <Route path="/cs_home" element={<CustomerServiceHome />} />
-        <Route path="/cs_notice" element={<CSNotice />} />
-        <Route path="/cs_faq" element={<CSFaq />} />
-        <Route path="/cs_inquiry" element={<CSInquiry />} />
-        <Route path="/seller_rank" element={<SellerRank />} />
-        <Route path="/seller_map" element={<SellerMap />} />
-        <Route path="/seller_all" element={<SellerAll />} />
+        <Route path="/admin/item/category" element={<AdminItemCategory />}></Route>
       </Routes>
     </div>
   );

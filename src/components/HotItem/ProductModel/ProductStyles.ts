@@ -27,7 +27,7 @@ export const Product = styled.div`
     font-weight: 600;
     font-size: 12px;
     color: #6f7785;
-    margin-bottom: 17px;
+    margin-bottom: 10px;
   }
   .product-name {
     letter-spacing: -0.04em;
@@ -44,7 +44,7 @@ export const Product = styled.div`
     letter-spacing: -0.04em;
     color: var(--dim-black);
     text-align: right;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .product-rating-review {
     display: flex;

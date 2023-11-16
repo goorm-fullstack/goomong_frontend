@@ -7,3 +7,22 @@ export const PageTitle = styled.h2`
   letter-spacing: -0.04;
   color: var(--black);
 `;
+
+export const Container = styled.div`
+  width: 1280px;
+  padding: 0px 40px;
+  margin: 0 auto;
+`;
+
+export const SortWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+
+  .total {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--black);
+  }
+`;

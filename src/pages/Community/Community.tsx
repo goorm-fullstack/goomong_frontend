@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './CommunityStyles';
-import * as C from '../../style/CommonStyles';
+import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import NavItem from './CommunityItems/NavItem/NavItem';
@@ -208,7 +208,7 @@ const Community: React.FC = () => {
     <S.CommunityStyles>
       <div className="community">
         <Header />
-        <div className="community-container">
+        <C.Container>
           <C.PageTitle>구몽생활</C.PageTitle>
 
           <div className="search-container">
@@ -320,7 +320,7 @@ const Community: React.FC = () => {
               <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
           </div>
-        </div>
+        </C.Container>
         <Footer />
       </div>
     </S.CommunityStyles>

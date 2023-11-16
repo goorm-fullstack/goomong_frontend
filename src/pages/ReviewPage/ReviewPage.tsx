@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as C from '../../style/CommonStyles';
+import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
@@ -259,7 +259,7 @@ const Review: React.FC = () => {
   return (
     <S.ReviewPageStyles>
       <Header />
-      <div className="review-container">
+      <C.Container>
         <C.PageTitle>고객 후기</C.PageTitle>
         <div className="title"></div>
         <div className="total-score">
@@ -625,7 +625,7 @@ const Review: React.FC = () => {
           </div>
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
-      </div>
+      </C.Container>
       <Footer />
     </S.ReviewPageStyles>
   );
