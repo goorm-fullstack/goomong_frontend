@@ -94,6 +94,10 @@ const Review: React.FC = () => {
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
   const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지 수
   const [imageUrls, setImageUrls] = useState<string[]>(); // 리뷰 이미지 저장
+  const [aveRate, setAveRate] = useState<number>(0.0); // 전체 리뷰 평균 평점
+  const [customerSatisfaction, setCustomerSatisfaction] = useState<number>(0); // 고객 만족도
+  const [bestReviewData, setBestReviewData] = useState<ReviewData[]>(); // 베스트 리뷰
+  const [bestReviewImageUrls, setBestReviewImageUrls] = useState<string[]>(); // 베스트 리뷰 이미지
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -135,6 +139,56 @@ const Review: React.FC = () => {
     fetchImages();
   }, [reviewData]);
 
+  // 전체 리뷰 평균 평점 및 고객 만족도 구하기
+  useEffect(() => {
+    Instance.get('/api/reviews/aveRate')
+      .then((response) => {
+        const data = response.data;
+        setAveRate(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    Instance.get('/api/reviews/customerSatisfaction')
+      .then((response) => {
+        const data = response.data;
+        setCustomerSatisfaction(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
+  // 베스트 리뷰 데이터 구하기
+  useEffect(() => {
+    Instance.get('/api/reviews/best')
+      .then((response) => {
+        const data = response.data;
+        setBestReviewData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
+  // 베스트 리뷰 이미지
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (bestReviewData) {
+        const urls = await Promise.all(
+          bestReviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setBestReviewImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [bestReviewData]);
+
   return (
     <S.ReviewPageStyles>
       <Header />
@@ -167,7 +221,7 @@ const Review: React.FC = () => {
                 <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {topInfo.star}
+                  {aveRate}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -220,7 +274,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="gift-text">
                 <div className="top">고객 만족도</div>
-                <div className="bottom">{topInfo.satisfaction}% </div>
+                <div className="bottom">{customerSatisfaction}% </div>
               </div>
             </div>
             <div className="graph">
@@ -425,8 +479,8 @@ const Review: React.FC = () => {
               </button>
               <button
                 onClick={nextSlide}
-                style={slideIndex === reviewSlideItems.length - 3 ? { opacity: 0.5, cursor: 'default' } : {}}
-                disabled={slideIndex === reviewSlideItems.length - 3}>
+                style={bestReviewData && slideIndex === bestReviewData.length - 3 ? { opacity: 0.5, cursor: 'default' } : {}}
+                disabled={bestReviewData && slideIndex === bestReviewData.length - 3}>
                 <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg">
                   <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
                 </svg>
@@ -434,29 +488,30 @@ const Review: React.FC = () => {
             </div>
           </div>
           <div className="hot-review-container">
-            {reviewSlideItems.map((reviewItem, index) => (
-              <div
-                key={index}
-                style={{
-                  display:
-                    index === slideIndex ||
-                    index === (slideIndex + 1) % reviewSlideItems.length ||
-                    index === (slideIndex + 2) % reviewSlideItems.length
-                      ? 'block'
-                      : 'none',
-                }}>
-                <Link to="#null">
-                  <ReviewModel
-                    writer={reviewItem.writer}
-                    date={reviewItem.date}
-                    rating={reviewItem.rating}
-                    category={reviewItem.category}
-                    productName={reviewItem.productName}
-                    content={reviewItem.content}
-                  />
-                </Link>
-              </div>
-            ))}
+            {bestReviewData?.length === 0 && <C.NoItem>등록된 리뷰가 없습니다.</C.NoItem>}
+            {bestReviewData &&
+              bestReviewData.map((reviewItem, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display:
+                      index === slideIndex || index === (slideIndex + 1) % bestReviewData.length || index === (slideIndex + 2) % bestReviewData.length
+                        ? 'block'
+                        : 'none',
+                  }}>
+                  <Link to="#null">
+                    <ReviewModel
+                      writer={reviewItem.memberId}
+                      date={detailDate(reviewItem.regDate)}
+                      rating={reviewItem.rate}
+                      category={reviewItem.itemCategory}
+                      productName={reviewItem.itemName}
+                      content={reviewItem.content}
+                      imageUrl={bestReviewImageUrls && bestReviewImageUrls[index]}
+                    />
+                  </Link>
+                </div>
+              ))}
           </div>
         </div>
 
@@ -490,7 +545,7 @@ const Review: React.FC = () => {
             {reviewData?.length === 0 && <C.NoItem>등록된 리뷰가 없습니다.</C.NoItem>}
             {reviewData &&
               reviewData.map((item, index) => (
-                <Link to="#null" key={index}>
+                <Link to={`/item/detail/${item.itemId}`} key={index}>
                   <ReviewPageModel
                     p_category={item.itemCategory}
                     title={item.title}
