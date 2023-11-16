@@ -24,7 +24,7 @@ export const ReviewPageModelStyles = styled.div`
   .review-page-model-category-list li {
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: #8e94a0;
   }
   .review-page-model-category-list li:nth-child(1)::after {
@@ -39,20 +39,20 @@ export const ReviewPageModelStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 16px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 12px;
   }
   .review-page-model-content {
     color: #101c33;
     font-weight: 400;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 12px;
   }
   .review-page-model-time {
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: #8e94a0;
     margin-bottom: 8px;
   }
@@ -79,11 +79,12 @@ export const ReviewPageModelStyles = styled.div`
   .review-page-model-like {
     margin-right: 8px;
   }
-  .review-page-model-like , .review-page-model-comment {
+  .review-page-model-like,
+  .review-page-model-comment {
     color: #aab1bc;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     display: flex;
     align-items: center;
     justify-content: center;

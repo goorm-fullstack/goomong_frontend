@@ -145,7 +145,7 @@ export const Header = styled.header`
   .popular {
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
     height: 100;
     padding: 25px 32px;
@@ -162,7 +162,7 @@ export const Header = styled.header`
   .current li {
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     display: flex;
     justify-content: space-between;
   }
@@ -178,7 +178,7 @@ export const Header = styled.header`
   .popular li a {
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .popular li a span {
     color: var(--blue);
@@ -219,7 +219,7 @@ export const Header = styled.header`
     color: var(--dim-black);
     font-size: 11px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
   }
 `;

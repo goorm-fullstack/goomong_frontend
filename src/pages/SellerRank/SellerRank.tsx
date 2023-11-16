@@ -45,7 +45,7 @@ const SellerRank: React.FC = () => {
   ];
 
   const sellerData: SellerListInfo[] = [
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.89999 },
+    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.8 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
@@ -57,6 +57,7 @@ const SellerRank: React.FC = () => {
     setCurrentYear(date.getFullYear());
     setCurrentMonth(date.getMonth() + 1);
   }, []);
+
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -66,10 +67,12 @@ const SellerRank: React.FC = () => {
     </svg>
   );
 
+  //1000단위에 ,찍기
   const formatRating = (star: number) => {
     return star.toFixed(1);
   };
 
+  //억,만 단위 표시 , 1000단위 ,찍기
   const formatCurrency = (money: number): string => {
     const billion: number = Math.floor(money / 100000000);
     const tenThousand: number = Math.floor((money % 100000000) / 10000);
@@ -83,6 +86,8 @@ const SellerRank: React.FC = () => {
     }
     return result + '원';
   };
+
+
   return (
     <S.SellerRankStyles>
       <Header />
@@ -155,7 +160,7 @@ const SellerRank: React.FC = () => {
                           총리뷰 <span className="number">{item.totalReview}</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{formatRating(item.star)}</span>
+                        <span className=" star-number">{item.star}</span>
                       </div>
                     </div>
                   </Link>

@@ -49,7 +49,7 @@ export const AgreementStyle = styled.div`
   .history a {
     font-size: 13px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .history a:nth-child(1) {
     color: var(--black);
@@ -63,7 +63,7 @@ export const AgreementStyle = styled.div`
   }
   .content-title {
     font-size: 20px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
     font-weight: 500;
     margin-bottom: 40px;
@@ -72,7 +72,7 @@ export const AgreementStyle = styled.div`
     font-size: 15px;
     font-weight: 400;
     color: #101c33;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     line-height: 18px;
   }
   .footer {
@@ -104,7 +104,7 @@ export const AgreementStyle = styled.div`
     display: inline-block;
     color: var(--dim-black);
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     line-height: 18px;
   }
@@ -135,7 +135,7 @@ export const AgreementStyle = styled.div`
     color: #fff;
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     padding: 0 17px;
   }
 

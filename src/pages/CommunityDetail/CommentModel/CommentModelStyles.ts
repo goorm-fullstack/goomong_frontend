@@ -22,7 +22,7 @@ export const CommentModelStyles = styled.div`
     color: #101c33;
     font-weight: 400;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
     margin-top: 4px;
   }
@@ -30,13 +30,13 @@ export const CommentModelStyles = styled.div`
     color: #8e94a0;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .comment-content {
     color: #101c33;
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 22px;
   }
   .comment-like {
@@ -95,7 +95,7 @@ export const CommentModelStyles = styled.div`
     color: #101c33;
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
     margin-top: 4px;
   }
@@ -109,7 +109,7 @@ export const CommentModelStyles = styled.div`
     color: #8e94a0;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .reply-container .comment-top {
     display: flex;

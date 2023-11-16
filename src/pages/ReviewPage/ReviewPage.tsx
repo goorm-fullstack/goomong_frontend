@@ -210,6 +210,7 @@ const Review: React.FC = () => {
     },
   ];
 
+  //페이징처리
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8; // 페이지당 표시할 아이템 수
   const totalPages = Math.ceil(reviewItems.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
@@ -223,8 +224,7 @@ const Review: React.FC = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
 
-
-   //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
+  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
   // const [notices, setNotices] = useState<Notice[]>([]);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [totalPages, setTotalPages] = useState(0);
@@ -237,7 +237,7 @@ const Review: React.FC = () => {
   //       // 백엔드 API 호출
   //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
   //       const data = await response.json();
-        
+
   //       setNotices(data.items); // 현재 페이지 아이템
   //       setTotalPages(data.totalPages); // 총 페이지 수
   //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
@@ -253,9 +253,6 @@ const Review: React.FC = () => {
   //   setCurrentPage(newPage);
   // };
 
-
-
-  
   return (
     <S.ReviewPageStyles>
       <Header />

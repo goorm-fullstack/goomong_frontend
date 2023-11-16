@@ -20,7 +20,7 @@ export const FindId = styled.div`
     color: var(--black);
     font-size: 20px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .small {
     text-align: center;
@@ -30,7 +30,7 @@ export const FindId = styled.div`
     color: #4b4b4b;
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     line-height: 19.6px;
   }
   .find-id {
@@ -40,7 +40,7 @@ export const FindId = styled.div`
     font-size: 14px;
     font-weight: 600;
     color: var(--black);
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
   }
   .box {
@@ -66,7 +66,7 @@ export const FindId = styled.div`
     color: #fefeff;
     font-weight: 600;
     font-size: 15px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
   }
   .submit-btn:hover {
@@ -78,7 +78,7 @@ export const FindId = styled.div`
     color: #4b4b4b;
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .bottom a {
     margin-left: 18px;

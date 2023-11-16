@@ -14,7 +14,7 @@ export const SellerRankStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 22px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-right: 25px;
   }
   .top-nav a.find {
@@ -24,7 +24,7 @@ export const SellerRankStyles = styled.div`
     color: #101c33;
     font-size: 28px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     text-align: center;
   }
   .rank-model {
@@ -34,12 +34,12 @@ export const SellerRankStyles = styled.div`
     margin: 40px 0 100px;
     margin-right: 30px;
   }
-  
+
   .bottom .top {
     color: #101c33;
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .align-menu {
     margin: 20px 0 30px;
@@ -59,7 +59,7 @@ export const SellerRankStyles = styled.div`
     color: #404a5c;
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;
@@ -92,14 +92,14 @@ export const SellerRankStyles = styled.div`
     color: #8e94a0;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 16px;
   }
   .seller-list-item a .right .seller-name {
     color: #101c33;
     font-size: 16px;
     font-weight: 600px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 8px;
   }
   .seller-list-item a .right .money,
@@ -108,7 +108,7 @@ export const SellerRankStyles = styled.div`
     color: #6f7785;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .seller-list-item a .right .money .number,
   .seller-list-item a .right .review .number,
@@ -116,7 +116,7 @@ export const SellerRankStyles = styled.div`
     color: #101c33;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .seller-list-item a .right .money::after,
   .seller-list-item a .right .transaction::after {
@@ -142,5 +142,4 @@ export const SellerRankStyles = styled.div`
     padding: 0;
     margin-bottom: 112px;
   }
-  
 `;

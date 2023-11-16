@@ -32,7 +32,7 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
   .board-model-category-list li {
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: #8e94a0;
   }
   .board-model-category-list li:nth-child(1)::after {
@@ -47,14 +47,14 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
     color: #101c33;
     font-weight: 500;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
   }
   .board-model-content {
     font-weight: 400;
     font-size: 14px;
     color: #101c33;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 45px;
   }
   .board-model-bottom {
@@ -81,7 +81,7 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
     font-weight: 400;
     font-size: 14px;
     color: #8e94a0;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

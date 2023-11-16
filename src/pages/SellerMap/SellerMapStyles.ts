@@ -14,7 +14,7 @@ export const SellerMapStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 22px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-right: 25px;
   }
   .top-nav a.rank {
@@ -46,7 +46,7 @@ export const SellerMapStyles = styled.div`
     color: var(--black);
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
   }
   .search-form button {
@@ -75,7 +75,7 @@ export const SellerMapStyles = styled.div`
     color: #404a5c;
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;

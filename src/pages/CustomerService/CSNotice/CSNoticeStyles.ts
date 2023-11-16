@@ -15,7 +15,7 @@ export const CSNoticeStyles = styled.div`
     color: #101c33;
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .left {
     display: flex;
@@ -24,7 +24,7 @@ export const CSNoticeStyles = styled.div`
     color: #4285f4;
     font-weight: 400;
     font-size: 13px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .notice-location svg {
     margin: 0 10px;
@@ -52,21 +52,18 @@ export const CSNoticeStyles = styled.div`
     color: #101c33;
     font-size: 20px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 25px;
   }
   .notice-list li {
     color: #6f7785;
     font-size: 15px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     padding: 15px 0;
     cursor: pointer;
   }
   .notice-list li:hover {
     color: #558ff5;
   }
-
-  
-  
 `;

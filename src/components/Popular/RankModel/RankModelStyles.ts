@@ -85,7 +85,7 @@ export const RankModelStyle = styled.div`
   .rank-5 {
     font-size: 22px;
     font-weight: 600;
-    letter-spacing: 0.02;
+    letter-spacing: 0.02em;
     color: var(--dim-black);
     display: flex;
     justify-content: center;
