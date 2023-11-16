@@ -1,29 +1,24 @@
-import React, { useState } from 'react';
-import * as S from './Style';
+import React from 'react';
+import * as S from './PaginationStyles';
 
-const Pagination = ({ item }: any) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 3;
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (pageNumber: number) => void;
+}
 
-  const pageCount: number = Math.ceil(item.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = item.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
-  };
-
+function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   return (
-    <S.Pagination>
-      {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-        <button type="button" key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-          {number}
-        </button>
-      ))}
-    </S.Pagination>
+    <S.PaginationStyles>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
+          <button key={number} onClick={() => onPageChange(number)} className={currentPage === number ? 'active' : ''}>
+            {number}
+          </button>
+        ))}
+      </div>
+    </S.PaginationStyles>
   );
-};
+}
 
 export default Pagination;

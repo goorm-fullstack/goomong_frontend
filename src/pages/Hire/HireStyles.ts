@@ -1,47 +1,10 @@
 import styled from 'styled-components';
 
-export const CSInquiryStyles = styled.div`
-  .cs-inquiry-container {
+export const HireStyles = styled.div`
+  .hire-container {
     width: 1280px;
     margin: 0 auto;
     padding: 0 40px;
-  }
-  .inquiry-location {
-    margin: 20px 0px 30px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .total-location {
-    color: #101c33;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: -0.04;
-  }
-  .left {
-    display: flex;
-  }
-  .small-location {
-    color: #4285f4;
-    font-weight: 400;
-    font-size: 13px;
-    letter-spacing: -0.04;
-  }
-  .inquiry-location svg {
-    margin: 0 10px;
-  }
-
-  .search-bar {
-    width: 260px;
-    height: 48px;
-    border: 1px solid #dbdee2;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .search-bar input {
-    border: 0;
-    padding-left: 18px;
   }
   .dropdown-type ul {
     padding: 0;
@@ -64,12 +27,12 @@ export const CSInquiryStyles = styled.div`
     border: 0;
     cursor: pointer;
   }
-  .cs-inquiry-title {
+  .hire-title {
     color: #101c33;
     font-size: 20px;
     font-weight: 500;
     letter-spacing: -0.04;
-    margin-bottom: 40px;
+    margin: 30px 0 40px;
   }
   .input-text {
     font-size: 15px;

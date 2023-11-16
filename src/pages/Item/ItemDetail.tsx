@@ -184,6 +184,10 @@ export default function ItemDetail() {
   //   }
   // };
 
+  const mockOnChangeNumber = (num : number) => {
+
+  }
+
   return (
     <>
       <Header />
@@ -253,7 +257,7 @@ export default function ItemDetail() {
                     </tr>
                   </tbody>
                 </table>
-                <Pagination item={reviewSlideItems} />
+                <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
@@ -275,7 +279,7 @@ export default function ItemDetail() {
                       key={index}
                     />
                   ))}
-                  <Pagination item={reviewSlideItems} />
+                  <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
                 </div>
               </div>
             </div>

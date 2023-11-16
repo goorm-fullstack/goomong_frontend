@@ -50,8 +50,8 @@ export const Banner = styled.div`
   .ad-number {
     position: absolute;
     color: #fff;
-    top: 55%;
-    left: 65%;
+    top: 50%;
+    left: 64%;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: -0.04;

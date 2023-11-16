@@ -3,18 +3,21 @@ import styled from 'styled-components';
 export const CSHeaderStyles = styled.div`
   .cs-header-container {
     height: 70px;
-    width: 100%;
     border-bottom: 1px solid #e9e9e9;
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
   }
 
-  .cs-home-header {
+  .cs-header {
     display: flex;
     justify-content: space-between;
     padding-bottom: 23px;
     width: 1280px;
+    padding: 0 40px;
     margin: 0 auto;
   }
-  .cs-home-header .left {
+  .cs-header .left {
     display: flex;
     align-items: center;
     margin-top: 23px;

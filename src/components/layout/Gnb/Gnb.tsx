@@ -74,7 +74,7 @@ const Gnb = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">견적 요청</NavLink>
+                  <NavLink to="/hire">견적 요청</NavLink>
                 </li>
                 <li>
                   <NavLink to="/community">구몽 생활</NavLink>

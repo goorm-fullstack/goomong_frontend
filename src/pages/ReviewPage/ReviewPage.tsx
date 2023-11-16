@@ -9,6 +9,7 @@ import Footer from '../../components/layout/Footer/Footer';
 import { commaNumber, detailDate } from '../../util/func/functions';
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
+import Pagination from '../../components/Pagination/Pagination';
 
 const Review: React.FC = () => {
   const topInfo = {
@@ -87,133 +88,11 @@ const Review: React.FC = () => {
   const prevSlide = () => {
     setSlideIndex((prevIndex) => (prevIndex === 0 ? reviewSlideItems.length - 1 : prevIndex - 1));
   };
-
-  // const reviewItems = [
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  //   {
-  //     b_category: '게시판 카테고리',
-  //     p_category: '재능 카테고리',
-  //     title: '게시글 제목',
-  //     content: '게시글 내용입니다.',
-  //     like: 40,
-  //     comment: 40,
-  //     time: 30,
-  //     star: 4.9,
-  //   },
-  // ];
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
   const [pageCount, setPageCount] = useState<number>(1); // 전체 페이지 상태 저장
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
+  const [totalPage, setTotalPage] = useState<number>(0);
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -222,7 +101,7 @@ const Review: React.FC = () => {
   // const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
 
   // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
-  const paginate = (pageNumber: number): void => {
+  const handlePageChange = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
 
@@ -234,6 +113,7 @@ const Review: React.FC = () => {
         setReviewData(data);
         if (data.length > 0) {
           setTotalData(data[0].pageInfo.totalElements);
+          setTotalPage(data[0].pageInfo.totalPage);
         }
       })
       .catch((error) => {
@@ -619,14 +499,7 @@ const Review: React.FC = () => {
                 </Link>
               ))}
           </div>
-          <div className="pagination">
-            {pageCount &&
-              Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-                <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                  {number}
-                </button>
-              ))}
-          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
         </div>
       </C.Container>
       <Footer />

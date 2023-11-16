@@ -3,31 +3,16 @@ import React, { useState } from 'react';
 import * as S from './CSNoticeStyles';
 import CSHeader from '../CSHeader/CSHeader';
 import { Link } from 'react-router-dom';
-import Logo_White from '../../../assets/images/common/logo_white.png';
+import CSFooter from '../CSFooter/CSFooter';
+import Pagination from '../../../components/Pagination/Pagination';
 
-interface noticeProps {
+interface Notice {
   title: string;
   date: string;
 }
 
 const CSNotice: React.FC = () => {
-  const noticeList = [
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
+  const noticeList: Notice[] = [
     {
       title: '콘테스트를 개최하려면 어떻게 해야하나요?',
       date: '2023-11-10',
@@ -58,28 +43,62 @@ const CSNotice: React.FC = () => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 10;
+  const handleNoticeSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
 
-  const pageCount: number = Math.ceil(noticeList.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // 페이지당 표시할 아이템 수
+  const totalPages = Math.ceil(noticeList.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // 현재 페이지에 따라 표시할 아이템 목록 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = noticeList.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
-  };
-  const handleNoticeSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+
+
+  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
+  // const [notices, setNotices] = useState<Notice[]>([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
+
+  // useEffect(() => {
+  //   // 백엔드에서 데이터 가져오기
+  //   const fetchData = async () => {
+  //     try {
+  //       // 백엔드 API 호출
+  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
+  //       const data = await response.json();
+        
+  //       setNotices(data.items); // 현재 페이지 아이템
+  //       setTotalPages(data.totalPages); // 총 페이지 수
+  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [currentPage, itemsPerPage]);
+
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage);
+  // };
   return (
     <S.CSNoticeStyles>
       <CSHeader />
       <div className="cs-notice-container">
         <div className="notice-location">
           <div className="left">
-            <div className="total-location"><Link to='/cs_home'>구몽 고객센터</Link></div>
+            <div className="total-location">
+              <Link to="/cs/home">구몽 고객센터</Link>
+            </div>
             <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg" fill="#8e94a0">
               <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
             </svg>
@@ -87,7 +106,7 @@ const CSNotice: React.FC = () => {
           </div>
           <div className="search-bar">
             <form onSubmit={handleNoticeSearchSubmit}>
-              <input type="text" placeholder='검색'/>
+              <input type="text" placeholder="검색" />
             </form>
             <button className="search-btn" type="submit">
               <svg fill="#dbdee2" height="19px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="19px" xmlns="http://www.w3.org/2000/svg">
@@ -98,64 +117,19 @@ const CSNotice: React.FC = () => {
         </div>
         <div className="cs-notice-content">
           <div className="title">공지사항</div>
-          <ul className="notice-list">
-            {currentItems.map((notice: noticeProps, index: number) => (
-              <li key={index}>
-                [공지사항] {notice.title} [{notice.date}]
-              </li>
-            ))}
-          </ul>
-          <div className="pagination">
-            {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-              <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                {number}
-              </button>
-            ))}
+          <div className="cs-notice-content">
+            <ul className="notice-list">
+              {currentItems.map((notice, index) => (
+                <li key={index}>
+                  [공지사항] {notice.title} [{notice.date}]
+                </li>
+              ))}
+            </ul>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
           </div>
         </div>
       </div>
-      <div className="footer">
-        <div className="footer-content">
-          <div className="footer-right">
-            <div className="footer-top">
-              <img src={Logo_White} alt="logo" />
-            </div>
-            <ul className="footer-top-left-list">
-              <li>
-                팀명 <span></span> 파이널 스터디 2조 R=VD
-              </li>
-              <li>
-                팀장 <span></span> 이동규
-              </li>
-              <li>
-                사업자등록번호 <span></span> 126-87-39200
-              </li>
-              <li>
-                통신판매업번호 <span></span> 제2019-성남분당B0224호
-              </li>
-              <li>
-                주소 <span></span> 경기도성남시분당구 판교로 242 PDC 902호
-              </li>
-            </ul>
-          </div>
-          <div className="footer-left">
-            <ul className="footer-left-list">
-              <li>
-                <Link to="#null">공지 사항</Link>
-              </li>
-              <li>
-                <Link to="#null">개인정보처리방침</Link>
-              </li>
-              <li>
-                <Link to="#null">이용약관</Link>
-              </li>
-              <li>
-                <Link to="/admin">관리자 로그인</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <CSFooter />
     </S.CSNoticeStyles>
   );
 };

@@ -119,15 +119,26 @@ const categories = [
 
 export default function ItemList() {
   const location = useParams().type;
-  // be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-  // const [itemList, setItemList] = useState<Item[]>([]);
+  const [itemList, setItemList] = useState<Item[]>([]);
+  const {page} = useParams();
+  const pageSize = 10;
 
+  // //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   // useEffect(() => {
-  //   Instance.get('/api/item/list').then((response) => {
-  //     setItemList(response.data);
+  //   Instance.get('/api/item/list', {
+  //     params : {
+  //       page : page,
+  //       pageSize : pageSize
+  //     }
+  //   }).then((response) => {
+  //     setItemList(response.data.data);
   //     console.log(response.data);
   //   });
   // }, []);
+
+  const mockOnChangeNumber = (num : number) => {
+
+  }
 
   return (
     <>
@@ -172,7 +183,7 @@ export default function ItemList() {
                 </li>
               ))}
             </ul>
-            <Pagination item={itemList} />
+            <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber}/>
           </div>
         </S.ItemList>
       </C.Container>
