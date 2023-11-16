@@ -11,19 +11,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import Slider from 'react-slick';
 import { NextArrow, PrevArrow } from '../../components/Banner/Banner';
 import Sort from '../../components/Sort/Sort';
-
-interface Item {
-  id: number;
-  title: string;
-  member: any;
-  price: number;
-  thumbNailList: Array<any>;
-  itemCategories: Array<any>;
-  reviewList: Array<any>;
-  askList: Array<any>;
-  rate: number;
-  stauts: string;
-}
+import { Item } from '../../interface/Interface';
 
 const item = {
   id: 1,
@@ -95,8 +83,6 @@ const reviewSlideItems = [
   },
 ];
 
-const imageUrls = ['#', '#', '#'];
-
 const settings = {
   className: 'center',
   centerMode: true,
@@ -136,26 +122,39 @@ export default function ItemDetail() {
   };
 
   const { id } = useParams();
-  // const [item, setItem] = useState<Item>();
+  const [item, setItem] = useState<Item>({
+    id: 1,
+    title: 'test',
+    member: null,
+    price: 1000,
+    description : 'test',
+    thumbNailList: [],
+    itemCategories: [],
+    reviewList: [],
+    askList: [],
+    rate: 1.0,
+    status: 'SALE',
+  });
   const navigator = useNavigate();
-  // const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-  // useLayoutEffect(() => {
-  //   Instance.get(`/api/item/${id}`).then((response) => {
-  //     setItem(response.data);
-  //   });
-  // }, []);
+  useLayoutEffect(() => {
+    Instance.get(`/api/item/${id}`).then((response) => {
+      setItem(response.data);
+    });
+  }, []);
 
-  // useLayoutEffect(() => {
-  //   const fetchImages = async () => {
-  //     if (item) {
-  //       const urls = await Promise.all(item.thumbNailList.map((img) => getImageFile(img.path)));
-  //       setImageUrls(urls.filter((url) => url !== null) as string[]);
-  //     }
-  //   };
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (item) {
+        const urls = await Promise.all(item.thumbNailList.map((img) => getImageFile(img.path)));
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
 
-  //   fetchImages();
-  // }, [item]);
+    fetchImages();
+    console.log(imageUrls);
+  }, [item]);
 
   const handleBuyClick = () => {
     navigator('/order/write', {
@@ -165,24 +164,24 @@ export default function ItemDetail() {
     });
   };
 
-  // const getImageFile = async (path: string) => {
-  //   try {
-  //     const response = await Instance.get('/api/image', {
-  //       headers: { 'Content-type': 'application/json; charset=UTF-8' },
-  //       responseType: 'blob',
-  //       params: {
-  //         imagePath: path,
-  //       },
-  //     });
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
 
-  //     if (response.status === 200) {
-  //       return URL.createObjectURL(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // };
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   const mockOnChangeNumber = (num : number) => {
 
@@ -198,7 +197,8 @@ export default function ItemDetail() {
               {/* 상품 썸네일 */}
               {imageUrls.map((url, index) => (
                 <div key={index}>
-                  <img src={url} alt={`img-${index}`} />
+                  {/* 이미지 크기는 임의로 조절했습니다. */}
+                  <img src={url} alt={`img-${index}`} style={{width : '100%', height : '500px'}}/>
                 </div>
               ))}
             </Slider>
@@ -215,7 +215,7 @@ export default function ItemDetail() {
                 </li>
               </ul>
               <div className="contentbox" data-show={showDetail}>
-                {/* 상품 상세정보 */}상세내용
+                {/* 상품 상세정보 */}{item.description}
               </div>
               <div className="contentbox qna" data-show={showQna}>
                 <h3>문의 답변</h3>

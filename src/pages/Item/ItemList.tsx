@@ -9,28 +9,16 @@ import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
-
-interface Item {
-  // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
-  id: number;
-  title: string;
-  itemCategories: Array<any>;
-
-  imageUrl: string;
-  sellerName: string;
-  productName: string;
-  price: string;
-  rating: number;
-  review: number;
-}
+import { Item } from '../../interface/Interface';
 
 const TitleData: TitleType = {
-  market: '재능 마켓',
+  sale: '재능 마켓',
   exchange: '재능 교환',
-  contribution: '재능 기부',
+  give: '재능 기부',
+  wanted : '재능 탐색'
 };
 
-type LocationType = 'market' | 'exchange' | 'contribution';
+type LocationType = 'sale' | 'exchange' | 'give' | 'wanted';
 
 type TitleType = {
   [location in LocationType]: string | undefined;
@@ -123,22 +111,44 @@ export default function ItemList() {
   const {page} = useParams();
   const pageSize = 10;
 
-  // //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-  // useEffect(() => {
-  //   Instance.get('/api/item/list', {
-  //     params : {
-  //       page : page,
-  //       pageSize : pageSize
-  //     }
-  //   }).then((response) => {
-  //     setItemList(response.data.data);
-  //     console.log(response.data);
-  //   });
-  // }, []);
+  //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
+  useEffect(() => {
+    Instance.get('/api/item/list', {
+      params : {
+        page : page,
+        pageSize : pageSize
+      }
+    }).then((response) => {
+      setItemList(response.data.data);
+      console.log(response.data);
+    });
+  }, []);
 
   const mockOnChangeNumber = (num : number) => {
 
   }
+
+  const getImageFile = (id: number) => {
+    let url = '';
+
+    Instance.get(`/api/item/${id}`).then((response) => {
+      const item = response.data;
+      console.log(item)
+      if(item.thumbNailList[0]) {
+        Instance.get('/api/image', {
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          responseType: 'blob',
+          params: {
+            imagePath: item.thumbNailList[0].path,
+          },
+        }).then((res) => {
+          url = URL.createObjectURL(res.data);
+        })
+      }
+    });
+        
+    return url;
+  };
 
   return (
     <>
@@ -173,12 +183,13 @@ export default function ItemList() {
                 <li key={index}>
                   <Product
                     key={index}
-                    imageUrl={item.imageUrl}
-                    sellerName={item.sellerName}
-                    productName={item.productName}
-                    price={item.price}
-                    rating={item.rating}
-                    review={item.review}
+                    id = {item.id}
+                    imageUrl={getImageFile(item.id)}
+                    sellerName={item.member.name}
+                    productName={item.title}
+                    price={item.price.toString()}
+                    rating={item.rate}
+                    review={item.reviewList.length}
                   />
                 </li>
               ))}

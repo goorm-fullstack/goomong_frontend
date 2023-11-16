@@ -72,3 +72,17 @@ export interface CommunityData {
   delDate: Date;
   pageInfo: PageInfoData;
 }
+
+export interface Item {
+  id: number;
+  title: string;
+  member: any;
+  price: number;
+  description : string;
+  thumbNailList: Array<any>;
+  itemCategories: Array<any>;
+  reviewList: Array<any>;
+  askList: Array<any>;
+  rate: number;
+  status: string;
+}

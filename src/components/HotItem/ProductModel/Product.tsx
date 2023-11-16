@@ -3,6 +3,7 @@ import * as S from './ProductStyles';
 import { Link } from 'react-router-dom';
 
 interface ProductProps {
+  id? : number;
   imageUrl?: string;
   sellerName: string;
   productName: string;
@@ -11,7 +12,7 @@ interface ProductProps {
   review: number;
 }
 
-const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, price, rating, review }) => {
+const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName, price, rating, review }) => {
   const formatRating = (rating: number) => {
     return rating.toFixed(1);
   };
@@ -27,7 +28,7 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
 
   return (
     <S.Product>
-      <Link to="/item/detail">
+      <Link to={`/item/detail/${id}`}>
         <div className="product">
           <div className="image-container">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
