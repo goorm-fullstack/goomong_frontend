@@ -42,8 +42,8 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community" element={<Community />}/>
-        <Route path="/community/detail" element={<CommunityDetail />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community/detail/:id" element={<CommunityDetail />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />

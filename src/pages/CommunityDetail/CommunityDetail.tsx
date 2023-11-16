@@ -1,78 +1,122 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import * as S from './CommunityDetailStyles';
 import Header from '../../components/layout/Header/Header';
 import BoardModelDetail from './BoardModelDetail/BoardModelDetail';
 import CommentModel from './CommentModel/CommentModel';
-import { Comment } from './CommentModel/CommentModel';
 import Footer from '../../components/layout/Footer/Footer';
-
-const boardItem = {
-  boardCategory: '게시판 카테고리',
-  boardTitle: '게시글 제목',
-  writerName: '작성자명',
-  boardTime: 30,
-  views: 11000,
-  boardComment: 40,
-  boardContent: '게시글 내용입니다~~~',
-  boardLike: 40,
-};
+import { useParams } from 'react-router';
+import { CommentData, CommunityData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { detailDate, getImageFile } from '../../util/func/functions';
+import { NoItem } from '../../Style/CommonStyles';
 
 const CommunityDetail: React.FC = () => {
   const [comment, setComment] = useState<string>('');
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentData[]>();
+  const [communityData, setCommunityData] = useState<CommunityData>();
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [memberImageUrl, setMemberImageUrl] = useState<string>();
+  const id = useParams().id;
 
+  // 커뮤니티 게시글 가져오기
+  useEffect(() => {
+    Instance.get(`/api/posts/post/${id}`)
+      .then((response) => {
+        const data = response.data;
+        setCommunityData(data);
+        setComments(data.commentList);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [id]);
+
+  // 댓글 작성
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (comment.trim()) {
-      const newComment: Comment = {
-        writer: '작성자명',
+    if (comment.trim() && id) {
+      const newComment = {
+        memberId: '작성자명', // memberId 가져오는 로직 필요
         content: comment,
-        commentId: Math.random().toString(),
-        parentId: null,
-        replies: [],
-        time: 30,
-        like: 40,
+        postId: parseInt(id, 10),
       };
-      setComments([...comments, newComment]);
+      Instance.post(`/api/comments/comment`, newComment)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       setComment('');
     }
   };
 
   // 대댓글 추가 처리
-  const addReply = (content: string, parentId: string) => {
-    if (content.trim()) {
-      const newReply: Comment = {
-        writer: '답글 작성자명',
-        content,
-        commentId: Math.random().toString(),
-        parentId,
-        replies: [],
-        time: 30,
-        like: 40,
+  const addReply = (content: string, parentId: number) => {
+    if (content.trim() && id) {
+      const newReply = {
+        memberId: '답글 작성자명', // memberId 가져오는 로직 필요
+        postId: parseInt(id, 10),
+        content: content,
+        parentId: parentId,
       };
-      setComments((prevComments) => {
-        const updatedComments = prevComments.map((comment) =>
-          comment.commentId === parentId ? { ...comment, replies: [...(comment.replies || []), newReply] } : comment
-        );
-        console.log(updatedComments); // 업데이트된 댓글 배열을 로깅
-        return updatedComments;
-      });
+
+      Instance.post(`/api/comments/comment`, newReply)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
+
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = () => {
+      if (communityData) {
+        if (communityData.imageList.length > 0) {
+          getImageFile(communityData.imageList[0].path)
+            .then((response) => {
+              setImageUrl(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+        if (communityData.memberImageList.length > 0) {
+          getImageFile(communityData.memberImageList[0].path)
+            .then((response) => {
+              setMemberImageUrl(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      }
+    };
+
+    fetchImages();
+  }, [communityData]);
+
   return (
     <S.CommunityDetailStyles>
       <Header />
       <div className="community-detail-container">
-        <BoardModelDetail
-          boardCategory={boardItem.boardCategory}
-          boardTime={boardItem.boardTime}
-          boardComment={boardItem.boardComment}
-          boardContent={boardItem.boardContent}
-          boardLike={boardItem.boardLike}
-          boardTitle={boardItem.boardTitle}
-          views={boardItem.views}
-          writerName={boardItem.writerName}
-        />
+        {communityData && (
+          <BoardModelDetail
+            boardCategory={communityData.postCategory}
+            boardTime={detailDate(communityData.regDate)}
+            boardComment={communityData.commentNo}
+            boardContent={communityData.postContent}
+            boardLike={communityData.postLikeNo}
+            boardTitle={communityData.postTitle}
+            views={communityData.postViews}
+            writerName={communityData.memberId}
+            boardImage={imageUrl}
+            writerImage={memberImageUrl}
+          />
+        )}
         <div className="comment-container">
           <form onSubmit={handleCommentSubmit}>
             <div className="comment-text">댓글</div>
@@ -96,9 +140,8 @@ const CommunityDetail: React.FC = () => {
               </button>
             </div>
           </form>
-          {comments.map((comment) => (
-            <CommentModel key={comment.commentId} comment={comment} addReply={addReply} />
-          ))}
+          {comments?.length === 0 && <NoItem>등록된 댓글이 없습니다.</NoItem>}
+          {comments && comments.map((comment) => <CommentModel key={comment.id} comment={comment} addReply={addReply} />)}
         </div>
       </div>
       <Footer />

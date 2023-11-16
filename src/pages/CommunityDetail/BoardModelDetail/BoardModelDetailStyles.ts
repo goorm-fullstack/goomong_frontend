@@ -10,6 +10,10 @@ export const BoardModelDetailStyles = styled.div`
     align-items: center;
     border-radius: 8px;
     margin-bottom: 8px;
+  }
+  .board-image-container img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   .page-location {

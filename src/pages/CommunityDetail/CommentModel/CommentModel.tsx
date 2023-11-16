@@ -1,31 +1,68 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 import * as S from './CommentModelStyles';
-
-export interface Comment {
-  writer: string;
-  content: string;
-  commentId: string;
-  parentId: string | null;
-  replies?: Comment[];
-  writerImage?: string;
-  time: number;
-  like: number;
-}
+import { CommentData } from '../../../interface/Interface';
+import { detailDate, getImageFile } from '../../../util/func/functions';
+import Instance from '../../../util/API/axiosInstance';
 
 interface CommentModelProps {
-  comment: Comment;
-  addReply: (content: string, parentId: string) => void;
+  comment: CommentData;
+  addReply: (content: string, parentId: number) => void;
 }
 
 const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
-  const [reply, setReply] = useState('');
+  const [replyContent, setReplyContent] = useState<string>();
+  const [reply, setReply] = useState<CommentData[]>();
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const handleReplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addReply(reply, comment.commentId);
-    setReply('');
+    if (replyContent) {
+      addReply(replyContent, comment.id);
+      setReplyContent('');
+    }
   };
+
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = () => {
+      if (comment) {
+        if (comment.memberImageList.length > 0) {
+          getImageFile(comment.memberImageList[0].path)
+            .then((response) => {
+              setImageUrl(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      }
+    };
+
+    fetchImages();
+    setReply(comment.childrenComment);
+  }, [comment]);
+
+  const clickLike = () => {
+    const likeRequest = {
+      memberId: 1,
+      commentId: comment.id,
+    };
+    Instance.post('/api/like/comment', likeRequest)
+      .then(() => {
+        // 좋아요 클릭 성공 시 실행할 로직
+      })
+      .catch(() => {
+        Instance.delete('/api/like/comment', { data: likeRequest })
+          .then(() => {
+            // 좋아요 취소 성공 시 실행할 로직
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+  };
+
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="42px" height="42px">
       <path
@@ -34,37 +71,36 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
       />
     </svg>
   );
+
   return (
     <S.CommentModelStyles>
       <div className="comment-container">
         <div className="comment-top">
-          <div className="writer-image-container">{comment.writerImage ? <img src={comment.writerImage} alt="" /> : defaultImage}</div>
+          <div className="writer-image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
           <div className="right">
-            <div className="comment-writer">{comment.writer}</div>
-            <div className="comment-time">{comment.time}분 전</div>
+            <div className="comment-writer">{comment.memberId}</div>
+            <div className="comment-time">{detailDate(comment.regDate)}</div>
           </div>
         </div>
         <div className="comment-content">{comment.content}</div>
         <div className="comment-bottom">
           <div className="comment-like">
-            <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg">
+            <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>
               <path
                 fill="#aab1bc"
                 d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
               />
             </svg>
-            {comment.like}
+            {comment.likeNo}
           </div>
         </div>
         {comment.parentId === null && (
           <form onSubmit={handleReplySubmit} className="reply-form">
-            <input type="text" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="답글을 입력하세요." />
+            <input type="text" value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="답글을 입력하세요." />
             <button type="submit">답글 달기</button>
           </form>
         )}
-        <div className="reply-container">
-          {comment.replies && comment.replies.map((reply) => <CommentModel key={reply.commentId} comment={reply} addReply={addReply} />)}
-        </div>
+        <div className="reply-container">{reply && reply.map((reply) => <CommentModel key={reply.id} comment={reply} addReply={addReply} />)}</div>
       </div>
     </S.CommentModelStyles>
   );

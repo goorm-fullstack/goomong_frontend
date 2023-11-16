@@ -1,5 +1,7 @@
 import React from 'react';
 import * as S from './BoardModelDetailStyles';
+import Instance from '../../../util/API/axiosInstance';
+import { useParams } from 'react-router';
 
 interface BoardModelDetailProps {
   boardImage?: string;
@@ -7,7 +9,7 @@ interface BoardModelDetailProps {
   boardTitle: string;
   writerImage?: string;
   writerName: string;
-  boardTime: number;
+  boardTime: string;
   views: number;
   boardContent: string;
   boardLike: number;
@@ -36,11 +38,37 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
     </svg>
   );
 
+  const id = useParams().id;
+
   function formatViews(number: number): string {
-    const man = number / 10000;
-    const rounded = Math.round(man * 10) / 10;
-    return rounded.toLocaleString() + '만';
+    if (number >= 10000) {
+      const man = number / 10000;
+      const rounded = Math.round(man * 10) / 10;
+      return rounded.toLocaleString() + '만 회';
+    } else return String(number) + '회';
   }
+
+  // 좋아요 클릭
+  const clickLike = () => {
+    const likeRequest = {
+      memberId: 1, // memberId 가져오는 로직 필요
+      postId: id && parseInt(id, 10),
+    };
+    Instance.post('/api/like/post', likeRequest)
+      .then(() => {
+        // like 성공했을 때 수행할 로직
+      })
+      .catch(() => {
+        Instance.delete('/api/like/post', { data: likeRequest })
+          .then(() => {
+            // 좋아요 삭제 완료시 수행할 로직
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+  };
+
   return (
     <S.BoardModelDetailStyles>
       <div className="board-model-detail-container">
@@ -58,17 +86,15 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
           <div className="writer-right">
             <div className="writer-name">{writerName}</div>
             <div className="board-time-views">
-              <div className="board-time">{boardTime}분 전</div>
+              <div className="board-time">{boardTime}</div>
               <div className="board-views">{formatViews(views)}</div>
             </div>
           </div>
         </div>
-        <div className="board-content">
-          {boardContent} <p>0</p> <p>0</p> <p>0</p>
-        </div>
+        <div className="board-content">{boardContent}</div>
         <div className="board-detail-bottom">
           <div className="board-detail-like">
-            <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg">
+            <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>
               <path
                 fill="#aab1bc"
                 d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
@@ -6,7 +6,7 @@ import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
-import { commaNumber, detailDate } from '../../util/func/functions';
+import { commaNumber, detailDate, getImageFile } from '../../util/func/functions';
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import Pagination from '../../components/Pagination/Pagination';
@@ -88,10 +88,12 @@ const Review: React.FC = () => {
   const prevSlide = () => {
     setSlideIndex((prevIndex) => (prevIndex === 0 ? reviewSlideItems.length - 1 : prevIndex - 1));
   };
+
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
-  const [totalPage, setTotalPage] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지 수
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 리뷰 이미지 저장
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -116,7 +118,22 @@ const Review: React.FC = () => {
       });
   }, [currentPage]);
 
-  console.log(reviewData);
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (reviewData) {
+        const urls = await Promise.all(
+          reviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [reviewData]);
 
   return (
     <S.ReviewPageStyles>
@@ -482,6 +499,7 @@ const Review: React.FC = () => {
                     comment={item.commentNo}
                     time={detailDate(item.regDate)}
                     star={item.rate}
+                    imageUrl={imageUrls && imageUrls[index]}
                   />
                 </Link>
               ))}
