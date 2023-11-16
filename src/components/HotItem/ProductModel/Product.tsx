@@ -19,13 +19,9 @@ const Product: React.FC<ProductProps> = ({ imageUrl, sellerName, productName, pr
     <S.Product>
       <Link to="/item/detail/1">
         <div className="product">
-<<<<<<< Updated upstream
-          <div className="image-container">{/* <img src={imageUrl} alt={productName} className="product-image" /> */}</div>
-=======
           <div className="image-container">
             <img src={imageUrl} alt={productName} className="product-image" />
           </div>
->>>>>>> Stashed changes
           <div className="product-info">
             <div className="product-left">
               <div className="seller-name">{sellerName}</div>

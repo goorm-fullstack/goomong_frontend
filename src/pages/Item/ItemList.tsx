@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Instance from '../../util/API/axiosInstance';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
-<<<<<<< Updated upstream
-=======
 import * as C from '../../style/CommonStyles';
 import { useParams } from 'react-router-dom';
-import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
-import * as S from './Style';
->>>>>>> Stashed changes
 
 interface Item {
   id: number;
