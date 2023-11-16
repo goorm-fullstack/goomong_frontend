@@ -12,6 +12,9 @@ export const Product = styled.div`
     height: 200px;
     margin-bottom: 20px;
     background-color: #f5f6f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .product-image {
     width: 100%;
