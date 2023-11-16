@@ -67,10 +67,6 @@ const SellerRank: React.FC = () => {
     </svg>
   );
 
-  //1000단위에 ,찍기
-  const formatRating = (star: number) => {
-    return star.toFixed(1);
-  };
 
   //억,만 단위 표시 , 1000단위 ,찍기
   const formatCurrency = (money: number): string => {

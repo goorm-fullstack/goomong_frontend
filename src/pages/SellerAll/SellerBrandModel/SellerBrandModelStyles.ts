@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import styled from 'styled-components';
 
 export const SellerBrandModelStyles = styled.div`
