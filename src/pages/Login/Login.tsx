@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Logo from '../../assets/images/common/logo.png';
-import * as S from './Style';
-import Kakao from '../../assets/oauth/ico_kakao.png';
-import Google from '../../assets/oauth/ico_google.png';
-import Naver from '../../assets/oauth/ico_naver.png';
+import * as S from './LoginStyles';
+import Kakao from '../../assets/images/oauth/ico_kakao.png';
+import Google from '../../assets/images/oauth/ico_google.png';
+import Naver from '../../assets/images/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
@@ -23,7 +23,13 @@ const Login: React.FC = () => {
         </Link>
         <form onSubmit={handleLoginSubmit}>
           <div className="text">회원 아이디</div>
-          <input className="id-box box" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input
+            className="id-box box"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="example@goomong.com"
+          />
           <div className="text">비밀번호</div>
           <input className="pw-box box" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit" className="submit-btn">
@@ -38,7 +44,7 @@ const Login: React.FC = () => {
             </label>
           </div>
           <div className="find">
-            <Link to="#null">
+            <Link to="/findid">
               <span className="find-id">
                 아이디찾기
                 <svg
@@ -58,7 +64,7 @@ const Login: React.FC = () => {
               </span>
             </Link>
 
-            <Link to="#null">
+            <Link to="/findpw">
               <span className="find-pw">
                 비밀번호 찾기
                 <svg
@@ -101,7 +107,7 @@ const Login: React.FC = () => {
         </div>
         <div className="bottom">
           <span className="text">아직 구몽 회원이 아니세요?</span>
-          <Link to="/register">회원가입 하기</Link>
+          <Link to="/register/step1">회원가입 하기</Link>
         </div>
       </div>
     </S.Login>

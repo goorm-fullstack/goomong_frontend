@@ -1,4 +1,4 @@
-import * as S from './Style';
+import * as S from './HotItemStyles';
 import React from 'react';
 import Slide from '../Slide/Slide';
 import Product from './ProductModel/Product';
@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const HotItem: React.FC = () => {
   const products = [
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+1',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -14,7 +13,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+2',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -22,7 +20,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+3',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -30,7 +27,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+4',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -38,7 +34,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+5',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -46,7 +41,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+6',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -54,7 +48,6 @@ const HotItem: React.FC = () => {
       review: 3560,
     },
     {
-      imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원~',
@@ -81,22 +74,20 @@ const HotItem: React.FC = () => {
 
         <Slide>
           {products.map((product, index) => (
-            <Link to="#null" key={index}>
               <Product
-                imageUrl={product.imageUrl}
+                key={index}
                 sellerName={product.sellerName}
                 productName={product.productName}
                 price={product.price}
                 rating={product.rating}
                 review={product.review}
               />
-            </Link>
           ))}
         </Slide>
 
         <div className="more-btn">
           <Link to="#null">
-            <button type='submit'>
+            <button type="submit">
               재능 더보기
               <svg
                 version="1.0"

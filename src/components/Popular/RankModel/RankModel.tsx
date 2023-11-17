@@ -1,9 +1,9 @@
 import React from 'react';
 
-import GoldMedal from '../../../assets/svg/ico_gold.png';
-import SilverMedal from '../../../assets/svg/ico_silver.png';
-import BronzeMedal from '../../../assets/svg/ico_bronze.png';
-import * as S from './Style';
+import GoldMedal from '../../../assets/svg/rank/ico_gold.png';
+import SilverMedal from '../../../assets/svg/rank/ico_silver.png';
+import BronzeMedal from '../../../assets/svg/rank/ico_bronze.png';
+import * as S from './RankModelStyles';
 import { Link } from 'react-router-dom';
 
 interface SellerInfo {

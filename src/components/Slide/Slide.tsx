@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
-import * as S from './Style';
+import * as S from './SlideStyles';
 
 interface SlideProps {
   children: ReactNode[];
@@ -17,6 +17,8 @@ const Slide: React.FC<SlideProps> = ({ children }) => {
         setTranslateX(0);
       } else {
         setTranslateX((prev) => prev - 0.5);
+
+        
       }
       animationFrameRef.current = requestAnimationFrame(slide);
     };

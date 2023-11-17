@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './Style';
+import * as S from './BannerStyles';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -24,7 +24,7 @@ const defaultAds: Ad[] = [
   { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+6', altText: '광고 5 설명', linkUrl: '#' },
 ];
 
-const NextArrow: React.FC<any> = (props) => {
+export const NextArrow: React.FC<any> = (props) => {
   const { onClick } = props;
   return (
     <div className="slick-arrow next-arrow" onClick={onClick}>
@@ -33,7 +33,7 @@ const NextArrow: React.FC<any> = (props) => {
   );
 };
 
-const PrevArrow: React.FC<any> = (props) => {
+export const PrevArrow: React.FC<any> = (props) => {
   const { onClick } = props;
   return (
     <div className="slick-arrow prev-arrow" onClick={onClick}>

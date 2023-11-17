@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as S from './Style';
+import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';
@@ -60,10 +60,10 @@ const Header: React.FC = () => {
                   <Link to="/login">로그인</Link>
                 </li>
                 <li className="new-in">
-                  <Link to="/register">회원가입</Link>
+                  <Link to="/register/step1">회원가입</Link>
                 </li>
                 <li className="customer-center">
-                  <Link to="#null">고객센터</Link>
+                  <Link to="/cs/home">고객센터</Link>
                 </li>
               </ul>
             </div>
