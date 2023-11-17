@@ -8,8 +8,8 @@ import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel'
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
 import Pagination from '../../components/Pagination/Pagination';
-import { Link } from 'react-router-dom';
-import { CommunityData } from '../../interface/Interface';
+import { Link, useParams } from 'react-router-dom';
+import { CommunityCategoryData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile, detailDate } from '../../util/func/functions';
 
@@ -20,8 +20,6 @@ const Community: React.FC = () => {
     e.preventDefault();
   };
 
-  const boardCategories = [{ title: '전체' }, { title: '게시판 카테고리' }, { title: '카테고리1' }, { title: '카테고리2' }];
-
   const noticeBoard = {
     type: '공지사항',
     title: '구몽생활 가이드라인',
@@ -29,27 +27,14 @@ const Community: React.FC = () => {
     comment: 40,
   };
   const [slideIndex, setSlideIndex] = useState(0);
-  const boardSlideItems = [
-    { category: '게시글 1의 카테고리입니다.', title: '게시글 1의 제목입니다.', writer: '이 게시글의 작성자 입니다.', comment: 40 },
-    { category: '게시글 2의 카테고리입니다.', title: '게시글 2의 제목입니다.', writer: '이 게시글의 작성자 입니다.', comment: 40 },
-    { category: '게시글 3의 카테고리입니다.', title: '게시글 3의 제목입니다.', writer: '이 게시글의 작성자 입니다.', comment: 40 },
-    { category: '게시글 4의 카테고리입니다.', title: '게시글 4의 제목입니다.', writer: '이 게시글의 작성자 입니다.', comment: 40 },
-    { category: '게시글 5의 카테고리입니다.', title: '게시글 5의 제목입니다.', writer: '이 게시글의 작성자 입니다.', comment: 40 },
-  ];
-
-  const nextSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex + 1) % boardSlideItems.length);
-  };
-
-  const prevSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex === 0 ? boardSlideItems.length - 1 : prevIndex - 1));
-  };
-
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
-  const [communityData, setCommunityData] = useState<CommunityData[]>(); // 커뮤니티 게시판 데이터
+  const [communityData, setCommunityData] = useState<PostData[]>(); // 커뮤니티 게시판 데이터
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 수
   const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터
+  const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
+  const [hotCommunityData, setHotCommunityData] = useState<PostData[]>(); // hot 커뮤니티 게시글 데이터
+  const category = useParams().category;
   const itemsPerPage = 5; // 페이지당 표시할 아이템 수
 
   // 페이지 변경 함수
@@ -59,19 +44,34 @@ const Community: React.FC = () => {
 
   // 커뮤니티 데이터 가져오기
   useEffect(() => {
-    Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
-      .then((response) => {
-        const data = response.data;
-        setCommunityData(data);
-        if (data.length > 0) {
-          setTotalData(data[0].pageInfo.totalElements);
-          setTotalPage(data[0].pageInfo.totalPage);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [currentPage]);
+    if (category === 'all') {
+      Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
+        .then((response) => {
+          const data = response.data;
+          setCommunityData(data);
+          if (data.length > 0) {
+            setTotalData(data[0].pageInfo.totalElements);
+            setTotalPage(data[0].pageInfo.totalPage);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      Instance.get(`/api/posts/notdeletedcategory/${category}`)
+        .then((response) => {
+          const data = response.data;
+          setCommunityData(data);
+          if (data.length > 0) {
+            setTotalData(data[0].pageInfo.totalElements);
+            setTotalPage(data[0].pageInfo.totalPage);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [currentPage, category]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -83,12 +83,44 @@ const Community: React.FC = () => {
             else return null;
           })
         );
-        setImageUrls(urls.filter((url) => url !== null) as string[]);
+        setImageUrls(urls as string[]);
       }
     };
 
     fetchImages();
   }, [communityData]);
+
+  // 카테고리 데이터 가져오기
+  useEffect(() => {
+    Instance.get('/api/categorys/notdeleted/name/COMMUNITY')
+      .then((response) => {
+        const data = response.data;
+        setCategoryData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [communityData]);
+
+  // hot 커뮤니티 게시글 가져오기
+  useEffect(() => {
+    Instance.get('/api/posts/hot')
+      .then((response) => {
+        const data = response.data;
+        setHotCommunityData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [communityData]);
+
+  const nextSlide = () => {
+    if (hotCommunityData) setSlideIndex((prevIndex) => (prevIndex + 1) % hotCommunityData.length);
+  };
+
+  const prevSlide = () => {
+    if (hotCommunityData) setSlideIndex((prevIndex) => (prevIndex === 0 ? hotCommunityData.length - 1 : prevIndex - 1));
+  };
 
   return (
     <S.CommunityStyles>
@@ -118,11 +150,7 @@ const Community: React.FC = () => {
 
           <div className="content-container">
             <div className="left-nav">
-              <ul className="category-list">
-                {boardCategories.map((boardCategories, index) => (
-                  <NavItem key={index} title={boardCategories.title} />
-                ))}
-              </ul>
+              <ul className="category-list">{categoryData && <NavItem category={categoryData} />}</ul>
             </div>
             <div className="board-content">
               <div className="slide-top">
@@ -135,8 +163,8 @@ const Community: React.FC = () => {
                   </button>
                   <button
                     onClick={nextSlide}
-                    style={slideIndex === boardSlideItems.length - 2 ? { opacity: 0.5, cursor: 'default' } : {}}
-                    disabled={slideIndex === boardSlideItems.length - 2}>
+                    style={hotCommunityData && slideIndex === hotCommunityData.length - 2 ? { opacity: 0.5, cursor: 'default' } : {}}
+                    disabled={hotCommunityData && slideIndex === hotCommunityData.length - 2}>
                     <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg">
                       <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
                     </svg>
@@ -147,13 +175,14 @@ const Community: React.FC = () => {
               <div className="board-content-top">
                 <NoticeBoardModel type={noticeBoard.type} title={noticeBoard.title} writer={noticeBoard.writer} comment={noticeBoard.comment} />
                 <div className="hot-slide">
-                  {boardSlideItems.map((item, index) => (
-                    <div
-                      key={index}
-                      style={{ display: index === slideIndex || index === (slideIndex + 1) % boardSlideItems.length ? 'block' : 'none' }}>
-                      <SlideBoardModel category={item.category} title={item.title} writer={item.writer} comment={item.comment} />
-                    </div>
-                  ))}
+                  {hotCommunityData &&
+                    hotCommunityData.map((item, index) => (
+                      <div
+                        key={index}
+                        style={{ display: index === slideIndex || index === (slideIndex + 1) % hotCommunityData.length ? 'block' : 'none' }}>
+                        <SlideBoardModel category={item.postCategory} title={item.postTitle} writer={item.memberId} comment={item.commentNo} />
+                      </div>
+                    ))}
                 </div>
               </div>
 
@@ -203,7 +232,7 @@ const Community: React.FC = () => {
                       comment={item.commentNo}
                       time={detailDate(item.regDate)}
                       isLastItem={index === communityData.length - 1}
-                      imageURL={imageUrls && imageUrls[index]}
+                      imageURL={imageUrls && imageUrls[index] !== null ? imageUrls[index] : undefined}
                     />
                   ))}
               </div>

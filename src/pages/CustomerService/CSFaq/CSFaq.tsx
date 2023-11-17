@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as S from './CSFaqStyles';
 import CSHeader from '../CSHeader/CSHeader';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CSFooter from '../CSFooter/CSFooter';
 import Pagination from '../../../components/Pagination/Pagination';
+import { QuestionData } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
 
 interface Faq {
   title: string;
@@ -100,36 +102,16 @@ const CSFaq: React.FC = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = faqList.slice(indexOfFirstItem, indexOfLastItem);
 
-  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
-  // const [notices, setNotices] = useState<Notice[]>([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
-  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
+  const [qnaData, setQnaData] = useState<QuestionData[]>();
+  const [totalPage, setTotalPage] = useState<number>();
+  const category = useParams().category;
 
   // useEffect(() => {
-  //   // 백엔드에서 데이터 가져오기
-  //   const fetchData = async () => {
-  //     try {
-  //       // 백엔드 API 호출
-  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
-  //       const data = await response.json();
+  //   if(category === 'all'){
+  //     Instance.get('')
+  //   }
+  // })
 
-  //       setNotices(data.items); // 현재 페이지 아이템
-  //       setTotalPages(data.totalPages); // 총 페이지 수
-  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentPage, itemsPerPage]);
-
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
-
-  
   return (
     <S.CSFaqStyles>
       <CSHeader />

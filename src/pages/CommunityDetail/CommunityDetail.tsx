@@ -5,7 +5,7 @@ import BoardModelDetail from './BoardModelDetail/BoardModelDetail';
 import CommentModel from './CommentModel/CommentModel';
 import Footer from '../../components/layout/Footer/Footer';
 import { useParams } from 'react-router';
-import { CommentData, CommunityData } from '../../interface/Interface';
+import { CommentData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { detailDate, getImageFile } from '../../util/func/functions';
 import { NoItem } from '../../Style/CommonStyles';
@@ -13,7 +13,7 @@ import { NoItem } from '../../Style/CommonStyles';
 const CommunityDetail: React.FC = () => {
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<CommentData[]>();
-  const [communityData, setCommunityData] = useState<CommunityData>();
+  const [communityData, setCommunityData] = useState<PostData>();
   const [imageUrl, setImageUrl] = useState<string>();
   const [memberImageUrl, setMemberImageUrl] = useState<string>();
   const id = useParams().id;
@@ -36,7 +36,7 @@ const CommunityDetail: React.FC = () => {
     e.preventDefault();
     if (comment.trim() && id) {
       const newComment = {
-        memberId: '작성자명', // memberId 가져오는 로직 필요
+        memberId: 1, // memberId 가져오는 로직 필요
         content: comment,
         postId: parseInt(id, 10),
       };
@@ -55,10 +55,10 @@ const CommunityDetail: React.FC = () => {
   const addReply = (content: string, parentId: number) => {
     if (content.trim() && id) {
       const newReply = {
-        memberId: '답글 작성자명', // memberId 가져오는 로직 필요
+        memberId: 1, // memberId 가져오는 로직 필요
         postId: parseInt(id, 10),
         content: content,
-        parentId: parentId,
+        parentCommentId: parentId,
       };
 
       Instance.post(`/api/comments/comment`, newReply)

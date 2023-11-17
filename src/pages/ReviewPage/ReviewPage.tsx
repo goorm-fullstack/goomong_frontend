@@ -19,87 +19,27 @@ const Review: React.FC = () => {
     accumulate: 37120,
     money: 115120,
   };
-  // const formatNumber1 = (num: number) => {
-  //   return num.toFixed(1);
-  // };
 
   const [slideIndex, setSlideIndex] = useState(0);
-  const reviewSlideItems = [
-    {
-      writer: '닉네임1',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임2',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임3',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임4',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임5',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-    {
-      writer: '닉네임6',
-      date: '2023.10.18',
-      rating: 5,
-      category: '디자인',
-      productName: '이거 구매했어요 상품명',
-      content:
-        '리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.리뷰 내용을 적어봅시다.',
-    },
-  ];
-
-  const nextSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex + 1) % reviewSlideItems.length);
-  };
-
-  const prevSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex === 0 ? reviewSlideItems.length - 1 : prevIndex - 1));
-  };
-
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
   const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
   const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지 수
   const [imageUrls, setImageUrls] = useState<string[]>(); // 리뷰 이미지 저장
-  const [aveRate, setAveRate] = useState<number>(0.0); // 전체 리뷰 평균 평점
-  const [customerSatisfaction, setCustomerSatisfaction] = useState<number>(0); // 고객 만족도
+  const [aveRate, setAveRate] = useState<string>('0.0'); // 전체 리뷰 평균 평점
+  const [customerSatisfaction, setCustomerSatisfaction] = useState<string>('0'); // 고객 만족도
   const [bestReviewData, setBestReviewData] = useState<ReviewData[]>(); // 베스트 리뷰
   const [bestReviewImageUrls, setBestReviewImageUrls] = useState<string[]>(); // 베스트 리뷰 이미지
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
+
+  const nextSlide = () => {
+    if (bestReviewData) setSlideIndex((prevIndex) => (prevIndex + 1) % bestReviewData.length);
+  };
+
+  const prevSlide = () => {
+    if (bestReviewData) setSlideIndex((prevIndex) => (prevIndex === 0 ? bestReviewData.length - 1 : prevIndex - 1));
+  };
 
   // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
   const handlePageChange = (pageNumber: number): void => {
@@ -499,7 +439,7 @@ const Review: React.FC = () => {
                         ? 'block'
                         : 'none',
                   }}>
-                  <Link to="#null">
+                  <Link to={`/item/detail/${reviewItem.itemId}`}>
                     <ReviewModel
                       writer={reviewItem.memberId}
                       date={detailDate(reviewItem.regDate)}
