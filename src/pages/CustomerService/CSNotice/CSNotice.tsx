@@ -1,95 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as S from './CSNoticeStyles';
 import CSHeader from '../CSHeader/CSHeader';
 import { Link } from 'react-router-dom';
 import CSFooter from '../CSFooter/CSFooter';
 import Pagination from '../../../components/Pagination/Pagination';
-
-interface Notice {
-  title: string;
-  date: string;
-}
+import { PostData } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
+import { formattingDate } from '../../../util/func/functions';
+import { NoItem } from '../../../Style/CommonStyles';
 
 const CSNotice: React.FC = () => {
-  const noticeList: Notice[] = [
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      date: '2023-11-10',
-    },
-  ];
 
   const handleNoticeSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10; // 페이지당 표시할 아이템 수
-  const totalPages = Math.ceil(noticeList.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  // 현재 페이지에 따라 표시할 아이템 목록 계산
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = noticeList.slice(indexOfFirstItem, indexOfLastItem);
+  const [noticeData, setNoticeData] = useState<PostData[]>(); // 공지사항 데이터
+  const [totalPage, setTotalPage] = useState<number>(); // 총 페이지 수
 
+  // 공지사항 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/posts/notdeletedtype/NOTICE?page=${currentPage}&size=${itemsPerPage}`)
+    .then((response) => {
+      const data = response.data;
+      setNoticeData(data);
+      setTotalPage(data[0].pageInfo.totalPage);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [currentPage])
 
-
-  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
-  // const [notices, setNotices] = useState<Notice[]>([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
-  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
-
-  // useEffect(() => {
-  //   // 백엔드에서 데이터 가져오기
-  //   const fetchData = async () => {
-  //     try {
-  //       // 백엔드 API 호출
-  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
-  //       const data = await response.json();
-        
-  //       setNotices(data.items); // 현재 페이지 아이템
-  //       setTotalPages(data.totalPages); // 총 페이지 수
-  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentPage, itemsPerPage]);
-
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
   return (
     <S.CSNoticeStyles>
       <CSHeader />
@@ -119,13 +68,14 @@ const CSNotice: React.FC = () => {
           <div className="title">공지사항</div>
           <div className="cs-notice-content">
             <ul className="notice-list">
-              {currentItems.map((notice, index) => (
+              {noticeData?.length === 0 && <NoItem>등록된 공지사항이 없습니다.</NoItem>}
+              {noticeData && noticeData.map((notice, index) => (
                 <li key={index}>
-                  [공지사항] {notice.title} [{notice.date}]
+                  [공지사항] {notice.postTitle} [{formattingDate(notice.regDate)}]
                 </li>
               ))}
             </ul>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+            <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
           </div>
         </div>
       </div>
