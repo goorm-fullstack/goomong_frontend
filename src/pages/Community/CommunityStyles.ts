@@ -133,95 +133,20 @@ export const CommunityStyles = styled.div`
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;
+    margin-right: 9px;
   }
   .left {
     display: flex;
   }
-
-  .left-category {
-    margin-right: 9px;
-  }
-  .pagination {
-    margin-top: 51px;
-  }
-  .pagination button {
-    width: 32px;
-    height: 32px;
-    color: #8e94a0;
-    font-size: 600px;
-    font-size: 12px;
-    letter-spacing: -0.04;
+  .write-btn {
+    padding: 12px 48px;
     border: 0;
-    border-radius: 3px;
-    margin-right: 8px;
-    background-color: #f5f6f7;
-    cursor: pointer;
-    margin-bottom: 134px;
-  }
-  .pagination button.active {
-    background-color: #101c33;
+    background-color: #4285f4;
     color: #fff;
-  }
-  .pagination button:hover {
-    background-color: #8e94a0;
-    color: #fff;
-  }
-  .black-bg {
-    width: 100%;
-    height: 160px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .black-bg {
-    background-color: #161c1c;
-  }
-  .black-bg img {
-    width: 100%;
-  }
-  .main-bg-text {
-    position: absolute;
-    width: 1280px;
-    height: 100%;
-    padding: 0px 40px;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-  }
-  .text {
-    margin-top: 53px;
-  }
-  .bg-text {
-    font-size: 22px;
-    color: #fff;
-    letter-spacing: -0.04em;
-  }
-  .bg-second-text {
-    margin-top: 15px;
-  }
-  .btn {
-    width: 160px;
-    height: 45px;
-    margin-top: 59px;
-  }
-  .bg-btn {
-    font-size: 15px;
-    color: var(--black);
     font-weight: 600;
-    width: 160px;
-    height: 45px;
-    border: 0;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #fff;
+    font-size: 14px;
+    letter-spacing: -0.04;
+    border-radius: 8px;
   }
-  .btn a {
-    display: inline-block;
-    height: 45px;
-    border-radius: 10px;
-  }
-  .btn a:hover button {
-    background-color: #f5f6f7;
-  }
+
 `;

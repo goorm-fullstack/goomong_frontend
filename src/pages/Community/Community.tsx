@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import * as S from './CommunityStyles';
 import * as C from '../../Style/CommonStyles';
 import Header from '../../components/layout/Header/Header';
@@ -7,6 +7,12 @@ import NavItem from './CommunityItems/NavItem/NavItem';
 import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel';
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
+import Pagination from '../../components/Pagination/Pagination';
+import { Link } from 'react-router-dom';
+import { CommunityData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { getImageFile, detailDate } from '../../util/func/functions';
+
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -39,151 +45,50 @@ const Community: React.FC = () => {
     setSlideIndex((prevIndex) => (prevIndex === 0 ? boardSlideItems.length - 1 : prevIndex - 1));
   };
 
-  const boardItems = [
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: 30,
-    },
-  ];
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
+  const [communityData, setCommunityData] = useState<CommunityData[]>(); // 커뮤니티 게시판 데이터
+  const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 수
+  const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터
+  const itemsPerPage = 5; // 페이지당 표시할 아이템 수
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 3;
-
-  const pageCount: number = Math.ceil(boardItems.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
+  // 페이지 변경 함수
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  // 커뮤니티 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
+      .then((response) => {
+        const data = response.data;
+        setCommunityData(data);
+        if (data.length > 0) {
+          setTotalData(data[0].pageInfo.totalElements);
+          setTotalPage(data[0].pageInfo.totalPage);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [currentPage]);
+
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (communityData) {
+        const urls = await Promise.all(
+          communityData.map((community) => {
+            if (community.imageList.length > 0) return getImageFile(community.imageList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [communityData]);
 
   return (
     <S.CommunityStyles>
@@ -266,8 +171,6 @@ const Community: React.FC = () => {
                       <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
                     </svg>
                   </div>
-                </div>
-                <div className="right">
                   <div className="align-standard">
                     정렬 기준
                     <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
@@ -275,31 +178,36 @@ const Community: React.FC = () => {
                     </svg>
                   </div>
                 </div>
+
+                <div className="right">
+                  <Link to="/write">
+                    <button type="button" className="write-btn">
+                      작성하기
+                    </button>
+                  </Link>
+                </div>
               </div>
 
               <div className="board-list">
-                {currentItems.map((item, index) => (
-                  <BoardModel
-                    key={index}
-                    b_category={item.b_category}
-                    p_category={item.p_category}
-                    title={item.title}
-                    content={item.content}
-                    local={item.local}
-                    like={item.like}
-                    comment={item.comment}
-                    time={item.time}
-                    isLastItem={index === currentItems.length - 1}
-                  />
-                ))}
+                {communityData?.length === 0 && <C.NoItem>등록된 게시글이 없습니다.</C.NoItem>}
+                {communityData &&
+                  communityData.map((item, index) => (
+                    <BoardModel
+                      key={index}
+                      id={item.id}
+                      p_category={item.postCategory}
+                      title={item.postTitle}
+                      content={item.postContent}
+                      local={item.memberAddress}
+                      like={item.postLikeNo}
+                      comment={item.commentNo}
+                      time={detailDate(item.regDate)}
+                      isLastItem={index === communityData.length - 1}
+                      imageURL={imageUrls && imageUrls[index]}
+                    />
+                  ))}
               </div>
-              <div className="pagination">
-                {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-                  <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                    {number}
-                  </button>
-                ))}
-              </div>
+              <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
             </div>
           </div>
         </C.Container>

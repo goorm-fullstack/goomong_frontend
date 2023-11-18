@@ -3,31 +3,20 @@ import * as S from './BoardModelStyles';
 import { Link } from 'react-router-dom';
 
 interface BoardModelProps {
+  id: number;
   imageURL?: string;
-  b_category: string;
   p_category: string;
   title: string;
   content: string;
   local: string;
   like: number;
   comment: number;
-  time: number;
+  time: string;
   isLastItem?: boolean;
   clickLike?: boolean;
 }
 
-const BoardModel: React.FC<BoardModelProps> = ({
-  imageURL,
-  b_category,
-  p_category,
-  title,
-  content,
-  local,
-  like,
-  comment,
-  time,
-  isLastItem = false,
-}) => {
+const BoardModel: React.FC<BoardModelProps> = ({ id, imageURL, p_category, title, content, local, like, comment, time, isLastItem = false }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="130px" height="130px">
       <path
@@ -38,13 +27,12 @@ const BoardModel: React.FC<BoardModelProps> = ({
   );
   return (
     <S.BoardModelStyles $isLastItem={isLastItem}>
-      <Link to="/community_detail">
+      <Link to={`/community/detail/${id}`}>
         <div className="board-model-container">
           <div className="board-model-right">
             <div className="board-model-image-container">{imageURL ? <img src={imageURL} alt="" /> : defaultImage}</div>
             <div className="board-model-image-right">
               <ul className="board-model-category-list">
-                <li>{b_category}</li>
                 <li>{p_category}</li>
               </ul>
               <div className="board-model-title">{title}</div>
@@ -76,7 +64,7 @@ const BoardModel: React.FC<BoardModelProps> = ({
               </div>
             </div>
           </div>
-          <div className="board-model-time">{time}분전</div>
+          <div className="board-model-time">{time}</div>
         </div>
       </Link>
     </S.BoardModelStyles>

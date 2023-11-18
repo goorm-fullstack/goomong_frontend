@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
@@ -6,6 +6,11 @@ import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
 import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
+import { commaNumber, detailDate, getImageFile } from '../../util/func/functions';
+import { ReviewData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import Pagination from '../../components/Pagination/Pagination';
+
 const Review: React.FC = () => {
   const topInfo = {
     evaluation: 13913,
@@ -14,12 +19,9 @@ const Review: React.FC = () => {
     accumulate: 37120,
     money: 115120,
   };
-  const formatNumber1 = (num: number) => {
-    return num.toFixed(1);
-  };
-  const formatNumber2 = (num: number): string => {
-    return num.toLocaleString();
-  };
+  // const formatNumber1 = (num: number) => {
+  //   return num.toFixed(1);
+  // };
 
   const [slideIndex, setSlideIndex] = useState(0);
   const reviewSlideItems = [
@@ -87,141 +89,105 @@ const Review: React.FC = () => {
     setSlideIndex((prevIndex) => (prevIndex === 0 ? reviewSlideItems.length - 1 : prevIndex - 1));
   };
 
-  const reviewItems = [
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-    {
-      b_category: '게시판 카테고리',
-      p_category: '재능 카테고리',
-      title: '게시글 제목',
-      content: '게시글 내용입니다.',
-      like: 40,
-      comment: 40,
-      time: 30,
-      star: 4.9,
-    },
-  ];
+  const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
+  const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
+  const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 갯수
+  const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지 수
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 리뷰 이미지 저장
+  const [aveRate, setAveRate] = useState<number>(0.0); // 전체 리뷰 평균 평점
+  const [customerSatisfaction, setCustomerSatisfaction] = useState<number>(0); // 고객 만족도
+  const [bestReviewData, setBestReviewData] = useState<ReviewData[]>(); // 베스트 리뷰
+  const [bestReviewImageUrls, setBestReviewImageUrls] = useState<string[]>(); // 베스트 리뷰 이미지
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage: number = 8;
+  const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
-  const pageCount: number = Math.ceil(reviewItems.length / itemsPerPage);
-
-  const indexOfLastItem: number = currentPage * itemsPerPage;
-  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-  const currentItems = reviewItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number): void => {
+  // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
+  const handlePageChange = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
+
+  // 리뷰 리스트 가져오기 및 전체 데이터 갯수 저장
+  useEffect(() => {
+    Instance.get(`/api/reviews?size=${itemsPerPage}&page=${currentPage}`)
+      .then((response) => {
+        const data = response.data;
+        setReviewData(data);
+        if (data.length > 0) {
+          setTotalData(data[0].pageInfo.totalElements);
+          setTotalPage(data[0].pageInfo.totalPage);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [currentPage]);
+
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (reviewData) {
+        const urls = await Promise.all(
+          reviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [reviewData]);
+
+  // 전체 리뷰 평균 평점 및 고객 만족도 구하기
+  useEffect(() => {
+    Instance.get('/api/reviews/aveRate')
+      .then((response) => {
+        const data = response.data;
+        setAveRate(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    Instance.get('/api/reviews/customerSatisfaction')
+      .then((response) => {
+        const data = response.data;
+        setCustomerSatisfaction(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
+  // 베스트 리뷰 데이터 구하기
+  useEffect(() => {
+    Instance.get('/api/reviews/best')
+      .then((response) => {
+        const data = response.data;
+        setBestReviewData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
+  // 베스트 리뷰 이미지
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (bestReviewData) {
+        const urls = await Promise.all(
+          bestReviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setBestReviewImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [bestReviewData]);
 
   return (
     <S.ReviewPageStyles>
@@ -252,10 +218,10 @@ const Review: React.FC = () => {
                 </g>
               </svg>
               <div className="star-text">
-                <div className="top">총 {topInfo.evaluation}개의 평가</div>
+                <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {formatNumber1(topInfo.star)}
+                  {aveRate}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -308,7 +274,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="gift-text">
                 <div className="top">고객 만족도</div>
-                <div className="bottom">{formatNumber1(topInfo.satisfaction)}% </div>
+                <div className="bottom">{customerSatisfaction}% </div>
               </div>
             </div>
             <div className="graph">
@@ -335,7 +301,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="graph-text">
                 <div className="top">누적거래건수</div>
-                <div className="bottom">{formatNumber2(topInfo.evaluation)}건</div>
+                <div className="bottom">{commaNumber(topInfo.evaluation)}건</div>
               </div>
             </div>
 
@@ -497,7 +463,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="money-text">
                 <div className="top">누적거래금액</div>
-                <div className="bottom">{formatNumber2(topInfo.money)}원</div>
+                <div className="bottom">{commaNumber(topInfo.money)}원</div>
               </div>
             </div>
           </div>
@@ -513,8 +479,8 @@ const Review: React.FC = () => {
               </button>
               <button
                 onClick={nextSlide}
-                style={slideIndex === reviewSlideItems.length - 3 ? { opacity: 0.5, cursor: 'default' } : {}}
-                disabled={slideIndex === reviewSlideItems.length - 3}>
+                style={bestReviewData && slideIndex === bestReviewData.length - 3 ? { opacity: 0.5, cursor: 'default' } : {}}
+                disabled={bestReviewData && slideIndex === bestReviewData.length - 3}>
                 <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg">
                   <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
                 </svg>
@@ -522,29 +488,30 @@ const Review: React.FC = () => {
             </div>
           </div>
           <div className="hot-review-container">
-            {reviewSlideItems.map((reviewItem, index) => (
-              <div
-                key={index}
-                style={{
-                  display:
-                    index === slideIndex ||
-                    index === (slideIndex + 1) % reviewSlideItems.length ||
-                    index === (slideIndex + 2) % reviewSlideItems.length
-                      ? 'block'
-                      : 'none',
-                }}>
-                <Link to="#null">
-                  <ReviewModel
-                    writer={reviewItem.writer}
-                    date={reviewItem.date}
-                    rating={reviewItem.rating}
-                    category={reviewItem.category}
-                    productName={reviewItem.productName}
-                    content={reviewItem.content}
-                  />
-                </Link>
-              </div>
-            ))}
+            {bestReviewData?.length === 0 && <C.NoItem>등록된 리뷰가 없습니다.</C.NoItem>}
+            {bestReviewData &&
+              bestReviewData.map((reviewItem, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display:
+                      index === slideIndex || index === (slideIndex + 1) % bestReviewData.length || index === (slideIndex + 2) % bestReviewData.length
+                        ? 'block'
+                        : 'none',
+                  }}>
+                  <Link to="#null">
+                    <ReviewModel
+                      writer={reviewItem.memberId}
+                      date={detailDate(reviewItem.regDate)}
+                      rating={reviewItem.rate}
+                      category={reviewItem.itemCategory}
+                      productName={reviewItem.itemName}
+                      content={reviewItem.content}
+                      imageUrl={bestReviewImageUrls && bestReviewImageUrls[index]}
+                    />
+                  </Link>
+                </div>
+              ))}
           </div>
         </div>
 
@@ -575,28 +542,24 @@ const Review: React.FC = () => {
             </div>
           </div>
           <div className="all-review-list">
-            {currentItems.map((item, index) => (
-              <Link to="#null" key={index}>
-                <ReviewPageModel
-                  b_category={item.b_category}
-                  p_category={item.p_category}
-                  title={item.title}
-                  content={item.content}
-                  like={item.like}
-                  comment={item.comment}
-                  time={item.time}
-                  star={item.star}
-                />
-              </Link>
-            ))}
+            {reviewData?.length === 0 && <C.NoItem>등록된 리뷰가 없습니다.</C.NoItem>}
+            {reviewData &&
+              reviewData.map((item, index) => (
+                <Link to={`/item/detail/${item.itemId}`} key={index}>
+                  <ReviewPageModel
+                    p_category={item.itemCategory}
+                    title={item.title}
+                    content={item.content}
+                    like={item.likeNo}
+                    comment={item.commentNo}
+                    time={detailDate(item.regDate)}
+                    star={item.rate}
+                    imageUrl={imageUrls && imageUrls[index]}
+                  />
+                </Link>
+              ))}
           </div>
-          <div className="pagination">
-            {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-              <button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-                {number}
-              </button>
-            ))}
-          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
         </div>
       </C.Container>
       <Footer />

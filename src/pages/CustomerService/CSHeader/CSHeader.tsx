@@ -7,7 +7,7 @@ const CS_Header: React.FC = () => {
   return (
     <S.CSHeaderStyles>
       <div className="cs-header-container">
-        <div className="cs-home-header">
+        <div className="cs-header">
           <div className="left">
             <div className="logo">
               <Link to="/">

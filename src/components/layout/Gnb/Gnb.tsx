@@ -69,12 +69,12 @@ const Gnb = () => {
               </ul>
               <ul className="lr-menu">
                 <li>
-                  <NavLink to="/rank">
+                  <NavLink to="/seller/rank">
                     <span className="lr-find">재능 판매자 찾기</span>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="#null">견적 요청</NavLink>
+                  <NavLink to="/hire">견적 요청</NavLink>
                 </li>
                 <li>
                   <NavLink to="/community">구몽 생활</NavLink>
