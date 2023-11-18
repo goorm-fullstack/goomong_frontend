@@ -20,16 +20,10 @@ const Community: React.FC = () => {
     e.preventDefault();
   };
 
-  const noticeBoard = {
-    type: '공지사항',
-    title: '구몽생활 가이드라인',
-    writer: 'goomong',
-    comment: 40,
-  };
   const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [communityData, setCommunityData] = useState<PostData[]>(); // 커뮤니티 게시판 데이터
-  const [totalData, setTotalData] = useState<number>(0); // 전체 데이터 수
+  const [fixedData, setFixedData] = useState<PostData | null>(); // 고정 게시글
   const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
@@ -50,7 +44,6 @@ const Community: React.FC = () => {
           const data = response.data;
           setCommunityData(data);
           if (data.length > 0) {
-            setTotalData(data[0].pageInfo.totalElements);
             setTotalPage(data[0].pageInfo.totalPage);
           }
         })
@@ -63,7 +56,6 @@ const Community: React.FC = () => {
           const data = response.data;
           setCommunityData(data);
           if (data.length > 0) {
-            setTotalData(data[0].pageInfo.totalElements);
             setTotalPage(data[0].pageInfo.totalPage);
           }
         })
@@ -113,6 +105,18 @@ const Community: React.FC = () => {
         console.error(error);
       });
   }, [communityData]);
+
+  // 고정 게시글 가져오기
+  useEffect(() => {
+    Instance.get('/api/posts/post/fixed')
+    .then((response) => {
+      const data = response.data;
+      setFixedData(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [])
 
   const nextSlide = () => {
     if (hotCommunityData) setSlideIndex((prevIndex) => (prevIndex + 1) % hotCommunityData.length);
@@ -173,7 +177,12 @@ const Community: React.FC = () => {
               </div>
 
               <div className="board-content-top">
-                <NoticeBoardModel type={noticeBoard.type} title={noticeBoard.title} writer={noticeBoard.writer} comment={noticeBoard.comment} />
+                {!fixedData &&
+                <NoticeBoardModel title='등록된 고정글이 없습니다.'/>
+                }
+                {fixedData && 
+                <NoticeBoardModel type={fixedData.postCategory} title={fixedData.postTitle} writer={fixedData.memberId} comment={fixedData.commentNo} />
+}
                 <div className="hot-slide">
                   {hotCommunityData &&
                     hotCommunityData.map((item, index) => (
