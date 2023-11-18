@@ -83,8 +83,19 @@ export interface CommunityCategoryData {
   pageInfo: PageInfoData;
 }
 
+export interface QnaCategoryData{
+  id: number;
+  image: Image;
+  categoryGroup: string;
+  categoryName: string;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
 export interface QuestionData {
   id: number;
+  categoryName: string;
   children: AnswerData;
   title: string;
   content: string;
