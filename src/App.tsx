@@ -30,6 +30,7 @@ import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
 import SellerAll from './pages/SellerAll/SellerAll';
 import Write from './pages/Write/Write';
 import Hire from './pages/Hire/Hire';
+import CSNoticeDetail from './pages/CustomerService/CSNotice/CSNoticeDetail';
 
 const App: React.FC = () => {
   return (
@@ -47,6 +48,7 @@ const App: React.FC = () => {
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
+        <Route path="/cs/notice/:id" element={<CSNoticeDetail />} />
         <Route path="/cs/faq/:category" element={<CSFaq />} />
         <Route path="/cs/inquiry" element={<CSInquiry />} />
         <Route path="/cs/agreement" element={<Agreement />} />
