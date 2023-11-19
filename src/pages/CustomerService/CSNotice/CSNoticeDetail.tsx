@@ -6,7 +6,6 @@ import { Link, useParams } from 'react-router-dom';
 import { PostData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
 import { formattingDate } from '../../../util/func/functions';
-import { NoItem } from '../../../Style/CommonStyles';
 
 const CSNoticeDetail: React.FC = () => {
   const [noticeData, setNoticeData] = useState<PostData>(); // 공지사항 데이터

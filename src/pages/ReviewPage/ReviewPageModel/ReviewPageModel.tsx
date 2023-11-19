@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as S from './ReviewPageModelStyles';
+import { commaNumber } from '../../../util/func/functions';
 
 interface ReviewPageModelProps {
   imageUrl?: string;
@@ -25,9 +26,11 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
       />
     </svg>
   );
+
   const formatRating = (rating: number) => {
     return rating.toFixed(1);
   };
+
   return (
     <S.ReviewPageModelStyles>
       <div className="review-page-model-container">
@@ -52,7 +55,7 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
                   d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
                 />
               </svg>
-              {like}
+              {commaNumber(like)}
             </div>
             <div className="review-page-model-comment">
               <svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16px" height="14px">
@@ -65,7 +68,7 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
                   />
                 </g>
               </svg>
-              {comment}
+              {commaNumber(comment)}
             </div>
           </div>
         </div>
