@@ -78,7 +78,8 @@ export interface Item {
   title: string;
   member: any;
   price: number;
-  description : string;
+  description: string;
+  itemOptions: Array<any>;
   thumbNailList: Array<any>;
   itemCategories: Array<any>;
   reviewList: Array<any>;

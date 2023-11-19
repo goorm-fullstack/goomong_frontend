@@ -10,12 +10,13 @@ import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
 import { Item } from '../../interface/Interface';
+import { commaNumber } from '../../util/func/functions';
 
 const TitleData: TitleType = {
   sale: '재능 마켓',
   exchange: '재능 교환',
   give: '재능 기부',
-  wanted : '재능 탐색'
+  wanted: '재능 탐색',
 };
 
 type LocationType = 'sale' | 'exchange' | 'give' | 'wanted';
@@ -108,33 +109,31 @@ const categories = [
 export default function ItemList() {
   const location = useParams().type;
   const [itemList, setItemList] = useState<Item[]>([]);
-  const {page} = useParams();
+  const { page } = useParams();
+  const [orderBy, setOrderBy] = useState<String | null>(null); // 정렬 기준
+  const [direction, setDirection] = useState('desc'); // 정렬 순서
   const pageSize = 10;
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   useEffect(() => {
-    Instance.get('/api/item/list', {
-      params : {
-        page : page,
-        pageSize : pageSize
-      }
+    Instance.get(`/api/item/list?page=${page}`, {
+      params: {
+        orderBy: orderBy,
+        direction: direction,
+      },
     }).then((response) => {
-      setItemList(response.data.data);
-      console.log(response.data);
+      setItemList(response.data);
     });
   }, []);
 
-  const mockOnChangeNumber = (num : number) => {
-
-  }
+  const mockOnChangeNumber = (num: number) => {};
 
   const getImageFile = (id: number) => {
     let url = '';
 
     Instance.get(`/api/item/${id}`).then((response) => {
       const item = response.data;
-      console.log(item)
-      if(item.thumbNailList[0]) {
+      if (item.thumbNailList[0]) {
         Instance.get('/api/image', {
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
           responseType: 'blob',
@@ -143,10 +142,10 @@ export default function ItemList() {
           },
         }).then((res) => {
           url = URL.createObjectURL(res.data);
-        })
+        });
       }
     });
-        
+
     return url;
   };
 
@@ -179,22 +178,26 @@ export default function ItemList() {
           <div className="item-wrapper">
             <ul>
               {/* 선웅님표 컴포넌트 Product 재사용 */}
-              {itemList.map((item, index) => (
-                <li key={index}>
-                  <Product
-                    key={index}
-                    id = {item.id}
-                    imageUrl={getImageFile(item.id)}
-                    sellerName={item.member.name}
-                    productName={item.title}
-                    price={item.price.toString()}
-                    rating={item.rate}
-                    review={item.reviewList.length}
-                  />
-                </li>
-              ))}
+              {itemList ? (
+                itemList.map((item, index) => (
+                  <li key={index}>
+                    <Product
+                      key={index}
+                      id={item.id}
+                      imageUrl={getImageFile(item.id)}
+                      sellerName={item.member.name}
+                      productName={item.title}
+                      price={commaNumber(item.price)}
+                      rating={item.rate}
+                      review={item.reviewList.length}
+                    />
+                  </li>
+                ))
+              ) : (
+                <>데이터가 없습니다.</>
+              )}
             </ul>
-            <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber}/>
+            <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
           </div>
         </S.ItemList>
       </C.Container>

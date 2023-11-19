@@ -12,6 +12,7 @@ import Slider from 'react-slick';
 import { NextArrow, PrevArrow } from '../../components/Banner/Banner';
 import Sort from '../../components/Sort/Sort';
 import { Item } from '../../interface/Interface';
+import { commaNumber } from '../../util/func/functions';
 
 const item = {
   id: 1,
@@ -127,7 +128,8 @@ export default function ItemDetail() {
     title: 'test',
     member: null,
     price: 1000,
-    description : 'test',
+    description: 'test',
+    itemOptions: [],
     thumbNailList: [],
     itemCategories: [],
     reviewList: [],
@@ -183,9 +185,7 @@ export default function ItemDetail() {
     }
   };
 
-  const mockOnChangeNumber = (num : number) => {
-
-  }
+  const mockOnChangeNumber = (num: number) => {};
 
   return (
     <>
@@ -198,7 +198,7 @@ export default function ItemDetail() {
               {imageUrls.map((url, index) => (
                 <div key={index}>
                   {/* 이미지 크기는 임의로 조절했습니다. */}
-                  <img src={url} alt={`img-${index}`} style={{width : '100%', height : '500px'}}/>
+                  <img src={url} alt={`img-${index}`} style={{ width: '100%', height: '500px' }} />
                 </div>
               ))}
             </Slider>
@@ -215,7 +215,8 @@ export default function ItemDetail() {
                 </li>
               </ul>
               <div className="contentbox" data-show={showDetail}>
-                {/* 상품 상세정보 */}{item.description}
+                {/* 상품 상세정보 */}
+                {item.description}
               </div>
               <div className="contentbox qna" data-show={showQna}>
                 <h3>문의 답변</h3>
@@ -261,20 +262,20 @@ export default function ItemDetail() {
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
-                  고객 후기(<strong>★</strong> 4.9 <span>2,500건</span>)
+                  고객 후기(<strong>★</strong> {item.rate} <span>{item.reviewList.length}건</span>)
                 </h3>
                 <C.SortWrapper>
-                  <p className="total">총 17,153개</p>
+                  <p className="total">총 {commaNumber(item.reviewList.length)}개</p>
                   <Sort type="order" />
                 </C.SortWrapper>
                 <div className="review-wrapper">
-                  {reviewSlideItems.map((reviewItem, index) => (
+                  {item.reviewList.map((reviewItem, index) => (
                     <ReviewModel
-                      writer={reviewItem.writer}
+                      writer={reviewItem.memberId}
                       date={reviewItem.date}
-                      rating={reviewItem.rating}
-                      category={reviewItem.category}
-                      productName={reviewItem.productName}
+                      rating={reviewItem.rate}
+                      category={''}
+                      productName={reviewItem.itemName}
                       content={reviewItem.content}
                       key={index}
                     />
@@ -289,32 +290,29 @@ export default function ItemDetail() {
               {/* 상품 정보 */}
               <div>
                 <p className="category">
-                  <span>상품 카테고리</span>
+                  {item.itemCategories ? item.itemCategories.map((category) => <span>{category.title} </span>) : <></>}
                   <span>지역</span>
                 </p>
                 <h2>{item.title}</h2>
-                <p className="summary">상품 설명글 짧은글</p>
+                {/* 짧은 설명글이 엔티티에 없습니다. 혹시 모르니 일단 주석 처리했습니다. <p className="summary">상품 설명글 짧은글</p>*/}
                 <table>
                   {/** 상품 옵션 등 기타 정보 */}
                   <tbody>
                     {/* loop start */}
-                    <tr>
-                      <th>옵션타이틀</th>
-                      <td>{item.rate}</td>
-                    </tr>
-                    {/* loop end */}
-                    <tr>
-                      <th>옵션타이틀</th>
-                      <td>{item.rate}</td>
-                    </tr>
-                    <tr>
-                      <th>옵션타이틀</th>
-                      <td>{item.rate}</td>
-                    </tr>
+                    {item.itemOptions ? (
+                      item.itemOptions.map((option) => (
+                        <tr>
+                          <th>{option.option}</th>
+                          <td>{commaNumber(option.price)}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <></>
+                    )}
                   </tbody>
                 </table>
                 <p className="price">
-                  <strong>{item.price}</strong> 원
+                  <strong>{commaNumber(item.price)}</strong> 원
                 </p>
               </div>
               <button type="button" onClick={handleBuyClick} className="btn-order">
