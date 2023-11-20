@@ -37,40 +37,40 @@ const CSFaq: React.FC = () => {
 
   // 질문 데이터 가져오기
   useEffect(() => {
-    if(category === 'all'){
+    if (category === 'all') {
       Instance.get(`/api/qnas/questions?size=${itemsPerPage}&page=${currentPage}`)
-      .then((response) => {
-        const data = response.data;
-        setQnaData(data);
-        setTotalPage(data[0].pageInfo.totalPage);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }else{
+        .then((response) => {
+          const data = response.data;
+          setQnaData(data);
+          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
       Instance.get(`/api/qnas/notdeleted/category/${category}?size=${itemsPerPage}&page=${currentPage}`)
-      .then((response) =>  {
-        const data = response.data;
-        setQnaData(data);
-        setTotalPage(data[0].pageInfo.totalPage);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
+        .then((response) => {
+          const data = response.data;
+          setQnaData(data);
+          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, [currentPage, category])
+  }, [currentPage, category]);
 
   // 카테고리 데이터 가져오기
   useEffect(() => {
     Instance.get(`/api/categorys/notdeleted/name/QNA`)
-    .then((response) => {
-      const data = response.data;
-      setCategorys(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }, [qnaData])
+      .then((response) => {
+        const data = response.data;
+        setCategorys(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [qnaData]);
 
   return (
     <S.CSFaqStyles>
@@ -100,23 +100,30 @@ const CSFaq: React.FC = () => {
         <div className="faq-content">
           <div className="faq-title">자주하는 질문</div>
           <ul className="category-list">
-            <li className={category === 'all' ? 'active' : ''}><Link to={'/cs/faq/all'}>전체</Link></li>
-            {categorys && categorys.map((item, index) => (
-              <li key={index} className={category === item.categoryName ? 'active' : ''}><Link to={`/cs/faq/${item.categoryName}`}>{item.categoryName}</Link></li>
-            ))
-}
+            <li className={category === 'all' ? 'active' : ''}>
+              <Link to={'/cs/faq/all'}>전체</Link>
+            </li>
+            {categorys &&
+              categorys.map((item, index) => (
+                <li key={index} className={category === item.categoryName ? 'active' : ''}>
+                  <Link to={`/cs/faq/${item.categoryName}`}>{item.categoryName}</Link>
+                </li>
+              ))}
           </ul>
         </div>
         <div className="accordion-menu">
           {qnaData?.length === 0 && <NoItem>등록된 QnA가 없습니다.</NoItem>}
-          {qnaData && qnaData.map((faq, index) => (
-            <div key={index}>
-              <button onClick={() => toggleItem(index)} className="title-btn">
-                [{faq.categoryName}]{faq.title}
-              </button>
-              <div className={`faq-content-list ${openIndex === index ? 'visible' : ''}`}>{faq.children ? faq.children.content : ''}</div>
-            </div>
-          ))}
+          {qnaData &&
+            qnaData.map((faq, index) => (
+              <div key={index}>
+                <button onClick={() => toggleItem(index)} className="title-btn">
+                  [{faq.categoryName}]{faq.title}
+                </button>
+                <div className={`faq-content-list ${openIndex === index ? 'visible' : ''}`} style={{ whiteSpace: 'pre-line' }}>
+                  {faq.content}
+                </div>
+              </div>
+            ))}
           <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import * as S from './ReviewModelStyles';
-import { Link } from 'react-router-dom';
 
 interface ReviewProps {
   imageUrl?: string;
@@ -44,8 +43,8 @@ const ReviewModel: React.FC<ReviewProps> = ({ imageUrl, writer, date, rating, ca
             </div>
           </div>
         </div>
-        <div className="review-content">
-          <Link to="#">{content}</Link>
+        <div className="review-content" style={{ whiteSpace: 'pre-line' }}>
+          {content}
         </div>
       </div>
     </S.ReviewModel>

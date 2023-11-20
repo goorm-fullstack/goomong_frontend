@@ -6,7 +6,6 @@ import { Link, useParams } from 'react-router-dom';
 import { PostData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
 import { formattingDate } from '../../../util/func/functions';
-import { NoItem } from '../../../Style/CommonStyles';
 
 const CSNoticeDetail: React.FC = () => {
   const [noticeData, setNoticeData] = useState<PostData>(); // 공지사항 데이터
@@ -71,7 +70,9 @@ const CSNoticeDetail: React.FC = () => {
             <div className="notice-title">
               [공지사항] {noticeData && noticeData.postTitle} [{noticeData && formattingDate(noticeData.regDate)}]
             </div>
-            <div className="notice-content">{noticeData && noticeData.postContent}</div>
+            <div style={{ whiteSpace: 'pre-line' }} className="notice-content">
+              {noticeData && noticeData.postContent}
+            </div>
           </div>
           <div className="other-notice-container">
             <div className="other-notice-title">이 게시판의 다른 글</div>

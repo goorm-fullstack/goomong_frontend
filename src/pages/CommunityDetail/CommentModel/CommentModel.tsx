@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from 'react';
 
 import * as S from './CommentModelStyles';
 import { CommentData } from '../../../interface/Interface';
-import { detailDate, getImageFile } from '../../../util/func/functions';
+import { commaNumber, detailDate, getImageFile } from '../../../util/func/functions';
 import Instance from '../../../util/API/axiosInstance';
 
 interface CommentModelProps {
@@ -89,7 +89,9 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
             <div className="comment-time">{detailDate(comment.regDate)}</div>
           </div>
         </div>
-        <div className="comment-content">{comment.content}</div>
+        <div className="comment-content" style={{ whiteSpace: 'pre-line' }}>
+          {comment.content}
+        </div>
         <div className="comment-bottom">
           {likeNo !== undefined && (
             <div className="comment-like">
@@ -99,7 +101,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
                   d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
                 />
               </svg>
-              {likeNo}
+              {commaNumber(likeNo)}
             </div>
           )}
         </div>

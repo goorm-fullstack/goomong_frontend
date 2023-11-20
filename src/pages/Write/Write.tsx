@@ -13,6 +13,7 @@ const Write: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('카테고리 목록');
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(); // 선택한 카테고리 id
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
+  const [fileName, setFileName] = useState<string>(); // 업로드한 파일 이름
   const imgRef = useRef<HTMLInputElement>(null);
 
   const toggleDropdown = () => {
@@ -95,7 +96,13 @@ const Write: React.FC = () => {
           <textarea className="content-box" required value={content} onChange={(e) => setContent(e.target.value)} />
           <div className="input-text">첨부파일</div>
           <label className="file-upload">
-            <input type="file" name="file" accept=".jpg, .jpeg, .png, .gif" ref={imgRef} />
+            <input
+              type="file"
+              name="file"
+              accept=".jpg, .jpeg, .png, .gif"
+              ref={imgRef}
+              onChange={(e) => setFileName(e.target.files ? e.target.files[0].name : '파일 추가 또는 파일을 여기로 드래그하세요.')}
+            />
           </label>
           <div className="submit-btn">
             <button type="submit">작성</button>
