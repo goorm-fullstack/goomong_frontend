@@ -40,7 +40,9 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
           <li>{p_category}</li>
         </ul>
         <div className="review-page-model-title">{title}</div>
-        <div className="review-page-model-content">{content}</div>
+        <div className="review-page-model-content" style={{ whiteSpace: 'pre-line' }}>
+          {content}
+        </div>
         <div className="review-page-model-time">{time}</div>
         <div className="review-page-model-bottom">
           <div className="review-page-model-left">

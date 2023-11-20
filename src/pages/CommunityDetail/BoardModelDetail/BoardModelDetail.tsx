@@ -92,7 +92,9 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
             </div>
           </div>
         </div>
-        <div className="board-content">{boardContent}</div>
+        <div className="board-content" style={{ whiteSpace: 'pre-line' }}>
+          {boardContent}
+        </div>
         <div className="board-detail-bottom">
           <div className="board-detail-like">
             <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>

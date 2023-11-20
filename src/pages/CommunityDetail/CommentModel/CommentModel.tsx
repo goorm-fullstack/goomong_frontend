@@ -89,7 +89,9 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
             <div className="comment-time">{detailDate(comment.regDate)}</div>
           </div>
         </div>
-        <div className="comment-content">{comment.content}</div>
+        <div className="comment-content" style={{ whiteSpace: 'pre-line' }}>
+          {comment.content}
+        </div>
         <div className="comment-bottom">
           {likeNo !== undefined && (
             <div className="comment-like">
