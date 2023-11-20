@@ -13,4 +13,10 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_16cda5c8fcbd
+          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_ab467fbbabbb
+    env:
+      - name: REACT_APP_API_URL
+        valueFrom:
+          secretKeyRef:
+            name: api-secret
+            key: REACT_APP_API_URL
