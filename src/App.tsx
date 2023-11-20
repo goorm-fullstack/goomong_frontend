@@ -30,6 +30,12 @@ import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
 import SellerAll from './pages/SellerAll/SellerAll';
 import Write from './pages/Write/Write';
 import Hire from './pages/Hire/Hire';
+import CSNoticeDetail from './pages/CustomerService/CSNotice/CSNoticeDetail';
+import AdminPostList from './pages/Admin/post/AdminPostList';
+import AdminPostWrite from './pages/Admin/post/AdminPostWrite';
+import AdminPostDetail from './pages/Admin/post/AdminPostDetail';
+import AdminQnaList from './pages/Admin/qna/AdminQnaList';
+import AdminQnaWrite from './pages/Admin/qna/AdminQnaWrite';
 
 const App: React.FC = () => {
   return (
@@ -42,12 +48,13 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community" element={<Community />} />
+        <Route path="/community/:category" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
-        <Route path="/cs/faq" element={<CSFaq />} />
+        <Route path="/cs/notice/:id" element={<CSNoticeDetail />} />
+        <Route path="/cs/faq/:category" element={<CSFaq />} />
         <Route path="/cs/inquiry" element={<CSInquiry />} />
         <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/rank" element={<SellerRank />} />
@@ -68,6 +75,11 @@ const App: React.FC = () => {
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
         <Route path="/admin/item/category" element={<AdminItemCategory />}></Route>
+        <Route path="/admin/post" element={<AdminPostList />} />
+        <Route path="/admin/post/write" element={<AdminPostWrite />} />
+        <Route path="/admin/post/detail/:id" element={<AdminPostDetail />} />
+        <Route path="/admin/qna" element={<AdminQnaList />} />
+        <Route path="/admin/qna/write" element={<AdminQnaWrite />} />
       </Routes>
     </div>
   );

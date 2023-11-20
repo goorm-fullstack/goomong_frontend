@@ -2,6 +2,7 @@ import React from 'react';
 import * as S from './BoardModelDetailStyles';
 import Instance from '../../../util/API/axiosInstance';
 import { useParams } from 'react-router';
+import { commaNumber } from '../../../util/func/functions';
 
 interface BoardModelDetailProps {
   boardImage?: string;
@@ -45,7 +46,7 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
       const man = number / 10000;
       const rounded = Math.round(man * 10) / 10;
       return rounded.toLocaleString() + '만 회';
-    } else return String(number) + '회';
+    } else return String(commaNumber(number)) + '회';
   }
 
   // 좋아요 클릭
@@ -91,7 +92,9 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
             </div>
           </div>
         </div>
-        <div className="board-content">{boardContent}</div>
+        <div className="board-content" style={{ whiteSpace: 'pre-line' }}>
+          {boardContent}
+        </div>
         <div className="board-detail-bottom">
           <div className="board-detail-like">
             <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>
@@ -100,7 +103,7 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
                 d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
               />
             </svg>
-            {boardLike}
+            {commaNumber(boardLike)}
           </div>
           <div className="board-detail-comment">
             <svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16px" height="14px">
@@ -113,7 +116,7 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
                 />
               </g>
             </svg>
-            {boardComment}
+            {commaNumber(boardComment)}
           </div>
         </div>
       </div>

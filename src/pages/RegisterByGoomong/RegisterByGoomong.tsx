@@ -3,13 +3,53 @@ import React, { useState } from 'react';
 import * as S from './RegisterByGoomongStyles';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/common/logo.png';
+import Instance from "../../util/API/axiosInstance";
 
 const RegisterByGoomong: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [memberId, setMemberId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [code, setCode] = useState<string>('');
+
+  const sendCode = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const emailInfo = {         //로그인 정보
+      email : email
+    };
+
+    Instance.post(`/api/support/sendCode`, emailInfo, {
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+    })
+      .then((response) => {
+        alert('인증 메일이 전송되었습니다. 확인해주세요.');
+      })
+      .catch(e => alert(e));
+  }
+
+  const checkCode = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const codeInfo = {
+      email: email,
+      code: code,
+    };
+
+    Instance.post(`/api/support/checkCode`, codeInfo, {
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+    })
+        .then((response) => {
+          alert('인증되었습니다.');
+        })
+        .catch(e => alert(e));
+  }
 
   const handleRegGoomongSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +66,7 @@ const RegisterByGoomong: React.FC = () => {
         </div>
         <form onSubmit={handleRegGoomongSubmit}>
           <div className="input-text pw">구몽 아이디</div>
-          <input type="email" value={email} placeholder="example@goomong.com" onChange={(e) => setEmail(e.target.value)}/>
+          <input type="memberId" value={memberId} onChange={(e) => setMemberId(e.target.value)}/>
           <div className="input-text pw">비밀번호</div>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <div className="input-text pw-check">비밀번호 확인</div>
@@ -73,9 +113,11 @@ const RegisterByGoomong: React.FC = () => {
             </div>
           )}
 
-          <div className="input-text">값이 들어온 경우 활성화</div>
-          <input type="text" className="certification" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-          <button type="submit" className={`certification-btn ${inputValue ? 'active' : ''}`}>
+          <div className="input-text">이메일 인증</div>
+          <input type="email" className="certification" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          <button className={`certification-btn ${email ? 'active' : ''}`} onClick={sendCode}>전송</button>
+          <input type="text" className="certification" value={code} onChange={(e) => setCode(e.target.value)} />
+          <button type="submit" className={`certification-btn ${code ? 'active' : ''}`} onClick={checkCode}>
             인증
           </button>
           <div className="agreement">

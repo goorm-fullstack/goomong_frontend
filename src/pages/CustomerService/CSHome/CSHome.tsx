@@ -1,13 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './CSHomeStyles';
 import MegaPhone from '../../../assets/images/cs/ico_megaphone.png';
 import { Link } from 'react-router-dom';
 import CSHeader from '../CSHeader/CSHeader';
 import CSFooter from '../CSFooter/CSFooter';
+import { PostData, QuestionData } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
+import { NoItem } from '../../../Style/CommonStyles';
+
 function CS_Home() {
+  const [qnaData, setQnaData] = useState<QuestionData[]>(); // 질문 데이터
+  const [noticeData, setNoticeData] = useState<PostData[]>(); // 공지사항 데이터
+
   const handleCSSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
+
+  // 질문 데이터 및 공지사항 데이터 가져오기
+  useEffect(() => {
+    Instance.get('/api/qnas/questions?size=5')
+      .then((response) => {
+        const data = response.data;
+        setQnaData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    Instance.get('/api/posts/notdeletedtype/NOTICE?size=5')
+      .then((response) => {
+        const data = response.data;
+        setNoticeData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <S.CSHomeStyles>
@@ -118,24 +146,18 @@ function CS_Home() {
             <div className="left">
               <div className="left-title">자주묻는 질문</div>
               <ul className="left-list">
-                <li>콘테스트를 개최하려면 어떻게 해야하나요?</li>
-                <li>콘테스트 상금은 디자이너에게 어떻게 지급되나요?</li>
-                <li>마음에 드는 시안이 없을까봐 걱정 돼요!</li>
-                <li>우승후보작 선정 옵션은 무엇인가요?</li>
-                <li>등록된 시안을 실시간으로 확인할 수 있나요?</li>
+                {qnaData?.length === 0 && <NoItem>등록된 질문이 없습니다.</NoItem>}
+                {qnaData && qnaData.map((qna, index) => <li key={index}>{qna.title}</li>)}
               </ul>
-              <Link to="/cs/faq">
+              <Link to="/cs/faq/all">
                 <button className="more-btn">더보기+</button>
               </Link>
             </div>
             <div className="right">
               <div className="right-title">공지사항</div>
               <ul className="right-list">
-                <li>콘테스트를 개최하려면 어떻게 해야하나요?</li>
-                <li>콘테스트 상금은 디자이너에게 어떻게 지급되나요?</li>
-                <li>마음에 드는 시안이 없을까봐 걱정 돼요!</li>
-                <li>우승후보작 선정 옵션은 무엇인가요?</li>
-                <li>등록된 시안을 실시간으로 확인할 수 있나요?</li>
+                {noticeData?.length === 0 && <NoItem>등록된 공지사항이 없습니다.</NoItem>}
+                {noticeData && noticeData.map((notice, index) => <li key={index}>{notice.postTitle}</li>)}
               </ul>
               <Link to="/cs/notice">
                 <button className="more-btn">더보기+</button>

@@ -6,6 +6,10 @@ import Google from '../../assets/images/oauth/ico_google.png';
 import Naver from '../../assets/images/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
+const KakaoLogin = () => {
+  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback`;
+}
+
 const Register: React.FC = () => {
   return (
     <S.Register>
@@ -24,7 +28,7 @@ const Register: React.FC = () => {
         <div className="oauth">
           <Link to="#null">
             <div className="kakao">
-              <button type="submit" className="btn kakao-btn">
+              <button type="submit" className="btn kakao-btn" onClick={KakaoLogin}>
                 <img src={Kakao} alt="kakao" />
                 카카오로 가입하기
               </button>

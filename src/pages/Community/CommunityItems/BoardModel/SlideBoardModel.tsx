@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './SlideBoardModelStyles';
 import { Link } from 'react-router-dom';
+import { commaNumber } from '../../../../util/func/functions';
 
 interface SlideBoardModelProps {
   category: string;
@@ -30,7 +31,7 @@ const SlideBoardModel: React.FC<SlideBoardModelProps> = ({ category, title, writ
                   />
                 </g>
               </svg>
-              <span className="comment-num">{comment}</span>
+              <span className="comment-num">{commaNumber(comment)}</span>
             </div>
           </div>
         </div>
