@@ -31,7 +31,7 @@ const CSNotice: React.FC = () => {
       .then((response) => {
         const data = response.data;
         setNoticeData(data);
-        setTotalPage(data[0].pageInfo.totalPage);
+        if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
       })
       .catch((error) => {
         console.error(error);

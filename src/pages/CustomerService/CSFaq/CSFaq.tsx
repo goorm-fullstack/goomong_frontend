@@ -42,7 +42,7 @@ const CSFaq: React.FC = () => {
         .then((response) => {
           const data = response.data;
           setQnaData(data);
-          setTotalPage(data[0].pageInfo.totalPage);
+          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
         })
         .catch((error) => {
           console.error(error);
@@ -52,7 +52,7 @@ const CSFaq: React.FC = () => {
         .then((response) => {
           const data = response.data;
           setQnaData(data);
-          setTotalPage(data[0].pageInfo.totalPage);
+          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
         })
         .catch((error) => {
           console.error(error);

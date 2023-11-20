@@ -73,6 +73,21 @@ export interface PostData {
   pageInfo: PageInfoData;
 }
 
+export interface Item {
+  id: number;
+  title: string;
+  member: any;
+  price: number;
+  description: string;
+  itemOptions: Array<any>;
+  thumbNailList: Array<any>;
+  itemCategories: Array<any>;
+  reviewList: Array<any>;
+  askList: Array<any>;
+  rate: number;
+  status: string;
+}
+
 export interface CommunityCategoryData {
   id: number;
   image: Image;
