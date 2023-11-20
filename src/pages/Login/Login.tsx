@@ -29,6 +29,7 @@ const Login: React.FC = () => {
       })
       .then((response) => {
         cookies.set("memberId", response.data.memberId, { expires: new Date(Date.now() + 30 * 60 * 1000) });
+        cookies.set("id", response.data.id, { expires: new Date(Date.now() + 30 * 60 * 1000) });
         navigate(-1);
       })
       .catch((e) => {

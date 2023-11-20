@@ -27,6 +27,7 @@ const Header: React.FC = () => {
         .then(() => {
           alert('로그아웃 되었습니다.');
           cookies.remove('memberId');
+          cookies.remove('id');
           window.location.reload();
         })
         .catch(e => console.log(e));
