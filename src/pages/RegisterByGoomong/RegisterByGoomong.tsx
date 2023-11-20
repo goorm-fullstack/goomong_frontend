@@ -12,8 +12,45 @@ const RegisterByGoomong: React.FC = () => {
   const [memberPassword, setMemberPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [memberEmail, setMemberEmail] = useState<string>("");
+  const [memberName, setMemberName] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [isCodeVerified, setIsCodeVerified] = useState<boolean>(false);
+  const [isIdVerified, setIsIdVerified] = useState<boolean>(false);
+  const [isNameVerified, setIsNameVerified] = useState<boolean>(false);
+
+  const checkId = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    Instance.get(`/api/member/memberId/${memberId}`)
+      .then((response) => {
+        if(response.data == ""){            //존재하는 아이디가 없을 때
+          alert('사용할 수 있는 아이디입니다.');
+          setIsIdVerified(true);
+        }
+        else
+          alert('이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.');
+      })
+      .catch(() => {
+        alert('다시 시도해주세요.');
+      });
+  };
+
+  const checkName = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    Instance.get(`/api/member/memberName/${memberName}`)
+        .then((response) => {
+          if(response.data == ""){            //존재하는 아이디가 없을 때
+            alert('사용할 수 있는 별명입니다.');
+            setIsNameVerified(true);
+          }
+          else
+            alert('이미 존재하는 별명입니다. 다른 별명을 입력해주세요.');
+        })
+        .catch(() => {
+          alert('다시 시도해주세요.');
+        });
+  };
 
   const sendCode = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,9 +97,29 @@ const RegisterByGoomong: React.FC = () => {
   const handleRegGoomongSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(!isIdVerified) {
+      alert('아이디 중복을 완료해주세요.');
+      return;
+    }
+
+    if(!isNameVerified) {
+      alert('별명 중복을 완료해주세요.');
+      return;
+    }
+
+    if(!isCodeVerified) {
+      alert('이메일 인증을 완료해주세요.');
+    }
+
+    if (!isChecked) {
+      alert('회원가입 약관에 동의해야 합니다.');
+      return;
+    }
+
     const newMemberInfo = {
       memberId: memberId,
       memberPassword: memberPassword,
+      memberName: memberName,
       memberEmail: memberEmail,
     };
 
@@ -96,8 +153,16 @@ const RegisterByGoomong: React.FC = () => {
           <input
             type="memberId"
             value={memberId}
+            className="certification"
             onChange={(e) => setMemberId(e.target.value)}
           />
+          <button
+              className={`certification-btn ${memberId ? "active" : ""}`}
+              onClick={checkId}
+          >
+            중복
+          </button>
+
           <div className="input-text pw">비밀번호</div>
           <input
             type="password"
@@ -173,6 +238,22 @@ const RegisterByGoomong: React.FC = () => {
               비밀번호가 일치합니다.
             </div>
           )}
+
+
+          <div className="input-text name">별명</div>
+          <input
+              type="memberName"
+              className="certification"
+              value={memberName}
+              onChange={(e) => setMemberName(e.target.value)}
+          />
+          <button
+              className={`certification-btn ${memberName ? "active" : ""}`}
+              onClick={checkName}
+          >
+            중복
+          </button>
+
 
           <div className="input-text">이메일 인증</div>
           <input
