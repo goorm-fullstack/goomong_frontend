@@ -3,10 +3,10 @@ import * as S from './NocieBoardModelStyles';
 import { Link } from 'react-router-dom';
 
 interface NoticeBoardModelProps {
-  type: string;
+  type?: string;
   title: string;
-  writer: string;
-  comment: number;
+  writer?: string;
+  comment?: number;
 }
 
 const NoticeBoardModel: React.FC<NoticeBoardModelProps> = ({ type, title, writer, comment }) => {
@@ -18,6 +18,7 @@ const NoticeBoardModel: React.FC<NoticeBoardModelProps> = ({ type, title, writer
           <div className="nboard-title">{title}</div>
           <div className="nboard-bottom">
             <div className="writer">{writer}</div>
+            {comment &&
             <div className="comment">
               <svg width="16px" height="14px" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <g id="info" />
@@ -31,6 +32,7 @@ const NoticeBoardModel: React.FC<NoticeBoardModelProps> = ({ type, title, writer
               </svg>
               <span className="comment-num">{comment}</span>
             </div>
+}
           </div>
         </div>
       </Link>

@@ -14,6 +14,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
   const [replyContent, setReplyContent] = useState<string>();
   const [reply, setReply] = useState<CommentData[]>();
   const [imageUrl, setImageUrl] = useState<string>();
+  const [likeNo, setLikeNo] = useState<number>();
 
   const handleReplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,25 +42,31 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
 
     fetchImages();
     setReply(comment.childrenComment);
+    setLikeNo(comment.likeNo);
   }, [comment]);
 
-  const clickLike = () => {
+  // 좋아요 클릭
+  const clickLike = (currentLikeNo: number) => {
     const likeRequest = {
       memberId: 1,
       commentId: comment.id,
     };
     Instance.post('/api/like/comment', likeRequest)
       .then(() => {
-        // 좋아요 클릭 성공 시 실행할 로직
+        setLikeNo(currentLikeNo + 1);
       })
-      .catch(() => {
-        Instance.delete('/api/like/comment', { data: likeRequest })
-          .then(() => {
-            // 좋아요 취소 성공 시 실행할 로직
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      .catch((error) => {
+        if (error.response.data.includes('해당 회원은 해당 댓글에 좋아요를 클릭한 상태입니다.')) {
+          Instance.delete('/api/like/comment', { data: likeRequest })
+            .then(() => {
+              setLikeNo(currentLikeNo - 1);
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+        } else {
+          console.error(error);
+        }
       });
   };
 
@@ -84,15 +91,17 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
         </div>
         <div className="comment-content">{comment.content}</div>
         <div className="comment-bottom">
-          <div className="comment-like">
-            <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>
-              <path
-                fill="#aab1bc"
-                d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
-              />
-            </svg>
-            {comment.likeNo}
-          </div>
+          {likeNo !== undefined && (
+            <div className="comment-like">
+              <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={() => clickLike(likeNo)}>
+                <path
+                  fill="#aab1bc"
+                  d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
+                />
+              </svg>
+              {likeNo}
+            </div>
+          )}
         </div>
         {comment.parentId === null && (
           <form onSubmit={handleReplySubmit} className="reply-form">

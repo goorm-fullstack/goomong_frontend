@@ -1,42 +1,45 @@
 import React, { useState, useEffect } from 'react';
-
 import * as S from './CSNoticeStyles';
 import CSHeader from '../CSHeader/CSHeader';
-import { Link } from 'react-router-dom';
 import CSFooter from '../CSFooter/CSFooter';
-import Pagination from '../../../components/Pagination/Pagination';
+import { Link, useParams } from 'react-router-dom';
 import { PostData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
 import { formattingDate } from '../../../util/func/functions';
 import { NoItem } from '../../../Style/CommonStyles';
 
-const CSNotice: React.FC = () => {
+const CSNoticeDetail: React.FC = () => {
+  const [noticeData, setNoticeData] = useState<PostData>(); // 공지사항 데이터
+  const [randomData, setRandomData] = useState<PostData[]>(); // 랜덤 데이터
+  const id = useParams().id;
+
   const handleNoticeSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10; // 페이지당 표시할 아이템 수
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const [noticeData, setNoticeData] = useState<PostData[]>(); // 공지사항 데이터
-  const [totalPage, setTotalPage] = useState<number>(); // 총 페이지 수
-
   // 공지사항 데이터 가져오기
   useEffect(() => {
-    Instance.get(`/api/posts/notdeletedtype/NOTICE?page=${currentPage}&size=${itemsPerPage}`)
+    Instance.get(`/api/posts/post/${id}`)
       .then((response) => {
         const data = response.data;
         setNoticeData(data);
-        setTotalPage(data[0].pageInfo.totalPage);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [currentPage]);
+  }, [id]);
+
+  // 랜덤 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/posts/random/${id}`)
+      .then((response) => {
+        const data = response.data;
+        setRandomData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [id]);
 
   return (
     <S.CSNoticeStyles>
@@ -63,21 +66,24 @@ const CSNotice: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="cs-notice-content">
-          <div className="title">공지사항</div>
-          <div className="cs-notice-content">
-            <ul className="notice-list">
-              {noticeData?.length === 0 && <NoItem>등록된 공지사항이 없습니다.</NoItem>}
-              {noticeData &&
-                noticeData.map((notice, index) => (
+        <div className="notice-detail-container">
+          <div className="notice-detail-content">
+            <div className="notice-title">
+              [공지사항] {noticeData && noticeData.postTitle} [{noticeData && formattingDate(noticeData.regDate)}]
+            </div>
+            <div className="notice-content">{noticeData && noticeData.postContent}</div>
+          </div>
+          <div className="other-notice-container">
+            <div className="other-notice-title">이 게시판의 다른 글</div>
+            <ul className="other-notice-list">
+              {randomData?.length === 0 && <li>등록된 게시글이 없습니다.</li>}
+              {randomData &&
+                randomData.map((notice, index) => (
                   <li key={index}>
-                    <Link to={`/cs/notice/${notice.id}`}>
-                      [공지사항] {notice.postTitle} [{formattingDate(notice.regDate)}]
-                    </Link>
+                    <Link to={`/cs/notice/${notice.id}`}>{notice.postTitle}</Link>
                   </li>
                 ))}
             </ul>
-            <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
           </div>
         </div>
       </div>
@@ -85,5 +91,4 @@ const CSNotice: React.FC = () => {
     </S.CSNoticeStyles>
   );
 };
-
-export default CSNotice;
+export default CSNoticeDetail;

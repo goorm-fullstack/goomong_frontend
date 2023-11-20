@@ -52,7 +52,7 @@ export interface CommentData {
   pageInfo: PageInfoData;
 }
 
-export interface CommunityData {
+export interface PostData {
   id: number;
   memberId: string;
   memberAddress: string;
@@ -68,6 +68,45 @@ export interface CommunityData {
   postContent: string;
   postViews: number;
   postLikeNo: number;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface CommunityCategoryData {
+  id: number;
+  image: Image;
+  categoryGroup: string;
+  categoryName: string;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface QnaCategoryData{
+  id: number;
+  image: Image;
+  categoryGroup: string;
+  categoryName: string;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface QuestionData {
+  id: number;
+  categoryName: string;
+  children: AnswerData;
+  title: string;
+  content: string;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface AnswerData {
+  id: number;
+  content: string;
   regDate: Date;
   delDate: Date;
   pageInfo: PageInfoData;

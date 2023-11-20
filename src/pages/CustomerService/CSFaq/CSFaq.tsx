@@ -1,83 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as S from './CSFaqStyles';
 import CSHeader from '../CSHeader/CSHeader';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CSFooter from '../CSFooter/CSFooter';
 import Pagination from '../../../components/Pagination/Pagination';
+import { QnaCategoryData, QuestionData } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
+import { NoItem } from '../../../Style/CommonStyles';
 
-interface Faq {
-  title: string;
-  content: string;
-  category: string;
-}
 const CSFaq: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const handleFaqSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
-  const faqList: Faq[] = [
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용1',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용2',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용3',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용4',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-    {
-      title: '콘테스트를 개최하려면 어떻게 해야하나요?',
-      content: '내용5',
-      category: '분류',
-    },
-  ];
 
   //아코디언 메뉴 로직
   const toggleItem = (index: number) => {
@@ -87,49 +23,55 @@ const CSFaq: React.FC = () => {
       setOpenIndex(index);
     }
   };
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10; // 페이지당 표시할 아이템 수
-  const totalPages = Math.ceil(faqList.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  // 현재 페이지에 따라 표시할 아이템 목록 계산
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = faqList.slice(indexOfFirstItem, indexOfLastItem);
+  const [qnaData, setQnaData] = useState<QuestionData[]>(); // 질문 데이터
+  const [totalPage, setTotalPage] = useState<number>(); // 전체 페이지 수
+  const [categorys, setCategorys] = useState<QnaCategoryData[]>(); // 카테고리 데이터
+  const category = useParams().category;
 
-  //////////////////////////0백엔드 연동시 필요한 부분//////////////////////////
-  // const [notices, setNotices] = useState<Notice[]>([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
-  // const [itemsPerPage, setItemsPerPage] = useState(10); // 초기값, 백엔드에서 받아올 수도 있음
+  // 질문 데이터 가져오기
+  useEffect(() => {
+    if(category === 'all'){
+      Instance.get(`/api/qnas/questions?size=${itemsPerPage}&page=${currentPage}`)
+      .then((response) => {
+        const data = response.data;
+        setQnaData(data);
+        setTotalPage(data[0].pageInfo.totalPage);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }else{
+      Instance.get(`/api/qnas/notdeleted/category/${category}?size=${itemsPerPage}&page=${currentPage}`)
+      .then((response) =>  {
+        const data = response.data;
+        setQnaData(data);
+        setTotalPage(data[0].pageInfo.totalPage);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
+  }, [currentPage, category])
 
-  // useEffect(() => {
-  //   // 백엔드에서 데이터 가져오기
-  //   const fetchData = async () => {
-  //     try {
-  //       // 백엔드 API 호출
-  //       const response = await fetch(`백엔드 URL?page=${currentPage}&limit=${itemsPerPage}`);
-  //       const data = await response.json();
+  // 카테고리 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/categorys/notdeleted/name/QNA`)
+    .then((response) => {
+      const data = response.data;
+      setCategorys(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [qnaData])
 
-  //       setNotices(data.items); // 현재 페이지 아이템
-  //       setTotalPages(data.totalPages); // 총 페이지 수
-  //       setItemsPerPage(data.itemsPerPage); // 페이지당 아이템 수
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentPage, itemsPerPage]);
-
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
-
-  
   return (
     <S.CSFaqStyles>
       <CSHeader />
@@ -158,23 +100,24 @@ const CSFaq: React.FC = () => {
         <div className="faq-content">
           <div className="faq-title">자주하는 질문</div>
           <ul className="category-list">
-            <li className="active">마케팅</li>
-            <li>전자책</li>
-            <li>영어 번역</li>
-            <li>전자책</li>
-            <li>전자책</li>
+            <li className={category === 'all' ? 'active' : ''}><Link to={'/cs/faq/all'}>전체</Link></li>
+            {categorys && categorys.map((item, index) => (
+              <li key={index} className={category === item.categoryName ? 'active' : ''}><Link to={`/cs/faq/${item.categoryName}`}>{item.categoryName}</Link></li>
+            ))
+}
           </ul>
         </div>
         <div className="accordion-menu">
-          {currentItems.map((faq, index) => (
+          {qnaData?.length === 0 && <NoItem>등록된 QnA가 없습니다.</NoItem>}
+          {qnaData && qnaData.map((faq, index) => (
             <div key={index}>
               <button onClick={() => toggleItem(index)} className="title-btn">
-                [{faq.category}]{faq.title}
+                [{faq.categoryName}]{faq.title}
               </button>
-              <div className={`faq-content-list ${openIndex === index ? 'visible' : ''}`}>{faq.content}</div>
+              <div className={`faq-content-list ${openIndex === index ? 'visible' : ''}`}>{faq.children ? faq.children.content : ''}</div>
             </div>
           ))}
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
         </div>
       </div>
       <CSFooter />
