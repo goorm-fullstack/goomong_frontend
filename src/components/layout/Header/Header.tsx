@@ -3,11 +3,15 @@ import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';
+import Instance from "../../../util/API/axiosInstance";
+import {Cookies} from 'react-cookie';
 
 const Header: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const popularSearchTerms: string[] = ['인기검색어1', '인기검색어2', '인기검색어3', '인기검색어4'];
+  const cookies = new Cookies();
+  const isLogin = cookies.get('memberId');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -16,6 +20,17 @@ const Header: React.FC = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleLogout = () => {
+    Instance.post(`/api/member/logout`, {
+    })
+        .then(() => {
+          alert('로그아웃 되었습니다.');
+          cookies.remove('memberId');
+          window.location.reload();
+        })
+        .catch(e => console.log(e));
+  }
 
   return (
     <S.Header>
@@ -56,12 +71,24 @@ const Header: React.FC = () => {
             </form>
             <div className="join">
               <ul className="join-list">
-                <li className="login">
-                  <Link to="/login">로그인</Link>
-                </li>
-                <li className="new-in">
-                  <Link to="/register/step1">회원가입</Link>
-                </li>
+                {!isLogin ? (
+                  <>
+                    <li className="login">
+                      <Link to="/login">로그인</Link>
+                    </li>
+                    <li className="new-in">
+                      <Link to="/register/step1">회원가입</Link>
+                    </li>
+                  </>
+                ) :
+                  (
+                    <>
+                      <li className="logout">
+                        <Link to="#" onClick={handleLogout}>로그아웃</Link>
+                      </li>
+                    </>
+                  )}
+
                 <li className="customer-center">
                   <Link to="/cs/home">고객센터</Link>
                 </li>
