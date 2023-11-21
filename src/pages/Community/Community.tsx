@@ -133,7 +133,7 @@ const Community: React.FC = () => {
     if (cookies.get('id') === undefined) {
       alert('로그인 후 이용하실 수 있습니다.');
       window.location.href = '/login';
-    } else window.location.href = '/write';
+    } else window.location.href = '/write/community';
   };
 
   return (

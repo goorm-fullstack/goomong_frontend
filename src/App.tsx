@@ -72,7 +72,7 @@ const App: React.FC = () => {
         <Route path="/seller/map" element={<SellerMap />} />
         <Route path="/seller/all" element={<SellerAll />} />
         <Route path="/seller/detail" element={<SellerDetail />} />
-        <Route path="/write" element={<Write />} />
+        <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
 
         {/* 어드민 주소 위치 */}

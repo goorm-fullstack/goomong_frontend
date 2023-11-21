@@ -6,6 +6,7 @@ import Footer from '../../components/layout/Footer/Footer';
 import { CommunityCategoryData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { Cookies } from 'react-cookie';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -17,6 +18,10 @@ const Write: React.FC = () => {
   const [fileName, setFileName] = useState<string>(); // 업로드한 파일 이름
   const imgRef = useRef<HTMLInputElement>(null);
   const cookies = new Cookies();
+  const type = useParams().type;
+  const location = useLocation();
+  const itemId = location.state.itemId;
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -24,31 +29,54 @@ const Write: React.FC = () => {
 
   const handleWriteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedCategoryId === undefined) {
-      alert('카테고리를 선택해주세요.');
-      return;
-    }
-    const initPost = new FormData();
-    initPost.append('memberId', String(cookies.get('id')));
-    initPost.append('postCategoryId', String(selectedCategoryId));
-    initPost.append('postType', 'COMMUNITY');
-    initPost.append('postTitle', title);
-    initPost.append('postContent', content);
-    if (imgRef.current && imgRef.current.files) {
-      initPost.append('images', imgRef.current.files[0]);
-    }
+    if (type === 'community') {
+      if (selectedCategoryId === undefined) {
+        alert('카테고리를 선택해주세요.');
+        return;
+      }
+      const initPost = new FormData();
+      initPost.append('memberId', String(cookies.get('id')));
+      initPost.append('postCategoryId', String(selectedCategoryId));
+      initPost.append('postType', 'COMMUNITY');
+      initPost.append('postTitle', title);
+      initPost.append('postContent', content);
+      if (imgRef.current && imgRef.current.files) {
+        initPost.append('images', imgRef.current.files[0]);
+      }
 
-    Instance.post('/api/posts/post', initPost, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(() => {
-        window.location.href = '/community/all';
+      Instance.post('/api/posts/post', initPost, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then(() => {
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      const initQuestion = new FormData();
+      initQuestion.append('memberId', String(cookies.get('id')));
+      initQuestion.append('itemId', itemId);
+      initQuestion.append('title', title);
+      initQuestion.append('content', content);
+      if (imgRef.current && imgRef.current.files) {
+        initQuestion.append('images', imgRef.current.files[0]);
+      }
+
+      Instance.post('/api/asks/ask', initQuestion, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(() => {
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const handleCategorySelect = (category: string, id: number) => {
@@ -73,24 +101,28 @@ const Write: React.FC = () => {
     <S.WriteStyles>
       <Header />
       <div className="write-container">
-        <div className="write-title">작성하기</div>
+        <div className="write-title">{type === 'community' ? '게시글 작성하기' : '문의하기'}</div>
         <form onSubmit={handleWriteSubmit} className="write-form">
-          <div className="input-text">카테고리를 선택해주세요</div>
-          <div className="write-category" onClick={toggleDropdown}>
-            {selectedCategory}
-            {isDropdownOpen ? (
-              <div className="dropdown-category">
-                <ul>
-                  {categoryData &&
-                    categoryData.map((category, index) => (
-                      <li onClick={() => handleCategorySelect(category.categoryName, category.id)} key={index}>
-                        {category.categoryName}
-                      </li>
-                    ))}
-                </ul>
+          {type === 'community' && (
+            <>
+              <div className="input-text">카테고리를 선택해주세요</div>
+              <div className="write-category" onClick={toggleDropdown}>
+                {selectedCategory}
+                {isDropdownOpen ? (
+                  <div className="dropdown-category">
+                    <ul>
+                      {categoryData &&
+                        categoryData.map((category, index) => (
+                          <li onClick={() => handleCategorySelect(category.categoryName, category.id)} key={index}>
+                            {category.categoryName}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
+            </>
+          )}
 
           <div className="input-text">제목</div>
           <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
