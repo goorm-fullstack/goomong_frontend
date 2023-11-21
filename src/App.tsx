@@ -41,6 +41,7 @@ import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
 import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
+import Chatting from './pages/Chatting/Chatting';
 
 const App: React.FC = () => {
   return (
@@ -74,6 +75,7 @@ const App: React.FC = () => {
         <Route path="/seller/detail" element={<SellerDetail />} />
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
+        <Route path="/chatting" element={<Chatting />} />
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />

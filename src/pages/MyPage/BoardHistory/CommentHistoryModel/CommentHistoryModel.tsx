@@ -31,7 +31,10 @@ const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data }) => {
 
   const [selectedComment, setSelectedComment] = useState<number | null>(null);
 
- 
+  const toggleAccordion = (index: number) => {
+    setSelectedComment(selectedComment === index ? null : index);
+  };
+
   return (
     <S.CommentHistoryModelStyles>
       <div className="comment-history-model">
@@ -47,7 +50,7 @@ const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data }) => {
               <li>
                 <Link to="#null"></Link>댓글 달린 게시글 제목: {item.title}
               </li>
-              <li>{item.comment}</li>
+              <li onClick={() => toggleAccordion(index)}>{item.comment}</li>
               <li>{item.writer}</li>
               <li>{item.date}분전</li>
             </ul>
