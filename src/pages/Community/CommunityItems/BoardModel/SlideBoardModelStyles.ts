@@ -14,7 +14,7 @@ export const SlideBoardModelStyles = styled.div`
   .sboard-type {
     font-weight: 500;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: #404a5c;
     margin-bottom: 25px;
   }
@@ -22,7 +22,7 @@ export const SlideBoardModelStyles = styled.div`
     font-weight: 600;
     font-size: 16px;
     color: #101c33;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 70px;
   }
   .sboard-bottom {
@@ -35,7 +35,7 @@ export const SlideBoardModelStyles = styled.div`
     color: var(--dim-black);
     font-weight: 500;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .comment {
     display: flex;
@@ -45,4 +45,3 @@ export const SlideBoardModelStyles = styled.div`
     margin-right: 8px;
   }
 `;
-

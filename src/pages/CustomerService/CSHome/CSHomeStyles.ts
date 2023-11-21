@@ -30,7 +30,7 @@ export const CSHomeStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 44px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     text-align: center;
   }
 
@@ -85,7 +85,7 @@ export const CSHomeStyles = styled.div`
     color: #101c33;
     font-size: 24px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 30px;
   }
 
@@ -110,7 +110,7 @@ export const CSHomeStyles = styled.div`
   .bottom-list a div {
     font-size: 20px;
     color: #101c33;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     margin-top: 18px;
   }
@@ -147,7 +147,7 @@ export const CSHomeStyles = styled.div`
     color: #101c33;
     font-size: 24px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 40px;
   }
 
@@ -157,14 +157,14 @@ export const CSHomeStyles = styled.div`
     font-size: 15px;
     font-weight: 500;
     color: #101c33;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
 
   .more-btn {
     color: #4285f4;
     font-weight: 500;
     font-size: 15px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     background-color: transparent;
     border: 0;
     cursor: pointer;

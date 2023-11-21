@@ -2,11 +2,115 @@ import React, { useState } from 'react';
 import * as S from './SellerAllStyles';
 import Header from '../../components/layout/Header/Header';
 import { Link } from 'react-router-dom';
+import SellerBrandModel from './SellerBrandModel/SellerBrandModel';
+import Pagination from '../../components/Pagination/Pagination';
+import Footer from '../../components/layout/Footer/Footer';
+
 const SellerAll: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+
   const handleSearchTerm = (e: React.FormEvent) => {
     e.preventDefault();
   };
+
+  const sellerItems = [
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+    {
+      sellerName: '판매자명',
+      b_category: '재능 카테고리',
+      p_category: '서울 전채',
+      content: '판매자 소개글',
+      totalMoney: 255220000,
+      totalReview: 555,
+      totalTransaction: 555,
+      star: 4.9,
+    },
+  ];
+
+  //페이징처리
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7; // 페이지당 표시할 아이템 수
+  const totalPages = Math.ceil(sellerItems.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
+
+  //페이지가 바뀔때의 처리
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // 현재 페이지에 따라 표시할 아이템 목록 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sellerItems.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <S.SellerAllStyles>
       <Header />
@@ -77,8 +181,25 @@ const SellerAll: React.FC = () => {
               <button type="button">내 주변 판매자 찾기</button>
             </Link>
           </div>
+          {currentItems.map((item, index) => (
+            <Link to="#null" key={index}>
+              <SellerBrandModel
+                sellerName={item.sellerName}
+                b_category={item.b_category}
+                p_category={item.p_category}
+                content={item.content}
+                totalMoney={item.totalMoney}
+                totalReview={item.totalReview}
+                totalTransaction={item.totalTransaction}
+                star={item.star}
+              />
+            </Link>
+          ))}
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
+
+      <Footer />
     </S.SellerAllStyles>
   );
 };

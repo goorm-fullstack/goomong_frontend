@@ -11,7 +11,7 @@ export const CommunityDetailStyles = styled.div`
     color: #101c33;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 16px;
   }
   .comment-text-box {
@@ -29,7 +29,7 @@ export const CommunityDetailStyles = styled.div`
     font-size: 12px;
     font-weight: 400;
     color: #6f7785;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     display: flex;
   }
   .warn-text svg {

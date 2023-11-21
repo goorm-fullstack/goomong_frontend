@@ -27,7 +27,7 @@ export const CommunityStyles = styled.div`
     color: var(--black);
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
   }
   .search-form button {
@@ -69,7 +69,7 @@ export const CommunityStyles = styled.div`
     color: var(--black);
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .board-content {
     margin-left: 85px;
@@ -77,7 +77,7 @@ export const CommunityStyles = styled.div`
   .hot-title {
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
     margin-bottom: 22px;
   }
@@ -129,7 +129,7 @@ export const CommunityStyles = styled.div`
     color: #404a5c;
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;
@@ -145,8 +145,7 @@ export const CommunityStyles = styled.div`
     color: #fff;
     font-weight: 600;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border-radius: 8px;
   }
-
 `;

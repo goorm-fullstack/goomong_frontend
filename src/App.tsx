@@ -36,6 +36,11 @@ import AdminPostWrite from './pages/Admin/post/AdminPostWrite';
 import AdminPostDetail from './pages/Admin/post/AdminPostDetail';
 import AdminQnaList from './pages/Admin/qna/AdminQnaList';
 import AdminQnaWrite from './pages/Admin/qna/AdminQnaWrite';
+import SellerDetail from './pages/SellerDetail/SellerDetail';
+import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
+import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
+import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
+import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 
 const App: React.FC = () => {
   return (
@@ -66,7 +71,8 @@ const App: React.FC = () => {
         <Route path="/seller/rank" element={<SellerRank />} />
         <Route path="/seller/map" element={<SellerMap />} />
         <Route path="/seller/all" element={<SellerAll />} />
-        <Route path="/write" element={<Write />} />
+        <Route path="/seller/detail" element={<SellerDetail />} />
+        <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
 
         {/* 어드민 주소 위치 */}
@@ -80,6 +86,13 @@ const App: React.FC = () => {
         <Route path="/admin/post/detail/:id" element={<AdminPostDetail />} />
         <Route path="/admin/qna" element={<AdminQnaList />} />
         <Route path="/admin/qna/write" element={<AdminQnaWrite />} />
+
+        {/* 마이페이지 */}
+
+        <Route path="/mypage/info" element={<MyPageInfo />} />
+        <Route path="/mypage/payment" element={<MyPagePayment />} />
+        <Route path="/mypage/board" element={<MyPageBoard />} />
+        <Route path="/mypage/point" element={<MyPagePoint />} />
       </Routes>
     </div>
   );

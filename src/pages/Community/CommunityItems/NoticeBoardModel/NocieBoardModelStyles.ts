@@ -13,7 +13,7 @@ export const NoticeBoardStyle = styled.div`
   .nboard-type {
     font-weight: 500;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: #fff;
     margin-bottom: 25px;
   }
@@ -21,7 +21,7 @@ export const NoticeBoardStyle = styled.div`
     font-weight: 600;
     font-size: 16px;
     color: #fff;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 70px;
   }
   .nboard-bottom {
@@ -34,7 +34,7 @@ export const NoticeBoardStyle = styled.div`
     color: #fff;
     font-weight: 500;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .comment {
     display: flex;

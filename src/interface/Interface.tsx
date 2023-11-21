@@ -98,7 +98,7 @@ export interface CommunityCategoryData {
   pageInfo: PageInfoData;
 }
 
-export interface QnaCategoryData{
+export interface QnaCategoryData {
   id: number;
   image: Image;
   categoryGroup: string;
@@ -121,6 +121,46 @@ export interface QuestionData {
 
 export interface AnswerData {
   id: number;
+  content: string;
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface LikeData {
+  id: number;
+  postId: number;
+  commentId: number;
+  reviewId: number;
+}
+
+export interface MemberData {
+  memberId: string;
+  memberPassword: string;
+  memberName: string;
+  memberEmail: string;
+  likeList: LikeData[];
+  memberSignupTime: Date;
+}
+
+export interface AskData {
+  id: number;
+  memberId: string;
+  filesList: Files[];
+  reportListId: number[];
+  title: string;
+  content: string;
+  answerList: ResponseData[];
+  regDate: Date;
+  delDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface ResponseData {
+  id: number;
+  memberId: string;
+  filesList: Files;
+  title: string;
   content: string;
   regDate: Date;
   delDate: Date;
