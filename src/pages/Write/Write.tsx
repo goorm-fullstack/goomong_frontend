@@ -5,6 +5,7 @@ import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import { CommunityCategoryData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -15,6 +16,7 @@ const Write: React.FC = () => {
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
   const [fileName, setFileName] = useState<string>(); // 업로드한 파일 이름
   const imgRef = useRef<HTMLInputElement>(null);
+  const cookies = new Cookies();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -96,6 +98,7 @@ const Write: React.FC = () => {
           <textarea className="content-box" required value={content} onChange={(e) => setContent(e.target.value)} />
           <div className="input-text">첨부파일</div>
           <label className="file-upload">
+            {fileName ? fileName : '파일 추가 또는 파일을 여기로 드래그하세요.'}
             <input
               type="file"
               name="file"
