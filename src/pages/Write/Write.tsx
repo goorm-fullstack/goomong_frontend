@@ -29,7 +29,7 @@ const Write: React.FC = () => {
       return;
     }
     const initPost = new FormData();
-    initPost.append('memberId', '1'); // memberId 가져오는 로직 필요
+    initPost.append('memberId', String(cookies.get('id')));
     initPost.append('postCategoryId', String(selectedCategoryId));
     initPost.append('postType', 'COMMUNITY');
     initPost.append('postTitle', title);

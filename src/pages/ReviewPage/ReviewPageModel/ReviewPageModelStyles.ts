@@ -18,7 +18,6 @@ export const ReviewPageModelStyles = styled.div`
     align-items: center;
   }
   .review-page-model-category-list {
-    display: flex;
     margin: 12px 0;
   }
   .review-page-model-category-list li {
@@ -26,14 +25,6 @@ export const ReviewPageModelStyles = styled.div`
     font-weight: 400;
     letter-spacing: -0.04;
     color: #8e94a0;
-  }
-  .review-page-model-category-list li:nth-child(1)::after {
-    content: '';
-    height: 10px;
-    width: 1px;
-    background-color: #dbdee2;
-    margin: 0px 13px;
-    display: inline-block;
   }
   .review-page-model-title {
     color: #101c33;
@@ -79,7 +70,8 @@ export const ReviewPageModelStyles = styled.div`
   .review-page-model-like {
     margin-right: 8px;
   }
-  .review-page-model-like , .review-page-model-comment {
+  .review-page-model-like,
+  .review-page-model-comment {
     color: #aab1bc;
     font-size: 12px;
     font-weight: 500;

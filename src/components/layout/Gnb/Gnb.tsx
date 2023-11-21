@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as S from './GnbStyles';
 import { Link, NavLink } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 const Gnb = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLocalMenuVisible, setIsLocalMenuVisible] = useState(false);
   const [isServiceMenuVisible, setIsServiceMenuVisible] = useState(false);
+  const cookies = new Cookies();
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,6 +42,13 @@ const Gnb = () => {
     setIsServiceMenuVisible(false);
   };
 
+  const isLogin = () => {
+    if (cookies.get('id') === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else window.location.href = '#'; // 판매자 등록 페이지로 이동
+  };
+
   return (
     <S.Gnb>
       <div className="gnb-container" onMouseLeave={handleMouseLeave} ref={menuRef}>
@@ -58,13 +67,13 @@ const Gnb = () => {
                   <NavLink to="#null">전체 카테고리</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/market">재능 마켓</NavLink>
+                  <NavLink to="/item/market/0">재능 마켓</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/exchange">재능 교환</NavLink>
+                  <NavLink to="/item/exchange/0">재능 교환</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/contribution">재능 기부</NavLink>
+                  <NavLink to="/item/contribution/0">재능 기부</NavLink>
                 </li>
               </ul>
               <ul className="lr-menu">
@@ -89,11 +98,9 @@ const Gnb = () => {
             <div className="right-txt">
               재능을 판매하고 <strong>수익</strong>을 만들어 보세요!
             </div>
-            <Link to="#null">
-              <button type="submit" className="right-btn">
-                판매자 등록하기
-              </button>
-            </Link>
+            <button type="submit" className="right-btn" onClick={isLogin}>
+              판매자 등록하기
+            </button>
           </div>
         </div>
 

@@ -26,7 +26,6 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
     display: flex;
   }
   .board-model-category-list {
-    display: flex;
     margin-bottom: 15px;
   }
   .board-model-category-list li {
@@ -34,14 +33,6 @@ export const BoardModelStyles = styled.div<BoardModelStyleProps>`
     font-weight: 400;
     letter-spacing: -0.04;
     color: #8e94a0;
-  }
-  .board-model-category-list li:nth-child(1)::after {
-    content: '';
-    height: 10px;
-    width: 1px;
-    background-color: #dbdee2;
-    margin: 0px 13px;
-    display: inline-block;
   }
   .board-model-title {
     color: #101c33;
