@@ -4,23 +4,21 @@ import * as S from './BoardHistoryModelStyles';
 import { Link } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination/Pagination';
 
-interface LikeModel {
-  type: string;
-  title: string;
-  writer: string;
-  date: number;
-}
 interface BoardModel {
   type: string;
   title: string;
   writer: string;
   date: number;
-}
-interface BoardHistoryModelProps {
-  data: (LikeModel | BoardModel)[];
+  id: number;
+  content?: string;
 }
 
-const BoardHistoryModel: React.FC<BoardHistoryModelProps> = ({ data }) => {
+interface BoardHistoryModelProps {
+  data: BoardModel[];
+  onDeleteItem: (itemId: number) => void;
+}
+
+const BoardHistoryModel: React.FC<BoardHistoryModelProps> = ({ data, onDeleteItem }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 페이지당 표시할 아이템 수
   const totalPages = Math.ceil(data.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
@@ -34,6 +32,15 @@ const BoardHistoryModel: React.FC<BoardHistoryModelProps> = ({ data }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+  //삭제 확인
+  const handleDelete = (itemId: number) => {
+    // 사용자에게 삭제 의사를 확인
+    const isConfirmed = window.confirm('이 항목을 삭제하시겠습니까?');
+    if (isConfirmed) {
+      onDeleteItem(itemId);
+    }
+  };
+
   return (
     <S.BoardHistoryModelStyles>
       <div className="board-history-model">
@@ -42,16 +49,22 @@ const BoardHistoryModel: React.FC<BoardHistoryModelProps> = ({ data }) => {
           <li>게시글 제목</li>
           <li>작성자</li>
           <li>등록일</li>
+          <li>수정 / 삭제</li>
         </ul>
-        {currentItems.map((item, index) => (
-          <Link to="#null">
-            <ul key={index} className="board-history-item">
-              <li>타입: {item.type}</li>
-              <li>{item.title}</li>
-              <li>{item.writer}</li>
-              <li>{item.date}분전</li>
-            </ul>
-          </Link>
+        {currentItems.map((mypageitem, index) => (
+          <div key={index} className="board-history-item">
+            <Link to="#null">타입: {mypageitem.type}</Link>
+            <Link to="#null">{mypageitem.title}</Link>
+            <Link to="#null">{mypageitem.writer}</Link>
+            <Link to="#null">{mypageitem.date}분전</Link>
+            <div className="button-container">
+              <Link to="/write" state={{ mypageitem: mypageitem }}>
+                <button>수정</button>
+              </Link>
+
+              <button onClick={() => handleDelete(mypageitem.id)}>삭제</button>
+            </div>
+          </div>
         ))}
       </div>
 

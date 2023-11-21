@@ -6,6 +6,7 @@ import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import BoardHistoryModel from './BoardHistoryModel/BoardHistoryModel';
 import CommentHistoryModel from './CommentHistoryModel/CommentHistoryModel';
 import Footer from '../../../components/layout/Footer/Footer';
+import LikeHistoryModel from './LikeHistoryModel/LikeHistoryModel';
 
 interface LikeModel {
   type: string;
@@ -18,12 +19,13 @@ interface BoardModel {
   title: string;
   writer: string;
   date: number;
+  id: number;
 }
 interface CommentModel {
-  type: string;
   title: string;
+  comment: string;
   writer: string;
-  date: number;
+  date: string;
 }
 
 interface MyBoard {
@@ -49,16 +51,15 @@ const MyPageBoard: React.FC = () => {
       { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
     ],
     board: [
-      { type: '쓴 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '쓴 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '쓴 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '쓴 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 1, type: '쓴 게시글 type1', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 2, type: '쓴 게시글 type2', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 3, type: '쓴 게시글 type3', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 4, type: '쓴 게시글 type4', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
     ],
     comment: [
-      { type: '댓글 단 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '댓글 단 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '댓글 단 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '댓글 단 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
     ],
   };
 
@@ -66,14 +67,25 @@ const MyPageBoard: React.FC = () => {
     setSelectedCategory(category);
   };
 
+  //삭제로직
+  const [boardData, setBoardData] = useState(myboardData.board);
+
+  const deleteBoardItem = (itemId: number) => {
+    const updatedBoardData = boardData.filter((item) => item.id !== itemId);
+    setBoardData(updatedBoardData);
+  };
+
   // 선택된 카테고리에 따라 다른 컴포넌트 렌더링
   const renderContent = () => {
     if (selectedCategory === 'comment') {
       // 'comment' 카테고리 선택 시 CommentHistoryModel 렌더링
-      return <CommentHistoryModel />;
-    } else {
-      // 'like' 또는 'board' 카테고리 선택 시 BoardHistoryModel 렌더링
-      return <BoardHistoryModel data={myboardData[selectedCategory]} />;
+      return <CommentHistoryModel data={myboardData[selectedCategory]} />;
+    } else if (selectedCategory === 'board') {
+      // 'board' 카테고리 선택 시 BoardHistoryModel 렌더링
+      return <BoardHistoryModel data={boardData} onDeleteItem={deleteBoardItem} />;
+    } else if (selectedCategory === 'like') {
+      // 'like' 카테고리 선택 시 LikeHistoryModel 렌더링
+      return <LikeHistoryModel data={myboardData[selectedCategory]} />;
     }
   };
 
