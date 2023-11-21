@@ -16,6 +16,7 @@ export const CSNoticeStyles = styled.div`
     font-size: 13px;
     font-weight: 500;
     letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .left {
     display: flex;
@@ -60,6 +61,7 @@ export const CSNoticeStyles = styled.div`
     font-size: 15px;
     font-weight: 500;
     letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     padding: 15px 0;
     cursor: pointer;
   }

@@ -58,14 +58,14 @@ export const ReviewPageStyles = styled.div`
     font-size: 12px;
     color: #404a5c;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 9px;
   }
   .bottom {
     color: #101c33;
     font-size: 22px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .star-icon {
     color: #fbbc04;
@@ -81,7 +81,7 @@ export const ReviewPageStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 18px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .hot-review-container {
     display: flex;
@@ -110,7 +110,7 @@ export const ReviewPageStyles = styled.div`
     color: #101c33;
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin: 33px 0 16px;
   }
   .align-menu {
@@ -131,7 +131,7 @@ export const ReviewPageStyles = styled.div`
     color: #404a5c;
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;
@@ -156,7 +156,7 @@ export const ReviewPageStyles = styled.div`
     color: #8e94a0;
     font-size: 600px;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
     border-radius: 3px;
     margin-right: 8px;

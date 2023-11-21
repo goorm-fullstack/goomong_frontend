@@ -27,7 +27,7 @@ const Hire: React.FC = () => {
     <S.HireStyles>
       <Header />
       <div className="hire-container">
-        <div className="hire-title">문의하기</div>
+        <div className="hire-title">견적 요청</div>
         <form onSubmit={handleInquirySubmit} className="inquiry-form">
           <div className="input-text">문의항목을 선택해주세요</div>
           <div className="inquiry-type" onClick={toggleDropdown}>

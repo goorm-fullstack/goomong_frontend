@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Instance from "../../../util/API/axiosInstance";
 import {Cookies} from 'react-cookie';
 
+
 const Header: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -16,7 +17,7 @@ const Header: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % popularSearchTerms.length);
-    }, 1500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);

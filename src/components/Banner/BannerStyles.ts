@@ -54,7 +54,7 @@ export const Banner = styled.div`
     left: 64%;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .ad-number span {
     opacity: 0.8;

@@ -79,7 +79,7 @@ export const ReviewModel = styled.div`
     color: var(--blue);
     font-weight: 600;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     width: 50px;
     height: 23px;
     background-color: #e1edff;
@@ -92,7 +92,7 @@ export const ReviewModel = styled.div`
     font-size: 12px;
     font-weight: 500;
     color: #6f7785;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-left: 12px;
   }
   .review-content {
