@@ -42,6 +42,7 @@ import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
+import NotFound from './pages/NotFound/NotFound';
 
 const App: React.FC = () => {
   return (
@@ -95,6 +96,9 @@ const App: React.FC = () => {
         <Route path="/mypage/payment" element={<MyPagePayment />} />
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />
+
+        {/* Not Found */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
