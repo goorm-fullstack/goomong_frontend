@@ -9,13 +9,15 @@ interface MyCommentModel {
   comment: string;
   writer: string;
   date: string;
+  id: number;
 }
 
 interface MyCommentModelProps {
   data: MyCommentModel[];
+  onUpdateItem: (updatedComment: MyCommentModel) => void; // 추가
 }
 
-const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data }) => {
+const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data, onUpdateItem }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 페이지당 표시할 아이템 수
   const totalPages = Math.ceil(data.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
@@ -30,9 +32,39 @@ const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data }) => {
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const [selectedComment, setSelectedComment] = useState<number | null>(null);
+  const [editingComment, setEditingComment] = useState<number | null>(null);
+  const [comments, setComments] = useState(data); // 데이터 상태 관리
+  const [editContent, setEditContent] = useState<string>(''); // 수정 중인 댓글 내용 상태
 
   const toggleAccordion = (index: number) => {
     setSelectedComment(selectedComment === index ? null : index);
+    setEditingComment(null);
+  };
+
+  const handleEditClick = (index: number, currentContent: string) => {
+    setEditingComment(index);
+    setEditContent(currentContent);
+  };
+
+  const handleSaveEdit = (id: number) => {
+    const foundComment = comments.find((comment) => comment.id === id);
+
+    if (foundComment) {
+      const updatedComment = {
+        id,
+        title: foundComment.title,
+        comment: editContent,
+        writer: foundComment.writer,
+        date: foundComment.date,
+      };
+
+      onUpdateItem(updatedComment); // 상위 컴포넌트로 수정된 댓글 전달
+    } else {
+      console.error('Comment not found');
+      // 적절한 오류 처리
+    }
+
+    setEditingComment(null); // 수정 모드 해제
   };
 
   return (
@@ -56,8 +88,17 @@ const CommentHistoryModel: React.FC<MyCommentModelProps> = ({ data }) => {
             </ul>
             {selectedComment === index && (
               <div className="accordion-content">
-                {item.comment}
-                <button>수정</button>
+                {editingComment === index ? (
+                  <>
+                    <textarea defaultValue={editContent} onChange={(e) => setEditContent(e.target.value)} />
+                    <button onClick={() => handleSaveEdit(item.id)}>완료</button>
+                  </>
+                ) : (
+                  <>
+                    {item.comment}
+                    <button onClick={() => handleEditClick(index, item.comment)}>수정</button>
+                  </>
+                )}
               </div>
             )}
           </React.Fragment>

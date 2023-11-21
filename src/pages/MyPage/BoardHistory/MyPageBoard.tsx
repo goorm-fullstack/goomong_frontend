@@ -26,6 +26,7 @@ interface CommentModel {
   comment: string;
   writer: string;
   date: string;
+  id: number;
 }
 
 interface MyBoard {
@@ -57,9 +58,16 @@ const MyPageBoard: React.FC = () => {
       { id: 4, type: '쓴 게시글 type4', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
     ],
     comment: [
-      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다', writer: '작성자', date: '30' },
-      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
-      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      {
+        id: 1,
+        title: '게시글 제목',
+        comment:
+          '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다',
+        writer: '작성자',
+        date: '30',
+      },
+      { id: 2, title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      { id: 3, title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
     ],
   };
 
@@ -75,11 +83,19 @@ const MyPageBoard: React.FC = () => {
     setBoardData(updatedBoardData);
   };
 
+  // 댓글 데이터 업데이트 로직
+  const [commentData, setCommentData] = useState(myboardData.comment);
+
+  const updateCommentItem = (updatedComment: CommentModel) => {
+    const newComments = commentData.map((comment) => (comment.id === updatedComment.id ? updatedComment : comment));
+    setCommentData(newComments); // 댓글 데이터 업데이트
+  };
+
   // 선택된 카테고리에 따라 다른 컴포넌트 렌더링
   const renderContent = () => {
     if (selectedCategory === 'comment') {
       // 'comment' 카테고리 선택 시 CommentHistoryModel 렌더링
-      return <CommentHistoryModel data={myboardData[selectedCategory]} />;
+      return <CommentHistoryModel data={commentData} onUpdateItem={updateCommentItem} />;
     } else if (selectedCategory === 'board') {
       // 'board' 카테고리 선택 시 BoardHistoryModel 렌더링
       return <BoardHistoryModel data={boardData} onDeleteItem={deleteBoardItem} />;
