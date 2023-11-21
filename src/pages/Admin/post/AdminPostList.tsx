@@ -5,7 +5,7 @@ import AdminSidebar from '../../../components/Admin/Layout/Sidebar/AdminSidebar'
 import { CommunityCategoryData, PostData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
 import Pagination from '../../../components/Pagination/Pagination';
-import { formattingDate } from '../../../util/func/functions';
+import { formattingDate, postTypeToKorean } from '../../../util/func/functions';
 import { Link } from 'react-router-dom';
 
 const AdminPostList: React.FC = () => {
@@ -23,14 +23,6 @@ const AdminPostList: React.FC = () => {
   // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
   const handlePageChange = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
-  };
-
-  // 게시글 종류 한글로 변경
-  const postTypeToKorean = (postType: string): string => {
-    if (postType === 'NOTICE') return '공지사항';
-    if (postType === 'COMMUNITY') return '커뮤니티';
-    if (postType === 'EVENT') return '이벤트';
-    else return 'QnA';
   };
 
   // 전체 선택 여부
@@ -278,7 +270,7 @@ const AdminPostList: React.FC = () => {
             </tbody>
           </table>
         </S.AdminTable>
-        <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
+        <Pagination currentPage={currentPage + 1} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
       </S.Contents>
       <AdminSidebar />
     </S.Admin>

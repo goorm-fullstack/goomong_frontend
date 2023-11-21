@@ -6,102 +6,22 @@ import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import BoardHistoryModel from './BoardHistoryModel/BoardHistoryModel';
 import CommentHistoryModel from './CommentHistoryModel/CommentHistoryModel';
 import Footer from '../../../components/layout/Footer/Footer';
-import LikeHistoryModel from './LikeHistoryModel/LikeHistoryModel';
-
-interface LikeModel {
-  type: string;
-  title: string;
-  writer: string;
-  date: number;
-}
-interface BoardModel {
-  type: string;
-  title: string;
-  writer: string;
-  date: number;
-  id: number;
-}
-interface CommentModel {
-  title: string;
-  comment: string;
-  writer: string;
-  date: string;
-  id: number;
-}
-
-interface MyBoard {
-  like: LikeModel[];
-  board: BoardModel[];
-  comment: CommentModel[];
-}
 
 const MyPageBoard: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<'like' | 'board' | 'comment'>('like');
-  const myboardData: MyBoard = {
-    like: [
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-    ],
-    board: [
-      { id: 1, type: '쓴 게시글 type1', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { id: 2, type: '쓴 게시글 type2', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { id: 3, type: '쓴 게시글 type3', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { id: 4, type: '쓴 게시글 type4', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-    ],
-    comment: [
-      {
-        id: 1,
-        title: '게시글 제목',
-        comment:
-          '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다',
-        writer: '작성자',
-        date: '30',
-      },
-      { id: 2, title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
-      { id: 3, title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
-    ],
-  };
+  const [selectedCategory, setSelectedCategory] = useState<'like' | 'board' | 'comment'>('board');
 
-  const handleCategoryClick = (category: 'like' | 'board' | 'comment') => {
+  const handleCategoryClick = (category: 'board' | 'comment') => {
     setSelectedCategory(category);
-  };
-
-  //삭제로직
-  const [boardData, setBoardData] = useState(myboardData.board);
-
-  const deleteBoardItem = (itemId: number) => {
-    const updatedBoardData = boardData.filter((item) => item.id !== itemId);
-    setBoardData(updatedBoardData);
-  };
-
-  // 댓글 데이터 업데이트 로직
-  const [commentData, setCommentData] = useState(myboardData.comment);
-
-  const updateCommentItem = (updatedComment: CommentModel) => {
-    const newComments = commentData.map((comment) => (comment.id === updatedComment.id ? updatedComment : comment));
-    setCommentData(newComments); // 댓글 데이터 업데이트
   };
 
   // 선택된 카테고리에 따라 다른 컴포넌트 렌더링
   const renderContent = () => {
     if (selectedCategory === 'comment') {
       // 'comment' 카테고리 선택 시 CommentHistoryModel 렌더링
-      return <CommentHistoryModel data={commentData} onUpdateItem={updateCommentItem} />;
-    } else if (selectedCategory === 'board') {
+      return <CommentHistoryModel />;
+    } else {
       // 'board' 카테고리 선택 시 BoardHistoryModel 렌더링
-      return <BoardHistoryModel data={boardData} onDeleteItem={deleteBoardItem} />;
-    } else if (selectedCategory === 'like') {
-      // 'like' 카테고리 선택 시 LikeHistoryModel 렌더링
-      return <LikeHistoryModel data={myboardData[selectedCategory]} />;
+      return <BoardHistoryModel />;
     }
   };
 
@@ -115,9 +35,6 @@ const MyPageBoard: React.FC = () => {
             작성한 글<div className="small">내가 작성한 글을 관리할 수 있어요.</div>
           </div>
           <ul className="top-list">
-            <li className="like" onClick={() => handleCategoryClick('like')}>
-              좋아요
-            </li>
             <li className="board" onClick={() => handleCategoryClick('board')}>
               내가 남긴 글
             </li>

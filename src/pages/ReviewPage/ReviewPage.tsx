@@ -493,7 +493,7 @@ const Review: React.FC = () => {
                 </Link>
               ))}
           </div>
-          <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
+          <Pagination currentPage={currentPage + 1} totalPages={totalPage} onPageChange={handlePageChange} />
         </div>
       </C.Container>
       <Footer />

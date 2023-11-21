@@ -250,7 +250,7 @@ const Community: React.FC = () => {
                     />
                   ))}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
+              <Pagination currentPage={currentPage + 1} totalPages={totalPage} onPageChange={handlePageChange} />
             </div>
           </div>
         </C.Container>

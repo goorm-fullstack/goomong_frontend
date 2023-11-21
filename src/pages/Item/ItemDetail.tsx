@@ -342,7 +342,7 @@ export default function ItemDetail() {
                       ))}
                   </tbody>
                 </table>
-                <Pagination currentPage={answerCurrentPage} totalPages={totalAnswerPage} onPageChange={handleAnswerPageChange} />
+                <Pagination currentPage={answerCurrentPage + 1} totalPages={totalAnswerPage} onPageChange={handleAnswerPageChange} />
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
@@ -366,7 +366,7 @@ export default function ItemDetail() {
                         key={index}
                       />
                     ))}
-                  <Pagination currentPage={reviewCurrentPage} totalPages={totalReviewPage} onPageChange={handleReviewPageChange} />
+                  <Pagination currentPage={reviewCurrentPage + 1} totalPages={totalReviewPage} onPageChange={handleReviewPageChange} />
                 </div>
               </div>
             </div>

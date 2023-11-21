@@ -168,7 +168,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
             </div>
           )}
         </div>
-        {comment.parentId === null && (
+        {comment.parentCommentId === null && (
           <form onSubmit={handleReplySubmit} className="reply-form">
             <input type="text" value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="답글을 입력하세요." />
             <button type="submit">답글 달기</button>

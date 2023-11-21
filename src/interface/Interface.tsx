@@ -41,8 +41,10 @@ export interface ReviewData {
 export interface CommentData {
   id: number;
   memberId: string;
+  postId: number;
+  postTitle: string;
   memberImageList: Image[];
-  parentId: number;
+  parentCommentId: number;
   content: string;
   likeNo: number;
   childrenComment: CommentData[];
@@ -62,6 +64,7 @@ export interface PostData {
   commentList: CommentData[];
   commentNo: number;
   reportIdList: number[];
+  postCategoryId: number;
   postCategory: string;
   postType: string;
   postTitle: string;

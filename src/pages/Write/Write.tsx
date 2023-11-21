@@ -11,7 +11,6 @@ const Write: React.FC = () => {
   //mypage에서 item을 가져온 경우 setting
   const location = useLocation();
   const mypageitem = location.state?.mypageitem;
-
   const [title, setTitle] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('카테고리 목록');
   const [content, setContent] = useState<string>('');
@@ -46,17 +45,31 @@ const Write: React.FC = () => {
         initPost.append('images', imgRef.current.files[0]);
       }
 
-      Instance.post('/api/posts/post', initPost, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-        .then(() => {
-          navigate(-1);
+      if (mypageitem) {
+        Instance.put(`/api/posts/post/${mypageitem.id}`, initPost, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         })
-        .catch((error) => {
-          console.error(error);
-        });
+          .then(() => {
+            navigate(-1);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.post('/api/posts/post', initPost, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+          .then(() => {
+            navigate(-1);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } else {
       const initQuestion = new FormData();
       initQuestion.append('memberId', String(cookies.get('id')));
@@ -100,9 +113,12 @@ const Write: React.FC = () => {
 
     // mypageitem 데이터가 있는 경우
     if (mypageitem) {
-      setTitle(mypageitem.title);
-      setSelectedCategory(mypageitem.type);
-      setContent(mypageitem.content);
+      setTitle(mypageitem.postTitle);
+      setSelectedCategory(mypageitem.postCategory);
+      setSelectedCategoryId(mypageitem.postCategoryId);
+      setContent(mypageitem.postContent);
+      if (mypageitem.filesList.length > 0) setFileName(mypageitem.filesList[0].fileName);
+      else if (mypageitem.imageList.length > 0) setFileName(mypageitem.imageList[0].fileName);
     }
   }, [mypageitem]);
 
