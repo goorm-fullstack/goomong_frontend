@@ -7,5 +7,6 @@ export const ChattingStyles = styled.div`
     margin: 0 auto;
     padding: 0 40px;
     margin-top: 80px;
+    display: flex;
   }
 `;

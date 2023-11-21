@@ -6,14 +6,7 @@ import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import BoardHistoryModel from './BoardHistoryModel/BoardHistoryModel';
 import CommentHistoryModel from './CommentHistoryModel/CommentHistoryModel';
 import Footer from '../../../components/layout/Footer/Footer';
-import LikeHistoryModel from './LikeHistoryModel/LikeHistoryModel';
 
-interface LikeModel {
-  type: string;
-  title: string;
-  writer: string;
-  date: number;
-}
 interface BoardModel {
   type: string;
   title: string;
@@ -29,27 +22,13 @@ interface CommentModel {
 }
 
 interface MyBoard {
-  like: LikeModel[];
   board: BoardModel[];
   comment: CommentModel[];
 }
 
 const MyPageBoard: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<'like' | 'board' | 'comment'>('like');
+  const [selectedCategory, setSelectedCategory] = useState<'board' | 'comment'>('board');
   const myboardData: MyBoard = {
-    like: [
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-      { type: '좋아요 누른 게시글 type', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
-    ],
     board: [
       { id: 1, type: '쓴 게시글 type1', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
       { id: 2, type: '쓴 게시글 type2', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
@@ -57,13 +36,19 @@ const MyPageBoard: React.FC = () => {
       { id: 4, type: '쓴 게시글 type4', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
     ],
     comment: [
-      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      {
+        title: '게시글 제목',
+        comment:
+          '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다',
+        writer: '작성자',
+        date: '30',
+      },
       { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
       { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
     ],
   };
 
-  const handleCategoryClick = (category: 'like' | 'board' | 'comment') => {
+  const handleCategoryClick = (category: 'board' | 'comment') => {
     setSelectedCategory(category);
   };
 
@@ -83,9 +68,6 @@ const MyPageBoard: React.FC = () => {
     } else if (selectedCategory === 'board') {
       // 'board' 카테고리 선택 시 BoardHistoryModel 렌더링
       return <BoardHistoryModel data={boardData} onDeleteItem={deleteBoardItem} />;
-    } else if (selectedCategory === 'like') {
-      // 'like' 카테고리 선택 시 LikeHistoryModel 렌더링
-      return <LikeHistoryModel data={myboardData[selectedCategory]} />;
     }
   };
 
@@ -99,9 +81,6 @@ const MyPageBoard: React.FC = () => {
             작성한 글<div className="small">내가 작성한 글을 관리할 수 있어요.</div>
           </div>
           <ul className="top-list">
-            <li className="like" onClick={() => handleCategoryClick('like')}>
-              좋아요
-            </li>
             <li className="board" onClick={() => handleCategoryClick('board')}>
               내가 남긴 글
             </li>
