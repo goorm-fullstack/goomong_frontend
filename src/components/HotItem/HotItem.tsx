@@ -8,49 +8,49 @@ const HotItem: React.FC = () => {
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 3.9,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
     {
       sellerName: '판매자 브랜드명',
       productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원~',
+      price: 150000,
       rating: 5,
       review: 3560,
     },
@@ -74,14 +74,14 @@ const HotItem: React.FC = () => {
 
         <Slide>
           {products.map((product, index) => (
-              <Product
-                key={index}
-                sellerName={product.sellerName}
-                productName={product.productName}
-                price={product.price}
-                rating={product.rating}
-                review={product.review}
-              />
+            <Product
+              key={index}
+              sellerName={product.sellerName}
+              productName={product.productName}
+              price={product.price}
+              rating={product.rating}
+              review={product.review}
+            />
           ))}
         </Slide>
 

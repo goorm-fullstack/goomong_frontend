@@ -30,6 +30,11 @@ import CSInquiry from './pages/CustomerService/CSInquiry/CSInquiry';
 import SellerAll from './pages/SellerAll/SellerAll';
 import Write from './pages/Write/Write';
 import Hire from './pages/Hire/Hire';
+import SellerDetail from './pages/SellerDetail/SellerDetail';
+import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
+import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
+import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
+import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 
 const App: React.FC = () => {
   return (
@@ -42,7 +47,7 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community" element={<Community />}/>
+        <Route path="/community" element={<Community />} />
         <Route path="/community/detail" element={<CommunityDetail />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
@@ -59,6 +64,7 @@ const App: React.FC = () => {
         <Route path="/seller/rank" element={<SellerRank />} />
         <Route path="/seller/map" element={<SellerMap />} />
         <Route path="/seller/all" element={<SellerAll />} />
+        <Route path="/seller/detail" element={<SellerDetail />} />
         <Route path="/write" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
 
@@ -68,6 +74,13 @@ const App: React.FC = () => {
         <Route path="/admin/mail" element={<AdminMail />} />
         <Route path="/admin/mail/template" element={<AdminMailTemplate />} />
         <Route path="/admin/item/category" element={<AdminItemCategory />}></Route>
+
+        {/* 마이페이지 */}
+
+        <Route path="/mypage/info" element={<MyPageInfo />} />
+        <Route path="/mypage/payment" element={<MyPagePayment />} />
+        <Route path="/mypage/board" element={<MyPageBoard />} />
+        <Route path="/mypage/point" element={<MyPagePoint />} />
       </Routes>
     </div>
   );

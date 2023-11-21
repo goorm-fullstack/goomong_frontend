@@ -89,7 +89,6 @@ const Review: React.FC = () => {
 
   const reviewItems = [
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -99,7 +98,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -109,7 +107,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -119,7 +116,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -129,7 +125,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -139,7 +134,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -149,7 +143,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -159,7 +152,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -169,7 +161,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -179,7 +170,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -189,7 +179,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -199,7 +188,6 @@ const Review: React.FC = () => {
       star: 4.9,
     },
     {
-      b_category: '게시판 카테고리',
       p_category: '재능 카테고리',
       title: '게시글 제목',
       content: '게시글 내용입니다.',
@@ -608,7 +596,6 @@ const Review: React.FC = () => {
             {currentItems.map((item, index) => (
               <Link to="#null" key={index}>
                 <ReviewPageModel
-                  b_category={item.b_category}
                   p_category={item.p_category}
                   title={item.title}
                   content={item.content}

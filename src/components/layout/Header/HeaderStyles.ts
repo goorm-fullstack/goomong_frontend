@@ -117,6 +117,12 @@ export const Header = styled.header`
     font-size: 15px;
     color: #6e6d7a;
   }
+  .join-list > li {
+    letter-spacing: -0.04em;
+    text-align: center;
+    font-size: 15px;
+    color: #6e6d7a;
+  }
 
   @keyframes slideUp {
     from {

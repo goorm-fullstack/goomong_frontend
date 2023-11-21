@@ -16,6 +16,11 @@ export const Product = styled.div`
     justify-content: center;
     align-items: center;
   }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .product-image {
     width: 100%;
     height: 100%;

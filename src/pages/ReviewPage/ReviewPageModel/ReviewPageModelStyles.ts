@@ -11,11 +11,16 @@ export const ReviewPageModelStyles = styled.div`
   .image-container {
     width: 282px;
     height: 200px;
-    border: 1px solid #000;
+    border: 1px solid #aab1bc;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .review-page-model-category-list {
     display: flex;

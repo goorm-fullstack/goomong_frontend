@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as S from './SellerBrandModelStyles';
+import { Link } from 'react-router-dom';
 
 interface SellerBrandProps {
   imageUrl?: string;
@@ -51,36 +52,38 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
 
   return (
     <S.SellerBrandModelStyles>
-      <div className="seller-brand-model-container">
-        <div className="top">
-          <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
-        </div>
-        <div className="seller-brand-contents">
-          <div className="seller-brand-model-seller-info">
-            <p className="seller-brand-model-seller-name">{sellerName}</p>
-            <ul className="seller-brand-model-category-list">
-              <li>{b_category}</li>
-              <li>{p_category}</li>
-            </ul>
+      <Link to="/seller/detail">
+        <div className="seller-brand-model-container">
+          <div className="top">
+            <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
           </div>
-          <div className="seller-brand-model-content">{content}</div>
-          <div className="total-list">
-            <span className="money">
-              총수익 <span className="number">{formatCurrency(totalMoney)}</span>
-            </span>
-            <span className="transaction">
-              총거래 <span className="number">{totalTransaction}</span>
-            </span>
-            <div className="bottom">
-              <span className="review">
-                총리뷰 <span className="number">{totalReview}</span>
+          <div className="seller-brand-contents">
+            <div className="seller-brand-model-seller-info">
+              <p className="seller-brand-model-seller-name">{sellerName}</p>
+              <ul className="seller-brand-model-category-list">
+                <li>{b_category}</li>
+                <li>{p_category}</li>
+              </ul>
+            </div>
+            <div className="seller-brand-model-content">{content}</div>
+            <div className="total-list">
+              <span className="money">
+                총수익 <span className="number">{formatCurrency(totalMoney)}</span>
               </span>
-              <span className="star"> ★</span>
-              <span className=" star-number">{star}</span>
+              <span className="transaction">
+                총거래 <span className="number">{totalTransaction}</span>
+              </span>
+              <div className="bottom">
+                <span className="review">
+                  총리뷰 <span className="number">{totalReview}</span>
+                </span>
+                <span className="star"> ★</span>
+                <span className=" star-number">{star}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </S.SellerBrandModelStyles>
   );
 };

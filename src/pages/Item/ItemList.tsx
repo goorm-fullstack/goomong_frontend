@@ -19,7 +19,7 @@ interface Item {
   imageUrl: string;
   sellerName: string;
   productName: string;
-  price: string;
+  price: number;
   rating: number;
   review: number;
 }
@@ -42,7 +42,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+1',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 3.9,
     review: 3560,
   },
@@ -50,7 +50,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+2',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -58,7 +58,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+3',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -66,7 +66,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+4',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -74,7 +74,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+5',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -82,7 +82,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+6',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -90,7 +90,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -98,7 +98,7 @@ const itemList = [
     imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },

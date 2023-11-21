@@ -15,6 +15,11 @@ export const CommentModelStyles = styled.div`
     width: 42px;
     height: 42px;
   }
+  .writer-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .comment-top .right {
     margin-left: 11px;
   }
@@ -91,6 +96,11 @@ export const CommentModelStyles = styled.div`
     width: 22px;
     height: 22px;
   }
+  .writer-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .reply-container .comment-writer {
     color: #101c33;
     font-weight: 400;
@@ -99,9 +109,27 @@ export const CommentModelStyles = styled.div`
     margin-bottom: 10px;
     margin-top: 4px;
   }
-  .reply-container .comment-bottom {
+  .reply-container .comment-bottom-reply {
     display: none;
   }
+
+  .comment-bottom-reply {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .comment-reply-btn {
+    font-size: 12px;
+    color: #aab1bc;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    border: 0;
+    border-radius: 8px;
+    margin-left: 10px;
+    padding: 3px 5px;
+    cursor: pointer;
+  }
+
   .reply-container .right {
     margin-right: 30px;
   }

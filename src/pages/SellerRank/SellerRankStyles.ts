@@ -88,6 +88,11 @@ export const SellerRankStyles = styled.div`
     border-radius: 8px;
     margin-right: 23px;
   }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .seller-list-item a .right .category {
     color: #8e94a0;
     font-size: 12px;

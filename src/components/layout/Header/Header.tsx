@@ -3,6 +3,8 @@ import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/Store';
 
 const Header: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -12,10 +14,25 @@ const Header: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % popularSearchTerms.length);
-    }, 1500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
+
+  //로그인 상태관리 redux
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+
+  //임의로 로그인 상태 true
+  const [localIsLoggedIn, setLocalIsLoggedIn] = useState<boolean>(false);
+
+  // 버튼 클릭 핸들러
+  const handleLogin = () => {
+    setLocalIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLocalIsLoggedIn(false);
+  };
 
   return (
     <S.Header>
@@ -56,15 +73,43 @@ const Header: React.FC = () => {
             </form>
             <div className="join">
               <ul className="join-list">
-                <li className="login">
-                  <Link to="/login">로그인</Link>
-                </li>
-                <li className="new-in">
-                  <Link to="/register/step1">회원가입</Link>
-                </li>
-                <li className="customer-center">
-                  <Link to="/cs/home">고객센터</Link>
-                </li>
+                {/* {!isLoggedIn ? ( */}
+
+                {/* 임의로 로컬상태에서 로그인  */}
+                {!localIsLoggedIn ? (
+                  // 로그인이 되어 있지 않을 때
+                  <ul className="join-list">
+                    <li className="login">
+                      {/* 로그인 누르면 임의로 로그인 상태 설정 */}
+                      <li onClick={() => setLocalIsLoggedIn(true)}>로그인</li>
+                      {/* <Link to="/login" onClick={() => setLocalIsLoggedIn(true)}>
+                        로그인
+                      </Link> */}
+                    </li>
+                    <li className="new-in">
+                      <Link to="/register/step1">회원가입</Link>
+                    </li>
+
+                    <li className="customer-center">
+                      <Link to="/cs/home">고객센터</Link>
+                    </li>
+                  </ul>
+                ) : (
+                  // 로그인이 되어 있을 때
+                  <ul className="join-list">
+                    {/* 로그아웃 클릭시 임의로 로그아웃 상태 설정 */}
+                    <li className="logout" onClick={() => setLocalIsLoggedIn(false)}>
+                      로그아웃
+                    </li>
+
+                    <li className="mypage">
+                      <Link to="/mypage/info">마이페이지</Link>
+                    </li>
+                    <li className="customer-center">
+                      <Link to="/cs/home">고객센터</Link>
+                    </li>
+                  </ul>
+                )}
               </ul>
             </div>
           </div>

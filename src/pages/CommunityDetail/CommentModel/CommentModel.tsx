@@ -20,12 +20,19 @@ interface CommentModelProps {
 
 const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
   const [reply, setReply] = useState('');
+  const [replyFormVisible, setReplyFormVisible] = useState(false);
 
   const handleReplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addReply(reply, comment.commentId);
     setReply('');
+    setReplyFormVisible(false);
   };
+
+  const toggleReplyForm = () => {
+    setReplyFormVisible(!replyFormVisible);
+  };
+
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="42px" height="42px">
       <path
@@ -45,7 +52,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
           </div>
         </div>
         <div className="comment-content">{comment.content}</div>
-        <div className="comment-bottom">
+        <div className="comment-bottom-reply">
           <div className="comment-like">
             <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -55,8 +62,11 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
             </svg>
             {comment.like}
           </div>
+          <button className="comment-reply-btn" onClick={toggleReplyForm}>
+            답글 달기
+          </button>
         </div>
-        {comment.parentId === null && (
+        {comment.parentId === null && replyFormVisible && (
           <form onSubmit={handleReplySubmit} className="reply-form">
             <input type="text" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="답글을 입력하세요." />
             <button type="submit">답글 달기</button>

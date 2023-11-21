@@ -4,7 +4,6 @@ import * as S from './ReviewPageModelStyles';
 
 interface ReviewPageModelProps {
   imageUrl?: string;
-  b_category: string;
   p_category: string;
   title: string;
   content: string;
@@ -16,7 +15,7 @@ interface ReviewPageModelProps {
   star: number;
 }
 
-const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category, p_category, title, content, like, comment, time, star }) => {
+const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, p_category, title, content, like, comment, time, star }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="130px" height="130px">
       <path
@@ -33,7 +32,6 @@ const ReviewPageModel: React.FC<ReviewPageModelProps> = ({ imageUrl, b_category,
       <div className="review-page-model-container">
         <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
         <ul className="review-page-model-category-list">
-          <li>{b_category}</li>
           <li>{p_category}</li>
         </ul>
         <div className="review-page-model-title">{title}</div>

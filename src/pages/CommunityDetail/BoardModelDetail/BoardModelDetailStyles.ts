@@ -10,6 +10,10 @@ export const BoardModelDetailStyles = styled.div`
     align-items: center;
     border-radius: 8px;
     margin-bottom: 8px;
+  }
+  .board-image-container img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   .page-location {
@@ -45,6 +49,11 @@ export const BoardModelDetailStyles = styled.div`
     height: 42px;
     object-fit: cover;
     margin-right: 10px;
+  }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .writer-image-container svg {
     width: 42px;
@@ -101,9 +110,9 @@ export const BoardModelDetailStyles = styled.div`
     color: #aab1bc;
     display: flex;
     align-items: center;
-    cursor: pointer;
   }
   .board-detail-like {
     margin-right: 17px;
+    cursor: pointer;
   }
 `;

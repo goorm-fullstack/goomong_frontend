@@ -6,6 +6,7 @@ export const SellerBrandModelStyles = styled.div`
     height: 355px;
     border: 1px solid #eaecee;
     border-radius: 8px;
+    margin-bottom: 16px;
   }
   .seller-brand-model-container .top {
     width: 288px;
