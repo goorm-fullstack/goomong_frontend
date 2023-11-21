@@ -15,7 +15,7 @@ interface ReviewProps {
   content: string;
   like: number;
   comment: number;
-  time: number;
+  time: string;
   isLastItem?: boolean;
   clickLike?: boolean;
   star: number;
@@ -25,7 +25,7 @@ interface ProductProps {
   imageUrl?: string;
   sellerName: string;
   productName: string;
-  price: number;
+  price: string;
   rating: number;
   review: number;
 }
@@ -71,7 +71,7 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
       {
@@ -80,7 +80,7 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
       {
@@ -89,7 +89,7 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
       {
@@ -98,7 +98,7 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
       {
@@ -107,7 +107,7 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
       {
@@ -116,17 +116,17 @@ const SellerDetail: React.FC = () => {
         content: '게시글 내용입니다.',
         like: 40,
         comment: 40,
-        time: 30,
+        time: '30',
         star: 4.9,
       },
     ],
     product: [
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: 150000, rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
+      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
     ],
   };
 

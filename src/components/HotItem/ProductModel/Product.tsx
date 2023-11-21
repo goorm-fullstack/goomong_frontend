@@ -3,11 +3,11 @@ import * as S from './ProductStyles';
 import { Link } from 'react-router-dom';
 
 interface ProductProps {
-  id? : number;
+  id?: number;
   imageUrl?: string;
   sellerName: string;
   productName: string;
-  price: number;
+  price: string;
   rating: number;
   review: number;
 }
@@ -18,7 +18,7 @@ const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName
   };
 
   //1000단위에 ,찍기
-  const formatNumber2 = (num: number): string => {
+  const formatNumber2 = (num: string): string => {
     return num.toLocaleString();
   };
 
@@ -35,14 +35,14 @@ const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName
     <S.Product>
       <Link to={`/item/detail/${id}`}>
         <div className="product">
-            <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
+          <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
           <div className="product-info">
             <div className="product-left">
               <div className="seller-name">{sellerName}</div>
               <div className="product-name">{productName}</div>
             </div>
             <div className="product-right">
-              <div className="product-price">{formatNumber2(price)}원~</div>
+              <div className="product-price">{formatNumber2(price)}</div>
               <ul className="product-rating-review">
                 <li className="product-rating">
                   <span className="rating-star">★</span> <span className="rating">{formatRating(rating)}</span>
