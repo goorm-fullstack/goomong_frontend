@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Logo from '../../assets/images/common/logo.png';
 import * as S from './LoginStyles';
 import Kakao from '../../assets/images/oauth/ico_kakao.png';
@@ -13,7 +13,20 @@ const Login: React.FC = () => {
   const [memberId, setMemberId] = useState<string>('');
   const [memberPassword, setMemberPassword] = useState<string>('');
   const [member, setMember] = useState<any[]>([]);
+  const [rememberId, setRememberId] = useState(false);
   const cookies = new Cookies();
+
+  useEffect(() => {
+    const rememberId = cookies.get('rememberId');
+    if(rememberId) {
+      setMemberId(rememberId);
+      setRememberId(true);
+    }
+  }, []);
+
+  const handleRememberId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberId(e.target.checked);
+  }
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +42,15 @@ const Login: React.FC = () => {
         },
       })
         .then((response) => {
-          cookies.set('memberId', response.data.memberId, { expires: new Date(Date.now() + 30 * 60 * 1000) });
-          cookies.set('id', response.data.id, { expires: new Date(Date.now() + 30 * 60 * 1000) });
+          cookies.set('memberId', response.data.memberId);
+          cookies.set('id', response.data.id);
+          cookies.set('memberRole', response.data.memberRole);
+          if(rememberId) {            //아이디 저장을 했을 때 쿠키에 아이디 값 저장
+            cookies.set('rememberId', memberId);
+          }
+          else {                      //체크가 되어있지 않다면 rememberId 쿠키 삭제
+            cookies.remove('rememberId');
+          }
           navigate(-1);
         })
         .catch((e) => {
@@ -60,7 +80,7 @@ const Login: React.FC = () => {
         </form>
         <div className="middle">
           <div className="checkbox">
-            <input type="checkbox" id="rememberId" />
+            <input type="checkbox" id="rememberId" checked={rememberId} onChange={handleRememberId} />
             <label htmlFor="rememberId">
               <span>아이디 저장</span>
             </label>

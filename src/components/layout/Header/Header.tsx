@@ -27,7 +27,8 @@ const Header: React.FC = () => {
         alert('로그아웃 되었습니다.');
         cookies.remove('memberId');
         cookies.remove('id');
-        window.location.reload();
+        cookies.remove('memberRole');
+        window.location.href = '/';
       })
       .catch((e) => console.log(e));
   };
