@@ -9,8 +9,25 @@ import Product from '../../components/HotItem/ProductModel/Product';
 import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
+<<<<<<< HEAD
 import { Item } from '../../interface/Interface';
 import { commaNumber } from '../../util/func/functions';
+=======
+
+interface Item {
+  // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
+  id: number;
+  title: string;
+  itemCategories: Array<any>;
+
+  imageUrl: string;
+  sellerName: string;
+  productName: string;
+  price: number;
+  rating: number;
+  review: number;
+}
+>>>>>>> feature/sunwoong
 
 const TitleData: TitleType = {
   sale: '재능 마켓',
@@ -32,6 +49,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 3.9,
     review: 3560,
   },
@@ -40,6 +58,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -48,6 +67,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -56,6 +76,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -64,6 +85,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -72,6 +94,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -80,6 +103,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },
@@ -88,6 +112,7 @@ const itemList = [
     sellerName: '판매자 브랜드명',
     productName: '상품 이름을 이렇게 적고요.',
     price: '150,000원~',
+    price: 150000,
     rating: 5,
     review: 3560,
   },

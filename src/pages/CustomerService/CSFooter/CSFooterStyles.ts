@@ -29,7 +29,7 @@ export const CSFooterStyles = styled.div`
     display: inline-block;
     color: var(--dim-black);
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     line-height: 18px;
   }
@@ -60,7 +60,7 @@ export const CSFooterStyles = styled.div`
     color: #fff;
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     padding: 0 17px;
   }
 

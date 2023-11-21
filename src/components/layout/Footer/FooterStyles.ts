@@ -25,7 +25,7 @@ export const Footer = styled.div`
     display: inline-block;
     color: #878d99;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     line-height: 18px;
   }
@@ -47,7 +47,7 @@ export const Footer = styled.div`
     color: #8e94a0;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     line-height: 18px;
     margin-top: 25px;
   }
@@ -56,7 +56,7 @@ export const Footer = styled.div`
     font-size: 14px;
     color: var(--black);
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -77,7 +77,7 @@ export const Footer = styled.div`
   .time,
   .e-mail {
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--dim-black);
   }
   .time {
@@ -86,7 +86,7 @@ export const Footer = styled.div`
   .time li,
   .e-mail li {
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--dim-black);
     line-height: 18px;
   }
@@ -125,7 +125,7 @@ export const Footer = styled.div`
   .footer-bottom-left-list li {
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
     display: flex;
   }

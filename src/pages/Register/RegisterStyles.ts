@@ -20,7 +20,7 @@ export const Register = styled.div`
     font-size: 20px;
     font-weight: 500;
     color: var(--black);
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     text-align: center;
   }
   .small {
@@ -28,7 +28,7 @@ export const Register = styled.div`
     font-size: 14px;
     font-weight: 400;
     color: #4b4b4b;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     text-align: center;
     line-height: 19.6px;
   }
@@ -44,7 +44,7 @@ export const Register = styled.div`
     align-items: center;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 12px;
   }
   .kakao {
@@ -96,7 +96,7 @@ export const Register = styled.div`
     font-size: 12px;
     color: #4b4b4b;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     float: left;
     display: flex;
     justify-content: center;
@@ -134,7 +134,7 @@ export const Register = styled.div`
   .bottom .text {
     font-size: 14px;
     color: #4b4b4b;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     margin-right: 16px;
   }

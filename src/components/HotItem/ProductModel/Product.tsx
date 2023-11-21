@@ -7,7 +7,7 @@ interface ProductProps {
   imageUrl?: string;
   sellerName: string;
   productName: string;
-  price: string;
+  price: number;
   rating: number;
   review: number;
 }
@@ -15,6 +15,11 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName, price, rating, review }) => {
   const formatRating = (rating: number) => {
     return rating.toFixed(1);
+  };
+
+  //1000단위에 ,찍기
+  const formatNumber2 = (num: number): string => {
+    return num.toLocaleString();
   };
 
   const defaultImage = (
@@ -30,16 +35,14 @@ const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName
     <S.Product>
       <Link to={`/item/detail/${id}`}>
         <div className="product">
-          <div className="image-container">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
-          </div>
           <div className="product-info">
             <div className="product-left">
               <div className="seller-name">{sellerName}</div>
               <div className="product-name">{productName}</div>
             </div>
             <div className="product-right">
-              <div className="product-price">{price}</div>
+              <div className="product-price">{formatNumber2(price)}원~</div>
               <ul className="product-rating-review">
                 <li className="product-rating">
                   <span className="rating-star">★</span> <span className="rating">{formatRating(rating)}</span>

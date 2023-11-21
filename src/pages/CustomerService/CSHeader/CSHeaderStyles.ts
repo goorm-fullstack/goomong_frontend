@@ -41,7 +41,7 @@ export const CSHeaderStyles = styled.div`
     color: #fff;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     width: 140px;
     height: 35px;
     border-radius: 18px;

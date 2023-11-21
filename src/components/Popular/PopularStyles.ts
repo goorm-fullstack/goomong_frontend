@@ -9,11 +9,11 @@ export const Popular = styled.div`
   .popular-title {
     font-size: 28px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
   }
   .popular-sub-title {
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     color: var(--black);
     font-weight: 500;
     margin-top: 16px;

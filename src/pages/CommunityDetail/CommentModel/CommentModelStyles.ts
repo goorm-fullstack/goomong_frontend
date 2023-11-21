@@ -15,6 +15,11 @@ export const CommentModelStyles = styled.div`
     width: 42px;
     height: 42px;
   }
+  .writer-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .comment-top .right {
     margin-left: 11px;
   }
@@ -22,7 +27,7 @@ export const CommentModelStyles = styled.div`
     color: #101c33;
     font-weight: 400;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
     margin-top: 4px;
   }
@@ -30,13 +35,13 @@ export const CommentModelStyles = styled.div`
     color: #8e94a0;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .comment-content {
     color: #101c33;
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 22px;
   }
   .comment-like {
@@ -91,17 +96,40 @@ export const CommentModelStyles = styled.div`
     width: 22px;
     height: 22px;
   }
+  .writer-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .reply-container .comment-writer {
     color: #101c33;
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
     margin-top: 4px;
   }
-  .reply-container .comment-bottom {
+  .reply-container .comment-bottom-reply {
     display: none;
   }
+
+  .comment-bottom-reply {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .comment-reply-btn {
+    font-size: 12px;
+    color: #aab1bc;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    border: 0;
+    border-radius: 8px;
+    margin-left: 10px;
+    padding: 3px 5px;
+    cursor: pointer;
+  }
+
   .reply-container .right {
     margin-right: 30px;
   }
@@ -109,7 +137,7 @@ export const CommentModelStyles = styled.div`
     color: #8e94a0;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .reply-container .comment-top {
     display: flex;

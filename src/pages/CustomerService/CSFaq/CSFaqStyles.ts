@@ -15,7 +15,7 @@ export const CSFaqStyles = styled.div`
     color: #101c33;
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .left {
     display: flex;
@@ -24,7 +24,7 @@ export const CSFaqStyles = styled.div`
     color: #4285f4;
     font-weight: 400;
     font-size: 13px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .faq-location svg {
     margin: 0 10px;
@@ -53,7 +53,7 @@ export const CSFaqStyles = styled.div`
     color: #101c33;
     font-size: 20px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 40px;
   }
 
@@ -69,7 +69,7 @@ export const CSFaqStyles = styled.div`
     color: #101c33;
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
   }
   .category-list li:hover {
@@ -103,7 +103,7 @@ export const CSFaqStyles = styled.div`
     color: #6f7785;
     font-size: 15px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     width: 100%;
     max-height: 0;
     overflow: hidden;
@@ -112,6 +112,6 @@ export const CSFaqStyles = styled.div`
   }
 
   .visible {
-    max-height: 1000px; 
+    max-height: 1000px;
   }
 `;

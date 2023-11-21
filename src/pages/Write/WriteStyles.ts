@@ -27,7 +27,7 @@ export const WriteStyles = styled.div`
     color: #101c33;
     font-size: 20px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin: 30px 0 40px;
   }
   .input-text {
@@ -93,7 +93,7 @@ export const WriteStyles = styled.div`
     align-items: center;
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .submit-btn {
     display: flex;
@@ -111,7 +111,7 @@ export const WriteStyles = styled.div`
     color: #fefeff;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
     border-radius: 4px;
     margin-top: 70px;
@@ -120,14 +120,14 @@ export const WriteStyles = styled.div`
     color: #404a5c;
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 12px;
   }
   .write-form .bottom p {
     color: #aab1bc;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .write-form .bottom {
     margin-bottom: 17px;

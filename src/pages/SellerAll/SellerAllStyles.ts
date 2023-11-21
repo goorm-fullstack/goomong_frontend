@@ -14,7 +14,7 @@ export const SellerAllStyles = styled.div`
     color: #101c33;
     font-weight: 600;
     font-size: 22px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-right: 25px;
   }
   .top-nav a.rank {
@@ -46,7 +46,7 @@ export const SellerAllStyles = styled.div`
     color: var(--black);
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
   }
   .search-form button {
@@ -74,7 +74,7 @@ export const SellerAllStyles = styled.div`
     color: #404a5c;
     font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
     border: 1px solid #dbdee2;
     padding: 0px 16px;
@@ -91,19 +91,20 @@ export const SellerAllStyles = styled.div`
     border: 1px solid #e9ebed;
     padding: 84px 64px 60px 64px;
     text-align: center;
+    border-radius: 8px;
   }
   p.title {
     color: #101c33;
     font-weight: 600;
     font-size: 16px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin: 16px 0;
   }
   p.bottom {
     color: #6f7785;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   p.last {
     margin-bottom: 42px;
@@ -117,10 +118,14 @@ export const SellerAllStyles = styled.div`
     color: #fff;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border-radius: 8px;
     border: 0;
     background-color: #4285f4;
     cursor: pointer;
+  }
+  .seller-all-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
   }
 `;

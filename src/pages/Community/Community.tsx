@@ -197,12 +197,6 @@ const Community: React.FC = () => {
 
               <div className="align-menu">
                 <div className="left">
-                  <div className="left-category">
-                    재능 카테고리
-                    <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                      <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                    </svg>
-                  </div>
                   <div className="left-local">
                     지역 선택
                     <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
