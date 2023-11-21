@@ -239,7 +239,7 @@ const AdminQnaList: React.FC = () => {
             </tbody>
           </table>
         </S.AdminTable>
-        <Pagination currentPage={currentPage} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
+        <Pagination currentPage={currentPage + 1} totalPages={totalPage ? totalPage : 1} onPageChange={handlePageChange} />
       </S.Contents>
       <AdminSidebar />
     </S.Admin>

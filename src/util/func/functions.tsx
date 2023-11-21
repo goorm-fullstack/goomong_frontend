@@ -50,3 +50,11 @@ export const getImageFile = async (path: string) => {
 export const commaNumber = (num: number): string => {
   return num.toLocaleString();
 };
+
+// 게시글 종류 한글로 변경
+export const postTypeToKorean = (postType: string): string => {
+  if (postType === 'NOTICE') return '공지사항';
+  if (postType === 'COMMUNITY') return '커뮤니티';
+  if (postType === 'EVENT') return '이벤트';
+  else return 'QnA';
+};
