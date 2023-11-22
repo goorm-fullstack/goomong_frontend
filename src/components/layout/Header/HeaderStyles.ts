@@ -141,6 +141,7 @@ export const Header = styled.header`
     border: 1px solid #f5f6f7;
     border-radius: 15px;
     display: flex;
+    display: none;
     background-color: #fff;
     z-index: 1000;
     left: 50%;
@@ -166,11 +167,14 @@ export const Header = styled.header`
     padding-right: 0px;
   }
   .current li {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .current-text {
     font-weight: 400;
     font-size: 12px;
     letter-spacing: -0.04em;
-    display: flex;
-    justify-content: space-between;
   }
   .title {
     margin-bottom: 19px;
@@ -204,6 +208,8 @@ export const Header = styled.header`
   }
   .delete-btn {
     cursor: pointer;
+    background-color: transparent;
+    border: 0;
   }
   .delete-btn svg {
     width: 8px;
@@ -214,6 +220,7 @@ export const Header = styled.header`
     position: absolute;
     left: calc(45% + 32px);
     transform: translateX(calc(-45% - 32px));
+    display: none;
     top: 235px;
     z-index: 1001;
   }
@@ -221,11 +228,15 @@ export const Header = styled.header`
     display: flex;
     justify-content: space-between;
   }
-  .keyword-bottom ul li {
+  .keyword-bottom ul li ,  .keyword-bottom ul li button{
     color: var(--dim-black);
     font-size: 11px;
     font-weight: 400;
     letter-spacing: -0.04em;
     cursor: pointer;
+  }
+  .keyword-bottom ul li button {
+    border: 0;
+    background-color: transparent;
   }
 `;

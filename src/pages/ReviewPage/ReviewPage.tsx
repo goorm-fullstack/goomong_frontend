@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
 import { commaNumber, detailDate, getImageFile } from '../../util/func/functions';
-import { ReviewData } from '../../interface/Interface';
+import { ReviewData, ReviewStatisData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import Pagination from '../../components/Pagination/Pagination';
+import Sort from '../../components/Sort/Sort';
 
 const Review: React.FC = () => {
   const topInfo = {
@@ -30,6 +31,7 @@ const Review: React.FC = () => {
   const [customerSatisfaction, setCustomerSatisfaction] = useState<string>('0'); // 고객 만족도
   const [bestReviewData, setBestReviewData] = useState<ReviewData[]>(); // 베스트 리뷰
   const [bestReviewImageUrls, setBestReviewImageUrls] = useState<string[]>(); // 베스트 리뷰 이미지
+  const [ReviewStatisData, setReviewStatisData] = useState<ReviewStatisData>();
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -129,6 +131,17 @@ const Review: React.FC = () => {
     fetchImages();
   }, [bestReviewData]);
 
+  useEffect(() => {
+    Instance.get('/api/statistics/customer-review')
+      .then((response) => {
+        const data = response.data;
+        setReviewStatisData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
   return (
     <S.ReviewPageStyles>
       <Header />
@@ -161,7 +174,7 @@ const Review: React.FC = () => {
                 <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {aveRate}
+                  {Number(aveRate).toFixed(1)}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -241,7 +254,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="graph-text">
                 <div className="top">누적거래건수</div>
-                <div className="bottom">{commaNumber(topInfo.evaluation)}건</div>
+                <div className="bottom">{ReviewStatisData && commaNumber(ReviewStatisData.allOrderCnt)}건</div>
               </div>
             </div>
 
@@ -403,7 +416,9 @@ const Review: React.FC = () => {
               </svg>
               <div className="money-text">
                 <div className="top">누적거래금액</div>
-                <div className="bottom">{commaNumber(topInfo.money)}원</div>
+                <div className="bottom">
+                  {ReviewStatisData && ReviewStatisData?.allOrderPriceSum !== null ? commaNumber(ReviewStatisData.allOrderPriceSum) : 0}원
+                </div>
               </div>
             </div>
           </div>
@@ -460,18 +475,12 @@ const Review: React.FC = () => {
           <div className="align-menu">
             <div className="left">
               <div className="left-category">
-                재능 카테고리
-                <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                  <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                </svg>
+                <Sort type="itemCategory" />
               </div>
             </div>
             <div className="right">
               <div className="align-standard">
-                정렬 기준
-                <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                  <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                </svg>
+                <Sort type="review" />
               </div>
             </div>
           </div>

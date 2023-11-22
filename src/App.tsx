@@ -43,6 +43,7 @@ import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
 import NotFound from './pages/NotFound/NotFound';
+import SearchDetail from './pages/SearchDetail/SearchDetail';
 
 const App: React.FC = () => {
   return (
@@ -55,9 +56,9 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community/:category" element={<Community />} />
+        <Route path="/community/:category/:sort" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />
-        <Route path="/review" element={<ReviewPage />} />
+        <Route path="/review/:sort" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
         <Route path="/cs/notice/:id" element={<CSNoticeDetail />} />
@@ -77,6 +78,7 @@ const App: React.FC = () => {
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
         <Route path="/chatting" element={<Chatting />} />
+        <Route path="/search/:searchTerm" element={<SearchDetail />} />
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />

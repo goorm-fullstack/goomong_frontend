@@ -126,18 +126,23 @@ export default function ItemList() {
   const { page } = useParams();
   const [orderBy, setOrderBy] = useState<String | null>(null); // 정렬 기준
   const [direction, setDirection] = useState('desc'); // 정렬 순서
-  const pageSize = 10;
+  const [pageNum, setPageNum] = useState(0);
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   useEffect(() => {
-    Instance.get(`/api/item/list?page=${page}`, {
-      params: {
-        orderBy: orderBy,
-        direction: direction,
-      },
-    }).then((response) => {
-      setItemList(response.data);
-    });
+    console.log(typeof page);
+    if (typeof page !== undefined) {
+      Instance.get(`/api/item/list/${location}`, {
+        params: {
+          orderBy: orderBy,
+          direction: direction,
+          page: Number(page) - 1,
+        },
+      }).then((response) => {
+        setItemList(response.data.data);
+        setPageNum(response.data.pageNum);
+      });
+    }
   }, []);
 
   const mockOnChangeNumber = (num: number) => {};
