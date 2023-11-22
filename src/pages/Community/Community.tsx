@@ -8,11 +8,12 @@ import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel'
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
 import Pagination from '../../components/Pagination/Pagination';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CommunityCategoryData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile, detailDate } from '../../util/func/functions';
 import { Cookies } from 'react-cookie';
+import Sort from '../../components/Sort/Sort';
 
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -217,10 +218,7 @@ const Community: React.FC = () => {
                     </svg>
                   </div>
                   <div className="align-standard">
-                    정렬 기준
-                    <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                      <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                    </svg>
+                    <Sort type="itemCategory" />
                   </div>
                 </div>
 

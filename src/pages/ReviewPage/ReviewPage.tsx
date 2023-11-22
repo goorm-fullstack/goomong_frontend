@@ -10,6 +10,7 @@ import { commaNumber, detailDate, getImageFile } from '../../util/func/functions
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import Pagination from '../../components/Pagination/Pagination';
+import Sort from '../../components/Sort/Sort';
 
 const Review: React.FC = () => {
   const topInfo = {
@@ -161,7 +162,7 @@ const Review: React.FC = () => {
                 <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {aveRate}
+                  {Number(aveRate).toFixed(1)}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -468,10 +469,7 @@ const Review: React.FC = () => {
             </div>
             <div className="right">
               <div className="align-standard">
-                정렬 기준
-                <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                  <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                </svg>
+                <Sort type="itemCategory" />
               </div>
             </div>
           </div>

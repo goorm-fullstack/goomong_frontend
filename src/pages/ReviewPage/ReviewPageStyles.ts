@@ -120,8 +120,7 @@ export const ReviewPageStyles = styled.div`
   }
 
   .left-category,
-  .left-local,
-  .align-standard {
+  .left-local {
     width: 145px;
     height: 38px;
     border-radius: 8px;

@@ -86,10 +86,10 @@ const Gnb = () => {
                   <NavLink to="/hire">견적 요청</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/community/all">구몽 생활</NavLink>
+                  <NavLink to="/community/all/recent">구몽 생활</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/review">고객 후기</NavLink>
+                  <NavLink to="/review/recent">고객 후기</NavLink>
                 </li>
               </ul>
             </div>
