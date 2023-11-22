@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
-import * as S from './MyPageInfoStyles';
+import * as S from './ConvertSeller';
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Footer from '../../../components/layout/Footer/Footer';
@@ -8,7 +8,8 @@ import Footer from '../../../components/layout/Footer/Footer';
 interface UserInfo {
   imageUrl?: string;
 }
-const MyPageInfo: React.FC = () => {
+
+const ConvertSeller: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const handleInfoSubmit = (e: React.FormEvent) => {
@@ -53,7 +54,7 @@ const MyPageInfo: React.FC = () => {
   };
 
   return (
-    <S.MyPageInfoStyles>
+    <S.ConvertSellerStyles>
       <Header />
       <div className="mypage-info-container">
         <MyPageLeft />
@@ -86,7 +87,7 @@ const MyPageInfo: React.FC = () => {
                 </div>
                 <div className="input-text">
                   변경할 비밀번호
-                  <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
             </div>
@@ -97,8 +98,8 @@ const MyPageInfo: React.FC = () => {
         </div>
       </div>
       <Footer />
-    </S.MyPageInfoStyles>
+    </S.ConvertSellerStyles>
   );
 };
 
-export default MyPageInfo;
+export default ConvertSeller;
