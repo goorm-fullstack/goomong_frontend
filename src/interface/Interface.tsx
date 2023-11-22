@@ -91,6 +91,11 @@ export interface Item {
   status: string;
 }
 
+export interface ItemData {
+  data: Item;
+  pageNum: number;
+}
+
 export interface CommunityCategoryData {
   id: number;
   image: Image;
@@ -168,4 +173,21 @@ export interface ResponseData {
   regDate: Date;
   delDate: Date;
   pageInfo: PageInfoData;
+}
+
+export interface ReviewStatisData {
+  allReviewAvg: number;
+  allReviewCnt: number;
+  customerSatisfaction: number;
+  allOrderCnt: number;
+  allOrderPriceSum: number;
+}
+
+export interface ItemCategoryData {
+  id: number;
+  title: string;
+  level: number;
+  priority: number;
+  parent: ItemCategoryData;
+  childCategory: ItemCategoryData[];
 }
