@@ -89,6 +89,9 @@ const MyPageLeft: React.FC = () => {
           <Link to="/mypage/convertseller">
             <button type="button">판매자로 전환하기</button>
           </Link>
+          <Link to="/mypage/info">
+            <button type="button">구매자로 전환하기</button>
+          </Link>
         </div>
         <div className="bottom">
           <div className="info">

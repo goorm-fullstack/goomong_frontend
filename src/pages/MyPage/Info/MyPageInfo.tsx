@@ -29,6 +29,7 @@ const MyPageInfo: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [memberPassword, setMemberPassword] = useState<string>("");
   const [memberId, setMemberId] = useState<string>("");
+  const [memberNickname, setMemberNickname] = useState<string>("");
   const [buyZipCode, setBuyZipCode] = useState<string>("");
   const [buySido, setBuySido] = useState<string>("");
   const [buySimpleAddress, setBuySimpleAddress] = useState<string>("");
@@ -46,7 +47,7 @@ const MyPageInfo: React.FC = () => {
   useEffect(() => {
     Instance.get(`/api/member/id/${id}`)
     .then((response) => {
-      console.log(response.data);
+      setMemberNickname(response.data.memberName);
       setBuyZipCode(response.data.buyZipCode);
       setBuySido(response.data.buySido);
       setBuySimpleAddress(response.data.buySimpleAddress);
@@ -72,7 +73,7 @@ const MyPageInfo: React.FC = () => {
 
     const memberInfo = {
       memberId: memberId,
-      memberPassword: memberPassword,
+      memberName: memberNickname,
       buyZipCode: buyZipCode,
       buySimpleAddress: buySimpleAddress,
       buyDetailAddress: buyDetailAddress,
@@ -224,6 +225,16 @@ const MyPageInfo: React.FC = () => {
                   />
                 </div>
                 <div className="input-text">
+                  별명
+                  <input
+                      required
+                      type="memberNickname"
+                      value={memberNickname}
+                      onChange={(e) => setMemberNickname(e.target.value)}
+                  />
+                </div>
+
+                <div className="input-text">
                   <button onClick={onClickAddr}>주소 검색</button>
                 </div>
                 <div className="input-text">
@@ -238,7 +249,7 @@ const MyPageInfo: React.FC = () => {
                   />
                 </div>
                 <div className="input-text">
-                  시도
+                  시/도
                   <input
                       type="text"
                       id="sido"
