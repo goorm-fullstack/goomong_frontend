@@ -90,7 +90,13 @@ export default function ItemDetail() {
   }, [item]);
 
   const handleBuyClick = () => {
-    navigator('/order/write', {
+    // navigator('/order/write', {
+    //   state: {
+    //     itemId: id,
+    //   },
+    // });
+
+    navigator('/chatting', {
       state: {
         itemId: id,
       },
