@@ -82,13 +82,13 @@ const Gnb = () => {
                   <NavLink to="#null">전체 카테고리</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/market/0">재능 마켓</NavLink>
+                  <NavLink to="/item/sale/all">재능 마켓</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/exchange/0">재능 교환</NavLink>
+                  <NavLink to="/item/exchange/all">재능 교환</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/contribution/0">재능 기부</NavLink>
+                  <NavLink to="/item/give/all">재능 기부</NavLink>
                 </li>
               </ul>
               <ul className="lr-menu">
@@ -189,7 +189,7 @@ const Gnb = () => {
                 {itemCategoryData &&
                   itemCategoryData.map((category, index) => (
                     <li key={index}>
-                      <Link to="#null">{category.title}</Link>
+                      <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
                     </li>
                   ))}
               </ul>

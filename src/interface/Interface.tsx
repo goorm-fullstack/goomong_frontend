@@ -91,6 +91,11 @@ export interface Item {
   status: string;
 }
 
+export interface ItemData {
+  data: Item;
+  pageNum: number;
+}
+
 export interface CommunityCategoryData {
   id: number;
   image: Image;
