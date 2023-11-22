@@ -7,8 +7,46 @@ import BoardHistoryModel from './BoardHistoryModel/BoardHistoryModel';
 import CommentHistoryModel from './CommentHistoryModel/CommentHistoryModel';
 import Footer from '../../../components/layout/Footer/Footer';
 
+interface BoardModel {
+  type: string;
+  title: string;
+  writer: string;
+  date: number;
+  id: number;
+}
+interface CommentModel {
+  title: string;
+  comment: string;
+  writer: string;
+  date: string;
+}
+
+interface MyBoard {
+  board: BoardModel[];
+  comment: CommentModel[];
+}
+
 const MyPageBoard: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<'like' | 'board' | 'comment'>('board');
+  const [selectedCategory, setSelectedCategory] = useState<'board' | 'comment'>('board');
+  const myboardData: MyBoard = {
+    board: [
+      { id: 1, type: '쓴 게시글 type1', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 2, type: '쓴 게시글 type2', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 3, type: '쓴 게시글 type3', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+      { id: 4, type: '쓴 게시글 type4', title: '구몽 생활 게시글 제목', writer: '작성자', date: 30 },
+    ],
+    comment: [
+      {
+        title: '게시글 제목',
+        comment:
+          '내가 쓴 댓글 내용입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다입니다',
+        writer: '작성자',
+        date: '30',
+      },
+      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
+      { title: '게시글 제목', comment: '내가 쓴 댓글 내용입니다입니다입니다입니다', writer: '작성자', date: '30' },
+    ],
+  };
 
   const handleCategoryClick = (category: 'board' | 'comment') => {
     setSelectedCategory(category);
