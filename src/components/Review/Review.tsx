@@ -10,6 +10,7 @@ import { detailDate, getImageFile } from '../../util/func/functions';
 const Review: React.FC = () => {
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터 상태 관리
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터 상태 관리
+  const [reviewAve, setReviewAve] = useState<string>(); // 전체 평균 평점
 
   // 전체 리뷰 중 최신 10건 상태 저장
   useEffect(() => {
@@ -40,6 +41,19 @@ const Review: React.FC = () => {
     fetchImages();
   }, [reviewData]);
 
+  // 전체 평균 평점 가져오기
+  useEffect(() => {
+    Instance.get('/api/reviews/aveRate')
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        setReviewAve(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
   return (
     <S.Review>
       <div className="review-container">
@@ -47,7 +61,7 @@ const Review: React.FC = () => {
           <div className="title-top">구몽을 이용한 회원들의 생생한 후기</div>
           <div className="title-bottom">
             <div className="sub-title">실시간 구매자 후기</div>
-            <div className="score">4.9점</div>
+            <div className="score">{Number(reviewAve).toFixed(1)}점</div>
           </div>
         </div>
 
