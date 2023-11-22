@@ -4,6 +4,7 @@ import * as S from "./MyPageLeftStyles";
 import { Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import Instance from "../../../util/API/axiosInstance";
+import { useLocation } from "react-router-dom";
 
 interface UserInfo {
   imageUrl?: string;
@@ -17,6 +18,7 @@ const MyPageLeft: React.FC = () => {
   const isLogin: string = cookies.get("memberId");
   const id: number = cookies.get("id");
   const [member, setMember] = useState<string>("");
+  const location = useLocation();
   const defaultImage = (
     <svg
       viewBox="0 0 512 512"
@@ -86,12 +88,15 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <Link to="/mypage/convertseller">
-            <button type="button">판매자로 전환하기</button>
-          </Link>
-          <Link to="/mypage/info">
-            <button type="button">구매자로 전환하기</button>
-          </Link>
+          {location.pathname === "/mypage/convertseller" ? (
+              <Link to="/mypage/info">
+                <button type="button">구매자로 전환하기</button>
+              </Link>
+          ) : (
+              <Link to="/mypage/convertseller">
+                <button type="button">판매자로 전환하기</button>
+              </Link>
+          )}
         </div>
         <div className="bottom">
           <div className="info">

@@ -53,10 +53,10 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     Instance.post(`/api/member/logout`, {})
       .then(() => {
-        alert('로그아웃 되었습니다.');
         cookies.remove('memberId');
         cookies.remove('id');
         cookies.remove('memberRole');
+        alert('로그아웃 되었습니다.');
         window.location.href = '/';
       })
       .catch((e) => console.log(e));
