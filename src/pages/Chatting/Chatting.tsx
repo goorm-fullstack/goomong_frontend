@@ -22,7 +22,7 @@ interface UIModel {
   content: string[];
 }
 
-const Chatting: React.FC = () => {
+const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const chattingUIData: UIModel = {
     opponent: {
       nickname: '마켓',
@@ -37,7 +37,7 @@ const Chatting: React.FC = () => {
   };
   return (
     <S.ChattingStyles>
-      <Header />
+      {showLayout && <Header />}
       <div className="chatting-container">
         <ChattingRoom />
         <ChattingUI
@@ -48,8 +48,7 @@ const Chatting: React.FC = () => {
           content={chattingUIData.content}
         />
       </div>
-
-      <Footer />
+      {showLayout && <Footer />}
     </S.ChattingStyles>
   );
 };

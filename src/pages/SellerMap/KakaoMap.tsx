@@ -8,9 +8,11 @@ declare global {
 
 const KakaoMap: React.FC = () => {
   useEffect(() => {
+    const apiKey = process.env.REACT_APP_KAKAO_MAPS_API_KEY;
+
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAPS_API_KEY}&autoload=false`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false&libraries=services,clusterer,drawing`;
     script.onload = () => {
       window.kakao.maps.load(() => {
         const mapContainer = document.getElementById('map');

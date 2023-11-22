@@ -10,7 +10,6 @@ interface UserInfo {
 }
 const MyPageInfo: React.FC = () => {
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -86,7 +85,7 @@ const MyPageInfo: React.FC = () => {
                 </div>
                 <div className="input-text">
                   변경할 비밀번호
-                  <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                  <input required type="password" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
             </div>

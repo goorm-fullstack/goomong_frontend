@@ -1,17 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
+import * as S from './ConvertSellerStyles';
 
-import * as S from './ConvertSeller';
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Footer from '../../../components/layout/Footer/Footer';
-
 interface UserInfo {
   imageUrl?: string;
 }
-
-const ConvertSeller: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const ConvertSeller = () => {
+  const [address, setAdress] = useState<string>('');
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -56,12 +53,12 @@ const ConvertSeller: React.FC = () => {
   return (
     <S.ConvertSellerStyles>
       <Header />
-      <div className="mypage-info-container">
+      <div className="convert-seller-container">
         <MyPageLeft />
         <div className="info-container">
           <div className="title">
-            계정설정
-            <div className="small">상세한 계정 정보를 관리할 수 있어요</div>
+            판매자로 전환하기
+            <div className="small">상세한 정보 입력을 통해 판매자로 전환할 수 있어요.</div>
           </div>
           <form onSubmit={handleInfoSubmit} className="info-form">
             <div className="get-container">
@@ -82,12 +79,8 @@ const ConvertSeller: React.FC = () => {
               </div>
               <div className="info-get">
                 <div className="input-text">
-                  회원 아이디
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="input-text">
-                  변경할 비밀번호
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  주소
+                  <input required type="text" value={address} onChange={(e) => setAdress(e.target.value)} />
                 </div>
               </div>
             </div>

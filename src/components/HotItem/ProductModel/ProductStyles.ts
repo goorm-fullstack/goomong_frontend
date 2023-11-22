@@ -15,17 +15,11 @@ export const Product = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   .product-left {
     margin-bottom: 16px;
