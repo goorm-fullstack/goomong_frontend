@@ -175,6 +175,19 @@ export interface ResponseData {
   pageInfo: PageInfoData;
 }
 
+export interface Point {
+  totalPoint: number;
+  expiringPoint: number;
+}
+
+export interface PointHistory {
+  type: string;
+  amount: number;
+  description: string;
+  orderNumber: string;
+  regDate: Date;
+}
+
 export interface ReviewStatisData {
   allReviewAvg: number;
   allReviewCnt: number;

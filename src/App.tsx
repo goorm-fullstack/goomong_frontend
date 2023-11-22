@@ -43,6 +43,7 @@ import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
 import NotFound from './pages/NotFound/NotFound';
+import SearchDetail from './pages/SearchDetail/SearchDetail';
 
 const App: React.FC = () => {
   return (
@@ -65,7 +66,7 @@ const App: React.FC = () => {
         <Route path="/cs/inquiry" element={<CSInquiry />} />
         <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/rank" element={<SellerRank />} />
-        <Route path="/item/:type/:category" element={<ItemList />}></Route>
+        <Route path="/item/:type/:page" element={<ItemList />}></Route>
         <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
         <Route path="/item/write" element={<ItemWrite />}></Route>
         <Route path="/order/write" element={<OrderWrite />}></Route>
@@ -77,6 +78,7 @@ const App: React.FC = () => {
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
         <Route path="/chatting" element={<Chatting />} />
+        <Route path="/search/:searchTerm" element={<SearchDetail />} />
 
         {/* 어드민 주소 위치 */}
         <Route path="/admin" element={<Admin />} />
