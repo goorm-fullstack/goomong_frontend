@@ -65,37 +65,76 @@ export default function ItemList() {
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   useEffect(() => {
     if (type === 'sale') {
-      Instance.get(`/api/item/list/sale?page=${currentPage}`, {
-        params: {
-          orderBy: orderBy,
-          direction: direction,
-        },
-      }).then((response) => {
-        setItemList(response.data);
-        if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
-      });
+      if (category === 'all') {
+        Instance.get(`/api/item/list/sale?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      } else {
+        Instance.get(`/api/item/list/sale?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+            categoryName: category,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      }
     } else if (type === 'exchange') {
-      Instance.get(`/api/item/list/exchange?page=${currentPage}`, {
-        params: {
-          orderBy: orderBy,
-          direction: direction,
-        },
-      }).then((response) => {
-        setItemList(response.data);
-        if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
-      });
+      if (category === 'all') {
+        Instance.get(`/api/item/list/exchange?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      } else {
+        Instance.get(`/api/item/list/exchange?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+            categoryName: category,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      }
     } else {
-      Instance.get(`/api/item/list/give?page=${currentPage}`, {
-        params: {
-          orderBy: orderBy,
-          direction: direction,
-        },
-      }).then((response) => {
-        setItemList(response.data);
-        if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
-      });
+      if (category === 'all') {
+        Instance.get(`/api/item/list/give?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      } else {
+        Instance.get(`/api/item/list/give?page=${currentPage}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+            categoryName: category,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setTotalPage(response.data[0].pageNum);
+        });
+      }
     }
-  }, [type, currentPage, direction, orderBy]);
+  }, [type, currentPage, direction, orderBy, category]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -120,8 +159,12 @@ export default function ItemList() {
   };
 
   const clickCategory = (category: string): void => {
+    if (category === '전체') {
+      window.location.href = `/item/${type}/all`;
+      return;
+    }
     window.location.href = `/item/${type}/${category}`;
-  }
+  };
 
   return (
     <>
@@ -129,7 +172,7 @@ export default function ItemList() {
       <C.Container>
         <C.PageTitle>{TitleData[type as LocationType]}</C.PageTitle>
         <C.SortWrapper>
-          <p className="total">총 17,153개</p>
+          <p className="total">총 {itemList ? commaNumber(itemList.length) : 0}개</p>
           <Sort type="order" />
         </C.SortWrapper>
         <S.ItemList>
@@ -140,7 +183,12 @@ export default function ItemList() {
               {categories.map((item, index) => (
                 <li key={index}>
                   <label htmlFor={item.title}>
-                    <input type="checkbox" id={item.title} checked={category === 'all' ? item.title === '전체' : item.title === category} onClick={() => clickCategory(item.title)} />
+                    <input
+                      type="checkbox"
+                      id={item.title}
+                      checked={category === 'all' ? item.title === '전체' : item.title === category}
+                      onClick={() => clickCategory(item.title)}
+                    />
                     {item.title}
                   </label>
                 </li>
