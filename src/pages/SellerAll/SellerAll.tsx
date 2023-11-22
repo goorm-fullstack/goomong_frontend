@@ -182,18 +182,17 @@ const SellerAll: React.FC = () => {
             </Link>
           </div>
           {currentItems.map((item, index) => (
-            <Link to="#null" key={index}>
-              <SellerBrandModel
-                sellerName={item.sellerName}
-                b_category={item.b_category}
-                p_category={item.p_category}
-                content={item.content}
-                totalMoney={item.totalMoney}
-                totalReview={item.totalReview}
-                totalTransaction={item.totalTransaction}
-                star={item.star}
-              />
-            </Link>
+            <SellerBrandModel
+              key={index}
+              sellerName={item.sellerName}
+              b_category={item.b_category}
+              p_category={item.p_category}
+              content={item.content}
+              totalMoney={item.totalMoney}
+              totalReview={item.totalReview}
+              totalTransaction={item.totalTransaction}
+              star={item.star}
+            />
           ))}
         </div>
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
