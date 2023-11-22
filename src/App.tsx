@@ -55,9 +55,9 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community/:category/:sort" element={<Community />} />
+        <Route path="/community/:category" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />
-        <Route path="/review/:sort" element={<ReviewPage />} />
+        <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
         <Route path="/cs/notice/:id" element={<CSNoticeDetail />} />

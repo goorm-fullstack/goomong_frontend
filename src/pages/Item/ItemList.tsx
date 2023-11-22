@@ -61,6 +61,7 @@ export default function ItemList() {
   const [orderBy, setOrderBy] = useState<String | null>(null); // 정렬 기준
   const [direction, setDirection] = useState('desc'); // 정렬 순서
   const [imageUrls, setImageUrls] = useState<string[]>();
+  const sort = '최신순';
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
   useEffect(() => {
@@ -136,6 +137,13 @@ export default function ItemList() {
     }
   }, [type, currentPage, direction, orderBy, category]);
 
+  useEffect(() => {
+    if (sort === '최신순') {
+      setOrderBy('regDate');
+      setDirection('desc');
+    }
+  }, [sort]);
+
   // 이미지 상태 저장
   useLayoutEffect(() => {
     const fetchImages = async () => {
@@ -155,7 +163,7 @@ export default function ItemList() {
 
   // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
   const handlePageChange = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber - 1);
   };
 
   const clickCategory = (category: string): void => {

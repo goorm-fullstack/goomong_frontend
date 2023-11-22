@@ -254,7 +254,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="graph-text">
                 <div className="top">누적거래건수</div>
-                <div className="bottom">{ReviewStatisData && commaNumber(ReviewStatisData.allOrderCnt)}건</div>
+                <div className="bottom">{ReviewStatisData ? commaNumber(ReviewStatisData.allOrderCnt) : 0}건</div>
               </div>
             </div>
 
@@ -473,11 +473,6 @@ const Review: React.FC = () => {
         <div className="all-review">
           <div className="all-review-title">전체 후기</div>
           <div className="align-menu">
-            <div className="left">
-              <div className="left-category">
-                <Sort type="itemCategory" />
-              </div>
-            </div>
             <div className="right">
               <div className="align-standard">
                 <Sort type="review" />
