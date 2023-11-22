@@ -3,7 +3,7 @@ import Header from '../../components/layout/Header/Header';
 import * as S from './SellerMapStyles';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/layout/Footer/Footer';
-import KakaoMap from './KakooMap';
+import KakaoMap from './KakaoMap';
 
 const SellerMap: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');

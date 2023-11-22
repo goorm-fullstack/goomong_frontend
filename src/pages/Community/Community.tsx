@@ -8,11 +8,12 @@ import NoticeBoardModel from './CommunityItems/NoticeBoardModel/NoticBoardModel'
 import SlideBoardModel from './CommunityItems/BoardModel/SlideBoardModel';
 import BoardModel from './CommunityItems/BoardModel/BoardModel';
 import Pagination from '../../components/Pagination/Pagination';
-import { Link, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { CommunityCategoryData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile, detailDate } from '../../util/func/functions';
 import { Cookies } from 'react-cookie';
+import Sort from '../../components/Sort/Sort';
 
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -21,6 +22,9 @@ const Community: React.FC = () => {
     e.preventDefault();
   };
 
+  const location = useLocation();
+  const [orderBy, setOrderBy] = useState<string>();
+  const [direction, setDirection] = useState<string>();
   const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [communityData, setCommunityData] = useState<PostData[]>(); // 커뮤니티 게시판 데이터
@@ -35,37 +39,87 @@ const Community: React.FC = () => {
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber - 1);
   };
+
+  useEffect(() => {
+    if (location.search) {
+      const word = location.search.replace('?', '');
+      if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'comment') {
+        setOrderBy('commentCnt');
+        setDirection('desc');
+      } else if (word === 'view') {
+        setOrderBy('postViews');
+        setDirection('desc');
+      } else if (word === 'like') {
+        setOrderBy('postLikeNo');
+        setDirection('desc');
+      }
+    }
+  }, [location]);
 
   // 커뮤니티 데이터 가져오기
   useEffect(() => {
     if (category === 'all') {
-      Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
-        .then((response) => {
-          const data = response.data;
-          setCommunityData(data);
-          if (data.length > 0) {
-            setTotalPage(data[0].pageInfo.totalPage);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (orderBy && direction) {
+        Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+          .then((response) => {
+            const data = response.data;
+            setCommunityData(data);
+            if (data.length > 0) {
+              setTotalPage(data[0].pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
+          .then((response) => {
+            const data = response.data;
+            setCommunityData(data);
+            if (data.length > 0) {
+              setTotalPage(data[0].pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } else {
-      Instance.get(`/api/posts/notdeletedcategory/${category}`)
-        .then((response) => {
-          const data = response.data;
-          setCommunityData(data);
-          if (data.length > 0) {
-            setTotalPage(data[0].pageInfo.totalPage);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (orderBy && direction) {
+        Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+          .then((response) => {
+            const data = response.data;
+            setCommunityData(data);
+            if (data.length > 0) {
+              setTotalPage(data[0].pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}`)
+          .then((response) => {
+            const data = response.data;
+            setCommunityData(data);
+            if (data.length > 0) {
+              setTotalPage(data[0].pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
-  }, [currentPage, category]);
+  }, [currentPage, category, orderBy, direction, location]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -217,10 +271,7 @@ const Community: React.FC = () => {
                     </svg>
                   </div>
                   <div className="align-standard">
-                    정렬 기준
-                    <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                      <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                    </svg>
+                    <Sort type="community" />
                   </div>
                 </div>
 

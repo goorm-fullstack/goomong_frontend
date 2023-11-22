@@ -86,7 +86,9 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <button type="button">판매자로 전환하기</button>
+          <Link to="/mypage/convertseller">
+            <button type="button">판매자로 전환하기</button>
+          </Link>
         </div>
         <div className="bottom">
           <div className="info">
@@ -116,6 +118,10 @@ const MyPageLeft: React.FC = () => {
             <ul>
               <li className="board-history">
                 <Link to="/mypage/board">작성한 글</Link>
+              </li>
+
+              <li className="chatting-history">
+                <Link to="/mypage/chatting">채팅 내역</Link>
               </li>
             </ul>
           </div>

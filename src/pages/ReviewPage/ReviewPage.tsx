@@ -3,23 +3,16 @@ import * as C from '../../Style/CommonStyles';
 import * as S from './ReviewPageStyles';
 import Header from '../../components/layout/Header/Header';
 import ReviewModel from '../../components/Review/ReviewModel/ReviewModel';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ReviewPageModel from './ReviewPageModel/ReviewPageModel';
 import Footer from '../../components/layout/Footer/Footer';
 import { commaNumber, detailDate, getImageFile } from '../../util/func/functions';
-import { ReviewData } from '../../interface/Interface';
+import { ReviewData, ReviewStatisData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import Pagination from '../../components/Pagination/Pagination';
+import Sort from '../../components/Sort/Sort';
 
 const Review: React.FC = () => {
-  const topInfo = {
-    evaluation: 13913,
-    star: 4.9,
-    satisfaction: 98,
-    accumulate: 37120,
-    money: 115120,
-  };
-
   const [slideIndex, setSlideIndex] = useState(0);
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 리스트 상태 저장
   const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태 저장
@@ -30,6 +23,10 @@ const Review: React.FC = () => {
   const [customerSatisfaction, setCustomerSatisfaction] = useState<string>('0'); // 고객 만족도
   const [bestReviewData, setBestReviewData] = useState<ReviewData[]>(); // 베스트 리뷰
   const [bestReviewImageUrls, setBestReviewImageUrls] = useState<string[]>(); // 베스트 리뷰 이미지
+  const [ReviewStatisData, setReviewStatisData] = useState<ReviewStatisData>();
+  const [orderBy, setOrderBy] = useState<string>();
+  const [direction, setDirection] = useState<string>();
+  const location = useLocation();
 
   const itemsPerPage: number = 8; // 한 페이지당 게시글 갯수
 
@@ -46,21 +43,52 @@ const Review: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    if (location.search) {
+      const word = location.search.replace('?', '');
+      if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
+    }
+  }, [location]);
+
   // 리뷰 리스트 가져오기 및 전체 데이터 갯수 저장
   useEffect(() => {
-    Instance.get(`/api/reviews?size=${itemsPerPage}&page=${currentPage}`)
-      .then((response) => {
-        const data = response.data;
-        setReviewData(data);
-        if (data.length > 0) {
-          setTotalData(data[0].pageInfo.totalElements);
-          setTotalPage(data[0].pageInfo.totalPage);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [currentPage]);
+    if (orderBy && direction) {
+      Instance.get(`/api/reviews?size=${itemsPerPage}&page=${currentPage}&orderBy=${orderBy}&direction=${direction}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) {
+            setTotalData(data[0].pageInfo.totalElements);
+            setTotalPage(data[0].pageInfo.totalPage);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      Instance.get(`/api/reviews?size=${itemsPerPage}&page=${currentPage}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) {
+            setTotalData(data[0].pageInfo.totalElements);
+            setTotalPage(data[0].pageInfo.totalPage);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [currentPage, orderBy, direction]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -129,6 +157,17 @@ const Review: React.FC = () => {
     fetchImages();
   }, [bestReviewData]);
 
+  useEffect(() => {
+    Instance.get('/api/statistics/customer-review')
+      .then((response) => {
+        const data = response.data;
+        setReviewStatisData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewData]);
+
   return (
     <S.ReviewPageStyles>
       <Header />
@@ -161,7 +200,7 @@ const Review: React.FC = () => {
                 <div className="top">총 {totalData && commaNumber(totalData)}개의 평가</div>
                 <div className="bottom">
                   <span className="star-icon">★</span>
-                  {aveRate}
+                  {Number(aveRate).toFixed(1)}
                   <span className="total-star"> / 5.0</span>
                 </div>
               </div>
@@ -241,7 +280,7 @@ const Review: React.FC = () => {
               </svg>
               <div className="graph-text">
                 <div className="top">누적거래건수</div>
-                <div className="bottom">{commaNumber(topInfo.evaluation)}건</div>
+                <div className="bottom">{ReviewStatisData ? commaNumber(ReviewStatisData.allOrderCnt) : 0}건</div>
               </div>
             </div>
 
@@ -403,7 +442,9 @@ const Review: React.FC = () => {
               </svg>
               <div className="money-text">
                 <div className="top">누적거래금액</div>
-                <div className="bottom">{commaNumber(topInfo.money)}원</div>
+                <div className="bottom">
+                  {ReviewStatisData && ReviewStatisData?.allOrderPriceSum !== null ? commaNumber(ReviewStatisData.allOrderPriceSum) : 0}원
+                </div>
               </div>
             </div>
           </div>
@@ -458,20 +499,9 @@ const Review: React.FC = () => {
         <div className="all-review">
           <div className="all-review-title">전체 후기</div>
           <div className="align-menu">
-            <div className="left">
-              <div className="left-category">
-                재능 카테고리
-                <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                  <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                </svg>
-              </div>
-            </div>
             <div className="right">
               <div className="align-standard">
-                정렬 기준
-                <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                  <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                </svg>
+                <Sort type="review" />
               </div>
             </div>
           </div>

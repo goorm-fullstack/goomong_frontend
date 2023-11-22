@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as S from './GnbStyles';
 import { Link, NavLink } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
+import { ItemCategoryData } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
 
 const Gnb = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLocalMenuVisible, setIsLocalMenuVisible] = useState(false);
   const [isServiceMenuVisible, setIsServiceMenuVisible] = useState(false);
+  const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
   const cookies = new Cookies();
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -49,6 +52,18 @@ const Gnb = () => {
     } else window.location.href = '#'; // 판매자 등록 페이지로 이동
   };
 
+  // 상품 카테고리 가져오기
+  useEffect(() => {
+    Instance.get('/api/item-category/list')
+      .then((response) => {
+        const data = response.data;
+        setItemCategoryData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <S.Gnb>
       <div className="gnb-container" onMouseLeave={handleMouseLeave} ref={menuRef}>
@@ -67,13 +82,13 @@ const Gnb = () => {
                   <NavLink to="#null">전체 카테고리</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/market/0">재능 마켓</NavLink>
+                  <NavLink to="/item/sale/all/1">재능 마켓</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/exchange/0">재능 교환</NavLink>
+                  <NavLink to="/item/exchange/all/1">재능 교환</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/item/contribution/0">재능 기부</NavLink>
+                  <NavLink to="/item/give/all/1">재능 기부</NavLink>
                 </li>
               </ul>
               <ul className="lr-menu">
@@ -169,40 +184,15 @@ const Gnb = () => {
               )}
             </li>
             <li>
-              {isServiceMenuVisible && (
-                <ul className="service-menu">
-                  <li>
-                    <Link to="#null">이건 1번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 2번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 3번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 4번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 5번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 6번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 7번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 8번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 9번서비스</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">이건 10번서비스</Link>
-                  </li>
-                </ul>
-              )}
+              <ul className="service-menu">
+                {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
+                {itemCategoryData &&
+                  itemCategoryData.map((category, index) => (
+                    <li key={index}>
+                      <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
+                    </li>
+                  ))}
+              </ul>
             </li>
           </ul>
         )}

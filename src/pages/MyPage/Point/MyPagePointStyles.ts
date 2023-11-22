@@ -25,10 +25,19 @@ export const MyPagePointStyles = styled.div`
         justify-content: center;
       }
       :nth-child(1) {
-        width: 50%;
+        width: 10%;
+      }
+      :nth-child(2) {
+        width: 10%;
       }
       :nth-child(3) {
-        width: 30%;
+        width: 50%;
+      }
+      :nth-child(4) {
+        width: 20%;
+      }
+      :nth-child(5) {
+        width: 10%;
       }
     }
 
@@ -99,10 +108,19 @@ export const MyPagePointStyles = styled.div`
           justify-content: center;
         }
         :nth-child(1) {
-          width: 50%;
+          width: 10%;
+        }
+        :nth-child(2) {
+          width: 10%;
         }
         :nth-child(3) {
-          width: 30%;
+          width: 50%;
+        }
+        :nth-child(4) {
+          width: 20%;
+        }
+        :nth-child(5) {
+          width: 10%;
         }
       }
     }
