@@ -66,7 +66,7 @@ const App: React.FC = () => {
         <Route path="/cs/inquiry" element={<CSInquiry />} />
         <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/rank" element={<SellerRank />} />
-        <Route path="/item/:type/:page" element={<ItemList />}></Route>
+        <Route path="/item/:type/:category/:page" element={<ItemList />}></Route>
         <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
         <Route path="/item/write" element={<ItemWrite />}></Route>
         <Route path="/order/write" element={<OrderWrite />}></Route>

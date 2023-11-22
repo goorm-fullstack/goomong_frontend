@@ -49,7 +49,7 @@ const Sort: React.FC<SortProp> = ({ type }) => {
       if (word === 'recent') setSortValue('최신순');
       if (word === 'old') setSortValue('오래된순');
       if (word === 'lowPrice') setSortValue('낮은 금액순');
-      if (word === 'hightPrice') setSortValue('높은 금액순');
+      if (word === 'highPrice') setSortValue('높은 금액순');
       if (word === 'review') setSortValue('리뷰순');
       if (word === 'rate') setSortValue('평점순');
       if (word === 'comment') setSortValue('댓글순');

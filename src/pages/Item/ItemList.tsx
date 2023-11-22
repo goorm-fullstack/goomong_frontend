@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Instance from '../../util/API/axiosInstance';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import * as C from '../../Style/CommonStyles';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
-import CategoryItem from '../../components/Category/CategoryItem';
 import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
-import { Item } from '../../interface/Interface';
-import { commaNumber } from '../../util/func/functions';
+import { ItemData } from '../../interface/Interface';
+import { commaNumber, getImageFile } from '../../util/func/functions';
 
 // interface Item {
 //   // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
@@ -39,76 +38,9 @@ type TitleType = {
   [location in LocationType]: string | undefined;
 };
 
-const itemList = [
-  // 선웅님표 Product 컴포넌트 가데이터 재사용
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+1',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 3.9,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+2',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+3',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+4',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+5',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+6',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-  {
-    imageUrl: 'https://via.placeholder.com/800x300?text=product+7',
-    sellerName: '판매자 브랜드명',
-    productName: '상품 이름을 이렇게 적고요.',
-    price: '150,000~',
-    rating: 5,
-    review: 3560,
-  },
-];
-
 const categories = [
   // 선웅님표 Category 컴포넌트 가데이터 재사용
+  { title: '전체' },
   { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_1.png', title: '디자인' },
   { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_6.png', title: 'IT 프로그래밍' },
   { imageUrl: 'https://d2v80xjmx68n4w.cloudfront.net/assets/desktop/modules/directories/white/ic_category_7.png', title: '영상 사진 음향' },
@@ -121,88 +53,121 @@ const categories = [
 ];
 
 export default function ItemList() {
+  const url = useLocation();
   const location = useParams().type;
-  const [itemList, setItemList] = useState<Item[]>([]);
+  const categoryName = useParams().category;
+  const [itemList, setItemList] = useState<ItemData[]>();
   const { page } = useParams();
   const [orderBy, setOrderBy] = useState<String | null>(null); // 정렬 기준
   const [direction, setDirection] = useState('desc'); // 정렬 순서
-  // const [imageUrls, setImageUrls] = useState<string[]>();
-  // const sort = '최신순';
-  const [pageNum, setPageNum] = useState(0);
+  const [imageUrls, setImageUrls] = useState<string[]>();
+  const [pageNum, setPageNum] = useState(1);
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
+
   useEffect(() => {
-    console.log(typeof page);
-    if (typeof page !== undefined) {
-      Instance.get(`/api/item/list/${location}`, {
-        params: {
-          orderBy: orderBy,
-          direction: direction,
-          page: Number(page) - 1,
-        },
-      }).then((response) => {
-        setItemList(response.data.data);
-        setPageNum(response.data.pageNum);
-      });
+    if (url.search) {
+      const word = url.search.replace('?', '');
+      if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'lowPrice') {
+        setOrderBy('price');
+        setDirection('asc');
+      } else if (word === 'highPrice') {
+        setOrderBy('price');
+        setDirection('desc');
+      } else if (word === 'review') {
+        setOrderBy('reviewCnt');
+        setDirection('desc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
     }
-  }, []);
+  }, [url]);
 
-  // useEffect(() => {
-  //   if (sort === '최신순') {
-  //     setOrderBy('regDate');
-  //     setDirection('desc');
-  //   }
-  // }, [sort]);
-
-  // 이미지 상태 저장
-  // useLayoutEffect(() => {
-  //   const fetchImages = async () => {
-  //     if (itemList) {
-  //       const urls = await Promise.all(
-  //         itemList.map((item) => {
-  //           if (item.data.thumbNailList.length > 0) return getImageFile(item.data.thumbNailList[0].path);
-  //           else return null;
-  //         })
-  //       );
-  //       setImageUrls(urls.filter((url) => url !== null) as string[]);
-
-  //   fetchImages();
-  // }, [itemList]);
-
-  const mockOnChangeNumber = (num: number) => {};
-
-  const getImageFile = (id: number) => {
-    let url = '';
-
-    Instance.get(`/api/item/${id}`).then((response) => {
-      const item = response.data;
-      if (item.thumbNailList[0]) {
-        Instance.get('/api/image', {
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          responseType: 'blob',
+  useEffect(() => {
+    if (typeof page !== undefined) {
+      if (categoryName === 'all') {
+        Instance.get(`/api/item/list/${location}`, {
           params: {
-            imagePath: item.thumbNailList[0].path,
+            orderBy: orderBy,
+            direction: direction,
+            page: Number(page) - 1,
           },
-        }).then((res) => {
-          url = URL.createObjectURL(res.data);
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
+        });
+      } else {
+        Instance.get(`/api/item/list/${location}`, {
+          params: {
+            orderBy: orderBy,
+            direction: direction,
+            categoryName: categoryName,
+            page: Number(page) - 1,
+          },
+        }).then((response) => {
+          setItemList(response.data);
+          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
         });
       }
-    });
-    return url;
+    }
+  }, [location, orderBy, direction, page, categoryName]);
+
+  const mockOnChangeNumber = (num: number) => {
+    window.location.href = `/item/${location}/${categoryName}/${num}`;
   };
 
-  // // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
-  // const handlePageChange = (pageNumber: number): void => {
-  //   setCurrentPage(pageNumber - 1);
+  // 여기 반환되는 url이 빈값으로 반환되서 이미지가 안나옵니다... 아래 함수로 대체할게요 - @배진환
+  // const getImageFile = (id: number): string => {
+  //   let url = '';
+
+  //   Instance.get(`/api/item/${id}`).then((response) => {
+  //     const item = response.data;
+
+  //     if (item.thumbNailList[0]) {
+  //       Instance.get('/api/image', {
+  //         headers: { 'Content-type': 'application/json; charset=UTF-8' },
+  //         responseType: 'blob',
+  //         params: {
+  //           imagePath: item.thumbNailList[0].path,
+  //         },
+  //       }).then((res) => {
+  //         url = URL.createObjectURL(res.data) as string;
+  //       });
+  //     }
+  //   });
+  //   return url;
   // };
 
-  // const clickCategory = (category: string): void => {
-  //   if (category === '전체') {
-  //     window.location.href = `/item/${type}/all`;
-  //     return;
-  //   }
-  //   window.location.href = `/item/${type}/${category}`;
-  // };
+  // 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (itemList) {
+        const urls = await Promise.all(
+          itemList.map((item) => {
+            if (item.data.thumbNailList.length > 0) return getImageFile(item.data.thumbNailList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+    fetchImages();
+  }, [itemList]);
+
+  const clickCategory = (category: string): void => {
+    if (category === '전체') {
+      window.location.href = `/item/${location}/all/1`;
+      return;
+    }
+    window.location.href = `/item/${location}/${category}/1`;
+  };
 
   return (
     <>
@@ -210,7 +175,7 @@ export default function ItemList() {
       <C.Container>
         <C.PageTitle>{TitleData[location as LocationType]}</C.PageTitle>
         <C.SortWrapper>
-          <p className="total">총 17,153개</p>
+          <p className="total">총 {itemList && commaNumber(itemList.length)}개</p>
           <Sort type="order" />
         </C.SortWrapper>
         <S.ItemList>
@@ -221,7 +186,12 @@ export default function ItemList() {
               {categories.map((category, index) => (
                 <li key={index}>
                   <label htmlFor={category.title}>
-                    <input type="checkbox" id={category.title} />
+                    <input
+                      type="checkbox"
+                      id={category.title}
+                      checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
+                      onClick={() => clickCategory(category.title)}
+                    />
                     {category.title}
                   </label>
                 </li>
@@ -233,18 +203,18 @@ export default function ItemList() {
           <div className="item-wrapper">
             <ul>
               {/* 선웅님표 컴포넌트 Product 재사용 */}
-              {itemList ? (
+              {itemList && itemList.length > 0 ? (
                 itemList.map((item, index) => (
                   <li key={index}>
                     <Product
                       key={index}
-                      id={item.id}
-                      imageUrl={getImageFile(item.id)}
-                      sellerName={item.member.name}
-                      productName={item.title}
-                      price={commaNumber(item.price)}
-                      rating={item.rate}
-                      review={item.reviewList.length}
+                      id={item.data.id}
+                      imageUrl={imageUrls && imageUrls[index]}
+                      sellerName={item.data.member.name}
+                      productName={item.data.title}
+                      price={commaNumber(item.data.price)}
+                      rating={item.data.rate}
+                      review={item.data.reviewList.length}
                     />
                   </li>
                 ))
@@ -252,7 +222,7 @@ export default function ItemList() {
                 <>데이터가 없습니다.</>
               )}
             </ul>
-            <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
+            <Pagination currentPage={page ? Number(page) : 1} totalPages={pageNum} onPageChange={mockOnChangeNumber} />
           </div>
         </S.ItemList>
       </C.Container>
