@@ -9,6 +9,7 @@ interface SortProp {
 }
 
 const SortData = {
+  seller: ['최신순', '오래된순', '수익순', '거래순', '리뷰순', '평점순'],
   order: ['최신순', '오래된순', '낮은 금액순', '높은 금액순', '리뷰순', '평점순'],
   community: ['최신순', '오래된순', '댓글순', '조회순', '좋아요순'],
   review: ['최신순', '오래된순', '평점순'],
@@ -55,6 +56,8 @@ const Sort: React.FC<SortProp> = ({ type }) => {
       if (word === 'comment') setSortValue('댓글순');
       if (word === 'view') setSortValue('조회순');
       if (word === 'like') setSortValue('좋아요순');
+      if (word === 'income') setSortValue('수익순');
+      if (word === 'business') setSortValue('거래순');
     } else setSortValue('최신순');
   }, [location]);
 
@@ -71,6 +74,8 @@ const Sort: React.FC<SortProp> = ({ type }) => {
     if (value === '평점순') return 'rate';
     if (value === '댓글순') return 'comment';
     if (value === '조회순') return 'view';
+    if (value === '수익순') return 'income';
+    if (value === '거래순') return 'business';
     else return 'like';
   };
 
