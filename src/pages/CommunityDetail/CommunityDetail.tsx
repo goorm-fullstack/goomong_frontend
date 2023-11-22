@@ -9,6 +9,7 @@ import { CommentData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { detailDate, getImageFile } from '../../util/func/functions';
 import { NoItem } from '../../Style/CommonStyles';
+import { Cookies } from 'react-cookie';
 
 const CommunityDetail: React.FC = () => {
   const [comment, setComment] = useState<string>('');
@@ -17,6 +18,7 @@ const CommunityDetail: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [memberImageUrl, setMemberImageUrl] = useState<string>();
   const id = useParams().id;
+  const cookies = new Cookies();
 
   // 커뮤니티 게시글 가져오기
   useEffect(() => {
@@ -34,40 +36,50 @@ const CommunityDetail: React.FC = () => {
   // 댓글 작성
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (comment.trim() && id) {
-      const newComment = {
-        memberId: 1, // memberId 가져오는 로직 필요
-        content: comment,
-        postId: parseInt(id, 10),
-      };
-      Instance.post(`/api/comments/comment`, newComment)
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      setComment('');
+    if (cookies.get('id') === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else {
+      if (comment.trim() && id) {
+        const newComment = {
+          memberId: cookies.get('id'),
+          content: comment,
+          postId: parseInt(id, 10),
+        };
+        Instance.post(`/api/comments/comment`, newComment)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        setComment('');
+      }
     }
   };
 
   // 대댓글 추가 처리
   const addReply = (content: string, parentId: number) => {
-    if (content.trim() && id) {
-      const newReply = {
-        memberId: 1, // memberId 가져오는 로직 필요
-        postId: parseInt(id, 10),
-        content: content,
-        parentCommentId: parentId,
-      };
+    if (cookies.get('id') === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else {
+      if (content.trim() && id) {
+        const newReply = {
+          memberId: cookies.get('id'),
+          postId: parseInt(id, 10),
+          content: content,
+          parentCommentId: parentId,
+        };
 
-      Instance.post(`/api/comments/comment`, newReply)
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        Instance.post(`/api/comments/comment`, newReply)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
   };
 

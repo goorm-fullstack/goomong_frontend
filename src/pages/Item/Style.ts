@@ -218,6 +218,16 @@ export const ItemDetail = styled.div`
             }
           }
         }
+        .title {
+          border: 0;
+          background-color: transparent;
+        }
+        .visible {
+          display: '';
+        }
+        .none {
+          display: none;
+        }
       }
 
       .review-wrapper {
@@ -407,6 +417,10 @@ export const ItemDetail = styled.div`
       }
 
       .btn-contact {
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        line-height: 46px;
         margin-top: 24px;
         background: white;
         border: 1px solid rgb(219, 222, 226);

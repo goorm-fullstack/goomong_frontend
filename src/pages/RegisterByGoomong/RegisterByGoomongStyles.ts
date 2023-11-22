@@ -23,7 +23,7 @@ export const RegisterByGoomong = styled.div`
     color: var(--black);
     font-weight: 600;
     font-size: 14px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin-bottom: 10px;
   }
   input {
@@ -46,7 +46,7 @@ export const RegisterByGoomong = styled.div`
     color: #dfdfdf;
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     border: 0;
     cursor: pointer;
     margin-bottom: 40px;
@@ -76,7 +76,7 @@ export const RegisterByGoomong = styled.div`
     color: var(--black);
     font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
   }
   .top label svg {
@@ -86,13 +86,13 @@ export const RegisterByGoomong = styled.div`
     color: #666;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
   }
   .bottom {
     color: #666;
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     margin: 10px 0 60px;
   }
   .reg-goomong {
@@ -104,13 +104,13 @@ export const RegisterByGoomong = styled.div`
     color: #fefeff;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     cursor: pointer;
   }
   .incorrect-text,
   .correct-text {
     font-size: 12px;
-    letter-spacing: -0.04;
+    letter-spacing: -0.04em;
     font-weight: 400;
     margin-bottom: 16px;
   }

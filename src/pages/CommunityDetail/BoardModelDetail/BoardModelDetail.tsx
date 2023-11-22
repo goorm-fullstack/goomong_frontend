@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './BoardModelDetailStyles';
 import Instance from '../../../util/API/axiosInstance';
 import { useParams } from 'react-router';
 import { commaNumber } from '../../../util/func/functions';
+import { Cookies } from 'react-cookie';
+import { LikeData } from '../../../interface/Interface';
 
 interface BoardModelDetailProps {
   boardImage?: string;
@@ -40,6 +42,30 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
   );
 
   const id = useParams().id;
+  const cookies = new Cookies();
+  const memberPk = cookies.get('id');
+  const [isLike, setIsLike] = useState<boolean>(false); // 현재 회원이 현재 게시글 좋아요 누른 정보
+  const [likeNo, setLikeNo] = useState<number>(boardLike); // 좋아요 수
+
+  // 회원이 좋아요 누른 정보 가져오기
+  useEffect(() => {
+    if (memberPk !== undefined) {
+      Instance.get(`/api/member/${memberPk}`)
+        .then((response) => {
+          const data = response.data;
+          if (data.likeList.length > 0) {
+            data.likeList.forEach((like: LikeData) => {
+              if (like.postId === Number(id)) {
+                setIsLike(true);
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [memberPk, id]);
 
   function formatViews(number: number): string {
     if (number >= 10000) {
@@ -51,23 +77,62 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
 
   // 좋아요 클릭
   const clickLike = () => {
-    const likeRequest = {
-      memberId: 1, // memberId 가져오는 로직 필요
-      postId: id && parseInt(id, 10),
-    };
-    Instance.post('/api/like/post', likeRequest)
-      .then(() => {
-        // like 성공했을 때 수행할 로직
-      })
-      .catch(() => {
+    if (memberPk === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else {
+      const likeRequest = {
+        memberId: memberPk,
+        postId: id && parseInt(id, 10),
+      };
+      if (isLike) {
         Instance.delete('/api/like/post', { data: likeRequest })
           .then(() => {
-            // 좋아요 삭제 완료시 수행할 로직
+            setLikeNo(likeNo - 1);
+            setIsLike(false);
+            Instance.get(`/api/member/${memberPk}`)
+              .then((response) => {
+                const data = response.data;
+                if (data.likeList.length > 0) {
+                  data.likeList.forEach((like: LikeData) => {
+                    if (like.postId === Number(id)) {
+                      setIsLike(true);
+                    }
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
           })
           .catch((error) => {
             console.error(error);
           });
-      });
+      } else {
+        Instance.post('/api/like/post', likeRequest)
+          .then(() => {
+            setLikeNo(likeNo + 1);
+            setIsLike(false);
+            Instance.get(`/api/member/${memberPk}`)
+              .then((response) => {
+                const data = response.data;
+                if (data.likeList.length > 0) {
+                  data.likeList.forEach((like: LikeData) => {
+                    if (like.postId === Number(id)) {
+                      setIsLike(true);
+                    }
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
   };
 
   return (
@@ -103,7 +168,7 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
                 d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
               />
             </svg>
-            {commaNumber(boardLike)}
+            {commaNumber(likeNo)}
           </div>
           <div className="board-detail-comment">
             <svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16px" height="14px">

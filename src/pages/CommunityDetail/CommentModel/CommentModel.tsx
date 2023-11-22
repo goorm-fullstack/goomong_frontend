@@ -1,9 +1,10 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 
 import * as S from './CommentModelStyles';
-import { CommentData } from '../../../interface/Interface';
+import { CommentData, LikeData } from '../../../interface/Interface';
 import { commaNumber, detailDate, getImageFile } from '../../../util/func/functions';
 import Instance from '../../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
 
 interface CommentModelProps {
   comment: CommentData;
@@ -14,13 +15,41 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
   const [replyContent, setReplyContent] = useState<string>();
   const [reply, setReply] = useState<CommentData[]>();
   const [imageUrl, setImageUrl] = useState<string>();
-  const [likeNo, setLikeNo] = useState<number>();
+  const [likeNo, setLikeNo] = useState<number>(comment.likeNo);
+  const [isLike, setIsLike] = useState<boolean>(false); // 현재 회원의 좋아요 클릭 여부
+  const cookies = new Cookies();
+  const memberPk = cookies.get('id');
+
+  // 회원이 좋아요 누른 정보 가져오기
+  useEffect(() => {
+    if (memberPk !== undefined) {
+      Instance.get(`/api/member/${memberPk}`)
+        .then((response) => {
+          const data = response.data;
+          if (data.likeList.length > 0) {
+            data.likeList.forEach((like: LikeData) => {
+              if (like.commentId === comment.id) {
+                setIsLike(true);
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [memberPk, comment.id]);
 
   const handleReplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (replyContent) {
-      addReply(replyContent, comment.id);
-      setReplyContent('');
+      if (memberPk === undefined) {
+        alert('로그인 후 이용할 수 있습니다.');
+        window.location.href = '/login';
+      } else {
+        addReply(replyContent, comment.id);
+        setReplyContent('');
+      }
     }
   };
 
@@ -42,32 +71,66 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
 
     fetchImages();
     setReply(comment.childrenComment);
-    setLikeNo(comment.likeNo);
   }, [comment]);
 
   // 좋아요 클릭
-  const clickLike = (currentLikeNo: number) => {
+  const clickLike = () => {
     const likeRequest = {
-      memberId: 1,
+      memberId: memberPk,
       commentId: comment.id,
     };
-    Instance.post('/api/like/comment', likeRequest)
-      .then(() => {
-        setLikeNo(currentLikeNo + 1);
-      })
-      .catch((error) => {
-        if (error.response.data.includes('해당 회원은 해당 댓글에 좋아요를 클릭한 상태입니다.')) {
-          Instance.delete('/api/like/comment', { data: likeRequest })
-            .then(() => {
-              setLikeNo(currentLikeNo - 1);
-            })
-            .catch((error) => {
-              console.error(error.message);
-            });
-        } else {
-          console.error(error);
-        }
-      });
+    if (memberPk === undefined) {
+      alert('로그인 후 이용할 수 있습니다.');
+      window.location.href = '/login';
+    } else {
+      if (isLike) {
+        Instance.delete('/api/like/comment', { data: likeRequest })
+          .then(() => {
+            setLikeNo(likeNo - 1);
+            setIsLike(false);
+            Instance.get(`/api/member/${memberPk}`)
+              .then((response) => {
+                const data = response.data;
+                if (data.likeList.length > 0) {
+                  data.likeList.forEach((like: LikeData) => {
+                    if (like.commentId === comment.id) {
+                      setIsLike(true);
+                    }
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+      } else {
+        Instance.post('/api/like/comment', likeRequest)
+          .then(() => {
+            setLikeNo(likeNo + 1);
+            setIsLike(false);
+            Instance.get(`/api/member/${memberPk}`)
+              .then((response) => {
+                const data = response.data;
+                if (data.likeList.length > 0) {
+                  data.likeList.forEach((like: LikeData) => {
+                    if (like.commentId === comment.id) {
+                      setIsLike(true);
+                    }
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
   };
 
   const defaultImage = (
@@ -95,7 +158,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
         <div className="comment-bottom">
           {likeNo !== undefined && (
             <div className="comment-like">
-              <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={() => clickLike(likeNo)}>
+              <svg height="13px" viewBox="0 0 24 24" width="14px" xmlns="http://www.w3.org/2000/svg" onClick={clickLike}>
                 <path
                   fill="#aab1bc"
                   d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"
@@ -105,7 +168,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
             </div>
           )}
         </div>
-        {comment.parentId === null && (
+        {comment.parentCommentId === null && (
           <form onSubmit={handleReplySubmit} className="reply-form">
             <input type="text" value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="답글을 입력하세요." />
             <button type="submit">답글 달기</button>

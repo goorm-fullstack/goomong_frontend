@@ -67,7 +67,7 @@ const AdminPostWrite: React.FC = () => {
       },
     })
       .then(() => {
-        window.location.href = '/admin/postList';
+        window.location.href = '/admin/post';
       })
       .catch((error) => {
         console.error(error);

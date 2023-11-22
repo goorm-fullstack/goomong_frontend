@@ -11,8 +11,9 @@ import Pagination from '../../components/Pagination/Pagination';
 import Slider from 'react-slick';
 import { NextArrow, PrevArrow } from '../../components/Banner/Banner';
 import Sort from '../../components/Sort/Sort';
-import { Item } from '../../interface/Interface';
-import { commaNumber } from '../../util/func/functions';
+import { AskData, Item, ReviewData } from '../../interface/Interface';
+import { commaNumber, detailDate, formattingDate } from '../../util/func/functions';
+import { Cookies } from 'react-cookie';
 
 const settings = {
   className: 'center',
@@ -116,6 +117,77 @@ export default function ItemDetail() {
   };
 
   const mockOnChangeNumber = (num: number) => {};
+  const [answerCurrentPage, setAnswerCurrentPage] = useState<number>(0); // 문의 현재 페이지 상태 저장
+  const [reviewCurrentPage, setReviewCurrentPage] = useState<number>(0); // 리뷰 현재 페이지
+  // 페이지 숫자 클릭 시 해당 페이지의 아이템 보여주기
+  const handleAnswerPageChange = (pageNumber: number): void => {
+    setAnswerCurrentPage(pageNumber);
+  };
+  const handleReviewPageChange = (pageNumber: number): void => {
+    setReviewCurrentPage(pageNumber);
+  };
+
+  const cookies = new Cookies();
+  const memberPk = cookies.get('id');
+  const [totalAnswerPage, setTotalAnswerPage] = useState<number>(1); // 문의 전체 페이지 수
+  const [totalAnswerData, setTotalAnswerData] = useState<number>(); // 문의 전체 데이터 수
+  const [totalReviewPage, setTotalReviewPage] = useState<number>(1); // 리뷰 전체 페이지 수
+  const [askData, setAskData] = useState<AskData[]>(); // 문의 데이터
+  const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터
+  const [isAskClick, setIsAskClick] = useState<number>(0); // 문의 제목 클릭 여부
+  const [reviewImage, setReviewImage] = useState<string[]>(); // 리뷰 이미지
+
+  // 문의 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/asks/${id}?page=${answerCurrentPage}`)
+      .then((response) => {
+        const data = response.data;
+        setAskData(data);
+        if (data.length > 0) {
+          setTotalAnswerPage(data[0].pageInfo.totalPage);
+          setTotalAnswerData(data[0].pageInfo.totalElements);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [answerCurrentPage, id]);
+
+  // 리뷰 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}`)
+      .then((response) => {
+        const data = response.data;
+        setReviewData(data);
+        if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [reviewCurrentPage, id]);
+
+  // 문의 클릭 함수
+  const clickAsk = (askId: number): void => {
+    if (isAskClick !== askId) setIsAskClick(askId);
+    else setIsAskClick(0);
+  };
+
+  // 리뷰 이미지 상태 저장
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (reviewData) {
+        const urls = await Promise.all(
+          reviewData.map((review) => {
+            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            else return null;
+          })
+        );
+        setReviewImage(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [reviewData]);
 
   return (
     <>
@@ -166,29 +238,41 @@ export default function ItemDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="center">1</td>
-                      <td>
-                        <Link to="#">문의합니다.</Link>
-                      </td>
-                      <td className="center">홍구름</td>
-                      <td className="center">2023-11-15</td>
-                      {/** 날짜는 형식 통일해서 변경하세요~ */}
-                    </tr>
-                    <tr>
-                      <td colSpan={4} className="center checkuser">
-                        작성시 입력한 비밀번호를 입력해주세요.
-                        <br />
-                        <input type="password" />
-                        <button type="button">확인</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={4}>내용내용</td>
-                    </tr>
+                    {askData &&
+                      askData.map((ask, index) => (
+                        <React.Fragment key={index}>
+                          <tr>
+                            <td className="center">{totalAnswerData && totalAnswerData - index}</td>
+                            <td>
+                              <button className="title" type="button" onClick={() => clickAsk(ask.id)}>
+                                {ask.title}
+                              </button>
+                            </td>
+                            <td className="center">{ask.memberId}</td>
+                            <td className="center">{formattingDate(ask.regDate)}</td>
+                          </tr>
+                          {ask.answerList.length === 0 && (
+                            <tr>
+                              <td colSpan={4} className={isAskClick === ask.id ? 'visible center' : 'none'}>
+                                답변 내용이 없습니다.
+                              </td>
+                            </tr>
+                          )}
+                          {ask.answerList.length > 0 && (
+                            <tr>
+                              <td className={isAskClick === ask.id ? 'visible center' : 'none'}>답변 내용</td>
+                              <td className={isAskClick === ask.id ? 'visible center' : 'none'} style={{ whiteSpace: 'pre-line' }}>
+                                {ask.answerList[0].content}
+                              </td>
+                              <td className={isAskClick === ask.id ? 'visible center' : 'none'}>판매자</td>
+                              <td className={isAskClick === ask.id ? 'visible center' : 'none'}>{formattingDate(ask.answerList[0].regDate)}</td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      ))}
                   </tbody>
                 </table>
-                <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
+                <Pagination currentPage={answerCurrentPage + 1} totalPages={totalAnswerPage} onPageChange={handleAnswerPageChange} />
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
@@ -199,18 +283,20 @@ export default function ItemDetail() {
                   <Sort type="order" />
                 </C.SortWrapper>
                 <div className="review-wrapper">
-                  {item.reviewList.map((reviewItem, index) => (
-                    <ReviewModel
-                      writer={reviewItem.memberId}
-                      date={reviewItem.date}
-                      rating={reviewItem.rate}
-                      category={''}
-                      productName={reviewItem.itemName}
-                      content={reviewItem.content}
-                      key={index}
-                    />
-                  ))}
-                  <Pagination currentPage={0} totalPages={0} onPageChange={mockOnChangeNumber} />
+                  {reviewData &&
+                    reviewData.map((reviewItem, index) => (
+                      <ReviewModel
+                        writer={reviewItem.memberId}
+                        date={detailDate(reviewItem.regDate)}
+                        rating={reviewItem.rate}
+                        category={''}
+                        productName={reviewItem.itemName}
+                        content={reviewItem.content}
+                        imageUrl={reviewImage && reviewImage[index]}
+                        key={index}
+                      />
+                    ))}
+                  <Pagination currentPage={reviewCurrentPage + 1} totalPages={totalReviewPage} onPageChange={handleReviewPageChange} />
                 </div>
               </div>
             </div>
@@ -220,7 +306,7 @@ export default function ItemDetail() {
               {/* 상품 정보 */}
               <div>
                 <p className="category">
-                  {item.itemCategories ? item.itemCategories.map((category) => <span>{category.title} </span>) : <></>}
+                  {item.itemCategories ? item.itemCategories.map((category, index) => <span key={index}>{category.title} </span>) : <></>}
                   <span>지역</span>
                 </p>
                 <h2>{item.title}</h2>
@@ -230,8 +316,8 @@ export default function ItemDetail() {
                   <tbody>
                     {/* loop start */}
                     {item.itemOptions ? (
-                      item.itemOptions.map((option) => (
-                        <tr>
+                      item.itemOptions.map((option, index) => (
+                        <tr key={index}>
                           <th>{option.option}</th>
                           <td>{commaNumber(option.price)}</td>
                         </tr>
@@ -280,9 +366,15 @@ export default function ItemDetail() {
                 </li>
               </ul>
               <div>
-                <button type="button" className="btn-contact">
-                  로그인 후 문의 가능{/* 로그인 한 상태면 문의하기 */}
-                </button>
+                {memberPk === undefined ? (
+                  <Link to="/login" className="btn-contact">
+                    로그인 후 문의 가능
+                  </Link>
+                ) : (
+                  <Link to="/write/faq" state={{ itemId: id }} className="btn-contact">
+                    문의하기
+                  </Link>
+                )}
               </div>
               <h4>소개</h4>
               <p className="seller-summary">판매자 소개글</p>

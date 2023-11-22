@@ -12,6 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import { CommunityCategoryData, PostData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile, detailDate } from '../../util/func/functions';
+import { Cookies } from 'react-cookie';
 
 const Community: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -30,6 +31,7 @@ const Community: React.FC = () => {
   const [hotCommunityData, setHotCommunityData] = useState<PostData[]>(); // hot 커뮤니티 게시글 데이터
   const category = useParams().category;
   const itemsPerPage = 5; // 페이지당 표시할 아이템 수
+  const cookies = new Cookies();
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber: number) => {
@@ -109,14 +111,14 @@ const Community: React.FC = () => {
   // 고정 게시글 가져오기
   useEffect(() => {
     Instance.get('/api/posts/post/fixed')
-    .then((response) => {
-      const data = response.data;
-      setFixedData(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }, [])
+      .then((response) => {
+        const data = response.data;
+        setFixedData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const nextSlide = () => {
     if (hotCommunityData) setSlideIndex((prevIndex) => (prevIndex + 1) % hotCommunityData.length);
@@ -124,6 +126,14 @@ const Community: React.FC = () => {
 
   const prevSlide = () => {
     if (hotCommunityData) setSlideIndex((prevIndex) => (prevIndex === 0 ? hotCommunityData.length - 1 : prevIndex - 1));
+  };
+
+  // 작성하기 클릭 시 로그인 여부 체크
+  const isLogin = () => {
+    if (cookies.get('id') === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else window.location.href = '/write/community';
   };
 
   return (
@@ -177,12 +187,15 @@ const Community: React.FC = () => {
               </div>
 
               <div className="board-content-top">
-                {!fixedData &&
-                <NoticeBoardModel title='등록된 고정글이 없습니다.'/>
-                }
-                {fixedData && 
-                <NoticeBoardModel type={fixedData.postCategory} title={fixedData.postTitle} writer={fixedData.memberId} comment={fixedData.commentNo} />
-}
+                {!fixedData && <NoticeBoardModel title="등록된 고정글이 없습니다." />}
+                {fixedData && (
+                  <NoticeBoardModel
+                    type={fixedData.postCategory}
+                    title={fixedData.postTitle}
+                    writer={fixedData.memberId}
+                    comment={fixedData.commentNo}
+                  />
+                )}
                 <div className="hot-slide">
                   {hotCommunityData &&
                     hotCommunityData.map((item, index) => (
@@ -197,12 +210,6 @@ const Community: React.FC = () => {
 
               <div className="align-menu">
                 <div className="left">
-                  <div className="left-category">
-                    재능 카테고리
-                    <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                      <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                    </svg>
-                  </div>
                   <div className="left-local">
                     지역 선택
                     <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
@@ -218,11 +225,9 @@ const Community: React.FC = () => {
                 </div>
 
                 <div className="right">
-                  <Link to="/write">
-                    <button type="button" className="write-btn">
-                      작성하기
-                    </button>
-                  </Link>
+                  <button type="button" className="write-btn" onClick={isLogin}>
+                    작성하기
+                  </button>
                 </div>
               </div>
 
@@ -245,7 +250,7 @@ const Community: React.FC = () => {
                     />
                   ))}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={handlePageChange} />
+              <Pagination currentPage={currentPage + 1} totalPages={totalPage} onPageChange={handlePageChange} />
             </div>
           </div>
         </C.Container>

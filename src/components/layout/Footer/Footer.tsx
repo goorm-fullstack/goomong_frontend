@@ -4,8 +4,18 @@ import * as H from '../../../pages/Main/MainStyles';
 import Logo from '../../../assets/images/common/logo.png';
 import Bg_Black from '../../../assets/images/index/bg_black.png';
 import { Link } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 function Footer() {
+  const cookies = new Cookies();
+
+  const isLogin = () => {
+    if (cookies.get('id') === undefined) {
+      alert('로그인 후 이용하실 수 있습니다.');
+      window.location.href = '/login';
+    } else window.location.href = '#'; // 판매자 등록 페이지로 이동
+  };
+
   return (
     <>
       <H.Main>
@@ -19,11 +29,9 @@ function Footer() {
               <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
             </div>
             <div className="btn">
-              <Link to="#null">
-                <button type="submit" className="bg-btn">
-                  판매자 등록하기
-                </button>
-              </Link>
+              <button type="submit" className="bg-btn" onClick={isLogin}>
+                판매자 등록하기
+              </button>
             </div>
           </div>
         </div>

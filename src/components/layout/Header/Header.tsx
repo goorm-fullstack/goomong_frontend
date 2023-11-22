@@ -3,8 +3,8 @@ import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';
-import Instance from "../../../util/API/axiosInstance";
-import {Cookies} from 'react-cookie';
+import Instance from '../../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
 
 const Header: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -16,21 +16,21 @@ const Header: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % popularSearchTerms.length);
-    }, 1500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
   const handleLogout = () => {
-    Instance.post(`/api/member/logout`, {
-    })
-        .then(() => {
-          alert('로그아웃 되었습니다.');
-          cookies.remove('memberId');
-          window.location.reload();
-        })
-        .catch(e => console.log(e));
-  }
+    Instance.post(`/api/member/logout`, {})
+      .then(() => {
+        alert('로그아웃 되었습니다.');
+        cookies.remove('memberId');
+        cookies.remove('id');
+        window.location.reload();
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <S.Header>
@@ -80,14 +80,18 @@ const Header: React.FC = () => {
                       <Link to="/register/step1">회원가입</Link>
                     </li>
                   </>
-                ) :
-                  (
-                    <>
-                      <li className="logout">
-                        <Link to="#" onClick={handleLogout}>로그아웃</Link>
-                      </li>
-                    </>
-                  )}
+                ) : (
+                  <>
+                    <li className="logout">
+                      <Link to="#" onClick={handleLogout}>
+                        로그아웃
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/mypage/info">마이페이지</Link>
+                    </li>
+                  </>
+                )}
 
                 <li className="customer-center">
                   <Link to="/cs/home">고객센터</Link>
