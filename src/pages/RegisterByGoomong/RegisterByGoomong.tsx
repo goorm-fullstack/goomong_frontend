@@ -106,7 +106,7 @@ const RegisterByGoomong: React.FC = () => {
       alert('별명 중복을 완료해주세요.');
       return;
     }
-    //
+
     // if(!isCodeVerified) {
     //   alert('이메일 인증을 완료해주세요.');
     // }
