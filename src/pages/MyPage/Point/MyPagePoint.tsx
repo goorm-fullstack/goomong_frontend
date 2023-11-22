@@ -34,8 +34,6 @@ const MyPagePoint: React.FC = () => {
       });
   }, [memberId]);
 
-  console.log(currentPage);
-
   useEffect(() => {
     Instance.get(`/api/point/${memberId}/history?page=${currentPage}&size=${itemsPerPage}`)
       .then((response) => {
