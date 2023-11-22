@@ -38,6 +38,7 @@ import AdminQnaList from './pages/Admin/qna/AdminQnaList';
 import AdminQnaWrite from './pages/Admin/qna/AdminQnaWrite';
 import SellerDetail from './pages/SellerDetail/SellerDetail';
 import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
+import MyPageChangePw from "./pages/MyPage/ChangePw/MyPageChangePw";
 import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
@@ -93,6 +94,7 @@ const App: React.FC = () => {
         {/* 마이페이지 */}
 
         <Route path="/mypage/info" element={<MyPageInfo />} />
+        <Route path="/mypage/changepw" element={<MyPageChangePw />} />
         <Route path="/mypage/payment" element={<MyPagePayment />} />
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />

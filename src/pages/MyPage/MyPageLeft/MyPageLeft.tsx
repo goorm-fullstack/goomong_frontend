@@ -95,6 +95,9 @@ const MyPageLeft: React.FC = () => {
               <li className="info-set">
                 <Link to="/mypage/info">계정 설정</Link>
               </li>
+              <li className="change-pw">
+                <Link to="/mypage/changepw">비밀번호 변경</Link>
+              </li>
             </ul>
           </div>
           <div className="payment">
