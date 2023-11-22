@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './Style';
-import { Link } from 'react-router-dom';
 
 interface SortProp {
   type: string;
@@ -8,6 +7,8 @@ interface SortProp {
 
 const SortData = {
   order: ['최신순', '판매순', '낮은 금액순', '높은 금액순'],
+  community: ['최신순', '댓글순', '조회순', '좋아요순'],
+  review: ['최신순', '평점순'],
   itemCategory: ['test', 'test1'],
 };
 
@@ -24,6 +25,14 @@ const Sort: React.FC<SortProp> = ({ type }) => {
     if (type === 'itemCategory') {
       setSortType(SortData['itemCategory']);
       setSortValue(SortData['itemCategory'][0]);
+    }
+    if (type === 'community') {
+      setSortType(SortData['community']);
+      setSortValue(SortData['community'][0]);
+    }
+    if (type === 'review') {
+      setSortType(SortData['review']);
+      setSortValue(SortData['review'][0]);
     }
   }, [type]);
 
@@ -47,7 +56,7 @@ const Sort: React.FC<SortProp> = ({ type }) => {
       <ul className="bottom-wrap" data-visible={show}>
         {nowSortType.map((item, index) => (
           <li className="item" key={index} onClick={() => onChangeSortType(index)}>
-            <Link to={'#'}>{item}</Link>
+            {item}
           </li>
         ))}
       </ul>

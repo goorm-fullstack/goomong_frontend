@@ -218,7 +218,7 @@ const Community: React.FC = () => {
                     </svg>
                   </div>
                   <div className="align-standard">
-                    <Sort type="itemCategory" />
+                    <Sort type="community" />
                   </div>
                 </div>
 
