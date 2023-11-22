@@ -24,11 +24,11 @@ interface UIModel {
   nowDate: string;
   content: string[];
 }
-
-const Chatting: React.FC = () => {
+const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
   const { itemId } = location.state;
   const [roomId, setRoomId] = useState(0);
+
   const chattingUIData: UIModel = {
     opponent: {
       nickname: '마켓',
@@ -107,7 +107,7 @@ const Chatting: React.FC = () => {
 
   return (
     <S.ChattingStyles>
-      <Header />
+      {showLayout && <Header />}
       <div className="chatting-container">
         <ChattingRoom />
         <ChattingUI
@@ -119,7 +119,7 @@ const Chatting: React.FC = () => {
           sendMessage={sendMessage}
         />
       </div>
-      <Footer />
+      {showLayout && <Footer />}
     </S.ChattingStyles>
   );
 };

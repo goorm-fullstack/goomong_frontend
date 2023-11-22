@@ -199,9 +199,7 @@ const SearchDetail = () => {
         <div className="top">"{searchTerm}"에 대한 결과입니다.</div>
         <ul className="nav-list">
           <li onClick={() => setSelectedTab('community')}>구몽 생활</li>
-          <li onClick={() => setSelectedTab('category1')}>카테고리1</li>
-          <li onClick={() => setSelectedTab('category2')}>카테고리2</li>
-          <li onClick={() => setSelectedTab('category3')}>카테고리3</li>
+          <li onClick={() => setSelectedTab('category1')}>재능</li>
         </ul>
         <div className="community-list" style={{ display: selectedTab === 'community' ? 'block' : 'none' }}>
           {currentItems.map((item, index) => (

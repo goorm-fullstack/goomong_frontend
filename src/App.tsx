@@ -44,6 +44,8 @@ import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
 import NotFound from './pages/NotFound/NotFound';
 import SearchDetail from './pages/SearchDetail/SearchDetail';
+import ConvertSeller from './pages/MyPage/ConvertSeller/ConvertSeller';
+import MyPageChatting from './pages/MyPage/MyPageChatting/MyPageChatting';
 
 const App: React.FC = () => {
   return (
@@ -77,7 +79,7 @@ const App: React.FC = () => {
         <Route path="/seller/detail" element={<SellerDetail />} />
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
-        <Route path="/chatting" element={<Chatting />} />
+        <Route path="/chatting" element={<Chatting showLayout={true} />} />
         <Route path="/search/:searchTerm" element={<SearchDetail />} />
 
         {/* 어드민 주소 위치 */}
@@ -98,6 +100,8 @@ const App: React.FC = () => {
         <Route path="/mypage/payment" element={<MyPagePayment />} />
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />
+        <Route path="/mypage/chatting" element={<MyPageChatting />} />
+        <Route path="/mypage/convertseller" element={<ConvertSeller />} />
 
         {/* Not Found */}
         <Route path="*" element={<NotFound />} />
