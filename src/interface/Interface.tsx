@@ -219,3 +219,13 @@ export interface RankingsState {
   review: Top5Ranking[];
   sales: Top5Ranking[];
 }
+
+export interface FindMember {
+  memberId: number;
+  memberName: string;
+  profileImages: Image[];
+  categoryTitle: string;
+  itemCount: number;
+  totalSales: number;
+  reviewCount: number;
+}

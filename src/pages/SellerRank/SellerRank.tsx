@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+
 import * as S from './SellerRankStyles';
 import Header from '../../components/layout/Header/Header';
 import { Link } from 'react-router-dom';
 import RankModel from '../../components/Popular/RankModel/RankModel';
 import Footer from '../../components/layout/Footer/Footer';
-import { Top5Ranking, RankingsState } from '../../interface/Interface';
+import { Top5Ranking, RankingsState, FindMember } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile } from '../../util/func/functions';
 
@@ -22,6 +23,7 @@ const SellerRank: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState<number>(0);
   const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
+  const [FindMember, setFindMember] = useState<FindMember[]>();
 
   useEffect(() => {
     Instance.get<Top5Ranking[]>(`/api/ranking`)
@@ -37,7 +39,7 @@ const SellerRank: React.FC = () => {
       });
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchImages = async () => {
       const rankingsWithImages: RankingsState = {
         ordered: await mapImagesToRankings(rankings.ordered),
@@ -47,15 +49,16 @@ const SellerRank: React.FC = () => {
       setRankings(rankingsWithImages);
     };
 
-    fetchImages();
-  }, [rankings]);
+    if (rankings.ordered.length > 0 || rankings.review.length > 0 || rankings.sales.length > 0) {
+      fetchImages();
+    }
+  }, [rankings.ordered, rankings.review, rankings.sales]);
 
   const mapImagesToRankings = async (rankingList: Top5Ranking[]): Promise<Top5Ranking[]> => {
     return Promise.all(
       rankingList.map(async (rank) => {
         const imageUrl =
           rank.profileImages.length > 0 ? await getImageFile(rank.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
-
         return { ...rank, imageUrl };
       })
     );
@@ -63,11 +66,6 @@ const SellerRank: React.FC = () => {
 
   const sellerData: SellerListInfo[] = [
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.8 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
     { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
@@ -121,18 +119,9 @@ const SellerRank: React.FC = () => {
             {currentYear}년 {currentMonth}월 판매자 순위 TOP 5
           </div>
           <div className="rank-model">
-            {/* {rankings.review.map((rank, index) => (
-              <RankModel key={`order-${index}`} {...[rank]} />
-            ))}
-            {rankings.ordered.map((rank, index) => (
-              <RankModel key={`review-${index}`} {...[rank]} />
-            ))}
-            {rankings.sales.map((rank, index) => (
-              <RankModel key={`sales-${index}`} {...[rank]} />
-            ))} */}
-            {/* <RankModel top5Ranking={rankings.review} />
-            <RankModel top5Ranking={rankings.ordered} />
-            <RankModel top5Ranking={rankings.sales} /> */}
+            {rankings.review.length > 0 && <RankModel top5Ranking={rankings.review} />}
+            {rankings.ordered.length > 0 && <RankModel top5Ranking={rankings.ordered} />}
+            {rankings.sales.length > 0 && <RankModel top5Ranking={rankings.sales} />}
           </div>
           <div className="bottom">
             <div className="top">TOP 10</div>

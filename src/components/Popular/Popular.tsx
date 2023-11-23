@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import RankModel from './RankModel/RankModel';
 import * as S from './PopularStyles';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Popular: React.FC = () => {
       });
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchImages = async () => {
       const rankingsWithImages: RankingsState = {
         ordered: await mapImagesToRankings(rankings.ordered),
@@ -33,18 +33,17 @@ const Popular: React.FC = () => {
       setRankings(rankingsWithImages);
     };
 
-    fetchImages();
-  }, [rankings]);
+    if (rankings.ordered.length > 0 || rankings.review.length > 0 || rankings.sales.length > 0) {
+      fetchImages();
+    }
+  }, [rankings.ordered, rankings.review, rankings.sales]);
 
-  // 각 Ranking에 이미지 URL을 매핑하는 함수
   const mapImagesToRankings = async (rankingList: Top5Ranking[]): Promise<Top5Ranking[]> => {
     return Promise.all(
       rankingList.map(async (rank) => {
-        // 첫 번째 이미지의 path를 사용하거나 대체 이미지 URL을 설정
         const imageUrl =
           rank.profileImages.length > 0 ? await getImageFile(rank.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
-
-        return { ...rank, imageUrl }; // 각 Ranking에 imageUrl 속성 추가
+        return { ...rank, imageUrl };
       })
     );
   };
@@ -54,25 +53,15 @@ const Popular: React.FC = () => {
       <div className="popular-container">
         <div className="popular-top">
           <div className="popular-title">인기 판매자 순위 TOP 5</div>
-          <div className="popular-sub-title">상위 카테고리에서 가장 많이 판매한 인기 판매자에요.</div>
           <div className="ranking-container">
-            {/* {rankings.review.map((rank, index) => (
-              <RankModel key={`${index}`} top5Ranking={rank} />
-            ))}
-            {rankings.ordered.map((rank, index) => (
-              <RankModel key={`${index}`} top5Ranking={...[rank]} />
-            ))}
-            {rankings.sales.map((rank, index) => (
-              <RankModel key={`${index}`} top5Ranking={...[rank]} />
-            ))} */}
-            {/* <RankModel top5Ranking={rankings.review} />
-            <RankModel top5Ranking={rankings.ordered} />
-            <RankModel top5Ranking={rankings.sales} /> */}
+            {rankings.review.length > 0 && <RankModel top5Ranking={rankings.review} />}
+            {rankings.ordered.length > 0 && <RankModel top5Ranking={rankings.ordered} />}
+            {rankings.sales.length > 0 && <RankModel top5Ranking={rankings.sales} />}
           </div>
         </div>
 
         <div className="more-btn">
-          <Link to="#null">
+          <Link to="/seller/rank">
             <button type="submit">
               판매자 더보기
               <svg

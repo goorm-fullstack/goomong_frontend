@@ -7,15 +7,15 @@ import * as S from './RankModelStyles';
 import { Link } from 'react-router-dom';
 import { Top5Ranking } from '../../../interface/Interface';
 
-interface RankProps {
+interface RankModelProps {
   top5Ranking: Top5Ranking[];
 }
 
-const RankModel: React.FC<Top5Ranking[]> = (top5Ranking) => {
+const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
   return (
     <S.RankModelStyle>
       <div className="rank-model-container">
-        <div className="rank-model-title">{top5Ranking[0].category} 1위</div>
+        <div className="rank-model-title">{top5Ranking[0]?.category} 1위</div>
         <Link to="#null">
           <div className="top1">
             <img src={GoldMedal} alt="GoldMedal" className="medal-img" />
