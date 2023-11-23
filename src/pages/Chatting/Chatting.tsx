@@ -26,7 +26,7 @@ interface UIModel {
 }
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
-  const { itemId } = location.state;
+  const { state } = location;
   const [roomId, setRoomId] = useState(0);
 
   const chattingUIData: UIModel = {
@@ -44,18 +44,28 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const client = useRef<CompatClient>();
   const [messages, setMessages] = useState<string[]>([]);
+  const [content, setContent] = useState<string[]>([]);
 
   // 최초 세팅
   useEffect(() => {
-    let data = {
-      memberId: 1,
-      itemId: Number(itemId),
-    };
-
-    Instance.post('/api/chat', data).then((response) => {
-      console.log(response.data);
-      setRoomId(response.data.roomId);
-    });
+    if (state) {
+      const { id } = state;
+      const { itemId } = state;
+      if (id) {
+        setRoomId(id);
+      } else {
+        if (itemId) {
+          let data = {
+            memberId: 1,
+            itemId: Number(itemId),
+          };
+          Instance.post('/api/chat', data).then((response) => {
+            console.log(response.data);
+            setRoomId(response.data.roomId);
+          });
+        }
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -71,7 +81,14 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const connectCallback = () => {
     if (client.current && roomId !== 0) {
-      console.log('roomId : ' + roomId);
+      // 이전 채팅 기록 불러오기
+      Instance.get('/api/chat/room/' + roomId).then((response) => {
+        const data = response.data;
+        for (let i = 0; i < data.length; i++) {
+          setContent((p) => [...p, data[i].message]);
+        }
+      });
+
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
@@ -101,7 +118,8 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       };
       console.log(messageType);
       let jsonMessage = JSON.stringify(messageType);
-      client.current.send(`/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      client.current.send(`/pub/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      setContent((p) => [...p, message]);
     }
   };
 
@@ -115,7 +133,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
-          content={chattingUIData.content}
+          content={content}
           sendMessage={sendMessage}
         />
       </div>
