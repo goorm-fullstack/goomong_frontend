@@ -66,27 +66,17 @@ export default function ItemList() {
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
 
   useEffect(() => {
-    if (url.search) {
-      const word = url.search.replace('?', '');
-      if (word === 'old') {
-        setOrderBy('regDate');
-        setDirection('asc');
-      } else if (word === 'recent') {
-        setOrderBy('regDate');
-        setDirection('desc');
-      } else if (word === 'lowPrice') {
-        setOrderBy('price');
-        setDirection('asc');
-      } else if (word === 'highPrice') {
-        setOrderBy('price');
-        setDirection('desc');
-      } else if (word === 'review') {
-        setOrderBy('reviewCnt');
-        setDirection('desc');
-      } else if (word === 'rate') {
-        setOrderBy('rate');
-        setDirection('desc');
-      }
+    if (typeof page !== undefined) {
+      Instance.get(`/api/item/list/${location}`, {
+        params: {
+          orderBy: orderBy,
+          direction: direction,
+          page: Number(page) - 1,
+        },
+      }).then((response) => {
+        setItemList(response.data.data);
+        setPageNum(response.data.pageNum);
+      });
     }
   }, [url]);
 
