@@ -38,12 +38,15 @@ import AdminQnaList from './pages/Admin/qna/AdminQnaList';
 import AdminQnaWrite from './pages/Admin/qna/AdminQnaWrite';
 import SellerDetail from './pages/SellerDetail/SellerDetail';
 import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
+import MyPageChangePw from "./pages/MyPage/ChangePw/MyPageChangePw";
 import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
 import NotFound from './pages/NotFound/NotFound';
 import SearchDetail from './pages/SearchDetail/SearchDetail';
+import ConvertSeller from './pages/MyPage/ConvertSeller/ConvertSeller';
+import MyPageChatting from './pages/MyPage/MyPageChatting/MyPageChatting';
 
 const App: React.FC = () => {
   return (
@@ -56,9 +59,9 @@ const App: React.FC = () => {
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
-        <Route path="/community/:category/:sort" element={<Community />} />
+        <Route path="/community/:category" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />
-        <Route path="/review/:sort" element={<ReviewPage />} />
+        <Route path="/review" element={<ReviewPage />} />
         <Route path="/cs/home" element={<CustomerServiceHome />} />
         <Route path="/cs/notice" element={<CSNotice />} />
         <Route path="/cs/notice/:id" element={<CSNoticeDetail />} />
@@ -66,7 +69,7 @@ const App: React.FC = () => {
         <Route path="/cs/inquiry" element={<CSInquiry />} />
         <Route path="/cs/agreement" element={<Agreement />} />
         <Route path="/rank" element={<SellerRank />} />
-        <Route path="/item/:type/:page" element={<ItemList />}></Route>
+        <Route path="/item/:type/:category/:page" element={<ItemList />}></Route>
         <Route path="/item/detail/:id" element={<ItemDetail />}></Route>
         <Route path="/item/write" element={<ItemWrite />}></Route>
         <Route path="/order/write" element={<OrderWrite />}></Route>
@@ -77,7 +80,7 @@ const App: React.FC = () => {
         <Route path="/seller/detail" element={<SellerDetail />} />
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
-        <Route path="/chatting" element={<Chatting />} />
+        <Route path="/chatting" element={<Chatting showLayout={true} />} />
         <Route path="/search/:searchTerm" element={<SearchDetail />} />
 
         {/* 어드민 주소 위치 */}
@@ -95,9 +98,12 @@ const App: React.FC = () => {
         {/* 마이페이지 */}
 
         <Route path="/mypage/info" element={<MyPageInfo />} />
+        <Route path="/mypage/changepw" element={<MyPageChangePw />} />
         <Route path="/mypage/payment" element={<MyPagePayment />} />
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />
+        <Route path="/mypage/chatting" element={<MyPageChatting />} />
+        <Route path="/mypage/convertseller" element={<ConvertSeller />} />
 
         {/* Not Found */}
         <Route path="*" element={<NotFound />} />

@@ -67,7 +67,6 @@ const SellerRank: React.FC = () => {
     </svg>
   );
 
-
   //억,만 단위 표시 , 1000단위 ,찍기
   const formatCurrency = (money: number): string => {
     const billion: number = Math.floor(money / 100000000);
@@ -82,7 +81,6 @@ const SellerRank: React.FC = () => {
     }
     return result + '원';
   };
-
 
   return (
     <S.SellerRankStyles>
@@ -112,7 +110,7 @@ const SellerRank: React.FC = () => {
             ))}
           </div>
           <div className="bottom">
-            <div className="top">TOP 10</div>
+            <div className="top">TOP 5</div>
             <div className="align-menu">
               <div className="left">
                 <div className="left-category">

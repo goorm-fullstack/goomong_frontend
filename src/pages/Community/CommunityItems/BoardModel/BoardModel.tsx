@@ -31,7 +31,9 @@ const BoardModel: React.FC<BoardModelProps> = ({ id, imageURL, p_category, title
       <Link to={`/community/detail/${id}`}>
         <div className="board-model-container">
           <div className="board-model-right">
-            <div className="board-model-image-container">{imageURL ? <img src={imageURL} alt="" /> : defaultImage}</div>
+            <div className="board-model-image-container">
+              {imageURL ? <img className="board-model-image-container-image" src={imageURL} alt="" /> : defaultImage}
+            </div>
             <div className="board-model-image-right">
               <ul className="board-model-category-list">
                 <li>{p_category}</li>
