@@ -14,14 +14,19 @@ interface Opponent {
 
 interface UIModel {
   opponent: Opponent;
+  userId?: number;
   product: string;
   bigDate: string;
   nowDate: string;
-  content: string[];
+  content: Message[];
   sendMessage: (message: string) => void;
 }
+interface Message {
+  userId?: number;
+  message: string[];
+}
 
-const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, content, sendMessage }) => {
+const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, nowDate, content, sendMessage }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="22px" height="20px">
       <path
@@ -76,8 +81,8 @@ const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, co
             <div className="big-date">{bigDate}</div>
             <div className="user">
               {content.map((message, index) => (
-                <div key={index} className="user-content">
-                  {message}
+                <div key={index} className={`user-content ${message.userId === userId ? '' : 'other-content'}`}>
+                  {message.message}
                 </div>
               ))}
             </div>

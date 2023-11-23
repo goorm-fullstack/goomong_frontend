@@ -140,14 +140,14 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       {showLayout && <Header />}
       <div className="chatting-container">
         <ChattingRoom />
-        <ChattingUI
+        {/* <ChattingUI
           opponent={chattingUIData.opponent}
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
           content={content}
           sendMessage={sendMessage}
-        />
+        /> */}
       </div>
       {showLayout && <Footer />}
     </S.ChattingStyles>
