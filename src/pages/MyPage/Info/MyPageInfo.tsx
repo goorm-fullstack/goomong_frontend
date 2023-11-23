@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect, useLayoutEffect} from "react";
 
 import * as S from "./MyPageInfoStyles";
 import Header from "../../../components/layout/Header/Header";
@@ -7,6 +7,7 @@ import Footer from "../../../components/layout/Footer/Footer";
 import { Cookies } from "react-cookie";
 import { MouseEvent } from "react";
 import Instance from "../../../util/API/axiosInstance";
+import {Image} from "../../../interface/Interface";
 
 interface UserInfo {
   imageUrl?: string;
@@ -24,19 +25,21 @@ interface IAddr {
   sido: string;
 }
 
+interface Member {
+  profileImages: Array<Image>,
+}
+
 const MyPageInfo: React.FC = () => {
   const cookies = new Cookies();
-  const [email, setEmail] = useState<string>("");
-  const [memberPassword, setMemberPassword] = useState<string>("");
   const [memberId, setMemberId] = useState<string>("");
   const [memberNickname, setMemberNickname] = useState<string>("");
   const [buyZipCode, setBuyZipCode] = useState<string>("");
   const [buySido, setBuySido] = useState<string>("");
   const [buySimpleAddress, setBuySimpleAddress] = useState<string>("");
   const [buyDetailAddress, setBuyDetailAddress] = useState<string>("");
-  // const [buyDetailAddress, setBuyDetailAddress] = useState<string>("");
-  // const [buyDetailAddress, setBuyDetailAddress] = useState<string>("");
-  const [member, setMember] = useState<string>("");
+  const [member, setMember] = useState<Member>();
+  const [fileName, setFileName] = useState<string>("");
+  const imgRef = useRef<HTMLInputElement>(null);
 
   const id = cookies.get('id');
 
@@ -52,9 +55,46 @@ const MyPageInfo: React.FC = () => {
       setBuySido(response.data.buySido);
       setBuySimpleAddress(response.data.buySimpleAddress);
       setBuyDetailAddress(response.data.buyDetailAddress);
+      setMember(response.data);
     })
     .catch(() => console.log('회원 정보 불러오기 실패'));
   }, [id]);
+
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (member) {
+        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+    console.log(imageUrls[0]);
+    setSelectedImage(imageUrls[0]);
+  }, [member]);
+
+
+  //이미지 불러오기
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
+
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -93,23 +133,23 @@ const MyPageInfo: React.FC = () => {
         alert("업데이트에 실패했습니다. 다시 시도해주세요.");
       });
 
-    // if(selectedImage != null){
-    //   const imageInfo = {
-    //     memberId: memberId,
-    //     multipartFiles: selectedImage
-    //   }
-    //   Instance.put(`/api/member/update/image`, imageInfo, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //     .then(() => {
-    //       alert("프로필 이미지가 수정되었습니다.");
-    //     })
-    //     .catch(() => {
-    //       alert("프로필 이미지 수정에 실패했습니다.");
-    //     });
-    // }
+    if(fileInputRef.current && fileInputRef.current.files){
+      const imageInfo = new FormData();
+      imageInfo.append('memberId', memberId);
+      imageInfo.append('multipartFiles', fileInputRef.current.files[0]);
+
+      Instance.put(`/api/member/update/image`, imageInfo, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then(() => {
+          alert("프로필 이미지가 수정되었습니다.");
+        })
+        .catch(() => {
+          alert("프로필 이미지 수정에 실패했습니다.");
+        });
+    }
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
