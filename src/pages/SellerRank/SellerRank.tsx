@@ -23,7 +23,7 @@ const SellerRank: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState<number>(0);
   const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
-  const [FindMember, setFindMember] = useState<FindMember[]>();
+  const [FindMember, setFindMember] = useState<FindMember[]>([]);
 
   useEffect(() => {
     Instance.get<Top5Ranking[]>(`/api/ranking`)
@@ -64,13 +64,36 @@ const SellerRank: React.FC = () => {
     );
   };
 
-  const sellerData: SellerListInfo[] = [
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.8 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-  ];
+  useEffect(() => {
+    Instance.get(`/api/ranking/sellers`)
+      .then((response) => {
+        setFindMember(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const fetchMemberImages = async () => {
+      const membersWithImages = await mapImagesToFindMembers(FindMember);
+      setFindMember(membersWithImages);
+    };
+
+    if (FindMember.length > 0) {
+      fetchMemberImages();
+    }
+  }, [FindMember]);
+
+  const mapImagesToFindMembers = async (members: FindMember[]): Promise<FindMember[]> => {
+    return Promise.all(
+      members.map(async (member) => {
+        const imageUrl =
+          member.profileImages.length > 0 ? await getImageFile(member.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
+        return { ...member, imageUrl };
+      })
+    );
+  };
 
   useEffect(() => {
     const date = new Date();
@@ -150,25 +173,25 @@ const SellerRank: React.FC = () => {
               </div>
             </div>
             <div className="seller-list">
-              {sellerData.map((item, index) => (
-                <div className={`seller-list-item ${index === sellerData.length - 1 ? 'last-item' : ''}`} key={index}>
+              {FindMember.map((item, index) => (
+                <div className={`seller-list-item ${index === FindMember.length - 1 ? 'last-item' : ''}`} key={index}>
                   <Link to="#null">
                     <div className="image-container">{item.imageUrl ? <img src={item.imageUrl} alt="" /> : defaultImage}</div>
                     <div className="right">
                       <div className="category">{item.category}</div>
-                      <div className="seller-name">{item.sellerName}</div>
+                      <div className="seller-name">{item.memberName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익 <span className="number">{formatCurrency(item.totalMoney)}</span>
+                          총수익 <span className="number">{formatCurrency(item.totalSales)}</span>
                         </span>
                         <span className="transaction">
-                          총거래 <span className="number">{item.totalTransaction}</span>
+                          총거래 <span className="number">{item.transaction}</span>
                         </span>
                         <span className="review">
-                          총리뷰 <span className="number">{item.totalReview}</span>
+                          총리뷰 <span className="number">{item.reviewCount}</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{item.star}</span>
+                        <span className=" star-number">{item.totalRating}</span>
                       </div>
                     </div>
                   </Link>

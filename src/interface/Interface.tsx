@@ -224,8 +224,10 @@ export interface FindMember {
   memberId: number;
   memberName: string;
   profileImages: Image[];
-  categoryTitle: string;
-  itemCount: number;
+  category: string;
+  transaction: number;
   totalSales: number;
   reviewCount: number;
+  totalRating: number;
+  imageUrl: string | undefined;
 }
