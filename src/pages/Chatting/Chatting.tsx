@@ -52,16 +52,15 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       itemId: Number(itemId),
     };
 
-    Instance.post('/api/chat', data)
-      .then((response) => {
-        console.log(response.data);
-        setRoomId(response.data);
-        return response.data;
-      })
-      .then(() => {
-        connect();
-      });
+    Instance.post('/api/chat', data).then((response) => {
+      console.log(response.data);
+      setRoomId(response.data.roomId);
+    });
   }, []);
+
+  useEffect(() => {
+    connect();
+  }, [roomId]);
 
   const connect = () => {
     const socket = new SockJS('http://localhost:8080/ws/chat');
@@ -71,7 +70,8 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   };
 
   const connectCallback = () => {
-    if (client.current) {
+    if (client.current && roomId !== 0) {
+      console.log('roomId : ' + roomId);
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
@@ -95,11 +95,11 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const sendMessage = (message: string) => {
     if (client.current) {
       let messageType = {
-        send: 'send',
+        roomId: roomId,
         message: message,
-        to: 'to',
+        memberId: 1,
       };
-
+      console.log(messageType);
       let jsonMessage = JSON.stringify(messageType);
       client.current.send(`/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
     }

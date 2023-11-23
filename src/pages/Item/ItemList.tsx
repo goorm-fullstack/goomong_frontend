@@ -8,7 +8,7 @@ import Sort from '../../components/Sort/Sort';
 import Product from '../../components/HotItem/ProductModel/Product';
 import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
-import { ItemData } from '../../interface/Interface';
+import { Item } from '../../interface/Interface';
 import { commaNumber, getImageFile } from '../../util/func/functions';
 
 // interface Item {
@@ -56,7 +56,7 @@ export default function ItemList() {
   const url = useLocation();
   const location = useParams().type;
   const categoryName = useParams().category;
-  const [itemList, setItemList] = useState<ItemData[]>();
+  const [itemList, setItemList] = useState<Item[]>();
   const { page } = useParams();
   const [orderBy, setOrderBy] = useState<String | null>(null); // 정렬 기준
   const [direction, setDirection] = useState('desc'); // 정렬 순서
@@ -66,29 +66,19 @@ export default function ItemList() {
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
 
   useEffect(() => {
-    if (url.search) {
-      const word = url.search.replace('?', '');
-      if (word === 'old') {
-        setOrderBy('regDate');
-        setDirection('asc');
-      } else if (word === 'recent') {
-        setOrderBy('regDate');
-        setDirection('desc');
-      } else if (word === 'lowPrice') {
-        setOrderBy('price');
-        setDirection('asc');
-      } else if (word === 'highPrice') {
-        setOrderBy('price');
-        setDirection('desc');
-      } else if (word === 'review') {
-        setOrderBy('reviewCnt');
-        setDirection('desc');
-      } else if (word === 'rate') {
-        setOrderBy('rate');
-        setDirection('desc');
-      }
+    if (typeof page !== undefined) {
+      Instance.get(`/api/item/list/${location}`, {
+        params: {
+          orderBy: orderBy,
+          direction: direction,
+          page: Number(page) - 1,
+        },
+      }).then((response) => {
+        setItemList(response.data.data);
+        setPageNum(response.data.pageNum);
+      });
     }
-  }, [url]);
+  }, [url, orderBy, direction, page, location]);
 
   useEffect(() => {
     if (typeof page !== undefined) {
@@ -100,7 +90,7 @@ export default function ItemList() {
             page: Number(page) - 1,
           },
         }).then((response) => {
-          setItemList(response.data);
+          setItemList(response.data.data);
           if (response.data.length > 0) setPageNum(response.data[0].pageNum);
         });
       } else {
@@ -112,7 +102,7 @@ export default function ItemList() {
             page: Number(page) - 1,
           },
         }).then((response) => {
-          setItemList(response.data);
+          setItemList(response.data.data);
           if (response.data.length > 0) setPageNum(response.data[0].pageNum);
         });
       }
@@ -151,7 +141,7 @@ export default function ItemList() {
       if (itemList) {
         const urls = await Promise.all(
           itemList.map((item) => {
-            if (item.data.thumbNailList.length > 0) return getImageFile(item.data.thumbNailList[0].path);
+            if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
             else return null;
           })
         );
@@ -208,13 +198,13 @@ export default function ItemList() {
                   <li key={index}>
                     <Product
                       key={index}
-                      id={item.data.id}
+                      id={item.id}
                       imageUrl={imageUrls && imageUrls[index]}
-                      sellerName={item.data.member.name}
-                      productName={item.data.title}
-                      price={commaNumber(item.data.price)}
-                      rating={item.data.rate}
-                      review={item.data.reviewList.length}
+                      sellerName={item.member.name}
+                      productName={item.title}
+                      price={commaNumber(item.price)}
+                      rating={item.rate}
+                      review={item.reviewList.length}
                     />
                   </li>
                 ))
