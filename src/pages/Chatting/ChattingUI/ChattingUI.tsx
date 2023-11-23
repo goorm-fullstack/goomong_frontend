@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import * as S from './ChattingUIStyles';
 import { Link } from 'react-router-dom';
@@ -34,53 +34,65 @@ const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, co
 
   const handleMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (message.trim() === '') {
+      return;
+    }
     sendMessage(message);
     setMessage('');
   };
+
+  const isButtonDisabled = message.trim() === '';
+
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (contentContainerRef.current) {
+      contentContainerRef.current.scrollTop = contentContainerRef.current.scrollHeight;
+    }
+  }, [content]);
 
   return (
     <S.ChattingUIStyles>
       <div className="UI-container">
         <div className="title">{opponent.product}</div>
         <div className="content">
-          <div className="opponent">
-            <div className="image-container">{opponent.imageUrl ? <img src={opponent.imageUrl} alt="" /> : defaultImage}</div>
+          <div className="content-container" ref={contentContainerRef}>
+            <div className="opponent">
+              <div className="image-container">{opponent.imageUrl ? <img src={opponent.imageUrl} alt="" /> : defaultImage}</div>
 
-            <div className="opponent-content">
-              <div className="nickname">{opponent.nickname}</div>
-              <div className="product">{opponent.product}</div>
-              <div className="price">
-                <div className="name">상품 금액</div>
-                <div className="money">{opponent.money}</div>
+              <div className="opponent-content">
+                <div className="nickname">{opponent.nickname}</div>
+                <div className="product">{opponent.product}</div>
+                <div className="price">
+                  <div className="name">상품 금액</div>
+                  <div className="money">{opponent.money}</div>
+                </div>
+                <Link to="#null">
+                  <button type="button">상품 상세페이지 열기</button>
+                </Link>
               </div>
-              <Link to="#null">
-                <button type="button">상품 상세페이지 열기</button>
-              </Link>
+              <div className="date">{opponent.date}</div>
             </div>
-            <div className="date">{opponent.date}</div>
+            <div className="big-date">{bigDate}</div>
+            <div className="user">
+              {content.map((message, index) => (
+                <div key={index} className="user-content">
+                  {message}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="big-date">{bigDate}</div>
-          <div className="user">
-            {content.map((message, index) => (
-              <div key={index} className="user-content">
-                {message}
-              </div>
-            ))}
-          </div>
+
           <form onSubmit={handleMessageSubmit}>
-            <input
-              className="text-box"
-              type="text"
-              value={message}
-              placeholder="메시지를 입력하세요.(Shift Enter:줄바꿈)"
-              onChange={(e) => setMessage(e.target.value)}
-            />
+            <input className="text-box" type="text" value={message} placeholder="메시지를 입력하세요." onChange={(e) => setMessage(e.target.value)} />
             <div className="bottom">
               <label className="file-upload">
                 파일 첨부
                 <input type="file" name="file" />
               </label>
-              <button type="submit">전송</button>
+              <button type="submit" disabled={isButtonDisabled} className={isButtonDisabled ? 'disabled-button' : ''}>
+                전송
+              </button>
             </div>
           </form>
         </div>
