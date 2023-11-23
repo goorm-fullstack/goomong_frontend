@@ -73,10 +73,9 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
   const settings = {
     className: 'center',
     centerMode: true,
-    centerPadding: '0px',
     infinite: true,
     speed: 500,
-    slidesToShow: 2.63,
+    slidesToShow: 2.5,
     slidesToScroll: 1,
     variableWidth: true,
     nextArrow: <NextArrow />,
@@ -84,6 +83,36 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
     autoplay: true,
     autoplaySpeed: 3000,
     afterChange: handleAfterChange,
+    responsive: [
+      {
+        breakpoint: 2025,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1924,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 1.7,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1350,
+        settings: {
+          slidesToShow: 1.3,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (

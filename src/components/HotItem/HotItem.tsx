@@ -1,60 +1,108 @@
 import * as S from './HotItemStyles';
 import React from 'react';
-import Slide from '../Slide/Slide';
 import Product from './ProductModel/Product';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 const HotItem: React.FC = () => {
   const products = [
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명0',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 3.9,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명1',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명2',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명3',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명4',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명5',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
     {
-      sellerName: '판매자 브랜드명',
+      sellerName: '판매자 브랜드명6',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
+    {
+      sellerName: '판매자 브랜드명7',
       productName: '상품 이름을 이렇게 적고요.',
       price: '150,000원',
       rating: 5,
       review: 3560,
     },
   ];
+
+  const settings = {
+    infinite: true,
+    slidesToShow: 7,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 4000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
+
+    responsive: [
+      {
+        breakpoint: 1900,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 780,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <S.Hotitem>
@@ -72,7 +120,7 @@ const HotItem: React.FC = () => {
           </ul>
         </div>
 
-        <Slide>
+        <Slider {...settings}>
           {products.map((product, index) => (
             <Product
               key={index}
@@ -83,7 +131,7 @@ const HotItem: React.FC = () => {
               review={product.review}
             />
           ))}
-        </Slide>
+        </Slider>
 
         <div className="more-btn">
           <Link to="#null">
