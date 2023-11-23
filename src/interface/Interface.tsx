@@ -204,7 +204,6 @@ export interface ItemCategoryData {
   parent: ItemCategoryData;
   childCategory: ItemCategoryData[];
 }
-
 export interface Top5Ranking {
   memberId: number;
   memberName: string;
@@ -230,4 +229,21 @@ export interface FindMember {
   reviewCount: number;
   totalRating: number;
   imageUrl: string | undefined;
+}
+
+export interface SellerData {
+  id: number;
+  memberId: string;
+  description: string;
+  income: number;
+  rate: number;
+  saleZipCode: number;
+  saleSido: string;
+  saleSimpleAddress: string;
+  saleDetailAddress: string;
+  imagePath: string;
+  transactionCnt: number;
+  reviewCnt: number;
+  regDate: Date;
+  pageInfo: PageInfoData;
 }
