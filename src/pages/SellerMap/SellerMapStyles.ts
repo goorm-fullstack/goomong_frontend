@@ -86,4 +86,9 @@ export const SellerMapStyles = styled.div`
   .left-category {
     margin-right: 9px;
   }
+  .example {
+    position: absolute;
+    bottom: 0%;
+    z-index: 10001;
+  }
 `;

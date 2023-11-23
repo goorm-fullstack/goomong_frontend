@@ -13,8 +13,8 @@ interface SellerInfo {
 }
 
 interface CategoryRank {
-  category: string;
-  sellers: SellerInfo[];
+  category?: string;
+  sellers?: SellerInfo[];
 }
 
 interface SellerListInfo {
@@ -32,6 +32,23 @@ const SellerRank: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState<number>(0);
 
   const rankData: CategoryRank[] = [
+    {
+      category: '카테고리명',
+      sellers: [
+        { money: '1,341,380,120원', sellerName: '판매자 브랜드명1', imageUrl: 'https://via.placeholder.com/800x300?text=seller+1' },
+        { money: '1,341,380,12원', sellerName: '판매자 브랜드명2', imageUrl: 'https://via.placeholder.com/800x300?text=seller+2' },
+      ],
+    },
+    {
+      category: '카테고리명',
+      sellers: [
+        { money: '1,341,380,120원', sellerName: '판매자 브랜드명1', imageUrl: 'https://via.placeholder.com/800x300?text=seller+1' },
+        { money: '1,341,380,12원', sellerName: '판매자 브랜드명2', imageUrl: 'https://via.placeholder.com/800x300?text=seller+2' },
+        { money: '1,341,380,1원', sellerName: '판매자 브랜드명3', imageUrl: 'https://via.placeholder.com/800x300?text=seller+3' },
+        { money: '1,341,380원', sellerName: '판매자 브랜드명4', imageUrl: 'https://via.placeholder.com/800x300?text=seller+4' },
+        { money: '1,341,38원', sellerName: '판매자 브랜드명5', imageUrl: 'https://via.placeholder.com/800x300?text=seller+5' },
+      ],
+    },
     {
       category: '카테고리명',
       sellers: [
@@ -99,15 +116,9 @@ const SellerRank: React.FC = () => {
             {currentYear}년 {currentMonth}월 판매자 순위 TOP 5
           </div>
           <div className="rank-model">
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
+            {rankData[0] && <RankModel key="rank-0" category={rankData[0].category} sellers={rankData[0].sellers} />}
+            {rankData[1] && <RankModel key="rank-1" category={rankData[1].category} sellers={rankData[1].sellers} />}
+            {rankData[2] && <RankModel key="rank-2" category={rankData[2].category} sellers={rankData[2].sellers} />}
           </div>
           <div className="bottom">
             <div className="top">TOP 5</div>
