@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import * as S from './ChattingUIStyles';
 import { Link } from 'react-router-dom';
+import { Message } from '../../../interface/Interface';
 
 interface Opponent {
   imageUrl?: string;
@@ -17,7 +18,7 @@ interface UIModel {
   product: string;
   bigDate: string;
   nowDate: string;
-  content: string[];
+  content: Message[];
   sendMessage: (message: string) => void;
 }
 
@@ -61,11 +62,17 @@ const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, co
           </div>
           <div className="big-date">{bigDate}</div>
           <div className="user">
-            {content.map((message, index) => (
-              <div key={index} className="user-content">
-                {message}
-              </div>
-            ))}
+            {content.map((message, index) =>
+              message.isYour ? (
+                <div key={index} className="user-content">
+                  {message.message}
+                </div>
+              ) : (
+                <div key={index} className="opponent-content">
+                  {message.message}
+                </div>
+              )
+            )}
           </div>
           <form onSubmit={handleMessageSubmit}>
             <input

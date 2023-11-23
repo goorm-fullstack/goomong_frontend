@@ -8,6 +8,8 @@ import { Stomp, CompatClient } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useLocation } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
+import { getCookie } from '../../util/func/functions';
+import { Message } from '../../interface/Interface';
 
 interface Opponent {
   imageUrl?: string;
@@ -22,8 +24,9 @@ interface UIModel {
   opponent: Opponent;
   bigDate: string;
   nowDate: string;
-  content: string[];
+  content: Message[];
 }
+
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
   const { state } = location;
@@ -39,12 +42,13 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     },
     bigDate: '2023.11.14',
     nowDate: '11월 14일 10:10',
-    content: ['첫 번째 메시지', '두 번째 메시지', '세 번째 메시지'],
+    content: [],
   };
 
   const client = useRef<CompatClient>();
   const [messages, setMessages] = useState<string[]>([]);
-  const [content, setContent] = useState<string[]>([]);
+  const [content, setContent] = useState<Message[]>([]);
+  const memberId = getCookie('id');
 
   // 최초 세팅
   useEffect(() => {
@@ -56,7 +60,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       } else {
         if (itemId) {
           let data = {
-            memberId: 1,
+            memberId: memberId,
             itemId: Number(itemId),
           };
           Instance.post('/api/chat', data).then((response) => {
@@ -77,6 +81,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     client.current = Stomp.over(socket);
 
     client.current.connect({}, connectCallback, errorCallback);
+    client.current.activate();
   };
 
   const connectCallback = () => {
@@ -85,10 +90,21 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       Instance.get('/api/chat/room/' + roomId).then((response) => {
         const data = response.data;
         for (let i = 0; i < data.length; i++) {
-          setContent((p) => [...p, data[i].message]);
+          if (data[i].memberId === memberId) {
+            let message = {
+              message: data[i].message,
+              isYour: true,
+            };
+            setContent((p) => [...p, message]);
+          } else {
+            let message = {
+              message: data[i].message,
+              isYour: false,
+            };
+            setContent((p) => [...p, message]);
+          }
         }
       });
-
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
@@ -100,7 +116,16 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const closeEventCallback = () => {};
 
   const onMessageReceived = (message: any) => {
-    setMessages((prevMessage) => [...prevMessage, JSON.parse(message.body)]);
+    const data = JSON.parse(message.body);
+    console.log(data);
+
+    if (data.memberID !== memberId) {
+      let message = {
+        message: data.message,
+        isYour: false,
+      };
+      setContent((p) => [...p, message]);
+    }
   };
 
   const disconnect = () => {
@@ -119,7 +144,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       console.log(messageType);
       let jsonMessage = JSON.stringify(messageType);
       client.current.send(`/pub/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
-      setContent((p) => [...p, message]);
+      setContent((p) => [...p, { message: message, isYour: true }]);
     }
   };
 

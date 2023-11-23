@@ -18,7 +18,7 @@ const ChattingRoom: React.FC = () => {
   const memberId = getCookie('id');
 
   useEffect(() => {
-    Instance.get('/api/chat/' + 1).then((response) => {
+    Instance.get('/api/chat/' + memberId).then((response) => {
       console.log(response.data);
       setRoomListData(response.data);
     });
