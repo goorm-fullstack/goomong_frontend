@@ -116,6 +116,9 @@ const MyPageLeft: React.FC = () => {
               <li className="payment-history">
                 <Link to="/mypage/payment">결제내역</Link>
               </li>
+              <li className="sale-history">
+                <Link to="/mypage/sales">판매 내역</Link>
+              </li>
               <li className="point">
                 <Link to="/mypage/point">포인트</Link>
               </li>
@@ -127,11 +130,11 @@ const MyPageLeft: React.FC = () => {
               <li className="board-history">
                 <Link to="/mypage/board">작성한 글</Link>
               </li>
-              <li className="sale-history">
-                <Link to="#">판매 내역</Link>
-              </li>
               <li className="chatting-history">
                 <Link to="/mypage/chatting">채팅 내역</Link>
+              </li>
+              <li className="save-item">
+                <Link to="#">재능 등록</Link>
               </li>
             </ul>
           </div>
