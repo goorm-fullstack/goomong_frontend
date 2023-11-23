@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as S from './MarkerInfoModelStyles';
+import { Link } from 'react-router-dom';
 
 interface SellerInfo {
   sellerId: number;
@@ -25,10 +26,29 @@ const MarkerInfoModel: React.FC<SellerInfo> = ({ sellerId, imageUrl, sellerName,
 
   return (
     <S.MarkerInfoModelStyles>
-      <div className="marker-info-model-container">
-        <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
-        
-      </div>
+      <Link to={`/seller/detail/${sellerId}`}>
+        <div className="marker-info-model-container">
+          <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
+          <div className="right">
+            <ul className="top">
+              <li>{sellerName}</li>
+              <li>{category}</li>
+            </ul>
+            <ul className="middle">
+              <li className="transaction">
+                <span>총 거래</span> {totalTransaction}
+              </li>
+              <li>
+                <span>총 리뷰</span> {totalReview}
+              </li>
+              <li className="star">
+                ★ <span>{star}</span>
+              </li>
+            </ul>
+            <div className="bottom">{intro}</div>
+          </div>
+        </div>
+      </Link>
     </S.MarkerInfoModelStyles>
   );
 };
