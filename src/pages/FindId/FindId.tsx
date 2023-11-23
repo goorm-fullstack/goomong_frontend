@@ -25,7 +25,7 @@ const FindId: React.FC = () => {
         </div>
         <div className="find-id">
           <form onSubmit={handleIdSubmit}>
-            <div className="text">회원 이름</div>
+            <div className="text">별명</div>
             <input className="name-box box" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
             <div className="text email-text">이메일 주소</div>
             <input className="email-box box" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />

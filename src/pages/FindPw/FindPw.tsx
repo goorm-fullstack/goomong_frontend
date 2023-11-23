@@ -28,7 +28,7 @@ const FindPw: React.FC = () => {
           <form onSubmit={handleFindPwSubmit}>
             <div className="text">회원 아이디</div>
             <input className="id-box box" type="text" value={userid} onChange={(e) => setUserid(e.target.value)} />
-            <div className="text name-text">회원 이름</div>
+            <div className="text name-text">별명</div>
             <input className="name-box box" type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
             <div className="text email-text">이메일 주소</div>
             <input className="email-box box" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />

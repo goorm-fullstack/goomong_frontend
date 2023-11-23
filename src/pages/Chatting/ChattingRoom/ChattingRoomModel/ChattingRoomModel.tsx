@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 
 import * as S from './ChattingRoomModelStyles';
+import { formattingDate } from '../../../../util/func/functions';
 
 interface RoomModel {
-  imageUrl?: string;
-  nickName: string;
-  date: string;
-  contentShorts: string;
-  type: string;
-  product?: string;
-  id: number;
+  roomId: string;
+  roomName: string;
+  lastMessage: string;
+  itemDto: any;
+  lastDate: Date;
   isSelected: boolean;
   onRoomClick: () => void;
 }
 
-const ChattingRoomModel: React.FC<RoomModel> = ({ imageUrl, nickName, date, contentShorts, type, product, id, isSelected, onRoomClick }) => {
+const ChattingRoomModel: React.FC<RoomModel> = ({ roomId, roomName, lastMessage, itemDto, lastDate, isSelected, onRoomClick }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="22px" height="20px">
       <path
@@ -27,17 +26,13 @@ const ChattingRoomModel: React.FC<RoomModel> = ({ imageUrl, nickName, date, cont
   return (
     <S.ChattingRoomModelStyles>
       <div className={`room-model-container ${isSelected ? 'selected' : ''}`} onClick={onRoomClick}>
-        <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
+        <div className="image-container">{defaultImage}</div>
         <div className="right">
           <div className="top">
-            <span className="nickname">{nickName}</span>
-            <span className="date">{date}</span>
+            <span className="nickname">{roomName}</span>
+            <span className="date">{formattingDate(lastDate)}</span>
           </div>
-          <div className="content-shorts">{contentShorts}</div>
-          <div className="bottom">
-            <span className={`type ${type !== '문의' ? 'category' : ''}`}>{type}</span>
-            <span className="product">{product}</span>
-          </div>
+          <div className="content-shorts">{lastMessage}</div>
         </div>
       </div>
     </S.ChattingRoomModelStyles>

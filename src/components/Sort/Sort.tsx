@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import * as S from './Style';
 import Instance from '../../util/API/axiosInstance';
 import { ItemCategoryData } from '../../interface/Interface';
+import { useLocation } from 'react-router-dom';
 
 interface SortProp {
   type: string;
 }
 
 const SortData = {
-  order: ['최신순', '판매순', '낮은 금액순', '높은 금액순'],
-  community: ['최신순', '댓글순', '조회순', '좋아요순'],
-  review: ['최신순', '평점순'],
+  seller: ['최신순', '오래된순', '수익순', '거래순', '리뷰순', '평점순'],
+  order: ['최신순', '오래된순', '낮은 금액순', '높은 금액순', '리뷰순', '평점순'],
+  community: ['최신순', '오래된순', '댓글순', '조회순', '좋아요순'],
+  review: ['최신순', '오래된순', '평점순'],
 };
 
 const Sort: React.FC<SortProp> = ({ type }) => {
@@ -18,18 +20,17 @@ const Sort: React.FC<SortProp> = ({ type }) => {
   const [sortValue, setSortValue] = useState<string>(); // 현재 선택된 정렬 기준
   const [show, setShow] = useState<boolean>(false);
   const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
+  const location = useLocation();
 
   useEffect(() => {
     if (type === 'order') {
       setSortType(SortData['order']);
-      setSortValue(SortData['order'][0]);
     }
     if (type === 'itemCategory') {
       Instance.get('/api/item-category/list')
         .then((response) => {
           const data = response.data;
           setItemCategoryData(data);
-          setSortValue(data[0].title);
         })
         .catch((error) => {
           console.error(error);
@@ -37,26 +38,57 @@ const Sort: React.FC<SortProp> = ({ type }) => {
     }
     if (type === 'community') {
       setSortType(SortData['community']);
-      setSortValue(SortData['community'][0]);
     }
     if (type === 'review') {
       setSortType(SortData['review']);
-      setSortValue(SortData['review'][0]);
     }
-  }, [type]);
+  }, []);
+
+  useEffect(() => {
+    if (location.search) {
+      const word = location.search.replace('?', '');
+      if (word === 'recent') setSortValue('최신순');
+      if (word === 'old') setSortValue('오래된순');
+      if (word === 'lowPrice') setSortValue('낮은 금액순');
+      if (word === 'highPrice') setSortValue('높은 금액순');
+      if (word === 'review') setSortValue('리뷰순');
+      if (word === 'rate') setSortValue('평점순');
+      if (word === 'comment') setSortValue('댓글순');
+      if (word === 'view') setSortValue('조회순');
+      if (word === 'like') setSortValue('좋아요순');
+      if (word === 'income') setSortValue('수익순');
+      if (word === 'business') setSortValue('거래순');
+    } else setSortValue('최신순');
+  }, [location]);
 
   const toggleVisibility = () => {
     setShow(!show);
   };
 
+  const sortValueToEnglish = (value: string): string => {
+    if (value === '최신순') return 'recent';
+    if (value === '오래된순') return 'old';
+    if (value === '낮은 금액순') return 'lowPrice';
+    if (value === '높은 금액순') return 'highPrice';
+    if (value === '리뷰순') return 'review';
+    if (value === '평점순') return 'rate';
+    if (value === '댓글순') return 'comment';
+    if (value === '조회순') return 'view';
+    if (value === '수익순') return 'income';
+    if (value === '거래순') return 'business';
+    else return 'like';
+  };
+
   const onChangeSortType = (index: number) => {
     setSortValue(nowSortType[index]);
     setShow(!show);
+    window.location.href = `${location.pathname}?${sortValueToEnglish(nowSortType[index])}`;
   };
 
   const onChangeItemCategory = (name: string) => {
     setSortValue(name);
     setShow(!show);
+    window.location.href = `${location.pathname}?${sortValueToEnglish(name)}`;
   };
 
   return (

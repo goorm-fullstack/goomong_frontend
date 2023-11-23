@@ -107,9 +107,9 @@ const RegisterByGoomong: React.FC = () => {
       return;
     }
 
-    if(!isCodeVerified) {
-      alert('이메일 인증을 완료해주세요.');
-    }
+    // if(!isCodeVerified) {
+    //   alert('이메일 인증을 완료해주세요.');
+    // }
 
     if (!isChecked) {
       alert('회원가입 약관에 동의해야 합니다.');
@@ -239,6 +239,12 @@ const RegisterByGoomong: React.FC = () => {
             </div>
           )}
 
+          <div className="input-text">이메일</div>
+          <input
+            type="email"
+            value={memberEmail}
+            onChange={(e) => setMemberEmail(e.target.value)}
+          />
 
           <div className="input-text name">별명</div>
           <input
@@ -255,36 +261,29 @@ const RegisterByGoomong: React.FC = () => {
           </button>
 
 
-          <div className="input-text">이메일 인증</div>
-          <input
-            type="email"
-            className="certification"
-            value={memberEmail}
-            onChange={(e) => setMemberEmail(e.target.value)}
-          />
-          <button
-            className={`certification-btn ${memberEmail ? "active" : ""}`}
-            onClick={sendCode}
-          >
-            전송
-          </button>
-          <input
-            type="text"
-            className="certification"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            readOnly={isCodeVerified}
-          />
-          <button
-            type="submit"
-            className={`certification-btn ${
-              code || isCodeVerified ? "active" : ""
-            }`}
-            onClick={checkCode}
-            disabled={isCodeVerified}
-          >
-            인증
-          </button>
+          {/*<button*/}
+          {/*  className={`certification-btn ${memberEmail ? "active" : ""}`}*/}
+          {/*  onClick={sendCode}*/}
+          {/*>*/}
+          {/*  전송*/}
+          {/*</button>*/}
+          {/*<input*/}
+          {/*  type="text"*/}
+          {/*  className="certification"*/}
+          {/*  value={code}*/}
+          {/*  onChange={(e) => setCode(e.target.value)}*/}
+          {/*  readOnly={isCodeVerified}*/}
+          {/*/>*/}
+          {/*<button*/}
+          {/*  type="submit"*/}
+          {/*  className={`certification-btn ${*/}
+          {/*    code || isCodeVerified ? "active" : ""*/}
+          {/*  }`}*/}
+          {/*  onClick={checkCode}*/}
+          {/*  disabled={isCodeVerified}*/}
+          {/*>*/}
+          {/*  인증*/}
+          {/*</button>*/}
           <div className="agreement">
             <div className="top">
               <input

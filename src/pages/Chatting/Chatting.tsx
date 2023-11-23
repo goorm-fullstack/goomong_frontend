@@ -24,11 +24,11 @@ interface UIModel {
   nowDate: string;
   content: string[];
 }
-
-const Chatting: React.FC = () => {
+const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
-  const { itemId } = location.state;
+  const { state } = location;
   const [roomId, setRoomId] = useState(0);
+
   const chattingUIData: UIModel = {
     opponent: {
       nickname: '마켓',
@@ -44,24 +44,33 @@ const Chatting: React.FC = () => {
 
   const client = useRef<CompatClient>();
   const [messages, setMessages] = useState<string[]>([]);
+  const [content, setContent] = useState<string[]>([]);
 
   // 최초 세팅
   useEffect(() => {
-    let data = {
-      memberId: 1,
-      itemId: Number(itemId),
-    };
-
-    Instance.post('/api/chat', data)
-      .then((response) => {
-        console.log(response.data);
-        setRoomId(response.data);
-        return response.data;
-      })
-      .then(() => {
-        connect();
-      });
+    if (state) {
+      const { id } = state;
+      const { itemId } = state;
+      if (id) {
+        setRoomId(id);
+      } else {
+        if (itemId) {
+          let data = {
+            memberId: 1,
+            itemId: Number(itemId),
+          };
+          Instance.post('/api/chat', data).then((response) => {
+            console.log(response.data);
+            setRoomId(response.data.roomId);
+          });
+        }
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    connect();
+  }, [roomId]);
 
   const connect = () => {
     const socket = new SockJS('http://localhost:8080/ws/chat');
@@ -71,7 +80,15 @@ const Chatting: React.FC = () => {
   };
 
   const connectCallback = () => {
-    if (client.current) {
+    if (client.current && roomId !== 0) {
+      // 이전 채팅 기록 불러오기
+      Instance.get('/api/chat/room/' + roomId).then((response) => {
+        const data = response.data;
+        for (let i = 0; i < data.length; i++) {
+          setContent((p) => [...p, data[i].message]);
+        }
+      });
+
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
@@ -95,19 +112,20 @@ const Chatting: React.FC = () => {
   const sendMessage = (message: string) => {
     if (client.current) {
       let messageType = {
-        send: 'send',
+        roomId: roomId,
         message: message,
-        to: 'to',
+        memberId: 1,
       };
-
+      console.log(messageType);
       let jsonMessage = JSON.stringify(messageType);
-      client.current.send(`/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      client.current.send(`/pub/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      setContent((p) => [...p, message]);
     }
   };
 
   return (
     <S.ChattingStyles>
-      <Header />
+      {showLayout && <Header />}
       <div className="chatting-container">
         <ChattingRoom />
         <ChattingUI
@@ -115,11 +133,11 @@ const Chatting: React.FC = () => {
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
-          content={chattingUIData.content}
+          content={content}
           sendMessage={sendMessage}
         />
       </div>
-      <Footer />
+      {showLayout && <Footer />}
     </S.ChattingStyles>
   );
 };

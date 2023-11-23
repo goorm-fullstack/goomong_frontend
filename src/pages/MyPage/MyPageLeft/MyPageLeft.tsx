@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as S from './MyPageLeftStyles';
 import { Link } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
+import Instance from '../../../util/API/axiosInstance';
+import { useLocation } from 'react-router-dom';
 
 interface UserInfo {
   imageUrl?: string;
@@ -11,6 +14,11 @@ interface UserInfo {
 }
 
 const MyPageLeft: React.FC = () => {
+  const cookies = new Cookies();
+  const isLogin: string = cookies.get('memberId');
+  const id: number = cookies.get('id');
+  const [member, setMember] = useState<string>('');
+  const location = useLocation();
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -20,11 +28,27 @@ const MyPageLeft: React.FC = () => {
     </svg>
   );
 
+  useEffect(() => {
+    Instance.get(`/api/member/id/${id}`)
+      .then((response) => {
+        setMember(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [id]);
+
   const defaultUser: UserInfo = {
-    userName: '회원명',
-    userEmail: 'example@goomong.com',
-    userLocal: '서울 전체',
+    userName: '별명',
+    userEmail: 'goomong@goomong.com',
+    userLocal: '서울',
   };
+
+  useEffect(() => {
+    if (isLogin == null) {
+      window.location.href = `/`;
+    }
+  }, [isLogin]);
 
   return (
     <S.MyPageLeftStyles>
@@ -44,7 +68,15 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <button type="button">판매자로 전환하기</button>
+          {location.pathname === '/mypage/convertseller' ? (
+            <Link to="/mypage/info">
+              <button type="button">구매자로 전환하기</button>
+            </Link>
+          ) : (
+            <Link to="/mypage/convertseller">
+              <button type="button">판매자로 전환하기</button>
+            </Link>
+          )}
         </div>
         <div className="bottom">
           <div className="info">
@@ -52,6 +84,9 @@ const MyPageLeft: React.FC = () => {
             <ul>
               <li className="info-set">
                 <Link to="/mypage/info">계정 설정</Link>
+              </li>
+              <li className="change-pw">
+                <Link to="/mypage/changepw">비밀번호 변경</Link>
               </li>
             </ul>
           </div>
@@ -71,6 +106,12 @@ const MyPageLeft: React.FC = () => {
             <ul>
               <li className="board-history">
                 <Link to="/mypage/board">작성한 글</Link>
+              </li>
+
+              <li className="chatting-history">
+                <Link to="/mypage/chatting" state={{ id: 1 }}>
+                  채팅 내역
+                </Link>
               </li>
             </ul>
           </div>

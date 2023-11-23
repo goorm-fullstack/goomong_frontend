@@ -124,7 +124,7 @@ const SellerRank: React.FC = () => {
             {rankings.sales.length > 0 && <RankModel top5Ranking={rankings.sales} />}
           </div>
           <div className="bottom">
-            <div className="top">TOP 10</div>
+            <div className="top">TOP 5</div>
             <div className="align-menu">
               <div className="left">
                 <div className="left-category">
