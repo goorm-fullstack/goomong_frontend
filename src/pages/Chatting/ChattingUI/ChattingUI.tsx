@@ -18,10 +18,10 @@ interface UIModel {
   bigDate: string;
   nowDate: string;
   content: string[];
-  sendMessage: (message : string) => void;
+  sendMessage: (message: string) => void;
 }
 
-const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, content, sendMessage}) => {
+const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, content, sendMessage }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="22px" height="20px">
       <path
@@ -35,6 +35,7 @@ const ChattingUI: React.FC<UIModel> = ({ opponent, product, bigDate, nowDate, co
   const handleMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(message);
+    setMessage('');
   };
 
   return (
