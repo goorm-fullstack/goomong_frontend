@@ -52,14 +52,6 @@ export const SellerBrandModelStyles = styled.div`
     font-weight: 400;
     letter-spacing: -0.04em;
   }
-  .seller-brand-model-category-list li:first-child::after {
-    content: '';
-    height: 10px;
-    width: 1px;
-    background-color: #dbdee2;
-    margin: 0px 8px;
-    display: inline-block;
-  }
   .seller-brand-model-content {
     color: #6f7785;
     font-size: 12px;
