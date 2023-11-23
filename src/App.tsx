@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import FindId from './pages/FindId/FindId';
 import FindPw from './pages/FindPw/FindPw';
+import NewPw from "./pages/FindPw/NewPw";
 import RegisterByGoomong from './pages/RegisterByGoomong/RegisterByGoomong';
 import Admin from './pages/Admin/Admin';
 import AdminMail from './pages/Admin/Mail/AdminMail';
@@ -59,6 +60,7 @@ const App: React.FC = () => {
         <Route path="/register/step1" element={<Register />} />
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
+        <Route path="/newpw" element={<NewPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
         <Route path="/community/:category" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />

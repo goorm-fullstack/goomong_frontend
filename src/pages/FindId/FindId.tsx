@@ -15,7 +15,6 @@ const FindId: React.FC = () => {
 
     Instance.get(`/api/member/email/${memberEmail}`)
       .then((response) => {
-        console.log(response.data);
         if(response.data.memberName == memberName) {
           alert(`찾으시는 아이디는 "${response.data.memberId}"입니다.`);
           window.location.href = "/";
@@ -38,10 +37,10 @@ const FindId: React.FC = () => {
           </Link>
         </div>
         <div className="big">아이디 찾기</div>
-        <div className="small">
-          <p>가입 시 등록했던 이메일로 </p>
-          <p>아이디를 확인할 수 있는 메일을 보내드릴게요.</p>
-        </div>
+        {/*<div className="small">*/}
+        {/*  <p>가입 시 등록했던 이메일로 </p>*/}
+        {/*  <p>아이디를 확인할 수 있는 메일을 보내드릴게요.</p>*/}
+        {/*</div>*/}
         <div className="find-id">
           <form onSubmit={handleIdSubmit}>
             <div className="text">별명</div>

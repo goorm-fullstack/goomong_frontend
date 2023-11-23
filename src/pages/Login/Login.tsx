@@ -51,7 +51,7 @@ const Login: React.FC = () => {
           else {                      //체크가 되어있지 않다면 rememberId 쿠키 삭제
             cookies.remove('rememberId');
           }
-          navigate(-1);
+          window.location.href = '/';
         })
         .catch((e) => {
           alert(e);
