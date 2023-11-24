@@ -13,6 +13,24 @@ const SortData = {
   order: ['최신순', '오래된순', '낮은 금액순', '높은 금액순', '리뷰순', '평점순'],
   community: ['최신순', '오래된순', '댓글순', '조회순', '좋아요순'],
   review: ['최신순', '오래된순', '평점순'],
+  region: [
+    '서울특별시',
+    '경기도',
+    '대구광역시',
+    '부산광역시',
+    '인천광역시',
+    '광주광역시',
+    '대전광역시',
+    '울산광역시',
+    '강원도',
+    '충청북도',
+    '충청남도',
+    '경상북도',
+    '경상남도',
+    '전라북도',
+    '전라남도',
+    '제주도',
+  ],
 };
 
 const Sort: React.FC<SortProp> = ({ type }) => {
@@ -42,24 +60,34 @@ const Sort: React.FC<SortProp> = ({ type }) => {
     if (type === 'review') {
       setSortType(SortData['review']);
     }
+    if (type === 'seller') {
+      setSortType(SortData['seller']);
+    }
+    if (type === 'region') {
+      setSortType(SortData['region']);
+    }
   }, []);
 
   useEffect(() => {
-    if (location.search) {
-      const word = location.search.replace('?', '');
-      if (word === 'recent') setSortValue('최신순');
-      if (word === 'old') setSortValue('오래된순');
-      if (word === 'lowPrice') setSortValue('낮은 금액순');
-      if (word === 'highPrice') setSortValue('높은 금액순');
-      if (word === 'review') setSortValue('리뷰순');
-      if (word === 'rate') setSortValue('평점순');
-      if (word === 'comment') setSortValue('댓글순');
-      if (word === 'view') setSortValue('조회순');
-      if (word === 'like') setSortValue('좋아요순');
-      if (word === 'income') setSortValue('수익순');
-      if (word === 'business') setSortValue('거래순');
-    } else setSortValue('최신순');
-  }, [location]);
+    if (type !== 'region') {
+      if (location.search) {
+        const word = location.search.replace('?', '');
+        if (word === 'recent') setSortValue('최신순');
+        if (word === 'old') setSortValue('오래된순');
+        if (word === 'lowPrice') setSortValue('낮은 금액순');
+        if (word === 'highPrice') setSortValue('높은 금액순');
+        if (word === 'review') setSortValue('리뷰순');
+        if (word === 'rate') setSortValue('평점순');
+        if (word === 'comment') setSortValue('댓글순');
+        if (word === 'view') setSortValue('조회순');
+        if (word === 'like') setSortValue('좋아요순');
+        if (word === 'income') setSortValue('수익순');
+        if (word === 'business') setSortValue('거래순');
+      } else setSortValue('최신순');
+    } else {
+      setSortValue(location.state.region);
+    }
+  }, [location, type]);
 
   const toggleVisibility = () => {
     setShow(!show);

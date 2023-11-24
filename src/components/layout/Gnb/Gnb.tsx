@@ -80,7 +80,7 @@ const Gnb = () => {
             <div className="left-menu">
               <ul className="ll-menu">
                 <li onClick={toggleMenu}>
-                  <NavLink to="#null">전체 카테고리</NavLink>
+                  <NavLink to="">전체 카테고리</NavLink>
                 </li>
                 <li>
                   <NavLink to="/item/sale/all/1">재능 마켓</NavLink>
@@ -134,52 +134,84 @@ const Gnb = () => {
               {isLocalMenuVisible && (
                 <ul className="local-menu">
                   <li>
-                    <Link to="#null">서울특별시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '서울특별시' }}>
+                      서울특별시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">경기도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '경기도' }}>
+                      경기도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">대구광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '대구광역시' }}>
+                      대구광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">부산광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '부산광역시' }}>
+                      부산광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">인천광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '인천광역시' }}>
+                      인천광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">광주광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '광주광역시' }}>
+                      광주광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">대전광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '대전광역시' }}>
+                      대전광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">울산광역시</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '울산광역시' }}>
+                      울산광역시
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">강원도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '강원도' }}>
+                      강원도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">충청북도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '충청북도' }}>
+                      충청북도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">충청남도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '충청남도' }}>
+                      충청남도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">경상북도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '경상북도' }}>
+                      경상북도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">경상남도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '경상남도' }}>
+                      경상남도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">전라북도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '전라북도' }}>
+                      전라북도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">전라남도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '전라남도' }}>
+                      전라남도
+                    </Link>
                   </li>
                   <li>
-                    <Link to="#null">제주도</Link>
+                    <Link to="/item/sale/all/1" state={{ region: '제주도' }}>
+                      제주도
+                    </Link>
                   </li>
                 </ul>
               )}
