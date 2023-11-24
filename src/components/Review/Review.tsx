@@ -25,14 +25,14 @@ const Review: React.FC = () => {
       {
         breakpoint: 1900,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1600,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
         },
       },
@@ -46,7 +46,7 @@ const Review: React.FC = () => {
       {
         breakpoint: 780,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.5,
           slidesToScroll: 1,
         },
       },
