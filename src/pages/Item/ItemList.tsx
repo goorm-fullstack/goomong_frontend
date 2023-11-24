@@ -73,13 +73,14 @@ export default function ItemList() {
           orderBy: orderBy,
           direction: direction,
           page: Number(page) - 1,
+          categoryName: categoryName,
         },
       }).then((response) => {
         setItemList(response.data.data);
         setPageNum(response.data.pageNum);
       });
     }
-  }, [url, orderBy, direction, page, location, region]);
+  }, [url, orderBy, direction, page, location, region, categoryName]);
 
   useEffect(() => {
     if (typeof page !== undefined) {

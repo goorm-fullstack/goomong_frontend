@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams, Link } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
 import { blob } from 'stream/consumers';
 import Header from '../../components/layout/Header/Header';
@@ -142,6 +142,9 @@ export default function ItemDetail() {
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터
   const [isAskClick, setIsAskClick] = useState<number>(0); // 문의 제목 클릭 여부
   const [reviewImage, setReviewImage] = useState<string[]>(); // 리뷰 이미지
+  const [orderBy, setOrderBy] = useState<string>();
+  const [direction, setDirection] = useState<string>();
+  const location = useLocation();
 
   // 문의 데이터 가져오기
   useEffect(() => {
@@ -161,16 +164,28 @@ export default function ItemDetail() {
 
   // 리뷰 데이터 가져오기
   useEffect(() => {
-    Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}`)
-      .then((response) => {
-        const data = response.data;
-        setReviewData(data);
-        if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [reviewCurrentPage, id]);
+    if (orderBy && direction) {
+      Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}&orderBy=${orderBy}&direction=${direction}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [reviewCurrentPage, id, orderBy, direction]);
 
   // 문의 클릭 함수
   const clickAsk = (askId: number): void => {
@@ -194,6 +209,22 @@ export default function ItemDetail() {
 
     fetchImages();
   }, [reviewData]);
+
+  useEffect(() => {
+    if (location.search) {
+      const word = location.search.replace('?', '');
+      if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
+    }
+  }, [location]);
 
   return (
     <>
@@ -282,11 +313,11 @@ export default function ItemDetail() {
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
-                  고객 후기(<strong>★</strong> {item.rate} <span>{item.reviewList.length}건</span>)
+                  고객 후기(<strong>★</strong> {item.rate.toFixed(1)} <span>{item.reviewList.length}건</span>)
                 </h3>
                 <C.SortWrapper>
                   <p className="total">총 {commaNumber(item.reviewList.length)}개</p>
-                  <Sort type="order" />
+                  <Sort type="review" />
                 </C.SortWrapper>
                 <div className="review-wrapper">
                   {reviewData &&
