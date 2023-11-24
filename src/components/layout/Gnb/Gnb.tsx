@@ -133,86 +133,54 @@ const Gnb = () => {
             <li>
               {isLocalMenuVisible && (
                 <ul className="local-menu">
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '서울특별시' }}>
-                      서울특별시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '경기도' }}>
-                      경기도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '대구광역시' }}>
-                      대구광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '부산광역시' }}>
-                      부산광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '인천광역시' }}>
-                      인천광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '광주광역시' }}>
-                      광주광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '대전광역시' }}>
-                      대전광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '울산광역시' }}>
-                      울산광역시
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '강원도' }}>
-                      강원도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '충청북도' }}>
-                      충청북도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '충청남도' }}>
-                      충청남도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '경상북도' }}>
-                      경상북도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '경상남도' }}>
-                      경상남도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '전라북도' }}>
-                      전라북도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '전라남도' }}>
-                      전라남도
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/item/sale/all/1" state={{ region: '제주도' }}>
-                      제주도
-                    </Link>
-                  </li>
+                  <Link to="/item/sale/all/1" state={{ region: '서울특별시' }}>
+                    <li>서울특별시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경기도' }}>
+                    <li>경기도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '대구광역시' }}>
+                    <li>대구광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '부산광역시' }}>
+                    <li>부산광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '인천광역시' }}>
+                    <li>인천광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '광주광역시' }}>
+                    <li>광주광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '대전광역시' }}>
+                    <li>대전광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '울산광역시' }}>
+                    <li>울산광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '강원도' }}>
+                    <li>강원도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '충청북도' }}>
+                    <li>충청북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '충청남도' }}>
+                    <li>충청남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경상북도' }}>
+                    <li>경상북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경상남도' }}>
+                    <li>경상남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '전라북도' }}>
+                    <li>전라북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '전라남도' }}>
+                    <li>전라남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '제주도' }}>
+                    <li>제주도</li>
+                  </Link>
                 </ul>
               )}
             </li>
