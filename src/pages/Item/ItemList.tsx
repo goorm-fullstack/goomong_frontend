@@ -66,7 +66,6 @@ export default function ItemList() {
   const [pageNum, setPageNum] = useState(1);
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-  console.log(region);
   useEffect(() => {
     if (typeof page !== undefined && region === null) {
       Instance.get(`/api/item/list/${location}`, {
