@@ -68,22 +68,22 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          {location.pathname === '/mypage/convertseller' ? (
-            <Link to="/mypage/info">
-              <button type="button">구매자로 전환하기</button>
-            </Link>
-          ) : (
-            <Link to="/mypage/convertseller">
-              <button type="button">판매자로 전환하기</button>
-            </Link>
-          )}
+          <Link to="/mypage/info">
+            <button type="button">구매자로 전환하기</button>
+          </Link>
+          <Link to="/mypage/convertseller">
+            <button type="button">판매자로 전환하기</button>
+          </Link>
         </div>
         <div className="bottom">
           <div className="info">
             <div className="title">정보 관리</div>
             <ul>
-              <li className="info-set">
-                <Link to="/mypage/info">계정 설정</Link>
+              <li className="sale-info-set">
+                <Link to="/mypage/convertseller">판매자 계정 설정</Link>
+              </li>
+              <li className="buy-info-set">
+                <Link to="/mypage/info">구매자 계정 설정</Link>
               </li>
               <li className="change-pw">
                 <Link to="/mypage/changepw">비밀번호 변경</Link>
@@ -96,6 +96,9 @@ const MyPageLeft: React.FC = () => {
               <li className="payment-history">
                 <Link to="/mypage/payment">결제내역</Link>
               </li>
+              <li className="sale-history">
+                <Link to="/mypage/sales">판매 내역</Link>
+              </li>
               <li className="point">
                 <Link to="/mypage/point">포인트</Link>
               </li>
@@ -107,11 +110,13 @@ const MyPageLeft: React.FC = () => {
               <li className="board-history">
                 <Link to="/mypage/board">작성한 글</Link>
               </li>
-
               <li className="chatting-history">
                 <Link to="/mypage/chatting" state={{ id: 1 }}>
                   채팅 내역
                 </Link>
+              </li>
+              <li className="save-item">
+                <Link to="#">재능 등록</Link>
               </li>
             </ul>
           </div>

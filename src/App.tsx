@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import FindId from './pages/FindId/FindId';
 import FindPw from './pages/FindPw/FindPw';
+import NewPw from "./pages/FindPw/NewPw";
 import RegisterByGoomong from './pages/RegisterByGoomong/RegisterByGoomong';
 import Admin from './pages/Admin/Admin';
 import AdminMail from './pages/Admin/Mail/AdminMail';
@@ -40,6 +41,7 @@ import SellerDetail from './pages/SellerDetail/SellerDetail';
 import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
 import MyPageChangePw from './pages/MyPage/ChangePw/MyPageChangePw';
 import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
+import MyPageSales from './pages/MyPage/SaleHistory/MyPageSales';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
 import Chatting from './pages/Chatting/Chatting';
@@ -58,6 +60,7 @@ const App: React.FC = () => {
         <Route path="/register/step1" element={<Register />} />
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpw" element={<FindPw />} />
+        <Route path="/newpw" element={<NewPw />} />
         <Route path="/register/step2" element={<RegisterByGoomong />} />
         <Route path="/community/:category" element={<Community />} />
         <Route path="/community/detail/:id" element={<CommunityDetail />} />
@@ -100,6 +103,7 @@ const App: React.FC = () => {
         <Route path="/mypage/info" element={<MyPageInfo />} />
         <Route path="/mypage/changepw" element={<MyPageChangePw />} />
         <Route path="/mypage/payment" element={<MyPagePayment />} />
+        <Route path="/mypage/sales" element={<MyPageSales />} />
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />
         <Route path="/mypage/chatting" element={<MyPageChatting />} />

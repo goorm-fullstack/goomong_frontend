@@ -8,7 +8,7 @@ export const MyPageChangePwStyles = styled.div`
     display: flex;
     margin-top: 30px;
 
-    .info-set a {
+    .change-pw a {
       color: #558ff5;
     }
     .info-container {
