@@ -30,10 +30,27 @@ const settings = {
   dots: true,
 };
 
+interface Seller {
+  id: number;
+  memberId: string;
+  description: string;
+  income: number;
+  rate: number;
+  saleZipCode: number;
+  saleSido: string;
+  saleSimpleAddress: string;
+  saleDetailAddress: string;
+  imagePath: string;
+  transactionCnt: number;
+  reviewCnt: number;
+  regDate: Date;
+}
+
 export default function ItemDetail() {
   const [showDetail, setShowDetail] = useState<boolean>(true);
   const [showQna, setShowQna] = useState<boolean>(false);
   const [showReview, setshowReview] = useState<boolean>(false);
+  const [seller, setSeller] = useState<Seller>();
 
   const toggleVisibility = (type: string) => {
     setShowDetail(false);
@@ -54,28 +71,26 @@ export default function ItemDetail() {
   };
 
   const { id } = useParams();
-  const [item, setItem] = useState<Item>({
-    id: 1,
-    title: 'test',
-    member: null,
-    price: 1000,
-    description: 'test',
-    itemOptions: [],
-    thumbNailList: [],
-    itemCategories: [],
-    reviewList: [],
-    askList: [],
-    rate: 1.0,
-    status: 'SALE',
-  });
+  const [item, setItem] = useState<Item>();
   const navigator = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useLayoutEffect(() => {
     Instance.get(`/api/item/${id}`).then((response) => {
+      console.log(response.data);
       setItem(response.data);
     });
   }, []);
+
+  useLayoutEffect(() => {
+    if (item) {
+      const name = item.member.memberId;
+      Instance.get('/api/sellers/seller/' + name).then((response) => {
+        console.log(response);
+        setSeller(response.data);
+      });
+    }
+  }, [item]);
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
@@ -224,7 +239,7 @@ export default function ItemDetail() {
               </ul>
               <div className="contentbox" data-show={showDetail}>
                 {/* 상품 상세정보 */}
-                {item.description}
+                {item?.description}
               </div>
               <div className="contentbox qna" data-show={showQna}>
                 <h3>문의 답변</h3>
@@ -282,10 +297,10 @@ export default function ItemDetail() {
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
-                  고객 후기(<strong>★</strong> {item.rate} <span>{item.reviewList.length}건</span>)
+                  고객 후기(<strong>★</strong> {item?.rate} <span>{item?.reviewList.length}건</span>)
                 </h3>
                 <C.SortWrapper>
-                  <p className="total">총 {commaNumber(item.reviewList.length)}개</p>
+                  <p className="total">총 {item ? commaNumber(item?.reviewList.length) : 0}개</p>
                   <Sort type="order" />
                 </C.SortWrapper>
                 <div className="review-wrapper">
@@ -312,20 +327,19 @@ export default function ItemDetail() {
               {/* 상품 정보 */}
               <div>
                 <p className="category">
-                  {item.itemCategories ? item.itemCategories.map((category, index) => <span key={index}>{category.title} </span>) : <></>}
-                  <span>지역</span>
+                  {item?.itemCategories ? item?.itemCategories.map((category, index) => <span key={index}>{category.title} </span>) : <></>}
                 </p>
-                <h2>{item.title}</h2>
+                <h2>{item?.title}</h2>
                 {/* 짧은 설명글이 엔티티에 없습니다. 혹시 모르니 일단 주석 처리했습니다. <p className="summary">상품 설명글 짧은글</p>*/}
                 <table>
                   {/** 상품 옵션 등 기타 정보 */}
                   <tbody>
                     {/* loop start */}
-                    {item.itemOptions ? (
-                      item.itemOptions.map((option, index) => (
+                    {item?.itemOptions ? (
+                      item?.itemOptions.map((option, index) => (
                         <tr key={index}>
                           <th>{option.option}</th>
-                          <td>{commaNumber(option.price)}</td>
+                          <td>{commaNumber(option.price)}원</td>
                         </tr>
                       ))
                     ) : (
@@ -334,7 +348,7 @@ export default function ItemDetail() {
                   </tbody>
                 </table>
                 <p className="price">
-                  <strong>{commaNumber(item.price)}</strong> 원
+                  <strong>{item ? commaNumber(item.price) : 0}</strong> 원
                 </p>
               </div>
               <button type="button" onClick={handleBuyClick} className="btn-order">
@@ -342,7 +356,7 @@ export default function ItemDetail() {
               </button>
             </div>
             <div className="seller-detail">
-              <p className="seller-name">판매자명</p>
+              <p className="seller-name">{seller?.memberId}</p>
               <div className="thumd">{/** 판매자 프로필 썸네일 */}</div>
               <p className="seller-category">
                 <svg viewBox="0 0 24 24">
@@ -360,11 +374,11 @@ export default function ItemDetail() {
               <ul className="summary">
                 <li>
                   <p className="title">총 거래</p>
-                  <p>555건</p>
+                  <p>{seller?.transactionCnt}건</p>
                 </li>
                 <li>
                   <p className="title">총 리뷰</p>
-                  <p>555건</p>
+                  <p>{seller?.reviewCnt}건</p>
                 </li>
                 <li>
                   <p className="title">만족도</p>
@@ -383,7 +397,7 @@ export default function ItemDetail() {
                 )}
               </div>
               <h4>소개</h4>
-              <p className="seller-summary">판매자 소개글</p>
+              <p className="seller-summary">{seller?.description}</p>
               <h4>위치</h4>
               <div className="map">{/* 판매자 위치 지도 */}</div>
             </div>

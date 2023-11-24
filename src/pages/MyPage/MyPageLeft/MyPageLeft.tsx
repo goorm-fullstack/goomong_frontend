@@ -19,6 +19,7 @@ const MyPageLeft: React.FC = () => {
   const id: number = cookies.get('id');
   const [member, setMember] = useState<string>('');
   const location = useLocation();
+  const [roomId, setRoomId] = useState(0);
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -36,6 +37,16 @@ const MyPageLeft: React.FC = () => {
       .catch((e) => {
         console.log(e);
       });
+
+    Instance.get('/api/chat/' + id).then((response) => {
+      const data = response.data;
+      console.log(data);
+      if (data.length !== 0) {
+        if (data[0].roomId) {
+          setRoomId(data[0].roomId);
+        }
+      }
+    });
   }, [id]);
 
   const defaultUser: UserInfo = {
@@ -111,7 +122,7 @@ const MyPageLeft: React.FC = () => {
                 <Link to="/mypage/board">작성한 글</Link>
               </li>
               <li className="chatting-history">
-                <Link to="/mypage/chatting" state={{ id: 1 }}>
+                <Link to="/mypage/chatting" state={{ id: roomId }}>
                   채팅 내역
                 </Link>
               </li>
