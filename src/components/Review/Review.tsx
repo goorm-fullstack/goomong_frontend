@@ -14,7 +14,7 @@ const Review: React.FC = () => {
 
   const settings = {
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,
