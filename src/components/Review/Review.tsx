@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import Slide from '../Slide/Slide';
 import ReviewModel from './ReviewModel/ReviewModel';
 import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
@@ -15,7 +14,7 @@ const Review: React.FC = () => {
 
   const settings = {
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,
@@ -26,14 +25,14 @@ const Review: React.FC = () => {
       {
         breakpoint: 1900,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1600,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
         },
       },
@@ -47,7 +46,7 @@ const Review: React.FC = () => {
       {
         breakpoint: 780,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.5,
           slidesToScroll: 1,
         },
       },
