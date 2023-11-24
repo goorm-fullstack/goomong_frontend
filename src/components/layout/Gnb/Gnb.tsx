@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { ItemCategoryData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
+import { NoItem } from '../../../Style/CommonStyles';
 
 const Gnb = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -185,11 +186,12 @@ const Gnb = () => {
             </li>
             <li>
               <ul className="service-menu">
-                {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
+                {itemCategoryData?.length === 0 && isServiceMenuVisible && <NoItem>등록된 카테고리가 없습니다.</NoItem>}
                 {itemCategoryData &&
+                  isServiceMenuVisible &&
                   itemCategoryData.map((category, index) => (
                     <li key={index}>
-                      <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
+                      <Link to={`/item/sale/${category.title}/1`}>{category.title}</Link>
                     </li>
                   ))}
               </ul>
