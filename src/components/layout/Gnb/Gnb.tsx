@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { ItemCategoryData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
+import { NoItem } from '../../../Style/CommonStyles';
 
 const Gnb = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +80,7 @@ const Gnb = () => {
             <div className="left-menu">
               <ul className="ll-menu">
                 <li onClick={toggleMenu}>
-                  <NavLink to="#null">전체 카테고리</NavLink>
+                  <NavLink to="">전체 카테고리</NavLink>
                 </li>
                 <li>
                   <NavLink to="/item/sale/all/1">재능 마켓</NavLink>
@@ -132,64 +133,65 @@ const Gnb = () => {
             <li>
               {isLocalMenuVisible && (
                 <ul className="local-menu">
-                  <li>
-                    <Link to="#null">서울특별시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">경기도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">대구광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">부산광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">인천광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">광주광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">대전광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">울산광역시</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">강원도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">충청북도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">충청남도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">경상북도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">경상남도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">전라북도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">전라남도</Link>
-                  </li>
-                  <li>
-                    <Link to="#null">제주도</Link>
-                  </li>
+                  <Link to="/item/sale/all/1" state={{ region: '서울특별시' }}>
+                    <li>서울특별시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경기도' }}>
+                    <li>경기도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '대구광역시' }}>
+                    <li>대구광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '부산광역시' }}>
+                    <li>부산광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '인천광역시' }}>
+                    <li>인천광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '광주광역시' }}>
+                    <li>광주광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '대전광역시' }}>
+                    <li>대전광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '울산광역시' }}>
+                    <li>울산광역시</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '강원도' }}>
+                    <li>강원도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '충청북도' }}>
+                    <li>충청북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '충청남도' }}>
+                    <li>충청남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경상북도' }}>
+                    <li>경상북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '경상남도' }}>
+                    <li>경상남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '전라북도' }}>
+                    <li>전라북도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '전라남도' }}>
+                    <li>전라남도</li>
+                  </Link>
+                  <Link to="/item/sale/all/1" state={{ region: '제주도' }}>
+                    <li>제주도</li>
+                  </Link>
                 </ul>
               )}
             </li>
             <li>
               <ul className="service-menu">
-                {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
+                {itemCategoryData?.length === 0 && isServiceMenuVisible && <NoItem>등록된 카테고리가 없습니다.</NoItem>}
                 {itemCategoryData &&
+                  isServiceMenuVisible &&
                   itemCategoryData.map((category, index) => (
                     <li key={index}>
-                      <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
+                      <Link to={`/item/sale/${category.title}/1`}>{category.title}</Link>
                     </li>
                   ))}
               </ul>

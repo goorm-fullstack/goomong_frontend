@@ -9,6 +9,7 @@ import Sort from '../../components/Sort/Sort';
 import Instance from '../../util/API/axiosInstance';
 import { SellerData } from '../../interface/Interface';
 import { getImageFile } from '../../util/func/functions';
+import { NoItem } from '../../Style/CommonStyles';
 
 const SellerAll: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -16,89 +17,6 @@ const SellerAll: React.FC = () => {
   const handleSearchTerm = (e: React.FormEvent) => {
     e.preventDefault();
   };
-
-  const sellerItems = [
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-    {
-      sellerName: '판매자명',
-      b_category: '재능 카테고리',
-      p_category: '서울 전채',
-      content: '판매자 소개글',
-      totalMoney: 255220000,
-      totalReview: 555,
-      totalTransaction: 555,
-      star: 4.9,
-    },
-  ];
 
   //페이징처리
   const [currentPage, setCurrentPage] = useState(0);
@@ -109,11 +27,12 @@ const SellerAll: React.FC = () => {
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지
   const itemsPerPage = 7; // 페이지당 표시할 아이템 수
   const location = useLocation();
+  const region = location.state ? location.state.region : null;
 
   // 판매자 데이터 가져오기
   useEffect(() => {
     if (orderBy && direction) {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`)
         .then((response) => {
           const data = response.data;
           setSellerData(data);
@@ -123,7 +42,7 @@ const SellerAll: React.FC = () => {
           console.error(error);
         });
     } else {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}`)
+      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
         .then((response) => {
           const data = response.data;
           setSellerData(data);
@@ -133,7 +52,7 @@ const SellerAll: React.FC = () => {
           console.error(error);
         });
     }
-  }, [currentPage, orderBy, direction]);
+  }, [currentPage, orderBy, direction, region]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -181,8 +100,7 @@ const SellerAll: React.FC = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber - 1);
   };
-  console.log(orderBy);
-  console.log(direction);
+
   return (
     <S.SellerAllStyles>
       <Header />
@@ -210,12 +128,7 @@ const SellerAll: React.FC = () => {
         </div>
         <div className="align-menu">
           <div className="left">
-            <div className="left-local">
-              지역 선택
-              <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-              </svg>
-            </div>
+            <Sort type="region" />
           </div>
           <div className="right">
             <Sort type="seller" />
@@ -242,6 +155,7 @@ const SellerAll: React.FC = () => {
               <button type="button">내 주변 판매자 찾기</button>
             </Link>
           </div>
+          {sellerData?.length === 0 && <NoItem>등록된 판매자가 없습니다.</NoItem>}
           {sellerData &&
             sellerData.map((item, index) => (
               <SellerBrandModel

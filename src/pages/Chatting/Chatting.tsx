@@ -8,7 +8,8 @@ import { Stomp, CompatClient } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useLocation } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
-import { Cookies } from 'react-cookie';
+import { getCookie } from '../../util/func/functions';
+import { Message } from '../../interface/Interface';
 
 interface Opponent {
   imageUrl?: string;
@@ -23,14 +24,13 @@ interface UIModel {
   opponent: Opponent;
   bigDate: string;
   nowDate: string;
-  content: string[];
+  content: Message[];
 }
+
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
   const { state } = location;
   const [roomId, setRoomId] = useState(0);
-  const cookies = new Cookies();
-  const memberId = cookies.get('id');
 
   const chattingUIData: UIModel = {
     opponent: {
@@ -42,13 +42,14 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     },
     bigDate: '2023.11.14',
     nowDate: '11월 14일 10:10',
-    content: ['첫 번째 메시지', '두 번째 메시지', '세 번째 메시지'],
+    content: [],
   };
 
   const client = useRef<CompatClient>();
-  const [messages, setMessages] = useState<string[]>([]);
-  const [content, setContent] = useState<string[]>([]);
+  const [content, setContent] = useState<Message[]>([]);
+  const memberId = getCookie('id');
   const [didMount, setDidMount] = useState<boolean>(false);
+  const [selectRoomId, setSelectRoomId] = useState(0);
 
   useEffect(() => {
     console.log('mount');
@@ -63,16 +64,18 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     if (didMount) {
       if (state && memberId) {
         const { itemId } = state;
+        const { id } = state;
         if (itemId) {
-          const data = {
+          let data = {
             memberId: memberId,
             itemId: Number(itemId),
           };
-          console.log('api호출');
           Instance.post('/api/chat', data).then((response) => {
-            console.log(response.data);
             setRoomId(response.data.roomId);
           });
+        }
+        if (id) {
+          setRoomId(id);
         }
       }
     }
@@ -83,6 +86,13 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     client.current = Stomp.over(socket);
 
     client.current.connect({}, connectCallback, errorCallback);
+    client.current.activate();
+  };
+
+  const handlePropsState = (Id: number) => {
+    console.log('call');
+    setSelectRoomId(Id);
+    console.log(selectRoomId);
   };
 
   const connectCallback = () => {
@@ -91,10 +101,21 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       Instance.get('/api/chat/room/' + roomId).then((response) => {
         const data = response.data;
         for (let i = 0; i < data.length; i++) {
-          setContent((p) => [...p, data[i].message]);
+          if (data[i].memberId === Number(memberId)) {
+            let message = {
+              message: data[i].message,
+              isYour: true,
+            };
+            setContent((p) => [...p, message]);
+          } else {
+            let message = {
+              message: data[i].message,
+              isYour: false,
+            };
+            setContent((p) => [...p, message]);
+          }
         }
       });
-
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
@@ -112,7 +133,16 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const closeEventCallback = () => {};
 
   const onMessageReceived = (message: any) => {
-    setMessages((prevMessage) => [...prevMessage, JSON.parse(message.body)]);
+    const data = JSON.parse(message.body);
+    console.log(typeof memberId);
+    if (data.memberId !== Number(memberId)) {
+      let new_message = {
+        message: data.message,
+        isYour: false,
+      };
+      console.log('calling');
+      setContent((p) => [...p, new_message]);
+    }
   };
 
   const disconnect = () => {
@@ -131,7 +161,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
       let jsonMessage = JSON.stringify(messageType);
       client.current.send(`/pub/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
-      setContent((p) => [...p, message]);
+      setContent((p) => [...p, { message: message, isYour: true }]);
     }
   };
 
@@ -139,15 +169,17 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     <S.ChattingStyles>
       {showLayout && <Header />}
       <div className="chatting-container">
-        <ChattingRoom />
-        {/* <ChattingUI
+        <ChattingRoom setRoomId={handlePropsState} />
+        <ChattingUI
           opponent={chattingUIData.opponent}
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
           content={content}
+          userId={Number(memberId)}
           sendMessage={sendMessage}
-        /> */}
+          roomId={selectRoomId}
+        />
       </div>
       {showLayout && <Footer />}
     </S.ChattingStyles>
