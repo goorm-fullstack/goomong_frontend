@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 
 import * as S from './MyPageLeftStyles';
 import { Link } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import Instance from '../../../util/API/axiosInstance';
 import { useLocation } from 'react-router-dom';
+import {Image} from "../../../interface/Interface";
 
 interface UserInfo {
   imageUrl?: string;
@@ -13,11 +14,18 @@ interface UserInfo {
   userLocal: string;
 }
 
+interface MemberData {
+  memberName: string;
+  memberEmail: string;
+  saleSido: string;
+  profileImages: Array<Image>;
+}
+
 const MyPageLeft: React.FC = () => {
   const cookies = new Cookies();
   const isLogin: string = cookies.get('memberId');
   const id: number = cookies.get('id');
-  const [member, setMember] = useState<string>('');
+  const [member, setMember] = useState<MemberData | null>(null);
   const location = useLocation();
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
@@ -36,13 +44,66 @@ const MyPageLeft: React.FC = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [id]);
+  }, []);
 
-  const defaultUser: UserInfo = {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (imageUrls.length > 0) {
+      setDefaultUser({
+        ...defaultUser,
+        imageUrl: imageUrls[0],
+      });
+    }
+  }, [imageUrls]);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (member) {
+        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [member]);
+
+
+  //이미지 불러오기
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
+
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const [defaultUser, setDefaultUser] = useState<UserInfo>({
     userName: '별명',
     userEmail: 'goomong@goomong.com',
     userLocal: '서울',
-  };
+  });
+
+  useEffect(() => {
+    if (member) {
+      setDefaultUser({
+        userName: member.memberName,
+        userEmail: member.memberEmail,
+        userLocal: member.saleSido,
+      });
+    }
+  }, [member]);
 
   useEffect(() => {
     if (isLogin == null) {

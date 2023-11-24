@@ -32,7 +32,6 @@ interface Member {
 
 const MyPageInfo: React.FC = () => {
   const cookies = new Cookies();
-  const [memberId, setMemberId] = useState<string>("");
   const [memberNickname, setMemberNickname] = useState<string>("");
   const [buyZipCode, setBuyZipCode] = useState<string>("");
   const [buySido, setBuySido] = useState<string>("");
@@ -43,10 +42,7 @@ const MyPageInfo: React.FC = () => {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const id = cookies.get('id');
-
-  useEffect(() => {
-    setMemberId(cookies.get('memberId'));
-  }, []);
+  const memberId = cookies.get('memberId');
 
   useEffect(() => {
     Instance.get(`/api/member/id/${id}`)
@@ -72,7 +68,6 @@ const MyPageInfo: React.FC = () => {
     };
 
     fetchImages();
-    console.log(imageUrls[0]);
     setSelectedImage(imageUrls[0]);
   }, [member]);
 
@@ -261,7 +256,6 @@ const MyPageInfo: React.FC = () => {
                         required
                         type="memberId"
                         value={memberId}
-                        onChange={(e) => setMemberId(e.target.value)}
                         readOnly
                     />
                   </div>
