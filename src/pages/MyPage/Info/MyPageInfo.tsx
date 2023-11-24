@@ -8,6 +8,7 @@ import { Cookies } from "react-cookie";
 import { MouseEvent } from "react";
 import Instance from "../../../util/API/axiosInstance";
 import {Image} from "../../../interface/Interface";
+import {Link} from "react-router-dom";
 
 interface UserInfo {
   imageUrl?: string;

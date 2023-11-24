@@ -7,7 +7,9 @@ export const ConvertSellerStyles = styled.div`
     margin: 0 auto;
     display: flex;
     margin-top: 30px;
-
+    .sale-info-set a {
+      color: #558ff5;
+    }
     .info-container {
       width: 100%;
       .title {

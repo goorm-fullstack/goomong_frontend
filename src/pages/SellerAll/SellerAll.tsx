@@ -9,6 +9,7 @@ import Sort from '../../components/Sort/Sort';
 import Instance from '../../util/API/axiosInstance';
 import { SellerData } from '../../interface/Interface';
 import { getImageFile } from '../../util/func/functions';
+import { NoItem } from '../../Style/CommonStyles';
 
 const SellerAll: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -181,8 +182,7 @@ const SellerAll: React.FC = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber - 1);
   };
-  console.log(orderBy);
-  console.log(direction);
+
   return (
     <S.SellerAllStyles>
       <Header />
@@ -242,6 +242,7 @@ const SellerAll: React.FC = () => {
               <button type="button">내 주변 판매자 찾기</button>
             </Link>
           </div>
+          {sellerData?.length === 0 && <NoItem>등록된 판매자가 없습니다.</NoItem>}
           {sellerData &&
             sellerData.map((item, index) => (
               <SellerBrandModel
