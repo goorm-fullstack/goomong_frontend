@@ -5,6 +5,11 @@ export interface Image {
   path: string;
 }
 
+export interface Message {
+  message: string;
+  isYour: boolean;
+}
+
 export interface Files {
   id: number;
   fileName: string;

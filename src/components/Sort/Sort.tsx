@@ -3,6 +3,7 @@ import * as S from './Style';
 import Instance from '../../util/API/axiosInstance';
 import { ItemCategoryData } from '../../interface/Interface';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface SortProp {
   type: string;
@@ -85,7 +86,8 @@ const Sort: React.FC<SortProp> = ({ type }) => {
         if (word === 'business') setSortValue('거래순');
       } else setSortValue('최신순');
     } else {
-      setSortValue(location.state.region);
+      if (location.state) setSortValue(location.state.region);
+      else setSortValue('지역 선택');
     }
   }, [location, type]);
 
@@ -110,15 +112,17 @@ const Sort: React.FC<SortProp> = ({ type }) => {
   const onChangeSortType = (index: number) => {
     setSortValue(nowSortType[index]);
     setShow(!show);
-    window.location.href = `${location.pathname}?${sortValueToEnglish(nowSortType[index])}`;
   };
 
   const onChangeItemCategory = (name: string) => {
     setSortValue(name);
     setShow(!show);
-    window.location.href = `${location.pathname}?${sortValueToEnglish(name)}`;
   };
 
+  const onChangeRegion = () => {
+    setShow(!show);
+  };
+  console.log(location.state);
   return (
     <S.Sort>
       <div className="header-wrap" onClick={toggleVisibility}>
@@ -128,16 +132,34 @@ const Sort: React.FC<SortProp> = ({ type }) => {
         </svg>
       </div>
       <ul className="bottom-wrap" data-visible={show}>
+        {type === 'region' &&
+          nowSortType.map((item, index) => (
+            <Link
+              key={index}
+              to={location.search ? location.pathname + location.search : location.pathname}
+              state={{ region: item }}
+              onClick={onChangeRegion}>
+              <li className="item">{item}</li>
+            </Link>
+          ))}
         {type !== 'itemCategory'
           ? nowSortType.map((item, index) => (
-              <li className="item" key={index} onClick={() => onChangeSortType(index)}>
-                {item}
-              </li>
+              <Link
+                key={index}
+                to={`${location.pathname}?${sortValueToEnglish(nowSortType[index])}`}
+                state={location.state && { region: location.state.region }}
+                onClick={() => onChangeSortType(index)}>
+                <li className="item">{item}</li>
+              </Link>
             ))
           : itemCategoryData?.map((item, index) => (
-              <li className="item" key={index} onClick={() => onChangeItemCategory(item.title)}>
-                {item.title}
-              </li>
+              <Link
+                key={index}
+                to={`${location.pathname}?${sortValueToEnglish(item.title)}`}
+                state={location.state && { region: location.state.region }}
+                onClick={() => onChangeItemCategory(item.title)}>
+                <li className="item">{item.title}</li>
+              </Link>
             ))}
       </ul>
     </S.Sort>

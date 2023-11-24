@@ -55,7 +55,7 @@ const categories = [
 
 export default function ItemList() {
   const url = useLocation();
-  const region = url.state ? url.state.region : null;
+  const region = url.state && url.state.region;
   const location = useParams().type;
   const categoryName = useParams().category;
   const [itemList, setItemList] = useState<Item[]>();
@@ -66,11 +66,9 @@ export default function ItemList() {
   const [pageNum, setPageNum] = useState(1);
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-  console.log('state: ' + region);
-  console.log(page);
-  console.log(categoryName);
+  console.log(region);
   useEffect(() => {
-    if (typeof page !== undefined) {
+    if (typeof page !== undefined && region === null) {
       Instance.get(`/api/item/list/${location}`, {
         params: {
           orderBy: orderBy,
@@ -82,11 +80,10 @@ export default function ItemList() {
         setPageNum(response.data.pageNum);
       });
     }
-  }, [url, orderBy, direction, page, location]);
+  }, [url, orderBy, direction, page, location, region]);
 
   useEffect(() => {
     if (typeof page !== undefined) {
-      console.log('api호출');
       if (categoryName === 'all') {
         Instance.get(`/api/item/list/${location}`, {
           params: {
@@ -100,7 +97,6 @@ export default function ItemList() {
           if (response.data.length > 0) setPageNum(response.data[0].pageNum);
         });
       } else {
-        console.log('카테고리 api 호출');
         Instance.get(`/api/item/list/${location}`, {
           params: {
             orderBy: orderBy,
@@ -184,14 +180,6 @@ export default function ItemList() {
     fetchImages();
   }, [itemList]);
 
-  // const clickCategory = (category: string): void => {
-  //   if (category === '전체') {
-  //     window.location.href = `/item/${location}/all/1`;
-  //     return;
-  //   }
-  //   window.location.href = `/item/${location}/${category}/1`;
-  // };
-
   return (
     <>
       <Header />
@@ -199,7 +187,10 @@ export default function ItemList() {
         <C.PageTitle>{TitleData[location as LocationType]}</C.PageTitle>
         <C.SortWrapper>
           <p className="total">총 {itemList && commaNumber(itemList.length)}개</p>
-          <Sort type="order" />
+          <div className="sort-right">
+            <Sort type="region" />
+            <Sort type="order" />
+          </div>
         </C.SortWrapper>
         <S.ItemList>
           {/* 카테고리 */}
@@ -207,24 +198,21 @@ export default function ItemList() {
             <h3>전체 카테고리</h3>
             <ul>
               {categories.map((category, index) => (
-                <li key={index}>
-                  <label htmlFor={category.title}>
-                    <input
-                      type="checkbox"
-                      id={category.title}
-                      checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
-                    />
-                    {category.title === '전체' ? (
-                      <Link to={`/item/${location}/all/1`} state={url.state ? url.state : null}>
-                        {category.title}
-                      </Link>
-                    ) : (
-                      <Link to={`/item/${location}/${category.title}/1`} state={url.state ? url.state : null}>
-                        {category.title}
-                      </Link>
-                    )}
-                  </label>
-                </li>
+                <Link
+                  key={index}
+                  to={category.title === '전체' ? `/item/${location}/all/1` : `/item/${location}/${category.title}/1`}
+                  state={region && { region: region }}>
+                  <li>
+                    <label htmlFor={category.title}>
+                      <input
+                        type="checkbox"
+                        id={category.title}
+                        checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
+                      />
+                      {category.title}
+                    </label>
+                  </li>
+                </Link>
               ))}
             </ul>
             {/* 지역도 추가하실거면 이쯤에 추가하시면 됩니다. sort로 넣어도 되고요. */}

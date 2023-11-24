@@ -29,4 +29,8 @@ export const SortWrapper = styled.div`
     font-size: 14px;
     color: var(--black);
   }
+  .sort-right {
+    display: flex;
+    gap: 10px;
+  }
 `;
