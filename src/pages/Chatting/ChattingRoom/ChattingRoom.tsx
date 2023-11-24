@@ -12,21 +12,27 @@ interface RoomModel {
   itemDto: any;
   lastDate: Date;
 }
-const ChattingRoom: React.FC = () => {
+
+interface Props {
+  setRoomId: (number : number) => void;
+}
+
+const ChattingRoom: React.FC<Props> = ({ setRoomId }) => {
   const [roomListData, setRoomListData] = useState<RoomModel[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const memberId = getCookie('id');
 
   useEffect(() => {
     Instance.get('/api/chat/' + memberId).then((response) => {
-      console.log(response.data);
       setRoomListData(response.data);
     });
   }, []);
 
   const handleRoomClick = (id: number) => {
     setSelectedId(id);
+    setRoomId(id);
   };
+
   return (
     <S.ChattingRoomStyles>
       <div className="chatting-room-container">

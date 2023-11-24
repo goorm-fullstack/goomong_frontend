@@ -46,10 +46,10 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   };
 
   const client = useRef<CompatClient>();
-  const [messages, setMessages] = useState<string[]>([]);
   const [content, setContent] = useState<Message[]>([]);
   const memberId = getCookie('id');
   const [didMount, setDidMount] = useState<boolean>(false);
+  const [selectRoomId, setSelectRoomId] = useState(0);
 
   useEffect(() => {
     console.log('mount');
@@ -64,16 +64,18 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     if (didMount) {
       if (state && memberId) {
         const { itemId } = state;
+        const { id } = state;
         if (itemId) {
           let data = {
             memberId: memberId,
             itemId: Number(itemId),
           };
-          console.log('api호출');
           Instance.post('/api/chat', data).then((response) => {
-            console.log(response.data);
             setRoomId(response.data.roomId);
           });
+        }
+        if (id) {
+          setRoomId(id);
         }
       }
     }
@@ -87,13 +89,19 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     client.current.activate();
   };
 
+  const handlePropsState = (Id: number) => {
+    console.log('call');
+    setSelectRoomId(Id);
+    console.log(selectRoomId);
+  };
+
   const connectCallback = () => {
     if (client.current && roomId !== 0) {
       // 이전 채팅 기록 불러오기
       Instance.get('/api/chat/room/' + roomId).then((response) => {
         const data = response.data;
         for (let i = 0; i < data.length; i++) {
-          if (data[i].memberId === memberId) {
+          if (data[i].memberId === Number(memberId)) {
             let message = {
               message: data[i].message,
               isYour: true,
@@ -126,14 +134,14 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const onMessageReceived = (message: any) => {
     const data = JSON.parse(message.body);
-    console.log(data);
-
-    if (data.memberID !== memberId) {
-      let message = {
+    console.log(typeof memberId);
+    if (data.memberId !== Number(memberId)) {
+      let new_message = {
         message: data.message,
         isYour: false,
       };
-      setContent((p) => [...p, message]);
+      console.log('calling');
+      setContent((p) => [...p, new_message]);
     }
   };
 
@@ -161,15 +169,17 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
     <S.ChattingStyles>
       {showLayout && <Header />}
       <div className="chatting-container">
-        <ChattingRoom />
-        {/* <ChattingUI
+        <ChattingRoom setRoomId={handlePropsState} />
+        <ChattingUI
           opponent={chattingUIData.opponent}
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
           content={content}
+          userId={Number(memberId)}
           sendMessage={sendMessage}
-        /> */}
+          roomId={selectRoomId}
+        />
       </div>
       {showLayout && <Footer />}
     </S.ChattingStyles>
