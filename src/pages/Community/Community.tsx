@@ -34,9 +34,10 @@ const Community: React.FC = () => {
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
   const [hotCommunityData, setHotCommunityData] = useState<PostData[]>(); // hot 커뮤니티 게시글 데이터
   const category = useParams().category;
+  const region = location.state && location.state.region;
   const itemsPerPage = 5; // 페이지당 표시할 아이템 수
   const cookies = new Cookies();
-
+  console.log(region);
   // 페이지 변경 함수
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber - 1);
@@ -66,60 +67,128 @@ const Community: React.FC = () => {
 
   // 커뮤니티 데이터 가져오기
   useEffect(() => {
-    if (category === 'all') {
-      if (orderBy && direction) {
-        Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
-          .then((response) => {
-            const data = response.data;
-            setCommunityData(data);
-            if (data.length > 0) {
-              setTotalPage(data[0].pageInfo.totalPage);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    if (region) {
+      if (category === 'all') {
+        if (orderBy && direction) {
+          console.log('호출 1');
+          Instance.get(
+            `/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`
+          )
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.log('호출 2');
+          Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       } else {
-        Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
-          .then((response) => {
-            const data = response.data;
-            setCommunityData(data);
-            if (data.length > 0) {
-              setTotalPage(data[0].pageInfo.totalPage);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        if (orderBy && direction) {
+          console.log('호출 3');
+          Instance.get(
+            `/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`
+          )
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.log('호출 4');
+          Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       }
     } else {
-      if (orderBy && direction) {
-        Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
-          .then((response) => {
-            const data = response.data;
-            setCommunityData(data);
-            if (data.length > 0) {
-              setTotalPage(data[0].pageInfo.totalPage);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      if (category === 'all') {
+        if (orderBy && direction) {
+          console.log('호출 1');
+          Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.log('호출 2');
+          Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       } else {
-        Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}`)
-          .then((response) => {
-            const data = response.data;
-            setCommunityData(data);
-            if (data.length > 0) {
-              setTotalPage(data[0].pageInfo.totalPage);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        if (orderBy && direction) {
+          console.log('호출 3');
+          Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.log('호출 4');
+          Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}`)
+            .then((response) => {
+              const data = response.data;
+              setCommunityData(data);
+              if (data.length > 0) {
+                setTotalPage(data[0].pageInfo.totalPage);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       }
     }
-  }, [currentPage, category, orderBy, direction, location]);
+  }, [currentPage, category, orderBy, direction, location, region]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
