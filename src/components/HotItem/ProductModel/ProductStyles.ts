@@ -5,7 +5,6 @@ export const Product = styled.div`
     width: 264px;
     height: 316px;
     margin-top: 30px;
-    margin-left: 48px;
   }
   .image-container {
     width: 100%;

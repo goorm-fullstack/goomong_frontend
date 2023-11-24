@@ -209,3 +209,46 @@ export interface ItemCategoryData {
   parent: ItemCategoryData;
   childCategory: ItemCategoryData[];
 }
+export interface Top5Ranking {
+  memberId: number;
+  memberName: string;
+  profileImages: Image[];
+  count: string;
+  category: string;
+  imageUrl: string | undefined;
+}
+
+export interface RankingsState {
+  ordered: Top5Ranking[];
+  review: Top5Ranking[];
+  sales: Top5Ranking[];
+}
+
+export interface FindMember {
+  memberId: number;
+  memberName: string;
+  profileImages: Image[];
+  category: string;
+  transaction: number;
+  totalSales: number;
+  reviewCount: number;
+  totalRating: number;
+  imageUrl: string | undefined;
+}
+
+export interface SellerData {
+  id: number;
+  memberId: string;
+  description: string;
+  income: number;
+  rate: number;
+  saleZipCode: number;
+  saleSido: string;
+  saleSimpleAddress: string;
+  saleDetailAddress: string;
+  imagePath: string;
+  transactionCnt: number;
+  reviewCnt: number;
+  regDate: Date;
+  pageInfo: PageInfoData;
+}

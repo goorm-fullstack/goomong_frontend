@@ -136,7 +136,6 @@ export const ChattingUIStyles = styled.div`
     .user {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
     }
 
     .user-content {
@@ -149,7 +148,12 @@ export const ChattingUIStyles = styled.div`
       font-weight: 400;
       letter-spacing: -0.04em;
       margin-bottom: 18px;
+      align-items: flex-end;
     }
+    .other-content {
+      align-items: flex-start;
+    }
+
     form {
       width: 100%;
       height: 100px;

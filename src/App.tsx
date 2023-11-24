@@ -38,7 +38,7 @@ import AdminQnaList from './pages/Admin/qna/AdminQnaList';
 import AdminQnaWrite from './pages/Admin/qna/AdminQnaWrite';
 import SellerDetail from './pages/SellerDetail/SellerDetail';
 import MyPageInfo from './pages/MyPage/Info/MyPageInfo';
-import MyPageChangePw from "./pages/MyPage/ChangePw/MyPageChangePw";
+import MyPageChangePw from './pages/MyPage/ChangePw/MyPageChangePw';
 import MyPagePayment from './pages/MyPage/PaymentHistory/MyPagePayment';
 import MyPageBoard from './pages/MyPage/BoardHistory/MyPageBoard';
 import MyPagePoint from './pages/MyPage/Point/MyPagePoint';
@@ -77,7 +77,7 @@ const App: React.FC = () => {
         <Route path="/seller/rank" element={<SellerRank />} />
         <Route path="/seller/map" element={<SellerMap />} />
         <Route path="/seller/all" element={<SellerAll />} />
-        <Route path="/seller/detail" element={<SellerDetail />} />
+        <Route path="/seller/detail/:sellerid" element={<SellerDetail />} />
         <Route path="/write/:type" element={<Write />} />
         <Route path="/hire" element={<Hire />} />
         <Route path="/chatting" element={<Chatting showLayout={true} />} />

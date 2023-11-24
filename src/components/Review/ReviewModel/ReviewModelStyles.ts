@@ -8,7 +8,6 @@ export const ReviewModel = styled.div`
     border: 1px solid #e9ebed;
     border-radius: 5px;
     padding: 25px 40px 30px 25px;
-    margin-right: 30px;
     background-color: #fff;
   }
 
