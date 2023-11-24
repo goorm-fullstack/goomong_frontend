@@ -44,7 +44,8 @@ const MyPageLeft: React.FC = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [id]);
+
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 

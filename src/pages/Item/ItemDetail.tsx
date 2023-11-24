@@ -11,7 +11,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import Slider from 'react-slick';
 import { NextArrow, PrevArrow } from '../../components/Banner/Banner';
 import Sort from '../../components/Sort/Sort';
-import { AskData, Item, ReviewData } from '../../interface/Interface';
+import {AskData, Item, ReviewData, MemberData, SellerData, PageInfoData} from '../../interface/Interface';
 import { commaNumber, detailDate, formattingDate } from '../../util/func/functions';
 import { Cookies } from 'react-cookie';
 
@@ -68,14 +68,28 @@ export default function ItemDetail() {
     rate: 1.0,
     status: 'SALE',
   });
+  const [sellerId, setSellerId] = useState<string> ();
   const navigator = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [sellerImageUrls, setSellerImageUrls] = useState<string[]>([]);
+  const [sellerInfo, setSellerInfo] = useState<SellerData | null>(null);
 
   useLayoutEffect(() => {
     Instance.get(`/api/item/${id}`).then((response) => {
       setItem(response.data);
+      setSellerId(response.data.member.memberId);
     });
   }, []);
+
+  useEffect(() => {
+    Instance.get(`/api/sellers/seller/${sellerId}`)
+        .then((response) => {
+          setSellerInfo(response.data);
+        })
+        .catch(() => {
+        })
+  }, [sellerId]);
+
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
@@ -88,6 +102,20 @@ export default function ItemDetail() {
     fetchImages();
     console.log(imageUrls);
   }, [item]);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (sellerInfo) {
+        const urls = await Promise.all([getImageFile(sellerInfo.imagePath)]);
+        setSellerImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+    console.log(sellerImageUrls);
+  }, [sellerInfo]);
+
+
 
   const handleBuyClick = () => {
     // navigator('/order/write', {
@@ -171,6 +199,8 @@ export default function ItemDetail() {
         console.error(error);
       });
   }, [reviewCurrentPage, id]);
+
+  console.log(sellerInfo);
 
   // 문의 클릭 함수
   const clickAsk = (askId: number): void => {
@@ -342,29 +372,33 @@ export default function ItemDetail() {
               </button>
             </div>
             <div className="seller-detail">
-              <p className="seller-name">판매자명</p>
-              <div className="thumd">{/** 판매자 프로필 썸네일 */}</div>
-              <p className="seller-category">
-                <svg viewBox="0 0 24 24">
-                  <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
-                </svg>
-                <span>재능 카테고리</span>
-              </p>
+              <p className="seller-name">{sellerInfo?.name}</p>
+              <div className="thumd">
+                {sellerImageUrls.length > 0 && sellerImageUrls[0] && (
+                    <img src={sellerImageUrls[0]} alt="Seller Thumbnail" />
+                )}
+              </div>
+              {/*<p className="seller-category">*/}
+              {/*  <svg viewBox="0 0 24 24">*/}
+              {/*    <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />*/}
+              {/*  </svg>*/}
+              {/*  <span>재능 카테고리</span>*/}
+              {/*</p>*/}
               <p className="seller-category">
                 <svg viewBox="0 0 24 24">
                   <path d="M2,10c0,8.491,9.126,13.658,9.514,13.874a1,1,0,0,0,.972,0C12.874,23.658,22,18.491,22,10A10,10,0,0,0,2,10ZM12,2a8.009,8.009,0,0,1,8,8c0,6.274-6.2,10.68-8,11.83C10.2,20.68,4,16.274,4,10A8.009,8.009,0,0,1,12,2Z" />
                   <path d="M12,15a5,5,0,1,0-5-5A5.006,5.006,0,0,0,12,15Zm0-8a3,3,0,1,1-3,3A3,3,0,0,1,12,7Z" />
                 </svg>
-                <span>지역</span>
+                <span>{sellerInfo?.saleSido}</span>
               </p>
               <ul className="summary">
                 <li>
                   <p className="title">총 거래</p>
-                  <p>555건</p>
+                  <p>{sellerInfo?.transactionCnt == null ? "0건" : sellerInfo.transactionCnt + "건"}</p>
                 </li>
                 <li>
                   <p className="title">총 리뷰</p>
-                  <p>555건</p>
+                  <p>{sellerInfo?.reviewCnt == null ? "0건" : sellerInfo.reviewCnt + "건"}</p>
                 </li>
                 <li>
                   <p className="title">만족도</p>
@@ -383,7 +417,7 @@ export default function ItemDetail() {
                 )}
               </div>
               <h4>소개</h4>
-              <p className="seller-summary">판매자 소개글</p>
+              <p className="seller-summary">{sellerInfo?.description}</p>
               <h4>위치</h4>
               <div className="map">{/* 판매자 위치 지도 */}</div>
             </div>

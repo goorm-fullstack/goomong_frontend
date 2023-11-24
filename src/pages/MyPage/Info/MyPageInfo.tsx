@@ -43,6 +43,7 @@ const MyPageInfo: React.FC = () => {
 
   const id = cookies.get('id');
   const memberId = cookies.get('memberId');
+  console.log(member);
 
   useEffect(() => {
     Instance.get(`/api/member/id/${id}`)
