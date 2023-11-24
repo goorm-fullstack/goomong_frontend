@@ -7,7 +7,7 @@ import Naver from '../../assets/images/oauth/ico_naver.png';
 import { Link } from 'react-router-dom';
 
 const KakaoLogin = () => {
-  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback`;
+  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:3000`;
 }
 
 const Register: React.FC = () => {

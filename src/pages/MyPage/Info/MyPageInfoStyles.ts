@@ -8,7 +8,7 @@ export const MyPageInfoStyles = styled.div`
     display: flex;
     margin-top: 30px;
 
-    .info-set a {
+    .buy-info-set a {
       color: #558ff5;
     }
     .info-container {

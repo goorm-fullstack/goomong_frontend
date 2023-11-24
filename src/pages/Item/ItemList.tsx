@@ -10,6 +10,7 @@ import * as S from './Style';
 import Pagination from '../../components/Pagination/Pagination';
 import { Item } from '../../interface/Interface';
 import { commaNumber, getImageFile } from '../../util/func/functions';
+import { Link } from 'react-router-dom';
 
 // interface Item {
 //   // 컴포넌트 중 HotItem 하위 폴더의 Product.tsx 파일과 맞추시면 될 것 같아요~ 자세한건 선웅님께!
@@ -54,6 +55,7 @@ const categories = [
 
 export default function ItemList() {
   const url = useLocation();
+  const region = url.state ? url.state.region : null;
   const location = useParams().type;
   const categoryName = useParams().category;
   const [itemList, setItemList] = useState<Item[]>();
@@ -64,7 +66,9 @@ export default function ItemList() {
   const [pageNum, setPageNum] = useState(1);
 
   //be와 연동하는 부분 주석처리해두겠습니다~ 작업하실 때 풀어주세요~
-
+  console.log('state: ' + region);
+  console.log(page);
+  console.log(categoryName);
   useEffect(() => {
     if (typeof page !== undefined) {
       Instance.get(`/api/item/list/${location}`, {
@@ -82,24 +86,28 @@ export default function ItemList() {
 
   useEffect(() => {
     if (typeof page !== undefined) {
+      console.log('api호출');
       if (categoryName === 'all') {
         Instance.get(`/api/item/list/${location}`, {
           params: {
             orderBy: orderBy,
             direction: direction,
             page: Number(page) - 1,
+            region: region,
           },
         }).then((response) => {
           setItemList(response.data.data);
           if (response.data.length > 0) setPageNum(response.data[0].pageNum);
         });
       } else {
+        console.log('카테고리 api 호출');
         Instance.get(`/api/item/list/${location}`, {
           params: {
             orderBy: orderBy,
             direction: direction,
             categoryName: categoryName,
             page: Number(page) - 1,
+            region: region,
           },
         }).then((response) => {
           setItemList(response.data.data);
@@ -107,7 +115,7 @@ export default function ItemList() {
         });
       }
     }
-  }, [location, orderBy, direction, page, categoryName]);
+  }, [location, orderBy, direction, page, categoryName, region]);
 
   const mockOnChangeNumber = (num: number) => {
     window.location.href = `/item/${location}/${categoryName}/${num}`;
@@ -135,6 +143,31 @@ export default function ItemList() {
   //   return url;
   // };
 
+  useEffect(() => {
+    if (url.search) {
+      const word = url.search.replace('?', '');
+      if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'lowPrice') {
+        setOrderBy('price');
+        setDirection('asc');
+      } else if (word === 'highPrice') {
+        setOrderBy('price');
+        setDirection('desc');
+      } else if (word === 'review') {
+        setOrderBy('reviewCnt');
+        setDirection('desc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
+    }
+  }, [url]);
+
   // 이미지 상태 저장
   useLayoutEffect(() => {
     const fetchImages = async () => {
@@ -151,13 +184,13 @@ export default function ItemList() {
     fetchImages();
   }, [itemList]);
 
-  const clickCategory = (category: string): void => {
-    if (category === '전체') {
-      window.location.href = `/item/${location}/all/1`;
-      return;
-    }
-    window.location.href = `/item/${location}/${category}/1`;
-  };
+  // const clickCategory = (category: string): void => {
+  //   if (category === '전체') {
+  //     window.location.href = `/item/${location}/all/1`;
+  //     return;
+  //   }
+  //   window.location.href = `/item/${location}/${category}/1`;
+  // };
 
   return (
     <>
@@ -180,9 +213,16 @@ export default function ItemList() {
                       type="checkbox"
                       id={category.title}
                       checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
-                      onClick={() => clickCategory(category.title)}
                     />
-                    {category.title}
+                    {category.title === '전체' ? (
+                      <Link to={`/item/${location}/all/1`} state={url.state ? url.state : null}>
+                        {category.title}
+                      </Link>
+                    ) : (
+                      <Link to={`/item/${location}/${category.title}/1`} state={url.state ? url.state : null}>
+                        {category.title}
+                      </Link>
+                    )}
                   </label>
                 </li>
               ))}
