@@ -59,27 +59,5 @@ export const Banner = styled.div`
   .ad-number span {
     opacity: 0.8;
   }
-  @media (max-width: 1199px) {
-    
-    .slick-slide {
-      max-width: 620px;
-      height: 340px;
-    }
-  }
-
-  @media (max-width: 991px) {
-    
-    .slick-slide {
-      max-width: 520px;
-      height: 280px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    
-    .slick-slide {
-      max-width: 420px;
-      height: 240px;
-    }
-  }
+  
 `;

@@ -8,6 +8,7 @@ import { Stomp, CompatClient } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useLocation } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
 
 interface Opponent {
   imageUrl?: string;
@@ -26,8 +27,10 @@ interface UIModel {
 }
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
-  const { itemId } = location.state;
+  const { state } = location;
   const [roomId, setRoomId] = useState(0);
+  const cookies = new Cookies();
+  const memberId = cookies.get('id');
 
   const chattingUIData: UIModel = {
     opponent: {
@@ -44,23 +47,36 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const client = useRef<CompatClient>();
   const [messages, setMessages] = useState<string[]>([]);
+  const [content, setContent] = useState<string[]>([]);
+  const [didMount, setDidMount] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log('mount');
+    setDidMount(true);
+    return () => {
+      console.log('unmount');
+    };
+  }, []);
 
   // 최초 세팅
   useEffect(() => {
-    let data = {
-      memberId: 1,
-      itemId: Number(itemId),
-    };
-
-    Instance.post('/api/chat', data).then((response) => {
-      console.log(response.data);
-      setRoomId(response.data.roomId);
-    });
-  }, []);
-
-  useEffect(() => {
-    connect();
-  }, [roomId]);
+    if (didMount) {
+      if (state && memberId) {
+        const { itemId } = state;
+        if (itemId) {
+          const data = {
+            memberId: memberId,
+            itemId: Number(itemId),
+          };
+          console.log('api호출');
+          Instance.post('/api/chat', data).then((response) => {
+            console.log(response.data);
+            setRoomId(response.data.roomId);
+          });
+        }
+      }
+    }
+  }, [didMount, state, memberId]);
 
   const connect = () => {
     const socket = new SockJS('http://localhost:8080/ws/chat');
@@ -71,10 +87,23 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const connectCallback = () => {
     if (client.current && roomId !== 0) {
-      console.log('roomId : ' + roomId);
+      // 이전 채팅 기록 불러오기
+      Instance.get('/api/chat/room/' + roomId).then((response) => {
+        const data = response.data;
+        for (let i = 0; i < data.length; i++) {
+          setContent((p) => [...p, data[i].message]);
+        }
+      });
+
       client.current.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
     }
   };
+
+  useEffect(() => {
+    if (roomId && didMount) {
+      connect();
+    }
+  }, [roomId, didMount]);
 
   const errorCallback = () => {
     console.error('연결 중 오류가 발생했습니다.');
@@ -97,11 +126,12 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       let messageType = {
         roomId: roomId,
         message: message,
-        memberId: 1,
+        memberId: memberId,
       };
-      console.log(messageType);
+
       let jsonMessage = JSON.stringify(messageType);
-      client.current.send(`/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      client.current.send(`/pub/api/chat/sendMessage`, { priority: 9 }, jsonMessage);
+      setContent((p) => [...p, message]);
     }
   };
 
@@ -110,14 +140,14 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       {showLayout && <Header />}
       <div className="chatting-container">
         <ChattingRoom />
-        <ChattingUI
+        {/* <ChattingUI
           opponent={chattingUIData.opponent}
           product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
-          content={chattingUIData.content}
+          content={content}
           sendMessage={sendMessage}
-        />
+        /> */}
       </div>
       {showLayout && <Footer />}
     </S.ChattingStyles>

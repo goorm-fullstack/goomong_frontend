@@ -135,6 +135,31 @@ export default function ItemList() {
   //   return url;
   // };
 
+  useEffect(() => {
+    if (url.search) {
+      const word = url.search.replace('?', '');
+      if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'lowPrice') {
+        setOrderBy('price');
+        setDirection('asc');
+      } else if (word === 'highPrice') {
+        setOrderBy('price');
+        setDirection('desc');
+      } else if (word === 'review') {
+        setOrderBy('reviewCnt');
+        setDirection('desc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
+    }
+  }, [url]);
+
   // 이미지 상태 저장
   useLayoutEffect(() => {
     const fetchImages = async () => {

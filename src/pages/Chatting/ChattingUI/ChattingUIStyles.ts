@@ -21,6 +21,12 @@ export const ChattingUIStyles = styled.div`
       height: 100%;
       background-color: #f7f8f9;
       padding: 20px 17px;
+
+      .content-container {
+        height: 560px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
       .opponent {
         display: flex;
         .image-container {
@@ -130,7 +136,6 @@ export const ChattingUIStyles = styled.div`
     .user {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
     }
 
     .user-content {
@@ -143,7 +148,12 @@ export const ChattingUIStyles = styled.div`
       font-weight: 400;
       letter-spacing: -0.04em;
       margin-bottom: 18px;
+      align-items: flex-end;
     }
+    .other-content {
+      align-items: flex-start;
+    }
+
     form {
       width: 100%;
       height: 100px;
@@ -193,7 +203,15 @@ export const ChattingUIStyles = styled.div`
           height: 32px;
           border: 0;
           cursor: pointer;
+          float: right;
           border-radius: 8px;
+          &.disabled-button {
+            background-color: #f6f6f6;
+            color: #dfdfdf;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: -0.04em;
+          }
         }
       }
     }
