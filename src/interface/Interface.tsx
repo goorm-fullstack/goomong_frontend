@@ -247,3 +247,12 @@ export interface SellerData {
   regDate: Date;
   pageInfo: PageInfoData;
 }
+
+export interface CurrentSearch {
+  id: number;
+  keyword: string;
+}
+
+export interface PopularSearch {
+  keyword: string;
+}

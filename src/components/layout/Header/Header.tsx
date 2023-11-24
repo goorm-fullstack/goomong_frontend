@@ -4,51 +4,56 @@ import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
 import { Link } from 'react-router-dom';
 import Instance from '../../../util/API/axiosInstance';
+import { CurrentSearch, PopularSearch } from '../../../interface/Interface';
 import { Cookies } from 'react-cookie';
-
-interface CurrentTermProps {
-  id: number;
-  term: string;
-}
-
-interface PopularTerms {
-  popular: string[];
-}
 
 const Header: React.FC = () => {
   const [popularIndex, setPopularIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [currentSearch, setCurrentSearch] = useState<CurrentSearch[]>();
+  const [popularSearch, setPopularSearch] = useState<PopularSearch[]>();
+  const [isClick, setIsClick] = useState<boolean>(false);
   const cookies = new Cookies();
+  const id = cookies.get('id');
   const isLogin = cookies.get('memberId');
 
-  const popularTerms: PopularTerms = { popular: ['인기검색어1', '인기검색어2', '인기검색어3', '인기검색어4', '인기검색어5'] };
-  const currentTerms: CurrentTermProps[] = [
-    { id: 100, term: '최근검색어1' },
-    { id: 101, term: '최근검색어2' },
-    { id: 102, term: '최근검색어3' },
-  ];
+  useEffect(() => {
+    if (id && isClick === true) {
+      Instance.get(`/api/search/recent/${id}`)
+        .then((response) => {
+          setCurrentSearch(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [id, isClick]);
 
-  const [currentTerm, setCurrentTerm] = useState<CurrentTermProps[]>(currentTerms);
+  useEffect(() => {
+    Instance.get(`/api/search/top-keywords`)
+      .then((response) => {
+        if (response.data.length > 0) setPopularSearch(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   //최근 검색어 x 표시 클릭시 삭제 로직
   const handleCurrentDelete = (id: number) => {
     console.log('Deleting item with id:', id);
-    const updatedCurrent = currentTerm.filter((item) => item.id !== id);
-    setCurrentTerm(updatedCurrent);
+    const updatedCurrent = currentSearch?.filter((item) => item.id !== id);
+    setCurrentSearch(updatedCurrent);
   };
 
   const handleCurrentAllDelete = () => {
     console.log('Deleting all items');
-    setCurrentTerm([]);
+    setCurrentSearch([]);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPopularIndex((prevIndex) => (prevIndex + 1) % popularTerms.popular.length);
+      if (popularSearch) setPopularIndex((prevIndex) => (prevIndex + 1) % popularSearch.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [popularSearch]);
 
   const handleLogout = () => {
     Instance.post(`/api/member/logout`, {})
@@ -68,12 +73,14 @@ const Header: React.FC = () => {
 
   if (searchInput && keyword) {
     searchInput.addEventListener('click', function () {
+      setIsClick(true);
       keyword.style.display = 'flex';
     });
 
     document.addEventListener('click', function (event) {
       if (!searchInput.contains(event.target as Node) && !keyword.contains(event.target as Node)) {
         keyword.style.display = 'none';
+        setIsClick(false);
         if (keywordB) {
           keywordB.style.display = 'none';
         }
@@ -110,10 +117,10 @@ const Header: React.FC = () => {
             </Link>
             <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
               <div className="search-input-container">
-                {!isFocused && (
+                {!isFocused && popularSearch && (
                   <div className="search-term" key={popularIndex}>
                     <span className="term-number">{popularIndex + 1}.</span>
-                    {popularTerms.popular[popularIndex]}
+                    {popularSearch[popularIndex]?.keyword}
                   </div>
                 )}
                 <input
@@ -176,10 +183,31 @@ const Header: React.FC = () => {
             <div className="keyword">
               <ul className="current">
                 <div className="title">최근 검색어</div>
-                {currentTerm.map((term) => (
-                  <li key={term.id}>
-                    <Link to="#null">
-                      <div className="svg-container">
+                {currentSearch &&
+                  currentSearch.map((term) => (
+                    <li key={term.id}>
+                      <Link to="#null">
+                        <div className="svg-container">
+                          <svg
+                            version="1.0"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="48.000000pt"
+                            height="48.000000pt"
+                            viewBox="0 0 48.000000 48.000000"
+                            preserveAspectRatio="xMidYMid meet">
+                            <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                              <path
+                                d="M141 402 c-134 -68 -87 -264 63 -264 25 0 53 5 63 11 15 8 27 1 69
+-40 48 -48 51 -49 67 -31 16 17 14 21 -32 66 -45 44 -49 51 -39 75 48 125 -74
+243 -191 183z m135 -43 c63 -59 40 -166 -40 -188 -91 -24 -171 65 -135 150 28
+68 122 88 175 38z"
+                              />
+                            </g>
+                          </svg>
+                        </div>
+                        <span className="current-text">{term.keyword}</span>
+                      </Link>
+                      <button className="delete-btn" onClick={() => handleCurrentDelete(term.id)}>
                         <svg
                           version="1.0"
                           xmlns="http://www.w3.org/2000/svg"
@@ -187,49 +215,30 @@ const Header: React.FC = () => {
                           height="48.000000pt"
                           viewBox="0 0 48.000000 48.000000"
                           preserveAspectRatio="xMidYMid meet">
-                          <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                          <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#8e94a0" stroke="none">
                             <path
-                              d="M141 402 c-134 -68 -87 -264 63 -264 25 0 53 5 63 11 15 8 27 1 69
--40 48 -48 51 -49 67 -31 16 17 14 21 -32 66 -45 44 -49 51 -39 75 48 125 -74
-243 -191 183z m135 -43 c63 -59 40 -166 -40 -188 -91 -24 -171 65 -135 150 28
-68 122 88 175 38z"
-                            />
-                          </g>
-                        </svg>
-                      </div>
-                      <span className="current-text">{term.term}</span>
-                    </Link>
-                    <button className="delete-btn" onClick={() => handleCurrentDelete(term.id)}>
-                      <svg
-                        version="1.0"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="48.000000pt"
-                        height="48.000000pt"
-                        viewBox="0 0 48.000000 48.000000"
-                        preserveAspectRatio="xMidYMid meet">
-                        <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#8e94a0" stroke="none">
-                          <path
-                            d="M90 378 c0 -7 28 -41 62 -75 l62 -63 -62 -63 c-60 -61 -75 -87 -50
+                              d="M90 378 c0 -7 28 -41 62 -75 l62 -63 -62 -63 c-60 -61 -75 -87 -50
 -87 7 0 41 28 75 62 l63 62 63 -62 c34 -34 68 -62 75 -62 25 0 10 26 -50 87
 l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
 60 -87 75 -87 50z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                  </li>
-                ))}
+                            />
+                          </g>
+                        </svg>
+                      </button>
+                    </li>
+                  ))}
               </ul>
               <ul className="popular">
                 <div className="title">인기 검색어</div>
-                {popularTerms.popular.map((term, index) => (
-                  <li key={index}>
-                    <Link to="#null">
-                      <span>{index + 1}.</span>
-                      {term}
-                    </Link>
-                  </li>
-                ))}
+                {popularSearch &&
+                  popularSearch.map((term, index) => (
+                    <li key={index}>
+                      <Link to="#null">
+                        <span>{index + 1}.</span>
+                        {term.keyword}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </div>
             {/* )} */}
