@@ -212,10 +212,10 @@ export interface ItemCategoryData {
 export interface Top5Ranking {
   memberId: number;
   memberName: string;
-  profileImages: Image[];
+  imagePath: string;
+  imageUrl?: string; // 추가된 필드
   count: string;
   category: string;
-  imageUrl: string | undefined;
 }
 
 export interface RankingsState {
@@ -227,13 +227,12 @@ export interface RankingsState {
 export interface FindMember {
   memberId: number;
   memberName: string;
-  profileImages: Image[];
-  category: string;
+  imagePath: string;
+  saleSido: string;
   transaction: number;
   totalSales: number;
   reviewCount: number;
   totalRating: number;
-  imageUrl: string | undefined;
 }
 
 export interface SellerData {

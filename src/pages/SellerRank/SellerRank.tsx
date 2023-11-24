@@ -9,61 +9,56 @@ import { Top5Ranking, RankingsState, FindMember } from '../../interface/Interfac
 import Instance from '../../util/API/axiosInstance';
 import { getImageFile } from '../../util/func/functions';
 
-interface SellerListInfo {
-  imageUrl?: string;
-  category: string;
-  sellerName: string;
-  totalMoney: number;
-  totalReview: number;
-  totalTransaction: number;
-  star: number;
-}
-
 const SellerRank: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState<number>(0);
   const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
-  const [FindMember, setFindMember] = useState<FindMember[]>([]);
+  const [findMember, setFindMember] = useState<FindMember[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지
 
   useEffect(() => {
-    Instance.get<Top5Ranking[]>(`/api/ranking`)
-      .then((response) => {
-        const reviewRankings = response.data.filter((r) => r.category === '리뷰');
-        const orderedRankings = response.data.filter((r) => r.category === '주문');
-        const salesRankings = response.data.filter((r) => r.category === '판매 금액');
+    const fetchAndProcessRankings = async () => {
+      try {
+        const response = await Instance.get<Top5Ranking[]>(`/api/ranking`);
+        const rankingsData = response.data;
 
+        // 각 카테고리별로 데이터 필터링
+        const reviewRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '리뷰')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const orderedRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '주문')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const salesRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '판매 금액')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        // 카테고리별로 완성된 데이터를 상태에 저장
         setRankings({ ordered: orderedRankings, review: reviewRankings, sales: salesRankings });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const rankingsWithImages: RankingsState = {
-        ordered: await mapImagesToRankings(rankings.ordered),
-        review: await mapImagesToRankings(rankings.review),
-        sales: await mapImagesToRankings(rankings.sales),
-      };
-      setRankings(rankingsWithImages);
+      }
     };
 
-    if (rankings.ordered.length > 0 || rankings.review.length > 0 || rankings.sales.length > 0) {
-      fetchImages();
-    }
-  }, [rankings.ordered, rankings.review, rankings.sales]);
-
-  const mapImagesToRankings = async (rankingList: Top5Ranking[]): Promise<Top5Ranking[]> => {
-    return Promise.all(
-      rankingList.map(async (rank) => {
-        const imageUrl =
-          rank.profileImages.length > 0 ? await getImageFile(rank.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
-        return { ...rank, imageUrl };
-      })
-    );
-  };
-
+    fetchAndProcessRankings();
+  }, []);
   useEffect(() => {
     Instance.get(`/api/ranking/sellers`)
       .then((response) => {
@@ -74,26 +69,21 @@ const SellerRank: React.FC = () => {
       });
   }, []);
 
-  useEffect(() => {
-    const fetchMemberImages = async () => {
-      const membersWithImages = await mapImagesToFindMembers(FindMember);
-      setFindMember(membersWithImages);
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (findMember) {
+        const urls = await Promise.all(
+          findMember.map((seller) => {
+            if (seller.imagePath !== null) return getImageFile(seller.imagePath);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
     };
 
-    if (FindMember.length > 0) {
-      fetchMemberImages();
-    }
-  }, [FindMember]);
-
-  const mapImagesToFindMembers = async (members: FindMember[]): Promise<FindMember[]> => {
-    return Promise.all(
-      members.map(async (member) => {
-        const imageUrl =
-          member.profileImages.length > 0 ? await getImageFile(member.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
-        return { ...member, imageUrl };
-      })
-    );
-  };
+    fetchImages();
+  }, [findMember]);
 
   useEffect(() => {
     const date = new Date();
@@ -148,29 +138,14 @@ const SellerRank: React.FC = () => {
           </div>
           <div className="bottom">
             <div className="top">TOP 5</div>
-            <div className="align-menu">
-              <div className="left">
-                <div className="left-category">
-                  재능 카테고리
-                  <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                  </svg>
-                </div>
-                <div className="left-local">
-                  지역 선택
-                  <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <div className="align-menu"></div>
             <div className="seller-list">
-              {FindMember.map((item, index) => (
-                <div className={`seller-list-item ${index === FindMember.length - 1 ? 'last-item' : ''}`} key={index}>
+              {findMember.map((item, index) => (
+                <div className={`seller-list-item ${index === findMember.length - 1 ? 'last-item' : ''}`} key={index}>
                   <Link to="#null">
-                    <div className="image-container">{item.imageUrl ? <img src={item.imageUrl} alt="" /> : defaultImage}</div>
+                    <div className="image-container">{imageUrls ? <img src={imageUrls[index]} alt="" /> : defaultImage}</div>
                     <div className="right">
-                      <div className="category">{item.category}</div>
+                      <div className="category">{item.saleSido}</div>
                       <div className="seller-name">{item.memberName}</div>
                       <div className="total-list">
                         <span className="money">

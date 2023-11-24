@@ -74,7 +74,7 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
 
   const handleOrderClick = async () => {
     let data = {
-      orderItem: [item?.id],
+      orderItem: item?.id,
       memberId: memberId,
       address: {
         state: '경기도',
@@ -103,7 +103,7 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
         cancelURL: 'http://localhost:3000/api/payment/kakao/cancel',
         price: item?.price,
         orderDto: {
-          orderItem: [item?.id],
+          orderItem: item?.id,
           memberId: memberId,
           price: item?.price,
           address: {
