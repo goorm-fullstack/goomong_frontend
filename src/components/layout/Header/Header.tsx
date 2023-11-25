@@ -14,14 +14,24 @@ const Header: React.FC = () => {
   const [popularSearch, setPopularSearch] = useState<PopularSearch[]>();
   const [isClick, setIsClick] = useState<boolean>(false);
   const cookies = new Cookies();
-  const id = cookies.get('id');
+  const [id, setId] = useState<string>('');
+  const [urlId, setUrlId] = useState<string>('');
   const location = useLocation();
   const isLogin = cookies.get('memberId');
-  const id = new URLSearchParams(location.search).get('id');
+
+  useEffect(() => {
+    if (cookies.get('id') != null) {
+      setId(cookies.get('id'));
+    }
+    const urlId = new URLSearchParams(location.search).get('id');
+    if (urlId != null) {
+      setUrlId(urlId);
+    }
+  }, []);
 
   useEffect(() => {
     if(id != null) {
-      Instance.get(`/api/member/id/${id}`)
+      Instance.get(`/api/member/id/${urlId}`)
           .then((response) => {
             cookies.set('memberId', response.data.memberId);
             cookies.set('id', response.data.id)
@@ -31,7 +41,7 @@ const Header: React.FC = () => {
           })
 
     }
-  }, [id]);
+  }, [urlId]);
 
   useEffect(() => {
     if (id && isClick === true) {
