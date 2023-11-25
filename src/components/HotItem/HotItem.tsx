@@ -26,41 +26,41 @@ const HotItem: React.FC = () => {
       rating: 5,
       review: 3560,
     },
-    // {
-    //   sellerName: '판매자 브랜드명3',
-    //   productName: '상품 이름을 이렇게 적고요.',
-    //   price: '150,000원',
-    //   rating: 5,
-    //   review: 3560,
-    // },
-    // {
-    //   sellerName: '판매자 브랜드명4',
-    //   productName: '상품 이름을 이렇게 적고요.',
-    //   price: '150,000원',
-    //   rating: 5,
-    //   review: 3560,
-    // },
-    // {
-    //   sellerName: '판매자 브랜드명5',
-    //   productName: '상품 이름을 이렇게 적고요.',
-    //   price: '150,000원',
-    //   rating: 5,
-    //   review: 3560,
-    // },
-    // {
-    //   sellerName: '판매자 브랜드명6',
-    //   productName: '상품 이름을 이렇게 적고요.',
-    //   price: '150,000원',
-    //   rating: 5,
-    //   review: 3560,
-    // },
-    // {
-    //   sellerName: '판매자 브랜드명7',
-    //   productName: '상품 이름을 이렇게 적고요.',
-    //   price: '150,000원',
-    //   rating: 5,
-    //   review: 3560,
-    // },
+    {
+      sellerName: '판매자 브랜드명3',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
+    {
+      sellerName: '판매자 브랜드명4',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
+    {
+      sellerName: '판매자 브랜드명5',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
+    {
+      sellerName: '판매자 브랜드명6',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
+    {
+      sellerName: '판매자 브랜드명7',
+      productName: '상품 이름을 이렇게 적고요.',
+      price: '150,000원',
+      rating: 5,
+      review: 3560,
+    },
   ];
 
   const settings = {
@@ -70,7 +70,6 @@ const HotItem: React.FC = () => {
     autoplay: true,
     speed: 4000,
     autoplaySpeed: 2000,
-    pauseOnHover: true,
     cssEase: 'linear',
 
     responsive: [

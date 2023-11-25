@@ -12,6 +12,47 @@ const Review: React.FC = () => {
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터 상태 관리
   const [reviewAve, setReviewAve] = useState<string>(); // 전체 평균 평점
 
+  const settings = {
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 4000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
+
+    responsive: [
+      {
+        breakpoint: 1900,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 780,
+        settings: {
+          slidesToShow: 1.5,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   // 전체 리뷰 중 최신 10건 상태 저장
   useEffect(() => {
     Instance.get('/api/reviews')
@@ -54,48 +95,6 @@ const Review: React.FC = () => {
       });
   }, [reviewData]);
 
-  const settings = {
-    infinite: true,
-    slidesToShow: reviewData ? Math.min(reviewData.length, 5.3) : 0,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 5000,
-    autoplaySpeed: 2000,
-    pauseOnHover: true,
-    cssEase: 'linear',
-
-    responsive: [
-      {
-        breakpoint: 1900,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1600,
-        settings: {
-          slidesToShow: 2.5,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 780,
-        settings: {
-          slidesToShow: 1.5,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
   return (
     <S.Review>
       <div className="review-container">
@@ -106,10 +105,11 @@ const Review: React.FC = () => {
             <div className="score">{Number(reviewAve).toFixed(1)}점</div>
           </div>
         </div>
+
         {reviewData && (
           <Slider {...settings}>
             {reviewData.map((reviewModel, index) => (
-              <Link to={`/item/detail/${reviewModel.itemId}`} key={`reviewModel-${index}`}>
+              <Link to={`/item/detail/${reviewModel.itemId}`} key={index}>
                 <ReviewModel
                   key={`reviewModel-${index}`}
                   writer={reviewModel.memberId}
