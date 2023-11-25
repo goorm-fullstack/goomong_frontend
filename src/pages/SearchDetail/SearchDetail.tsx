@@ -100,6 +100,21 @@ const SearchDetail = () => {
     fetchImages();
   }, [communityData]);
 
+    useLayoutEffect(() => {
+      const fetchImages = async () => {
+        if (itemList) {
+          const urls = await Promise.all(
+            itemList.map((item) => {
+              if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
+              else return null;
+            })
+          );
+          setImageUrls(urls.filter((url) => url !== null) as string[]);
+        }
+      };
+      fetchImages();
+    }, [itemList]);
+
   return (
     <S.SearchDetailStyles>
       <Header />
