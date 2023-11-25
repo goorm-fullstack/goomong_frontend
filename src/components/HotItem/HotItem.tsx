@@ -79,8 +79,7 @@ const HotItem: React.FC = () => {
           slidesToShow: 3,
           slidesToScroll: 1,
         },
-      }
-      
+      },
     ],
   };
 
