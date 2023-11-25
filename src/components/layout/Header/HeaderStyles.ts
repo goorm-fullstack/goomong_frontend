@@ -100,6 +100,7 @@ export const Header = styled.header`
     button {
       background-color: transparent;
       border: 0;
+      cursor: pointer;
     }
   }
   .join-list {
