@@ -1,71 +1,45 @@
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import * as S from './HotItemStyles';
-import React from 'react';
 import Product from './ProductModel/Product';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import Pagination from '../../components/Pagination/Pagination';
+import { Item } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { commaNumber, getImageFile } from '../../util/func/functions';
+
 const HotItem: React.FC = () => {
-  const products = [
-    {
-      sellerName: '판매자 브랜드명0',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 3.9,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명1',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명2',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명3',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명4',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명5',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명6',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명7',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-  ];
+  const [itemList, setItemList] = useState<Item[]>();
+  const [imageUrls, setImageUrls] = useState<string[]>();
+
+  useEffect(() => {
+    Instance.get(`/api/item/hot`)
+      .then((response) => {
+        setItemList(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (itemList) {
+        const urls = await Promise.all(
+          itemList.map((item) => {
+            if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+    fetchImages();
+  }, [itemList]);
 
   const settings = {
     infinite: true,
-    slidesToShow: Math.min(products.length, 6),
+    slidesToShow: Math.min(itemList && itemList.length > 0 ? itemList.length : 0, 6),
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,
@@ -90,30 +64,28 @@ const HotItem: React.FC = () => {
           <div className="hotitem-title">
             구몽 추천, <span>HOT</span>인기 재능
           </div>
-          <ul className="hotitem-btn">
-            <li className="marketing-btn selected">마케팅</li>
-            <li className="e-book-btn">전자책</li>
-            <li className="translate-btn">영어 번역</li>
-            <li className="e-book-btn">전자책</li>
-            <li className="e-book-btn">전자책</li>
-          </ul>
         </div>
 
         <Slider {...settings}>
-          {products.map((product, index) => (
-            <Product
-              key={index}
-              sellerName={product.sellerName}
-              productName={product.productName}
-              price={product.price}
-              rating={product.rating}
-              review={product.review}
-            />
-          ))}
+          {itemList &&
+            itemList.map((item, index) => (
+              <li key={index}>
+                <Product
+                  key={index}
+                  id={item.id}
+                  imageUrl={imageUrls && imageUrls[index]}
+                  sellerName={item.member.name}
+                  productName={item.title}
+                  price={commaNumber(item.price)}
+                  rating={item.rate}
+                  review={item.reviewList.length}
+                />
+              </li>
+            ))}
         </Slider>
 
         <div className="more-btn">
-          <Link to="#null">
+          <Link to="/item/sale/all/1">
             <button type="submit">
               재능 더보기
               <svg
