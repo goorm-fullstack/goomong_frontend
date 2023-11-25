@@ -2,50 +2,58 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import * as S from './SellerDetailStyles';
 import Header from '../../components/layout/Header/Header';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ReviewPageModel from '../ReviewPage/ReviewPageModel/ReviewPageModel';
 import Pagination from '../../components/Pagination/Pagination';
 import Product from '../../components/HotItem/ProductModel/Product';
 import Footer from '../../components/layout/Footer/Footer';
-
-interface ReviewProps {
-  imageUrl?: string;
-  p_category: string;
-  title: string;
-  content: string;
-  like: number;
-  comment: number;
-  time: string;
-  isLastItem?: boolean;
-  clickLike?: boolean;
-  star: number;
-}
-
-interface ProductProps {
-  imageUrl?: string;
-  sellerName: string;
-  productName: string;
-  price: string;
-  rating: number;
-  review: number;
-}
-
-interface SellerProps {
-  intro: string;
-  totalReview: number;
-  sellerImageUrl?: string;
-  sellerName: string;
-  sellerCategory: string;
-  sellerLocal: string;
-  sellerOnlineIntro: string;
-  totalMoney: number;
-  totalTransaction: number;
-  totalStar: number;
-  review: ReviewProps[];
-  product: ProductProps[];
-}
+import { commaNumber, detailDate, getImageFile } from '../../util/func/functions';
+import { ItemData, ReviewData, SellerData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { NoItem } from '../../Style/CommonStyles';
 
 const SellerDetail: React.FC = () => {
+  const [sellerData, setSellerData] = useState<SellerData>(); // 판매자 데이터
+  const [sellerImage, setSellerImage] = useState<string>(); // 판매자 이미지
+  const [sellerReviewData, setSellerReviewData] = useState<ReviewData[]>(); // 판매자가 받은 리뷰 데이터
+  const [sellerItemData, setSellerItemData] = useState<ItemData[]>(); // 판매자 상품 데이터
+  const sellerId = useParams().sellerid;
+
+  // 판매자 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/sellers/seller/${sellerId}`)
+    .then((response) => {
+      const data = response.data;
+      setSellerData(data);
+      if(data.imagePath){
+        getImageFile(data.imagePath)
+        .then((response) => {
+          setSellerImage(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [sellerId])
+
+  // 판매자 리뷰 데이터 가져오기
+  useEffect(() => {
+    Instance.get(`/api/member/id/${sellerId}`)
+    .then((response) => {
+      const data = response.data;
+      setSellerReviewData(data.reviewList);
+      setSellerItemData(data.itemList);
+      console.log(data.itemList);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [sellerId])
+
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -54,81 +62,6 @@ const SellerDetail: React.FC = () => {
       />
     </svg>
   );
-  const sellerData: SellerProps = {
-    intro: "안녕하세요. 고객님! 깔꼬미'홈케어플러스'입니다.",
-    sellerName: '판매자 브랜드명',
-    sellerCategory: '재능 카테고리',
-    sellerLocal: '서울 전체',
-    sellerOnlineIntro: '판매자 소개글',
-    totalMoney: 255220000,
-    totalTransaction: 555,
-    totalReview: 13913,
-    totalStar: 4.9,
-    review: [
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-      {
-        p_category: '재능 카테고리',
-        title: '게시글 제목',
-        content: '게시글 내용입니다.',
-        like: 40,
-        comment: 40,
-        time: '30',
-        star: 4.9,
-      },
-    ],
-    product: [
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-      { sellerName: '판매자 브랜드명', productName: '상품 이름을 이렇게 적고요', price: '150,000원~', rating: 4.9, review: 3560 },
-    ],
-  };
 
   //억,만 단위 표시 , 1000단위 ,찍기
   const formatCurrency = (money: number): string => {
@@ -142,6 +75,7 @@ const SellerDetail: React.FC = () => {
     if (tenThousand > 0) {
       result += `${tenThousand.toLocaleString()}만`;
     }
+    if(money < 10000) return commaNumber(money) + '원';
     return result + '원';
   };
 
@@ -153,16 +87,10 @@ const SellerDetail: React.FC = () => {
   //페이징처리
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // 페이지당 표시할 아이템 수
-  const totalPages = Math.ceil(sellerData.review.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
-  // 현재 페이지에 따라 표시할 아이템 목록 계산
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sellerData.review.slice(indexOfFirstItem, indexOfLastItem);
 
   const [activeTab, setActiveTab] = useState('seller-intro');
   const handleTabClick = (tabName: string) => {
@@ -197,8 +125,8 @@ const SellerDetail: React.FC = () => {
       <div className="top-gray-bg"></div>
       <div className="seller-detail-container">
         <div ref={shortsRef} className="seller-detail-shorts">
-          <div className="image-container">{sellerData.sellerImageUrl ? <img src={sellerData.sellerImageUrl} alt="" /> : defaultImage}</div>
-          <div className="seller-name">{sellerData.sellerName}</div>
+          <div className="image-container">{sellerImage ? <img src={sellerImage} alt="" /> : defaultImage}</div>
+          <div className="seller-name">{sellerData?.name}</div>
           <div className="seller-local">
             <svg width="14px" height="16px" id="Icons" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -207,26 +135,26 @@ const SellerDetail: React.FC = () => {
               />
               <path style={{ fill: '#6f7785' }} d="M12,15a5,5,0,1,0-5-5A5.006,5.006,0,0,0,12,15Zm0-8a3,3,0,1,1-3,3A3,3,0,0,1,12,7Z" />
             </svg>
-            {sellerData.sellerLocal}
+            {sellerData?.saleSido}
           </div>
-          <div className="seller-one-line-intro">{sellerData.sellerOnlineIntro}</div>
+          <div className="seller-one-line-intro">{sellerData?.description}</div>
           <button type="button">문의하기</button>
           <div className="shorts-bottom">
             <div className="title">구몽 활동</div>
             <div className="total-list">
               <div className="top">
                 <span className="money">
-                  총수익 <span className="number">{formatCurrency(sellerData.totalMoney)}</span>
+                  총수익 <span className="number">{sellerData && sellerData.income !== null ? formatCurrency(sellerData.income) : '0원'}</span>
                 </span>
                 <span className="transaction">
-                  총거래 <span className="number">{sellerData.totalTransaction}</span>
+                  총거래 <span className="number">{sellerData && sellerData.transactionCnt !== null ? commaNumber(sellerData.transactionCnt) : 0}건</span>
                 </span>
               </div>
               <span className="review">
-                총리뷰 <span className="number">{sellerData.totalReview}</span>
+                총리뷰 <span className="number">{sellerData && sellerData.reviewCnt !== null ? commaNumber(sellerData.reviewCnt) : 0}개의 평가</span>
               </span>
               <span className="star"> ★</span>
-              <span className=" star-number">{sellerData.totalStar}</span>
+              <span className=" star-number">{sellerData && sellerData.reviewCnt !== null ? (sellerData.rate / sellerData.reviewCnt).toFixed(1) : 0}</span>
             </div>
           </div>
         </div>
@@ -238,14 +166,14 @@ const SellerDetail: React.FC = () => {
                 판매자 소개
               </li>
               <li className={`seller-review ${activeTab === 'seller-review' ? 'active' : ''}`} onClick={() => handleTabClick('seller-review')}>
-                고객 후기 {formatNumber2(sellerData.totalReview)}
+                고객 후기 {sellerData && sellerData.reviewCnt !== null ? formatNumber2(sellerData.reviewCnt) : 0}개의 평가
               </li>
               <li className={`seller-item ${activeTab === 'seller-item' ? 'active' : ''}`} onClick={() => handleTabClick('seller-item')}>
                 판매 재능
               </li>
             </ul>
           </div>
-          {activeTab === 'seller-intro' && <div className="intro">{sellerData.intro}</div>}
+          {activeTab === 'seller-intro' && <div className="intro">{sellerData?.description}</div>}
           {activeTab === 'seller-review' && (
             <div className="review-container">
               <div className="review-title">고객후기</div>
@@ -270,47 +198,50 @@ const SellerDetail: React.FC = () => {
                   </g>
                 </svg>
                 <div className="right">
-                  <div className="top">총 {formatNumber2(sellerData.totalReview)}개의 평가</div>
+                  <div className="top">총 {sellerData && sellerData.reviewCnt !== null ? formatNumber2(sellerData.reviewCnt) : 0}개의 평가</div>
                   <div className="bottom">
                     <span className="star">★</span>
-                    {sellerData.totalStar}
+                    {sellerData && sellerData.reviewCnt !== null ? (sellerData.rate / sellerData.reviewCnt).toFixed(1) : 0}
                     <span className="back">/5.0</span>
                   </div>
                 </div>
               </div>
               <div className="review-list">
-                {currentItems.map((item, index) => (
-                  <Link to="#null" key={index}>
+                {sellerReviewData?.length === 0 && <NoItem>등록된 리뷰가 없습니다.</NoItem>}
+                {sellerReviewData && sellerReviewData.map((item, index) => (
+                  <Link to={`/item/detail/${item.itemId}`} key={index}>
                     <ReviewPageModel
-                      p_category={item.p_category}
+                      p_category={item.itemCategory}
                       title={item.title}
                       content={item.content}
-                      like={item.like}
-                      comment={item.comment}
-                      time={item.time}
-                      star={item.star}
+                      like={item.likeNo}
+                      comment={item.commentNo}
+                      time={detailDate(item.regDate)}
+                      star={item.rate}
                     />
                   </Link>
                 ))}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <Pagination currentPage={currentPage} totalPages={1} onPageChange={handlePageChange} />
             </div>
           )}
           {activeTab === 'seller-item' && (
             <div className="product-container">
               <div className="product-title">판매 재능</div>
               <div className="product-list">
-                {sellerData.product.map((item, index) => (
+                {sellerItemData?.length === 0 && <NoItem>등록된 상품이 없습니다.</NoItem>}
+                {sellerItemData && sellerData && sellerItemData.map((item, index) => (
                   <Product
                     key={index}
-                    sellerName={item.sellerName}
-                    productName={item.productName}
-                    price={item.price}
-                    rating={item.rating}
-                    review={item.review}
+                    sellerName={sellerData && sellerData.name}
+                    productName={item.data.title}
+                    price={String(item.data.price)}
+                    rating={item.data.rate}
+                    review={item.data.reviewList.length}
                   />
                 ))}
               </div>
+              <Pagination currentPage={currentPage} totalPages={1} onPageChange={handlePageChange} />
             </div>
           )}
         </div>
