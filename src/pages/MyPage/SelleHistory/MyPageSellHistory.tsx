@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import * as S from './MyPagePaymentStyles';
+import * as S from './MyPageSellHistoryStyles';
 import Header from '../../../components/layout/Header/Header';
-import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Footer from '../../../components/layout/Footer/Footer';
+import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Pagination from '../../../components/Pagination/Pagination';
-import { Link } from 'react-router-dom';
 
 interface OrderDetail {
   productInfo: string;
@@ -19,7 +18,7 @@ interface Order {
   orderDetail: OrderDetail[];
 }
 
-const MyPagePayment: React.FC = () => {
+const MyPageSellHistory: React.FC = () => {
   const orderData: Order = {
     doingOrder: 1110,
     completeOrder: 1110,
@@ -57,14 +56,14 @@ const MyPagePayment: React.FC = () => {
   const currentItems = orderData.orderDetail.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <S.MyPagePaymentStyles>
+    <S.MyPageSellHistoryStyles>
       <Header />
-      <div className="mypage-payment-container">
+      <div className="mypage-sell-container">
         <MyPageLeft />
-        <div className="payment-container">
+        <div className="sell-container">
           <div className="title">
-            구매내역
-            <div className="small">구매 내역을 관리할 수 있어요</div>
+            결제내역
+            <div className="small">결제 내역을 관리할 수 있어요</div>
           </div>
           <div className="total-order">
             <ul>
@@ -72,7 +71,7 @@ const MyPagePayment: React.FC = () => {
                 진행중 <span className="number">{formatNumber2(orderData.doingOrder)}</span>개
               </li>
               <li>
-                구매한 재능 수 <span className="number second">{formatNumber2(orderData.completeOrder)}</span>개
+                판매한 재능 수 <span className="number second">{formatNumber2(orderData.completeOrder)}</span>개
               </li>
             </ul>
           </div>
@@ -89,19 +88,14 @@ const MyPagePayment: React.FC = () => {
               <li>{item.date}</li>
               <li>{item.money}</li>
               <li>{item.orderState}</li>
-              <li>
-                <Link to="#null">
-                  <button className='review-reg'>리뷰 작성</button>
-                </Link>
-              </li>
             </ul>
           ))}
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
       <Footer />
-    </S.MyPagePaymentStyles>
+    </S.MyPageSellHistoryStyles>
   );
 };
 
-export default MyPagePayment;
+export default MyPageSellHistory;

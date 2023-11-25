@@ -8,7 +8,7 @@ export const MyPageChangePwStyles = styled.div`
     display: flex;
     margin-top: 30px;
 
-    .info-set a {
+    .change-pw a {
       color: #558ff5;
     }
     .info-container {
@@ -84,13 +84,17 @@ export const MyPageChangePwStyles = styled.div`
             font-size: 14px;
             font-weight: 600;
             letter-spacing: -0.04em;
+            display: flex;
+            align-items: center;
+            .text {
+              width: 130px;
+            }
           }
           input {
             width: 320px;
             height: 42px;
             border-radius: 8px;
             border: 1px solid #ccc;
-            margin-left: 32px;
           }
         }
       }
