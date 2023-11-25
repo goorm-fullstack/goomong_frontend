@@ -1,11 +1,11 @@
-import React, {useState, useRef, MouseEvent, useEffect} from 'react';
+import React, { useState, useRef, MouseEvent, useEffect } from 'react';
 import * as S from './ConvertSellerStyles';
 
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Footer from '../../../components/layout/Footer/Footer';
-import { Cookies } from "react-cookie";
-import Instance from "../../../util/API/axiosInstance";
+import { Cookies } from 'react-cookie';
+import Instance from '../../../util/API/axiosInstance';
 
 interface UserInfo {
   imageUrl?: string;
@@ -23,16 +23,15 @@ interface IAddr {
   sido: string;
 }
 
-
 const ConvertSeller = () => {
   const cookies = new Cookies();
   const id = cookies.get('id');
-  const [memberId, setMemberId] = useState<string>("");
-  const [saleZipCode, setSaleZipCode] = useState<string>("");
-  const [saleSido, setSaleSido] = useState<string>("");
-  const [saleSimpleAddress, setSaleSimpleAddress] = useState<string>("");
-  const [saleDetailAddress, setSaleDetailAddress] = useState<string>("");
-  const [saleInfo, setSaleInfo] = useState<string>("");
+  const [memberId, setMemberId] = useState<string>('');
+  const [saleZipCode, setSaleZipCode] = useState<string>('');
+  const [saleSido, setSaleSido] = useState<string>('');
+  const [saleSimpleAddress, setSaleSimpleAddress] = useState<string>('');
+  const [saleDetailAddress, setSaleDetailAddress] = useState<string>('');
+  const [saleInfo, setSaleInfo] = useState<string>('');
 
   //회원 아이디 가져오기
   useEffect(() => {
@@ -42,14 +41,14 @@ const ConvertSeller = () => {
   //회원 정보 가져오기
   useEffect(() => {
     Instance.get(`/api/member/id/${id}`)
-        .then((response) => {
-          setSaleInfo(response.data.saleInfo)
-          setSaleZipCode(response.data.saleZipCode);
-          setSaleSido(response.data.saleSido);
-          setSaleSimpleAddress(response.data.saleSimpleAddress);
-          setSaleDetailAddress(response.data.saleDetailAddress);
-        })
-        .catch(() => console.log('회원 정보 불러오기 실패'));
+      .then((response) => {
+        setSaleInfo(response.data.saleInfo);
+        setSaleZipCode(response.data.saleZipCode);
+        setSaleSido(response.data.saleSido);
+        setSaleSimpleAddress(response.data.saleSimpleAddress);
+        setSaleDetailAddress(response.data.saleDetailAddress);
+      })
+      .catch(() => console.log('회원 정보 불러오기 실패'));
   }, [id]);
 
   const handleInfoSubmit = (e: React.FormEvent) => {
@@ -66,17 +65,16 @@ const ConvertSeller = () => {
 
     Instance.put(`/api/member/update/memberId`, memberInfo, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-        .then(() => {
-          alert("회원 정보가 수정되었습니다.");
-          window.location.reload();
-        })
-        .catch(() => {
-          alert("업데이트에 실패했습니다. 다시 시도해주세요.");
-        });
-
+      .then(() => {
+        alert('회원 정보가 수정되었습니다.');
+        window.location.reload();
+      })
+      .catch(() => {
+        alert('업데이트에 실패했습니다. 다시 시도해주세요.');
+      });
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -118,9 +116,8 @@ const ConvertSeller = () => {
 
   //주소 스크립트 가져오기
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-        "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    const script = document.createElement('script');
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -135,18 +132,9 @@ const ConvertSeller = () => {
 
     new window.daum.Postcode({
       oncomplete: function (data: IAddr) {
-        setSaleZipCode(
-            ((document.getElementById("zipNo") as HTMLInputElement).value =
-                data.zonecode)
-        );
-        setSaleSido(
-            ((document.getElementById("sido") as HTMLInputElement).value =
-                data.sido)
-        );
-        setSaleSimpleAddress(
-            ((document.getElementById("addr") as HTMLInputElement).value =
-                data.address)
-        );
+        setSaleZipCode(((document.getElementById('zipNo') as HTMLInputElement).value = data.zonecode));
+        setSaleSido(((document.getElementById('sido') as HTMLInputElement).value = data.sido));
+        setSaleSimpleAddress(((document.getElementById('addr') as HTMLInputElement).value = data.address));
       },
     }).open();
   };
@@ -165,57 +153,54 @@ const ConvertSeller = () => {
             <div className="get-container">
               <div className="info-get">
                 <div className="input-text">
-                  판매자 소개
-                  <input
-                      required
-                      type="saleInfo"
-                      value={saleInfo}
-                      onChange={(e) => setSaleInfo(e.target.value)}
-                  />
+                  <div className="text">판매자 소개</div>
+                  <input required type="saleInfo" value={saleInfo} onChange={(e) => setSaleInfo(e.target.value)} />
                 </div>
-                <div className="input-text">
-                  <button onClick={onClickAddr}>주소 검색</button>
-                </div>
-                <div className="input-text">
-                  우편번호
-                  <input
-                      type="text"
-                      id="zipNo"
-                      name="zipNo"
-                      value={saleZipCode}
-                      onChange={(e) => setSaleZipCode(e.target.value)}
-                      readOnly
-                  />
-                </div>
-                <div className="input-text">
-                  시/도
-                  <input
+                <div className="address">
+                  <div className="top">
+                    <div className="input-text">
+                      <div className="text">주소</div>
+                      <input
+                        onClick={onClickAddr}
+                        type="text"
+                        id="zipNo"
+                        name="zipNo"
+                        value={saleZipCode}
+                        onChange={(e) => setSaleZipCode(e.target.value)}
+                        readOnly
+                      />
+                      <button onClick={onClickAddr}>주소 검색</button>
+                    </div>
+                  </div>
+
+                  <div className="input-text">
+                    <div className="text">시/도</div>
+                    <input
+                      onClick={onClickAddr}
                       type="text"
                       id="sido"
                       name="sido"
                       value={saleSido}
                       onChange={(e) => setSaleSido(e.target.value)}
                       readOnly
-                  />
-                </div>
-                <div className="input-text">
-                  도로명 주소
-                  <input
+                    />
+                  </div>
+                  <div className="input-text">
+                    <div className="text">도로명 주소</div>
+                    <input
                       type="text"
                       id="addr"
                       name="addr"
                       value={saleSimpleAddress}
                       onChange={(e) => setSaleSimpleAddress(e.target.value)}
+                      onClick={onClickAddr}
                       readOnly
-                  />
-                </div>
-                <div className="input-text">
-                  상세 주소
-                  <input
-                      type="text"
-                      value={saleDetailAddress}
-                      onChange={(e) => setSaleDetailAddress(e.target.value)}
-                  />
+                    />
+                  </div>
+                  <div className="input-text">
+                    <div className="text">상세 주소</div>
+                    <input type="text" value={saleDetailAddress} onChange={(e) => setSaleDetailAddress(e.target.value)} />
+                  </div>
                 </div>
               </div>
             </div>

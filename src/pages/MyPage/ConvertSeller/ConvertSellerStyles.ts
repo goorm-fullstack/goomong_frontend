@@ -7,9 +7,11 @@ export const ConvertSellerStyles = styled.div`
     margin: 0 auto;
     display: flex;
     margin-top: 30px;
-    .sale-info-set a {
+
+    .info-set a {
       color: #558ff5;
     }
+
     .info-container {
       width: 100%;
       .title {
@@ -83,13 +85,19 @@ export const ConvertSellerStyles = styled.div`
             font-size: 14px;
             font-weight: 600;
             letter-spacing: -0.04em;
+            display: flex;
+            align-items: center;
+
+            .text {
+              width: 100px;
+            }
           }
           input {
             width: 320px;
             height: 42px;
             border-radius: 8px;
             border: 1px solid #ccc;
-            margin-left: 32px;
+            padding-left: 20px;
           }
         }
       }
@@ -107,6 +115,24 @@ export const ConvertSellerStyles = styled.div`
         vertical-align: center;
         border: 0;
         border-radius: 8px;
+      }
+    }
+    .address {
+      .top {
+        #zipNo {
+          width: 190px;
+          margin-right: 30px;
+        }
+        button {
+          width: 100px;
+          height: 42px;
+          border-radius: 8px;
+          background-color: transparent;
+          border: 1px solid #ccc;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+        }
       }
     }
   }

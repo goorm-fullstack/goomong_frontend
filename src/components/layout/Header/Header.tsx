@@ -31,13 +31,15 @@ const Header: React.FC = () => {
   const [currentTerm, setCurrentTerm] = useState<CurrentTermProps[]>(currentTerms);
 
   //최근 검색어 x 표시 클릭시 삭제 로직
-  const handleCurrentDelete = (id: number) => {
+  const handleCurrentDelete = (event: React.MouseEvent,id: number) => {
+    event.stopPropagation(); // 이벤트 버블링 중단
     console.log('Deleting item with id:', id);
     const updatedCurrent = currentTerm.filter((item) => item.id !== id);
     setCurrentTerm(updatedCurrent);
   };
 
-  const handleCurrentAllDelete = () => {
+  const handleCurrentAllDelete = (event: React.MouseEvent) => {
+    event.stopPropagation(); // 이벤트 버블링 중단
     console.log('Deleting all items');
     setCurrentTerm([]);
   };
@@ -99,6 +101,8 @@ const Header: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
+  
 
   return (
     <S.Header>
@@ -172,7 +176,6 @@ const Header: React.FC = () => {
                 </li>
               </ul>
             </div>
-            {/* {isFocused && ( */}
             <div className="keyword">
               <ul className="current">
                 <div className="title">최근 검색어</div>
@@ -199,7 +202,7 @@ const Header: React.FC = () => {
                       </div>
                       <span className="current-text">{term.term}</span>
                     </Link>
-                    <button className="delete-btn" onClick={() => handleCurrentDelete(term.id)}>
+                    <button className="delete-btn" onClick={(e) => handleCurrentDelete(e,term.id)}>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
@@ -232,8 +235,6 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                 ))}
               </ul>
             </div>
-            {/* )} */}
-            {/* {isFocused && ( */}
             <div className="keyword-bottom">
               <ul>
                 <li>
@@ -244,7 +245,6 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                 <li>자동완성 끄기</li>
               </ul>
             </div>
-            {/* )} */}
           </div>
 
           <div className="gnb">

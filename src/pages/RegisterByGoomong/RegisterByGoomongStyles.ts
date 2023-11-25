@@ -139,4 +139,10 @@ export const RegisterByGoomong = styled.div`
     fill: #4285f4;
     transition: 0.2s all ease-in-out;
   }
+
+  .condition {
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 10px;
+  }
 `;

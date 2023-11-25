@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 
-import * as S from "./MyPageChangePwStyles";
-import Header from "../../../components/layout/Header/Header";
-import MyPageLeft from "../MyPageLeft/MyPageLeft";
-import Footer from "../../../components/layout/Footer/Footer";
-import { Cookies } from "react-cookie";
-import Instance from "../../../util/API/axiosInstance";
+import * as S from './MyPageChangePwStyles';
+import Header from '../../../components/layout/Header/Header';
+import MyPageLeft from '../MyPageLeft/MyPageLeft';
+import Footer from '../../../components/layout/Footer/Footer';
+import { Cookies } from 'react-cookie';
+import Instance from '../../../util/API/axiosInstance';
 
 interface UserInfo {
   imageUrl?: string;
@@ -25,19 +25,18 @@ interface IAddr {
 
 const MyPageChangePw: React.FC = () => {
   const cookies = new Cookies();
-  const [memberId, setMemberId] = useState<string>("");
-  const [memberPassword, setMemberPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newPasswordCheck, setNewPasswordCheck] = useState<string>("");
+  const [memberId, setMemberId] = useState<string>('');
+  const [memberPassword, setMemberPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [newPasswordCheck, setNewPasswordCheck] = useState<string>('');
 
   useEffect(() => {
-    setMemberId(cookies.get("memberId"));
+    setMemberId(cookies.get('memberId'));
   }, []);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    const script = document.createElement('script');
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -58,21 +57,18 @@ const MyPageChangePw: React.FC = () => {
 
     Instance.put(`/api/member/update/password`, memberInfo, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then(() => {
-        cookies.remove("memberId");
-        cookies.remove("id");
-        cookies.remove("memberRole");
-        alert(
-          "비밀번호가 변경되었습니다. 로그아웃을 진행합니다. 다시 로그인해주세요."
-        );
+        cookies.remove('memberId');
+        cookies.remove('id');
+        cookies.remove('memberRole');
+        alert('비밀번호가 변경되었습니다. 로그아웃을 진행합니다. 다시 로그인해주세요.');
         window.location.href = '/';
-
       })
       .catch(() => {
-        alert("현재 비밀번호가 틀렸습니다. 다시 입력해주세요.");
+        alert('현재 비밀번호가 틀렸습니다. 다시 입력해주세요.');
       });
   };
 
@@ -93,56 +89,29 @@ const MyPageChangePw: React.FC = () => {
             <div className="get-container">
               <div className="info-get">
                 <div className="input-text">
-                  회원 아이디
-                  <input
-                    required
-                    type="memberId"
-                    value={memberId}
-                    onChange={(e) => setMemberId(e.target.value)}
-                    readOnly
-                  />
+                  <div className="text">회원 아이디</div>
+                  <input required type="memberId" value={memberId} onChange={(e) => setMemberId(e.target.value)} readOnly />
                 </div>
                 <div className="input-text">
-                  현재 비밀번호
-                  <input
-                    required
-                    type="password"
-                    value={memberPassword}
-                    onChange={(e) => setMemberPassword(e.target.value)}
-                  />
+                  <div className="text">현재 비밀번호</div>
+                  <input required type="password" value={memberPassword} onChange={(e) => setMemberPassword(e.target.value)} />
                 </div>
                 <div className="input-text">
-                  새 비밀번호
-                  <input
-                    required
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
+                  <div className="text">새 비밀번호</div>
+                  <input required type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                 </div>
                 <div className="input-text">
-                  새 비밀번호 확인
+                  <div className="text">새 비밀번호 확인</div>
                   <input
                     required
                     type="password"
                     value={newPasswordCheck}
                     onChange={(e) => setNewPasswordCheck(e.target.value)}
-                    className={`check-pw ${
-                      newPassword
-                        ? isNewPasswordMatch
-                          ? "match"
-                          : "mismatch"
-                        : ""
-                    }`}
+                    className={`check-pw ${newPassword ? (isNewPasswordMatch ? 'match' : 'mismatch') : ''}`}
                   />
                   {newPassword && !isNewPasswordMatch && (
                     <div className="incorrect-text">
-                      <svg
-                        width="12px"
-                        height="11px"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                      <svg width="12px" height="11px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <g>
                           <path d="M0 0h24v24H0z" fill="none" />
                           <path
@@ -157,32 +126,13 @@ const MyPageChangePw: React.FC = () => {
                   )}
                   {newPasswordCheck && isNewPasswordMatch && (
                     <div className="correct-text">
-                      <svg
-                        height="10px"
-                        version="1.1"
-                        viewBox="0 0 20 20"
-                        width="10px"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                      <svg height="10px" version="1.1" viewBox="0 0 20 20" width="10px" xmlns="http://www.w3.org/2000/svg">
                         <title />
                         <desc />
                         <defs />
-                        <g
-                          fill="none"
-                          fillRule="evenodd"
-                          id="Page-1"
-                          stroke="none"
-                          strokeWidth="1"
-                        >
-                          <g
-                            fill="#34a853"
-                            id="Core"
-                            transform="translate(-128.000000, -86.000000)"
-                          >
-                            <g
-                              id="check-circle-outline"
-                              transform="translate(128.000000, 86.000000)"
-                            >
+                        <g fill="none" fillRule="evenodd" id="Page-1" stroke="none" strokeWidth="1">
+                          <g fill="#34a853" id="Core" transform="translate(-128.000000, -86.000000)">
+                            <g id="check-circle-outline" transform="translate(128.000000, 86.000000)">
                               <path
                                 d="M5.9,8.1 L4.5,9.5 L9,14 L19,4 L17.6,2.6 L9,11.2 L5.9,8.1 L5.9,8.1 Z M18,10 C18,14.4 14.4,18 10,18 C5.6,18 2,14.4 2,10 C2,5.6 5.6,2 10,2 C10.8,2 11.5,2.1 12.2,2.3 L13.8,0.7 C12.6,0.3 11.3,0 10,0 C4.5,0 0,4.5 0,10 C0,15.5 4.5,20 10,20 C15.5,20 20,15.5 20,10 L18,10 L18,10 Z"
                                 id="Shape"
