@@ -65,7 +65,7 @@ const HotItem: React.FC = () => {
 
   const settings = {
     infinite: true,
-    slidesToShow: Math.min(products.length, 6.3),
+    slidesToShow: Math.min(products.length, 6),
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,
@@ -77,31 +77,11 @@ const HotItem: React.FC = () => {
       {
         breakpoint: 1700,
         settings: {
-          slidesToShow: 5.3,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
-      },
-      {
-        breakpoint: 1600,
-        settings: {
-          slidesToShow: 4.3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 3.3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 780,
-        settings: {
-          slidesToShow: 2.3,
-          slidesToScroll: 1,
-        },
-      },
+      }
+      
     ],
   };
 
