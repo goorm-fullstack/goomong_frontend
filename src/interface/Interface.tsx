@@ -253,7 +253,7 @@ export interface SellerData {
 }
 
 export interface CurrentSearch {
-  id: number;
+  searchId: number;
   keyword: string;
 }
 

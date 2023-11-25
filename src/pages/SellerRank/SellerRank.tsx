@@ -158,7 +158,7 @@ const SellerRank: React.FC = () => {
                           총리뷰 <span className="number">{item.reviewCount}</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{item.totalRating}</span>
+                        <span className=" star-number">{item.totalRating.toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>

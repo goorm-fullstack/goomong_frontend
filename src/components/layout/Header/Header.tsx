@@ -35,15 +35,20 @@ const Header: React.FC = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  //최근 검색어 x 표시 클릭시 삭제 로직
-  const handleCurrentDelete = (id: number) => {
-    console.log('Deleting item with id:', id);
-    const updatedCurrent = currentSearch?.filter((item) => item.id !== id);
+  const handleCurrentDelete = (event: React.MouseEvent, searchId: number) => {
+    event.stopPropagation();
+    Instance.delete(`/api/search/recent/key/${searchId}`)
+      .then(() => {})
+      .catch((e) => console.log(e));
+    const updatedCurrent = currentSearch?.filter((item) => item.searchId !== searchId);
     setCurrentSearch(updatedCurrent);
   };
 
-  const handleCurrentAllDelete = () => {
-    console.log('Deleting all items');
+  const handleCurrentAllDelete = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    Instance.delete(`/api/search/recent/${id}`)
+      .then(() => {})
+      .catch((e) => console.log(e));
     setCurrentSearch([]);
   };
 
@@ -185,8 +190,8 @@ const Header: React.FC = () => {
                 <div className="title">최근 검색어</div>
                 {currentSearch &&
                   currentSearch.map((term) => (
-                    <li key={term.id}>
-                      <Link to="#null">
+                    <li key={term.searchId}>
+                      <Link to={`/search/${term.keyword}`}>
                         <div className="svg-container">
                           <svg
                             version="1.0"
@@ -207,7 +212,7 @@ const Header: React.FC = () => {
                         </div>
                         <span className="current-text">{term.keyword}</span>
                       </Link>
-                      <button className="delete-btn" onClick={() => handleCurrentDelete(term.id)}>
+                      <button className="delete-btn" onClick={(e) => handleCurrentDelete(e, term.searchId)}>
                         <svg
                           version="1.0"
                           xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +238,7 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                 {popularSearch &&
                   popularSearch.map((term, index) => (
                     <li key={index}>
-                      <Link to="#null">
+                      <Link to={`/search/${term.keyword}`}>
                         <span>{index + 1}.</span>
                         {term.keyword}
                       </Link>
@@ -246,7 +251,7 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
             <div className="keyword-bottom">
               <ul>
                 <li>
-                  <button type="button" onClick={handleCurrentAllDelete}>
+                  <button type="button" onClick={(e) => handleCurrentAllDelete(e)}>
                     전체 삭제
                   </button>
                 </li>
