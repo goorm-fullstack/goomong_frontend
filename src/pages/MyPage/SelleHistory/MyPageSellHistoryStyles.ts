@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const MyPagePaymentStyles = styled.div`
-  .mypage-payment-container {
+export const MyPageSellHistoryStyles = styled.div`
+  .mypage-sell-container {
     width: 1280px;
     padding: 0 40px;
     margin: 0 auto;
     display: flex;
     margin-top: 30px;
-    .payment-history a {
+    .sell-history a {
       color: #558ff5;
     }
     .list-title {
@@ -28,13 +28,13 @@ export const MyPagePaymentStyles = styled.div`
         justify-content: center;
       }
       :nth-child(1) {
-        width: 30%;
+        width: 40%;
       }
       :nth-child(2) {
-        width: 25%;
+        width: 30%;
       }
     }
-    .payment-container {
+    .sell-container {
       width: 100%;
       .title {
         margin-top: 29px;
@@ -98,28 +98,10 @@ export const MyPagePaymentStyles = styled.div`
         justify-content: center;
       }
       :nth-child(1) {
-        width: 30%;
+        width: 40%;
       }
       :nth-child(2) {
-        width: 25%;
-      }
-      :nth-child(5) {
-        width: 15%;
-      }
-      .review-reg {
-        width: 100%;
-        border: 1px solid #4285f4;
-        background-color: transparent;
-        border-radius: 8px;
-        font-weight: 500;
-        cursor: pointer;
-        font-size: 12px;
-      }
-
-      .review-reg:hover {
-        background-color: #4285f4;
-        border: 1px solid #4285f4;
-        color: #fff;
+        width: 30%;
       }
     }
   }
