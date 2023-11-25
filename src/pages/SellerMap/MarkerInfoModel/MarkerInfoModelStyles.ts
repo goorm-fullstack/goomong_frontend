@@ -7,7 +7,7 @@ export const MarkerInfoModelStyles = styled.div`
     position: absolute;
     z-index: 100001;
     background-color: #fff;
-    top: calc(100% - 200px);
+    bottom: 25%;
     left: calc(50% - 190px);
     border-radius: 8px;
     padding: 18px 16px;

@@ -16,7 +16,7 @@ const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
     <S.RankModelStyle>
       <div className="rank-model-container">
         <div className="rank-model-title">{top5Ranking[0].category} 1위</div>
-        <Link to="#null">
+        <Link to={`/seller/detail/${top5Ranking[0].memberId}`}>
           <div className="top1">
             <img src={GoldMedal} alt="GoldMedal" className="medal-img" />
             <div className="money-seller-name">
@@ -31,7 +31,7 @@ const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
             </div>
           </div>
         </Link>
-        <Link to="#null">
+        <Link to={`/seller/detail/${top5Ranking[1].memberId}`}>
           <div className="top2">
             <img src={SilverMedal} alt="SilverMedal" className="medal-img" />
             <div className="money-seller-name">
@@ -47,7 +47,7 @@ const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
           </div>
         </Link>
 
-        <Link to="#null">
+        <Link to={`/seller/detail/${top5Ranking[2].memberId}`}>
           <div className="top3">
             <img src={BronzeMedal} alt="BronzeMedal" className="medal-img" />
             <div className="money-seller-name">
@@ -63,7 +63,7 @@ const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
           </div>
         </Link>
 
-        <Link to="#null">
+        <Link to={`/seller/detail/${top5Ranking[3].memberId}`}>
           <div className="top4">
             <span className="rank-4">4</span>
             <div className="money-seller-name">
@@ -79,7 +79,7 @@ const RankModel: React.FC<RankModelProps> = ({ top5Ranking }) => {
           </div>
         </Link>
 
-        <Link to="#null">
+        <Link to={`/seller/detail/${top5Ranking[4].memberId}`}>
           <div className="top5">
             <span className="rank-5">5</span>
             <div className="money-seller-name">
