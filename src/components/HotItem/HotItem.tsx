@@ -65,7 +65,7 @@ const HotItem: React.FC = () => {
 
   const settings = {
     infinite: true,
-    slidesToShow: 7,
+    slidesToShow: 6.3,
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,

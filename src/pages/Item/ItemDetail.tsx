@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams, Link } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import Instance from '../../util/API/axiosInstance';
 import { blob } from 'stream/consumers';
 import Header from '../../components/layout/Header/Header';
@@ -54,21 +54,7 @@ export default function ItemDetail() {
   };
 
   const { id } = useParams();
-  const [item, setItem] = useState<Item>({
-    id: 1,
-    title: 'test',
-    member: null,
-    price: 1000,
-    description: 'test',
-    itemOptions: [],
-    thumbNailList: [],
-    itemCategories: [],
-    reviewList: [],
-    askList: [],
-    rate: 1.0,
-    status: 'SALE',
-  });
-  const [sellerId, setSellerId] = useState<string> ();
+  const [item, setItem] = useState<Item>();
   const navigator = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [sellerImageUrls, setSellerImageUrls] = useState<string[]>([]);
@@ -170,6 +156,9 @@ export default function ItemDetail() {
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터
   const [isAskClick, setIsAskClick] = useState<number>(0); // 문의 제목 클릭 여부
   const [reviewImage, setReviewImage] = useState<string[]>(); // 리뷰 이미지
+  const [orderBy, setOrderBy] = useState<string>();
+  const [direction, setDirection] = useState<string>();
+  const location = useLocation();
 
   // 문의 데이터 가져오기
   useEffect(() => {
@@ -189,18 +178,28 @@ export default function ItemDetail() {
 
   // 리뷰 데이터 가져오기
   useEffect(() => {
-    Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}`)
-      .then((response) => {
-        const data = response.data;
-        setReviewData(data);
-        if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [reviewCurrentPage, id]);
-
-  console.log(sellerInfo);
+    if (orderBy && direction) {
+      Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}&orderBy=${orderBy}&direction=${direction}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      Instance.get(`/api/reviews/${id}?page=${reviewCurrentPage}`)
+        .then((response) => {
+          const data = response.data;
+          setReviewData(data);
+          if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [reviewCurrentPage, id, orderBy, direction]);
 
   // 문의 클릭 함수
   const clickAsk = (askId: number): void => {
@@ -224,6 +223,22 @@ export default function ItemDetail() {
 
     fetchImages();
   }, [reviewData]);
+
+  useEffect(() => {
+    if (location.search) {
+      const word = location.search.replace('?', '');
+      if (word === 'recent') {
+        setOrderBy('regDate');
+        setDirection('desc');
+      } else if (word === 'old') {
+        setOrderBy('regDate');
+        setDirection('asc');
+      } else if (word === 'rate') {
+        setOrderBy('rate');
+        setDirection('desc');
+      }
+    }
+  }, [location]);
 
   return (
     <>
@@ -254,7 +269,7 @@ export default function ItemDetail() {
               </ul>
               <div className="contentbox" data-show={showDetail}>
                 {/* 상품 상세정보 */}
-                {item.description}
+                {item?.description}
               </div>
               <div className="contentbox qna" data-show={showQna}>
                 <h3>문의 답변</h3>
@@ -312,10 +327,10 @@ export default function ItemDetail() {
               </div>
               <div className="contentbox review" data-show={showReview}>
                 <h3>
-                  고객 후기(<strong>★</strong> {item.rate} <span>{item.reviewList.length}건</span>)
+                  고객 후기(<strong>★</strong> {item?.rate.toFixed(1)} <span>{item?.reviewList.length}건</span>)
                 </h3>
                 <C.SortWrapper>
-                  <p className="total">총 {commaNumber(item.reviewList.length)}개</p>
+                  <p className="total">총 {item ? commaNumber(item?.reviewList.length) : 0}개</p>
                   <Sort type="order" />
                 </C.SortWrapper>
                 <div className="review-wrapper">
@@ -342,20 +357,19 @@ export default function ItemDetail() {
               {/* 상품 정보 */}
               <div>
                 <p className="category">
-                  {item.itemCategories ? item.itemCategories.map((category, index) => <span key={index}>{category.title} </span>) : <></>}
-                  <span>지역</span>
+                  {item?.itemCategories ? item?.itemCategories.map((category, index) => <span key={index}>{category.title} </span>) : <></>}
                 </p>
-                <h2>{item.title}</h2>
+                <h2>{item?.title}</h2>
                 {/* 짧은 설명글이 엔티티에 없습니다. 혹시 모르니 일단 주석 처리했습니다. <p className="summary">상품 설명글 짧은글</p>*/}
                 <table>
                   {/** 상품 옵션 등 기타 정보 */}
                   <tbody>
                     {/* loop start */}
-                    {item.itemOptions ? (
-                      item.itemOptions.map((option, index) => (
+                    {item?.itemOptions ? (
+                      item?.itemOptions.map((option, index) => (
                         <tr key={index}>
                           <th>{option.option}</th>
-                          <td>{commaNumber(option.price)}</td>
+                          <td>{commaNumber(option.price)}원</td>
                         </tr>
                       ))
                     ) : (
@@ -364,7 +378,7 @@ export default function ItemDetail() {
                   </tbody>
                 </table>
                 <p className="price">
-                  <strong>{commaNumber(item.price)}</strong> 원
+                  <strong>{item ? commaNumber(item.price) : 0}</strong> 원
                 </p>
               </div>
               <button type="button" onClick={handleBuyClick} className="btn-order">

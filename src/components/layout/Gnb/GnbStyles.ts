@@ -155,7 +155,7 @@ export const Gnb = styled.div`
     flex-wrap: wrap;
     margin-top: 40px;
   }
-  .local-menu > li,
+  .local-menu > a,
   .service-menu > li {
     color: var(--black);
     width: 50%;
@@ -168,13 +168,13 @@ export const Gnb = styled.div`
     font-size: 14px;
     letter-spacing: -0.04em;
   }
-  .local-menu > li:hover,
+  .local-menu > a:hover,
   .service-menu > li:hover {
     color: var(--blue);
     background-color: #f5f8ff;
   }
 
-  .local-menu > li:hover a,
+  .local-menu > a:hover a,
   .service-menu > li:hover a {
     color: var(--blue);
   }

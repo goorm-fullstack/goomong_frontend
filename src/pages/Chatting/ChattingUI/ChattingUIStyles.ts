@@ -148,10 +148,20 @@ export const ChattingUIStyles = styled.div`
       font-weight: 400;
       letter-spacing: -0.04em;
       margin-bottom: 18px;
-      align-items: flex-end;
+      align-self: flex-end;
     }
+
     .other-content {
-      align-items: flex-start;
+      border-radius: 8px;
+      padding: 15px 10px;
+      background-color: #fff;
+      width: 220px;
+      color: #101c33;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+      align-self: flex-start;
     }
 
     form {

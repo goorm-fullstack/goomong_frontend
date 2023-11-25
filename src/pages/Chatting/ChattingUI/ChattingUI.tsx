@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import * as S from './ChattingUIStyles';
 import { Link } from 'react-router-dom';
+import { Item, Message } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
+import { getCookie } from '../../../util/func/functions';
+import { CommentHistoryModelStyles } from '../../MyPage/BoardHistory/CommentHistoryModel/CommentHistoryModelStyles';
 
 interface Opponent {
   imageUrl?: string;
@@ -19,14 +23,11 @@ interface UIModel {
   bigDate: string;
   nowDate: string;
   content: Message[];
+  roomId: number;
   sendMessage: (message: string) => void;
 }
-interface Message {
-  userId?: number;
-  message: string[];
-}
 
-const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, nowDate, content, sendMessage }) => {
+const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, nowDate, content, roomId, sendMessage }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="22px" height="20px">
       <path
@@ -36,6 +37,8 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
     </svg>
   );
   const [message, setMessage] = useState<string>('');
+  const [item, setItem] = useState<Item>();
+  const memberId = getCookie('id');
 
   const handleMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,15 +54,82 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
   const contentContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (roomId !== 0) {
+      Instance.get('/api/chat/roomId', {
+        params: {
+          id: roomId,
+        },
+      }).then((response) => {
+        console.log(response.data.itemDto);
+        setItem(response.data.itemDto);
+      });
+    }
+  }, [roomId]);
+
+  useEffect(() => {
     if (contentContainerRef.current) {
       contentContainerRef.current.scrollTop = contentContainerRef.current.scrollHeight;
     }
   }, [content]);
 
+  const handleOrderClick = async () => {
+    let data = {
+      orderItem: [item?.id],
+      memberId: memberId,
+      address: {
+        state: '경기도',
+        city: '성남',
+        street: '판교',
+        detail: '구름',
+      },
+    };
+
+    Instance.post('/api/order/success', data).then((response) => {
+      if (response.status === 200) {
+        window.location.href = '/order/success';
+      }
+    });
+  };
+
+  const handleBuyClick = async () => {
+    console.log(item);
+    console.log('================');
+    if (item) {
+      let data = {
+        id: 1,
+        orderName: '테스트 결제',
+        successURL: 'http://localhost:3000/order/success',
+        failURL: 'http://localhost:3000/api/payment/kakao/fail',
+        cancelURL: 'http://localhost:3000/api/payment/kakao/cancel',
+        price: item?.price,
+        orderDto: {
+          orderItem: [item?.id],
+          memberId: memberId,
+          price: item?.price,
+          address: {
+            state: '경기도',
+            city: '성남',
+            street: '판교',
+            detail: '구름',
+          },
+        },
+      };
+
+      await Instance.post('/api/payment/kakao/ready', data).then((response) => {
+        if (response.status === 200) {
+          window.open(response.data.next_redirect_pc_url, 'width=600,height=400');
+        }
+      });
+    }
+  };
+
   return (
     <S.ChattingUIStyles>
       <div className="UI-container">
-        <div className="title">{opponent.product}</div>
+        <div className="title">
+          {opponent.product}
+          <button onClick={handleBuyClick}>구매하기</button>
+        </div>
         <div className="content">
           <div className="content-container" ref={contentContainerRef}>
             <div className="opponent">
@@ -80,14 +150,19 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
             </div>
             <div className="big-date">{bigDate}</div>
             <div className="user">
-              {content.map((message, index) => (
-                <div key={index} className={`user-content ${message.userId === userId ? '' : 'other-content'}`}>
-                  {message.message}
-                </div>
-              ))}
+              {content.map((message, index) =>
+                message.isYour ? (
+                  <div key={index} className="user-content">
+                    {message.message}
+                  </div>
+                ) : (
+                  <div key={index} className="other-content">
+                    {message.message}
+                  </div>
+                )
+              )}
             </div>
           </div>
-
           <form onSubmit={handleMessageSubmit}>
             <input className="text-box" type="text" value={message} placeholder="메시지를 입력하세요." onChange={(e) => setMessage(e.target.value)} />
             <div className="bottom">

@@ -104,8 +104,7 @@ const SellerMap: React.FC = () => {
           </div>
         </div>
         <KakaoMap user={mapData.user} seller={mapData.seller} isClicked={setShowDetail} />
-        {/* {showDetail && <MarkerInfoModel />} */}
-        <MarkerInfoModel
+        {showDetail && <MarkerInfoModel
           sellerId={markerData.sellerId}
           imageUrl={markerData.imageUrl}
           sellerName={markerData.sellerName}
@@ -114,7 +113,8 @@ const SellerMap: React.FC = () => {
           totalReview={markerData.totalReview}
           star={markerData.star}
           intro={markerData.intro}
-        />
+        />}
+        
       </div>
       <Footer />
     </S.SellerMapStyles>
