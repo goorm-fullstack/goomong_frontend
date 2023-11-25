@@ -7,6 +7,7 @@ import Pagination from '../../../components/Pagination/Pagination';
 import { commaNumber, formattingDate, getCookie } from '../../../util/func/functions';
 import { Item } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
+import { Link } from 'react-router-dom';
 
 interface OrderDetail {
   id: number;
@@ -95,8 +96,8 @@ const MyPagePayment: React.FC = () => {
         <MyPageLeft />
         <div className="payment-container">
           <div className="title">
-            결제내역
-            <div className="small">결제 내역을 관리할 수 있어요</div>
+            구매내역
+            <div className="small">구매 내역을 관리할 수 있어요</div>
           </div>
           <div className="total-order">
             <ul>
@@ -104,7 +105,7 @@ const MyPagePayment: React.FC = () => {
                 진행중 <span className="number">{formatNumber2(orderData.doingOrder)}</span>개
               </li>
               <li>
-                판매한 재능 수 <span className="number second">{formatNumber2(orderData.completeOrder)}</span>개
+                구매한 재능 수 <span className="number second">{formatNumber2(orderData.completeOrder)}</span>개
               </li>
             </ul>
           </div>
@@ -121,6 +122,12 @@ const MyPagePayment: React.FC = () => {
               <li>{formattingDate(item.regDate)}</li>
               <li>{commaNumber(item.price)}원</li>
               <li>{formattingStatus(item.status)}</li>
+              <li>
+              <Link to="#null">
+                <button className='review-reg'>리뷰 작성</button>
+              </Link>
+            </li>
+              
             </ul>
           ))}
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />

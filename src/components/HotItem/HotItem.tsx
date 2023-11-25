@@ -75,30 +75,30 @@ const HotItem: React.FC = () => {
 
     responsive: [
       {
-        breakpoint: 1900,
+        breakpoint: 1700,
         settings: {
-          slidesToShow: 6,
+          slidesToShow: 5.3,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1600,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 4.3,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1000,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 3.3,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 780,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.3,
           slidesToScroll: 1,
         },
       },

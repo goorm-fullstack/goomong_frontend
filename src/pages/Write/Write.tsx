@@ -21,7 +21,7 @@ const Write: React.FC = () => {
   const imgRef = useRef<HTMLInputElement>(null);
   const cookies = new Cookies();
   const type = useParams().type;
-  const itemId = location.state.itemId;
+  const itemId = type !== 'productreg' ? location.state?.itemId : undefined;
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -126,9 +126,29 @@ const Write: React.FC = () => {
     <S.WriteStyles>
       <Header />
       <div className="write-container">
-        <div className="write-title">{type === 'community' ? '게시글 작성하기' : '문의하기'}</div>
+        <div className="write-title"> {type === 'community' ? '게시글 작성하기' : type === 'productreg' ? '재능 등록' : '문의하기'}</div>
         <form onSubmit={handleWriteSubmit} className="write-form">
           {type === 'community' && (
+            <>
+              <div className="input-text">카테고리를 선택해주세요</div>
+              <div className="write-category" onClick={toggleDropdown}>
+                {selectedCategory}
+                {isDropdownOpen ? (
+                  <div className="dropdown-category">
+                    <ul>
+                      {categoryData &&
+                        categoryData.map((category, index) => (
+                          <li onClick={() => handleCategorySelect(category.categoryName, category.id)} key={index}>
+                            {category.categoryName}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+            </>
+          )}
+          {type === 'productreg' && (
             <>
               <div className="input-text">카테고리를 선택해주세요</div>
               <div className="write-category" onClick={toggleDropdown}>

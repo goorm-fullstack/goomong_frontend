@@ -49,6 +49,7 @@ import NotFound from './pages/NotFound/NotFound';
 import SearchDetail from './pages/SearchDetail/SearchDetail';
 import ConvertSeller from './pages/MyPage/ConvertSeller/ConvertSeller';
 import MyPageChatting from './pages/MyPage/MyPageChatting/MyPageChatting';
+import MyPageSellHistory from './pages/MyPage/SelleHistory/MyPageSellHistory';
 
 const App: React.FC = () => {
   return (
@@ -107,6 +108,7 @@ const App: React.FC = () => {
         <Route path="/mypage/board" element={<MyPageBoard />} />
         <Route path="/mypage/point" element={<MyPagePoint />} />
         <Route path="/mypage/chatting" element={<MyPageChatting />} />
+        <Route path="/mypage/sellhistory" element={<MyPageSellHistory />} />
         <Route path="/mypage/convertseller" element={<ConvertSeller />} />
 
         {/* Not Found */}
