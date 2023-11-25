@@ -140,25 +140,25 @@ const SellerRank: React.FC = () => {
             <div className="top">TOP 5</div>
             <div className="align-menu"></div>
             <div className="seller-list">
-              {findMember.map((item, index) => (
+              {findMember.map((member, index) => (
                 <div className={`seller-list-item ${index === findMember.length - 1 ? 'last-item' : ''}`} key={index}>
-                  <Link to="#null">
+                  <Link to={`/seller/detail/${member.memberId}`}>
                     <div className="image-container">{imageUrls ? <img src={imageUrls[index]} alt="" /> : defaultImage}</div>
                     <div className="right">
-                      <div className="category">{item.saleSido}</div>
-                      <div className="seller-name">{item.memberName}</div>
+                      <div className="category">{member.saleSido}</div>
+                      <div className="seller-name">{member.memberName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익 <span className="number">{formatCurrency(item.totalSales)}</span>
+                          총수익 <span className="number">{formatCurrency(member.totalSales)}</span>
                         </span>
                         <span className="transaction">
-                          총거래 <span className="number">{item.transaction}</span>
+                          총거래 <span className="number">{member.transaction}</span>
                         </span>
                         <span className="review">
-                          총리뷰 <span className="number">{item.reviewCount}</span>
+                          총리뷰 <span className="number">{member.reviewCount}</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{item.totalRating.toFixed(1)}</span>
+                        <span className=" star-number">{member.totalRating.toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>

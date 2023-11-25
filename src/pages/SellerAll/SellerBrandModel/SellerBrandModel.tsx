@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { commaNumber } from '../../../util/func/functions';
 
 interface SellerBrandProps {
+  id: number;
   imageUrl?: string;
   sellerName: string;
   p_category: string;
@@ -25,6 +26,7 @@ const defaultImage = (
 );
 
 const SellerBrandModel: React.FC<SellerBrandProps> = ({
+  id,
   imageUrl,
   sellerName,
   p_category,
@@ -53,7 +55,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
 
   return (
     <S.SellerBrandModelStyles>
-      <Link to="/seller/detail">
+      <Link to={`/seller/detail/${id}`}>
         <div className="seller-brand-model-container">
           <div className="top">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
