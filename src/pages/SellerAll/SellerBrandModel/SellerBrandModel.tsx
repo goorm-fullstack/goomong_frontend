@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { commaNumber } from '../../../util/func/functions';
 
 interface SellerBrandProps {
+  id: number;
   imageUrl?: string;
   sellerName: string;
   p_category: string;
@@ -25,6 +26,7 @@ const defaultImage = (
 );
 
 const SellerBrandModel: React.FC<SellerBrandProps> = ({
+  id,
   imageUrl,
   sellerName,
   p_category,
@@ -53,7 +55,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
 
   return (
     <S.SellerBrandModelStyles>
-      <Link to="/seller/detail">
+      <Link to={`/seller/detail/${id}`}>
         <div className="seller-brand-model-container">
           <div className="top">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
@@ -78,7 +80,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
                   총리뷰 <span className="number">{totalReview === null ? 0 : totalReview}개</span>
                 </span>
                 <span className="star"> ★</span>
-                <span className=" star-number">{star === null ? 0 : star.toFixed(1)}</span>
+                <span className=" star-number">{star === null ? 0 : (star / totalReview).toFixed(1)}</span>
               </div>
             </div>
           </div>

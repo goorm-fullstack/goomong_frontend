@@ -7,19 +7,8 @@ import Instance from '../../../util/API/axiosInstance';
 import { getCookie } from '../../../util/func/functions';
 import { CommentHistoryModelStyles } from '../../MyPage/BoardHistory/CommentHistoryModel/CommentHistoryModelStyles';
 
-interface Opponent {
-  imageUrl?: string;
-  nickname: string;
-  product: string;
-  money: number;
-  date: string;
-  content: string[];
-}
-
 interface UIModel {
-  opponent: Opponent;
   userId?: number;
-  product: string;
   bigDate: string;
   nowDate: string;
   content: Message[];
@@ -27,7 +16,7 @@ interface UIModel {
   sendMessage: (message: string) => void;
 }
 
-const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, nowDate, content, roomId, sendMessage }) => {
+const ChattingUI: React.FC<UIModel> = ({ userId, bigDate, nowDate, content, roomId, sendMessage }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="22px" height="20px">
       <path
@@ -74,7 +63,7 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
 
   const handleOrderClick = async () => {
     let data = {
-      orderItem: [item?.id],
+      orderItem: item?.id,
       memberId: memberId,
       address: {
         state: '경기도',
@@ -147,31 +136,14 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
   return (
     <S.ChattingUIStyles>
       <div className="UI-container">
-        <div className="title">
-          {opponent.product}
+        <div className="top">
           <button onClick={handleBuyClick}>구매하기</button>
         </div>
         <div className="content">
           <div className="content-container" ref={contentContainerRef}>
-            <div className="opponent">
-              <div className="image-container">{opponent.imageUrl ? <img src={opponent.imageUrl} alt="" /> : defaultImage}</div>
-
-              <div className="opponent-content">
-                <div className="nickname">{opponent.nickname}</div>
-                <div className="product">{opponent.product}</div>
-                <div className="price">
-                  <div className="name">상품 금액</div>
-                  <div className="money">{opponent.money}</div>
-                </div>
-                <Link to="#null">
-                  <button type="button">상품 상세페이지 열기</button>
-                </Link>
-              </div>
-              <div className="date">{opponent.date}</div>
-            </div>
-            <div className="big-date">{bigDate}</div>
+            {/* <div className="big-date">{bigDate}</div> */}
             <div className="user">
-              {content.map((message, index) =>
+              {/* {content.map((message, index) =>
                 message.isYour ? (
                   <div key={index} className="user-content">
                     {message.message}
@@ -181,7 +153,70 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
                     {message.message}
                   </div>
                 )
-              )}
+              )} */}
+
+              {content.map((message, index) => {
+                
+                // 사용자의 메시지이고, product 정보가 있는 경우
+                if (message.isYour && message.product) {
+                  return (
+                    <div key={index} className="user-product-content">
+                      <div className="product-message-container">
+                        <div className="product-message-content">
+                          <div className="nickname">{message.product.nickName}</div>
+                          <div className="product">{message.product.productName}</div>
+                          <div className="price">
+                            <div className="name">상품 금액</div>
+                            <div className="money">{message.product.money}</div>
+                          </div>
+                          <Link to="#null">
+                            <button type="button">상품 상세페이지 열기</button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // 사용자의 메시지이지만, product 정보가 없는 경우
+                else if (message.isYour) {
+                  return (
+                    <div key={index} className="user-content">
+                      <div className="user-message">{message.message}</div>
+                    </div>
+                  );
+                }
+
+                // 다른 사용자의 메시지이고, product 정보가 있는 경우
+                else if (message.product) {
+                  return (
+                    <div key={index} className="other-product-content">
+                      <div className="other-message">{message.message}</div>
+                      <div className="product-message-container">
+                        <div className="product-message-content">
+                          <div className="nickname">{message.product.nickName}</div>
+                          <div className="product">{message.product.productName}</div>
+                          <div className="price">
+                            <div className="name">상품 금액</div>
+                            <div className="money">{message.product.money}</div>
+                          </div>
+                          <Link to="#null">
+                            <button type="button">상품 상세페이지 열기</button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                // 다른 사용자의 메시지이지만, product 정보가 없는 경우
+                else {
+                  return (
+                    <div key={index} className="other-content">
+                      <div className="other-message">{message.message}</div>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
           <form onSubmit={handleMessageSubmit}>

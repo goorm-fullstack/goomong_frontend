@@ -10,43 +10,48 @@ const Popular: React.FC = () => {
   const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
 
   useEffect(() => {
-    Instance.get<Top5Ranking[]>(`/api/ranking`)
-      .then((response) => {
-        const reviewRankings = response.data.filter((r) => r.category === '리뷰');
-        const orderedRankings = response.data.filter((r) => r.category === '주문');
-        const salesRankings = response.data.filter((r) => r.category === '판매 금액');
+    const fetchAndProcessRankings = async () => {
+      try {
+        const response = await Instance.get<Top5Ranking[]>(`/api/ranking`);
+        const rankingsData = response.data;
 
+        // 각 카테고리별로 데이터 필터링
+        const reviewRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '리뷰')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const orderedRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '주문')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const salesRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '판매 금액')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        // 카테고리별로 완성된 데이터를 상태에 저장
         setRankings({ ordered: orderedRankings, review: reviewRankings, sales: salesRankings });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const rankingsWithImages: RankingsState = {
-        ordered: await mapImagesToRankings(rankings.ordered),
-        review: await mapImagesToRankings(rankings.review),
-        sales: await mapImagesToRankings(rankings.sales),
-      };
-      setRankings(rankingsWithImages);
+      }
     };
 
-    if (rankings.ordered.length > 0 || rankings.review.length > 0 || rankings.sales.length > 0) {
-      fetchImages();
-    }
-  }, [rankings.ordered, rankings.review, rankings.sales]);
-
-  const mapImagesToRankings = async (rankingList: Top5Ranking[]): Promise<Top5Ranking[]> => {
-    return Promise.all(
-      rankingList.map(async (rank) => {
-        const imageUrl =
-          rank.profileImages.length > 0 ? await getImageFile(rank.profileImages[0].path) : 'https://via.placeholder.com/800x300?text=seller';
-        return { ...rank, imageUrl };
-      })
-    );
-  };
+    fetchAndProcessRankings();
+  }, []);
 
   return (
     <S.Popular>

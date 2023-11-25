@@ -9,33 +9,22 @@ import { commaNumber, formattingDate, getCookie } from '../../../util/func/funct
 import Instance from '../../../util/API/axiosInstance';
 import OrderDetail from '../../Order/OrderDetail';
 
-interface OrderDetail {
-  id: number;
-  orderItem: Item;
-  member: any;
-  price: number;
-  point: number;
-  status: string;
-  orderNumber: string;
-  regDate: Date;
-}
-
 interface Order {
   doingOrder: number;
   completeOrder: number;
-  orderDetail: OrderDetail[];
+  orderDetail: Item[];
 }
 
 const MyPageSales: React.FC = () => {
-  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
   const [doingOrder, setDoingOrder] = useState(0);
   const [completeOrder, setCompleteOrder] = useState(0);
+  const [items, setItem] = useState<Item[]>([]);
   const memberId = getCookie('id');
 
   const orderData: Order = {
     doingOrder: doingOrder,
     completeOrder: completeOrder,
-    orderDetail: orderDetails,
+    orderDetail: items,
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,18 +35,25 @@ const MyPageSales: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    if (memberId) {
+      Instance.get(`/api/member/id/${memberId}`).then((response) => {
+        console.log(response.data);
+        setItem(response.data.itemList);
+      });
+    }
+  }, [memberId]);
+
   const formattingStatus = (status: string) => {
     switch (status) {
-      case 'WAITING':
-        return '대기';
-      case 'CONTINUE':
-        return '진행중';
-      case 'COMPLETE':
-        return '완료';
-      case 'REFUND':
-        return '환불대기';
-      case 'REFUNDED':
-        return '환불완료';
+      case 'SALE':
+        return '판매';
+      case 'GIVE':
+        return '기부';
+      case 'WANTED':
+        return '구인';
+      case 'EXCHANGE':
+        return '교환';
     }
   };
 
@@ -79,10 +75,7 @@ const MyPageSales: React.FC = () => {
           <div className="total-order">
             <ul>
               <li>
-                진행중 <span className="number">{commaNumber(orderData.doingOrder)}</span>개
-              </li>
-              <li>
-                판매한 재능 수 <span className="number second">{commaNumber(orderData.completeOrder)}</span>개
+                등록한 재능 <span className="number">{commaNumber(items.length)}</span>개
               </li>
             </ul>
           </div>
@@ -95,7 +88,7 @@ const MyPageSales: React.FC = () => {
 
           {currentItems.map((item, index) => (
             <ul key={index} className="order-history-item">
-              <li>타입: {item.orderItem ? item.orderItem.title : ''}</li>
+              <li>타입: {item ? item.title : ''}</li>
               <li>{formattingDate(item.regDate)}</li>
               <li>{commaNumber(item.price)}원</li>
               <li>{formattingStatus(item.status)}</li>

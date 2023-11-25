@@ -4,10 +4,16 @@ export interface Image {
   saveFileName: string;
   path: string;
 }
-
+export interface MessageProductProps {
+  productName: string;
+  money: number;
+  nickName: string;
+}
 export interface Message {
   message: string;
   isYour: boolean;
+  imageUrl?: string;
+  product?: MessageProductProps;
 }
 
 export interface Files {
@@ -94,6 +100,7 @@ export interface Item {
   askList: Array<any>;
   rate: number;
   status: string;
+  regDate: Date;
 }
 
 export interface ItemData {
@@ -159,6 +166,7 @@ export interface MemberData {
   memberPassword: string;
   memberName: string;
   memberEmail: string;
+  memberAddress: string;
   likeList: LikeData[];
   memberSignupTime: Date;
   saleSido: string;
@@ -221,10 +229,10 @@ export interface ItemCategoryData {
 export interface Top5Ranking {
   memberId: number;
   memberName: string;
-  profileImages: Image[];
+  imagePath: string;
+  imageUrl?: string; // 추가된 필드
   count: string;
   category: string;
-  imageUrl: string | undefined;
 }
 
 export interface RankingsState {
@@ -236,13 +244,12 @@ export interface RankingsState {
 export interface FindMember {
   memberId: number;
   memberName: string;
-  profileImages: Image[];
-  category: string;
+  imagePath: string;
+  saleSido: string;
   transaction: number;
   totalSales: number;
   reviewCount: number;
   totalRating: number;
-  imageUrl: string | undefined;
 }
 
 export interface SellerData {
@@ -262,4 +269,13 @@ export interface SellerData {
   regDate: Date;
   pageInfo: PageInfoData;
   Itemlist: Array<any>;
+}
+
+export interface CurrentSearch {
+  searchId: number;
+  keyword: string;
+}
+
+export interface PopularSearch {
+  keyword: string;
 }

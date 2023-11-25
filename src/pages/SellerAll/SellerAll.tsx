@@ -13,9 +13,11 @@ import { NoItem } from '../../Style/CommonStyles';
 
 const SellerAll: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [keywordTerm, setKeywordTerm] = useState<string>();
 
   const handleSearchTerm = (e: React.FormEvent) => {
     e.preventDefault();
+    setKeywordTerm(searchTerm);
   };
 
   //페이징처리
@@ -31,28 +33,104 @@ const SellerAll: React.FC = () => {
 
   // 판매자 데이터 가져오기
   useEffect(() => {
-    if (orderBy && direction) {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`)
-        .then((response) => {
-          const data = response.data;
-          setSellerData(data);
-          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (region !== null) {
+      if (orderBy && direction) {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } else {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
-        .then((response) => {
-          const data = response.data;
-          setSellerData(data);
-          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (orderBy && direction) {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
   }, [currentPage, orderBy, direction, region]);
+
+  useEffect(() => {
+    if (keywordTerm) {
+      if (region !== null) {
+        if (orderBy && direction) {
+          Instance.get(
+            `/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}&keyword=${keywordTerm}`
+          )
+            .then((response) => {
+              const data = response.data;
+              setSellerData(data);
+              if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}&keyword=${keywordTerm}`)
+            .then((response) => {
+              const data = response.data;
+              setSellerData(data);
+              if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      } else {
+        if (orderBy && direction) {
+          Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&keyword=${keywordTerm}`)
+            .then((response) => {
+              const data = response.data;
+              setSellerData(data);
+              if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&keyword=${keywordTerm}`)
+            .then((response) => {
+              const data = response.data;
+              setSellerData(data);
+              if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      }
+    }
+  }, [keywordTerm, currentPage, orderBy, direction, region]);
 
   // 이미지 상태 저장
   useLayoutEffect(() => {
@@ -114,9 +192,9 @@ const SellerAll: React.FC = () => {
           </Link>
         </div>
         <div className="search-container ">
-          <form action="submit" className="search-form">
+          <form className="search-form" onSubmit={handleSearchTerm}>
             <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="어떤 서비스가 필요하세요?" />
-            <button type="submit" onClick={handleSearchTerm}>
+            <button type="submit">
               <svg height="24px" width="24px" id="Layer_1" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fill="#8e94a0"
@@ -160,13 +238,14 @@ const SellerAll: React.FC = () => {
             sellerData.map((item, index) => (
               <SellerBrandModel
                 key={index}
+                id={item.id}
                 sellerName={item.memberId}
                 p_category={item.saleSido}
                 content={item.description}
                 totalMoney={item.income}
                 totalReview={item.reviewCnt}
                 totalTransaction={item.transactionCnt}
-                star={item.rate}
+                star={item.reviewCnt >= 0 ? item.rate / item.reviewCnt : 0}
                 imageUrl={imageUrls && imageUrls[index]}
               />
             ))}

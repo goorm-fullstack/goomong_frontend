@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import MarkerInfoModel from './MarkerInfoModel/MarkerInfoModel';
+import { SellerData } from '../../interface/Interface';
+import { Cookies } from 'react-cookie';
 
 declare global {
   interface Window {
     kakao: any;
   }
 }
-
 interface UserLatLng {
   userPlace?: string;
 }
 
-interface SellerMarker {
-  sellerId: number;
-  sellerPlace: string;
-}
 interface MapProps {
   user?: UserLatLng;
-  seller: SellerMarker[];
+  seller?: SellerData[];
   isClicked: (clicked: boolean) => void;
+  isSelected: (selectedId: number) => void;
 }
 
-const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) => {
+  const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
+  const [map, setMap] = useState<any>(null);
+  const [changedCenter, setChangedCenter] = useState<{ lat: number; lng: number }>({ lat: 37.4022864, lng: 127.1003289 });
+  const cookies = new Cookies();
+  const id = cookies.get('id');
 
   //마커 추가 함수
-  const addMarker = (map: any, lat: number, lng: number) => {
+  const addMarker = (map: any, lat: number, lng: number, id: number) => {
     const markerPosition = new window.kakao.maps.LatLng(lat, lng);
     const marker = new window.kakao.maps.Marker({
       position: markerPosition,
@@ -35,6 +36,7 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
     // 마커 클릭 이벤트 리스너 추가
     window.kakao.maps.event.addListener(marker, 'click', () => {
       isClicked(true);
+      isSelected(id);
     });
   };
 
@@ -52,9 +54,9 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
     return deg * (Math.PI / 180);
   }
 
+  //카카오 맵 스크립트 로드
   useEffect(() => {
     const apiKey = process.env.REACT_APP_KAKAO_MAPS_API_KEY;
-
     const script = document.createElement('script');
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false&libraries=services,clusterer,drawing`;
@@ -71,53 +73,74 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
     };
   }, []);
 
+  //지도 초기 설정
   useEffect(() => {
     if (scriptLoaded) {
-      const geocoder = new window.kakao.maps.services.Geocoder();
       const mapContainer = document.getElementById('map');
-
-      let map = new window.kakao.maps.Map(mapContainer, {
-        center: new window.kakao.maps.LatLng(37.4022864, 127.1003289),
+      const initialMap = new window.kakao.maps.Map(mapContainer, {
+        center: new window.kakao.maps.LatLng(changedCenter.lat, changedCenter.lng),
         level: 3,
       });
-      let center = new window.kakao.maps.LatLng(37.4022864, 127.1003289);
+
+      setMap(initialMap); // 지도 클릭 이벤트 리스너 추가
+      window.kakao.maps.event.addListener(initialMap, 'click', () => {
+        isClicked(false);
+      });
+
+      let userCoords;
 
       if (user && user.userPlace) {
+        const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(user.userPlace, function (result: any[], status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
-            const UserCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            map.setCenter(UserCoords);
-            center = UserCoords;
+            userCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+            console.log('User Coordinates: ', userCoords);
+            initialMap.setCenter(userCoords);
+            setChangedCenter({ lat: userCoords.getLat(), lng: userCoords.getLng() });
+
+            // 사용자 위치를 중심으로 하는 원 그리기
+            var circle = new window.kakao.maps.Circle({
+              center: userCoords,
+              radius: 250,
+              strokeWeight: 5,
+              strokeColor: '#75B8FA',
+              strokeOpacity: 1,
+              strokeStyle: 'dashed',
+              fillColor: '#CFE7FF',
+              fillOpacity: 0.7,
+            });
+            circle.setMap(initialMap);
           }
         });
       }
 
+      // 지도 중심 변경
+      window.kakao.maps.event.addListener(initialMap, 'center_changed', () => {
+        let newCenter = initialMap.getCenter();
+        setChangedCenter({ lat: newCenter.getLat(), lng: newCenter.getLng() });
+        console.log('changeCenter', newCenter.getLat());
+        console.log('changeCenter', newCenter.getLng());
+      });
+    }
+  }, [scriptLoaded, user]);
+
+  // 판매자 마커 설정
+  useEffect(() => {
+    if (map && seller) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
       seller.forEach((seller) => {
-        geocoder.addressSearch(seller.sellerPlace, function (result: any[], status: any) {
+        geocoder.addressSearch(seller.saleSimpleAddress, function (result: any[], status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
-            const SellerCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            const distance = getDistanceFromLatLonInM(center.getLat(), center.getLng(), SellerCoords.getLat(), SellerCoords.getLng());
-            if (distance <= 300) {
-              //중심으로부터 마커 표시될 거리 단위m
-              addMarker(map, SellerCoords.getLat(), SellerCoords.getLng());
+            const sellerCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+            const distance = getDistanceFromLatLonInM(changedCenter.lat, changedCenter.lng, sellerCoords.getLat(), sellerCoords.getLng());
+            if (distance <= 500 && id !== seller.id) {
+              addMarker(map, sellerCoords.getLat(), sellerCoords.getLng(), seller.id);
             }
           }
         });
       });
-      var circle = new window.kakao.maps.Circle({
-        center, // 원의 중심좌표
-        radius: 300, // 원의 반지름
-        strokeWeight: 5,
-        strokeColor: '#75B8FA',
-        strokeOpacity: 1,
-        strokeStyle: 'dashed',
-        fillColor: '#CFE7FF',
-        fillOpacity: 0.7,
-      });
-
-      circle.setMap(map);
     }
-  }, [scriptLoaded, user, seller]);
+  }, [map, seller, changedCenter]);
 
   return (
     <div>

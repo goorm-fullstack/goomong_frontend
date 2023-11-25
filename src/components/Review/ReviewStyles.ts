@@ -5,14 +5,7 @@ export const Review = styled.div`
     width: 100%;
     padding: 100px 0;
     background-color: #f5f8ff;
-    padding-bottom: 64px;
     overflow-x: hidden;
-
-    .slick-slide > div {
-      width: 380px;
-      margin: 0 auto;
-      padding-bottom: 100px;
-    }
   }
 
   .review-main-top {

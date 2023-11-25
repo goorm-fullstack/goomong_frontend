@@ -1,59 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/layout/Header/Header';
 import * as S from './SellerMapStyles';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/layout/Footer/Footer';
 import KakaoMap from './KakaoMap';
 import MarkerInfoModel from './MarkerInfoModel/MarkerInfoModel';
+import { SellerData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
+import { getImageFile } from '../../util/func/functions';
 
-interface User {
-  userPlace?: string;
-}
-
-interface Seller {
-  sellerId: number;
-  sellerPlace: string;
-}
-interface MapProps {
-  user?: User;
-  seller: Seller[];
-}
-
-interface SellerInfo {
-  sellerId: number;
-  imageUrl?: string;
-  sellerName: string;
-  category: string;
-  totalTransaction: number;
-  totalReview: number;
-  star: number;
-  intro: string;
-}
 const SellerMap: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const handleSearchTerm = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  const [sellerData, setSellerData] = useState<SellerData[]>(); // 판매자 데이터
+  const [userAddress, setUserAddress] = useState<string>(); // 로그인한 유저 주소
+  const [selectId, setSelectId] = useState<number>(); // 마커 클릭한 판매자 id
+  const [selectedMarkerData, setSelectedMarkerData] = useState<SellerData>(); // 클릭한 마커의 판매자 데이터
+  const [selectedMarkerDataImage, setSelectedMarkerDataImage] = useState<string>(); // 클릭한 마커의 판매자 이미지
+  const cookies = new Cookies();
+  const id = cookies.get('id');
 
-  const mapData: MapProps = {
-    seller: [
-      { sellerId: 2, sellerPlace: '경기도 성남시 분당구 판교로 264' },
-      { sellerId: 3, sellerPlace: '경기도 성남시 분당구 판교로 256번길 7' },
-      { sellerId: 4, sellerPlace: '경기도 성남시 분당구 판교로228번길 15 윈스동 4F' },
-      { sellerId: 5, sellerPlace: '경기도 성남시 삼평동 621' },
-    ],
-  };
+  // 판매자 데이터 가져오기
+  useEffect(() => {
+    Instance.get('/api/sellers/all')
+    .then((response) => {
+      const data = response.data;
+      setSellerData(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [])
 
-  const markerData: SellerInfo = {
-    sellerId: 2,
-    sellerName: '판매자명',
-    category: '재능 카테고리',
-    totalTransaction: 555,
-    totalReview: 555,
-    star: 4.9,
-    intro: '판매자 소개글',
-  };
+  // 로그인한 유저 주소 가져오기
+  useEffect(() => {
+    if(id !== undefined){
+      Instance.get(`/api/member/${id}`)
+      .then((response) => {
+        const data = response.data;
+        if(data.memberAddress) setUserAddress(data.memberAddress);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
+  }, [id])
+
+  // 마커 클릭 시 클릭한 마커의 판매자 데이터 가져오기
+  useEffect(() => {
+    if(showDetail && selectId && sellerData){
+      const member = sellerData.find((item) => selectId === item.id);
+      if(member !== undefined) {
+        setSelectedMarkerData(member);
+        if(member.imagePath){
+          getImageFile(member.imagePath)
+          .then((response) => {
+            setSelectedMarkerDataImage(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+        }
+      }
+    }
+  }, [selectId, sellerData, showDetail])
+
   return (
     <S.SellerMapStyles>
       <Header />
@@ -66,55 +77,23 @@ const SellerMap: React.FC = () => {
             찾기
           </Link>
         </div>
-        <div className="search-container ">
-          <form action="submit" className="search-form">
-            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="어떤 서비스가 필요하세요?" />
-            <button type="submit" onClick={handleSearchTerm}>
-              <svg height="24px" width="24px" id="Layer_1" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill="#8e94a0"
-                  d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"
-                />
-              </svg>
-            </button>
-          </form>
-        </div>
-        <div className="align-menu">
-          <div className="left">
-            <div className="left-category">
-              재능 카테고리
-              <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-              </svg>
-            </div>
-            <div className="left-local">
-              지역 선택
-              <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-              </svg>
-            </div>
-          </div>
-          <div className="right">
-            <div className="align-standard">
-              정렬 기준
-              <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <KakaoMap user={mapData.user} seller={mapData.seller} isClicked={setShowDetail} />
-        {showDetail && <MarkerInfoModel
-          sellerId={markerData.sellerId}
-          imageUrl={markerData.imageUrl}
-          sellerName={markerData.sellerName}
-          category={markerData.category}
-          totalTransaction={markerData.totalTransaction}
-          totalReview={markerData.totalReview}
-          star={markerData.star}
-          intro={markerData.intro}
-        />}
-        
+        <KakaoMap
+          user={userAddress ? {userPlace: userAddress} : { userPlace: '경기도 성남시 분당구 판교로 242 PDC A동 902호' }}
+          seller={sellerData}
+          isClicked={setShowDetail}
+          isSelected={setSelectId}
+        />
+        {showDetail && selectedMarkerData && (
+          <MarkerInfoModel
+            sellerId={selectedMarkerData.id}
+            imageUrl={selectedMarkerDataImage}
+            sellerName={selectedMarkerData.name}
+            totalTransaction={selectedMarkerData.transactionCnt}
+            totalReview={selectedMarkerData.reviewCnt}
+            star={selectedMarkerData.reviewCnt !== null ? selectedMarkerData.rate / selectedMarkerData.reviewCnt : 0}
+            intro={selectedMarkerData.description}
+          />
+        )}
       </div>
       <Footer />
     </S.SellerMapStyles>
