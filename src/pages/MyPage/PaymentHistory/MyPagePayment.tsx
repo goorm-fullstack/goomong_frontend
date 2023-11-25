@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './MyPagePaymentStyles';
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
 import Footer from '../../../components/layout/Footer/Footer';
 import Pagination from '../../../components/Pagination/Pagination';
+import { commaNumber, formattingDate, getCookie } from '../../../util/func/functions';
+import { Item } from '../../../interface/Interface';
+import Instance from '../../../util/API/axiosInstance';
 
 interface OrderDetail {
-  productInfo: string;
-  orderState: string;
-  money: number;
-  date: string;
+  id: number;
+  orderItem: Item;
+  member: any;
+  price: number;
+  point: number;
+  status: string;
+  orderNumber: string;
+  regDate: Date;
 }
 
 interface Order {
@@ -19,23 +26,15 @@ interface Order {
 }
 
 const MyPagePayment: React.FC = () => {
+  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
+  const [doingOrder, setDoingOrder] = useState(0);
+  const [completeOrder, setCompleteOrder] = useState(0);
+  const memberId = getCookie('id');
+
   const orderData: Order = {
-    doingOrder: 1110,
-    completeOrder: 1110,
-    orderDetail: [
-      { productInfo: '상품 정보입니다.', orderState: '진행중', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '완료', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '취소', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '진행중', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '완료', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '취소', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '진행중', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '완료', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '취소', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '진행중', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '완료', money: 333333, date: '2023.11.28' },
-      { productInfo: '상품 정보입니다.', orderState: '취소', money: 333333, date: '2023.11.28' },
-    ],
+    doingOrder: doingOrder,
+    completeOrder: completeOrder,
+    orderDetail: orderDetails,
   };
 
   const formatNumber2 = (num: number): string => {
@@ -54,6 +53,40 @@ const MyPagePayment: React.FC = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = orderData.orderDetail.slice(indexOfFirstItem, indexOfLastItem);
+
+  const formattingStatus = (status: string) => {
+    switch (status) {
+      case 'WAITING':
+        return '대기';
+      case 'CONTINUE':
+        return '진행중';
+      case 'COMPLETE':
+        return '완료';
+      case 'REFUND':
+        return '환불대기';
+      case 'REFUNDED':
+        return '환불완료';
+    }
+  };
+
+  useEffect(() => {
+    if (memberId) {
+      Instance.get(`/api/order/member/${memberId}/list`).then((response) => {
+        console.log(response.data);
+        setOrderDetails(response.data);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    for (let i = 0; i < orderDetails.length; i++) {
+      if (orderDetails[0].status === 'WAITING') {
+        setDoingOrder(doingOrder + 1);
+      } else if (orderDetails[0].status === 'COMPLETE') {
+        setCompleteOrder(completeOrder + 1);
+      }
+    }
+  }, [orderDetails]);
 
   return (
     <S.MyPagePaymentStyles>
@@ -84,10 +117,10 @@ const MyPagePayment: React.FC = () => {
 
           {currentItems.map((item, index) => (
             <ul key={index} className="order-history-item">
-              <li>타입: {item.productInfo}</li>
-              <li>{item.date}</li>
-              <li>{item.money}</li>
-              <li>{item.orderState}</li>
+              <li>타입: {item.orderItem ? item.orderItem.title : ''}</li>
+              <li>{formattingDate(item.regDate)}</li>
+              <li>{commaNumber(item.price)}원</li>
+              <li>{formattingStatus(item.status)}</li>
             </ul>
           ))}
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
