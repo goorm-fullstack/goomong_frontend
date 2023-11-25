@@ -190,7 +190,7 @@ const SellerAll: React.FC = () => {
                 totalMoney={item.income}
                 totalReview={item.reviewCnt}
                 totalTransaction={item.transactionCnt}
-                star={item.rate}
+                star={item.rate / item.reviewCnt}
                 imageUrl={imageUrls && imageUrls[index]}
               />
             ))}
