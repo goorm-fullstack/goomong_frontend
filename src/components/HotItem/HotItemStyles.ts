@@ -5,11 +5,6 @@ export const Hotitem = styled.div`
     width: 100%;
     margin-top: 180px;
     overflow-x: hidden;
-
-    .slick-slide > div {
-      width: 264px;
-      margin: 0 auto;
-    }
   }
   .hotitem-top {
     width: 1280px;
