@@ -94,6 +94,7 @@ export interface Item {
   askList: Array<any>;
   rate: number;
   status: string;
+  regDate: Date;
 }
 
 export interface ItemData {

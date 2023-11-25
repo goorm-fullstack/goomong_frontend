@@ -94,15 +94,36 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
   const handleBuyClick = async () => {
     console.log(item);
     console.log('================');
-    if (item) {
-      let data = {
-        id: 1,
-        orderName: '테스트 결제',
-        successURL: 'http://localhost:3000/order/success',
-        failURL: 'http://localhost:3000/api/payment/kakao/fail',
-        cancelURL: 'http://localhost:3000/api/payment/kakao/cancel',
-        price: item?.price,
-        orderDto: {
+    if (item && memberId) {
+      console.log(memberId);
+      if (item.status === 'SALE') {
+        let data = {
+          id: 1,
+          orderName: '테스트 결제',
+          successURL: 'http://localhost:3000/order/success',
+          failURL: 'http://localhost:3000/api/payment/kakao/fail',
+          cancelURL: 'http://localhost:3000/api/payment/kakao/cancel',
+          price: item?.price,
+          orderDto: {
+            orderItem: item?.id,
+            memberId: memberId,
+            price: item?.price,
+            address: {
+              state: '경기도',
+              city: '성남',
+              street: '판교',
+              detail: '구름',
+            },
+          },
+        };
+
+        await Instance.post('/api/payment/kakao/ready', data).then((response) => {
+          if (response.status === 200) {
+            window.open(response.data.next_redirect_pc_url, 'width=600,height=400');
+          }
+        });
+      } else {
+        let data = {
           orderItem: item?.id,
           memberId: memberId,
           price: item?.price,
@@ -112,14 +133,14 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
             street: '판교',
             detail: '구름',
           },
-        },
-      };
+        };
 
-      await Instance.post('/api/payment/kakao/ready', data).then((response) => {
-        if (response.status === 200) {
-          window.open(response.data.next_redirect_pc_url, 'width=600,height=400');
-        }
-      });
+        await Instance.post('/api/order/success', data).then((response) => {
+          if (response.status === 200) {
+            window.location.href = '/order/success';
+          }
+        });
+      }
     }
   };
 

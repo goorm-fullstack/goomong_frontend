@@ -71,6 +71,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
             itemId: Number(itemId),
           };
           Instance.post('/api/chat', data).then((response) => {
+            console.log(response.data);
             setRoomId(response.data.roomId);
           });
         }
@@ -122,6 +123,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   useEffect(() => {
     if (roomId && didMount) {
+      console.log('call');
       connect();
     }
   }, [roomId, didMount]);

@@ -6,6 +6,7 @@ export const Review = styled.div`
     padding: 100px 0;
     background-color: #f5f8ff;
     padding-bottom:64px;
+    overflow-x: hidden;
   }
 
   .review-main-top {

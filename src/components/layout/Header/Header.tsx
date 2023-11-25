@@ -184,7 +184,6 @@ const Header: React.FC = () => {
                 </li>
               </ul>
             </div>
-            {/* {isFocused && ( */}
             <div className="keyword">
               <ul className="current">
                 <div className="title">최근 검색어</div>
@@ -246,8 +245,6 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                   ))}
               </ul>
             </div>
-            {/* )} */}
-            {/* {isFocused && ( */}
             <div className="keyword-bottom">
               <ul>
                 <li>
@@ -258,7 +255,6 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                 <li>자동완성 끄기</li>
               </ul>
             </div>
-            {/* )} */}
           </div>
 
           <div className="gnb">

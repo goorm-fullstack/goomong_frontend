@@ -9,7 +9,7 @@ interface CategoryItemProps {
 const CategoryItem: React.FC<CategoryItemProps> = ({ imageUrl, title }) => {
   return (
     <li>
-      <Link to="#null">
+      <Link to={`/item/sale/${title}/1`}>
         <img src={imageUrl} alt={title} />
         <div>{title}</div>
       </Link>
