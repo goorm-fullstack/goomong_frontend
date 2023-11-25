@@ -74,7 +74,7 @@ const ChattingUI: React.FC<UIModel> = ({ userId, opponent, product, bigDate, now
 
   const handleOrderClick = async () => {
     let data = {
-      orderItem: [item?.id],
+      orderItem: item?.id,
       memberId: memberId,
       address: {
         state: '경기도',

@@ -1,238 +1,148 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import * as S from './SearchDetailStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import { Link, useParams } from 'react-router-dom';
-import BoardModel from '../Community/CommunityItems/BoardModel/BoardModel';
 import Product from '../../components/HotItem/ProductModel/Product';
+import BoardModel from '../Community/CommunityItems/BoardModel/BoardModel';
+import { PostData, Item } from '../../interface/Interface';
 import Pagination from '../../components/Pagination/Pagination';
-
-interface CommunityProps {
-  id: number;
-  imageURL?: string;
-  p_category: string;
-  title: string;
-  content: string;
-  local: string;
-  like: number;
-  comment: number;
-  time: string;
-  isLastItem?: boolean;
-  clickLike?: boolean;
-}
-interface ProductProps {
-  id?: number;
-  imageUrl?: string;
-  sellerName: string;
-  productName: string;
-  price: string;
-  rating: number;
-  review: number;
-}
+import Instance from '../../util/API/axiosInstance';
+import { commaNumber, getImageFile, detailDate } from '../../util/func/functions';
+import { Cookies } from 'react-cookie';
 
 const SearchDetail = () => {
   const { searchTerm } = useParams();
+  const [communityData, setCommunityData] = useState<PostData[]>(); // 커뮤니티 게시판 데이터
+  const [totalPage, setTotalPage] = useState<number>(0); // 전체 페이지
+  const [currentPage, setCurrentPage] = useState(0);
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터
+  const [itemList, setItemList] = useState<Item[]>();
+  const [selectedTab, setSelectedTab] = useState('community');
+  const [didMount, setDidMount] = useState<boolean>(false);
+  const itemsPerPage = 10; // 페이지당 표시할 아이템 수
+  const cookies = new Cookies();
+  const id = cookies.get(`id`);
 
   useEffect(() => {
-    // searchText 값이 변경되었을 때 실행할 작업을 여기에 작성
-  }, [searchTerm]);
+    console.log('mount');
+    setDidMount(true);
+    return () => {
+      console.log('unmount');
+    };
+  }, []);
 
-  const communityData: CommunityProps[] = [
-    {
-      id: 1,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 2,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 3,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 4,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 5,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 6,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-    {
-      id: 7,
-      p_category: '재능카테고리',
-      title: '게시글 제목',
-      local: '서울 전체',
-      like: 40,
-      comment: 40,
-      time: '30분전',
-      content: '게시글 내용입니다.',
-    },
-  ];
-
-  const productData: ProductProps[] = [
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 3.9,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-    {
-      sellerName: '판매자 브랜드명',
-      productName: '상품 이름을 이렇게 적고요.',
-      price: '150,000원',
-      rating: 5,
-      review: 3560,
-    },
-  ];
-  const [selectedTab, setSelectedTab] = useState('community');
-
-  //커뮤니티 페이징
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // 페이지당 표시할 아이템 수
-  const totalPages = Math.ceil(communityData.length / itemsPerPage); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
+  useEffect(() => {
+    const searchKeyword = {
+      memberId: id,
+      keyword: searchTerm,
+      order: null,
+      category: null,
+      page: currentPage,
+      size: itemsPerPage,
+    };
+    if (didMount) {
+      if (selectedTab === 'community') {
+        Instance.post(`/api/search/post`, searchKeyword, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            const data = response.data;
+            setCommunityData(data.data);
+            if (data.data.length > 0) {
+              setTotalPage(data.pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.post(`/api/search/item`, searchKeyword, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            const data = response.data;
+            setItemList(data.data);
+            if (data.data.length > 0) {
+              setTotalPage(data.pageInfo.totalPage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
+  }, [didMount, searchTerm, selectedTab]);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber - 1);
   };
 
-  // 현재 페이지에 따라 표시할 아이템 목록 계산
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = communityData.slice(indexOfFirstItem, indexOfLastItem);
+  useEffect(() => {}, [selectedTab]);
 
-  //상품 페이징
-  const [currentPage1, setCurrentPage1] = useState(1);
-  const itemsPerPage1 = 8; // 페이지당 표시할 아이템 수
-  const totalPages1 = Math.ceil(productData.length / itemsPerPage1); // 총 페이지 수 계산 => 연동시 백엔드에서 totalPage를 받아와서 대입
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (communityData) {
+        const urls = await Promise.all(
+          communityData.map((community) => {
+            if (community.imageList.length > 0) return getImageFile(community.imageList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls as string[]);
+      }
+    };
 
-  const handlePageChange1 = (pageNumber: number) => {
-    setCurrentPage1(pageNumber);
-  };
-
-  // 현재 페이지에 따라 표시할 아이템 목록 계산
-  const indexOfLastItem1 = currentPage * itemsPerPage1;
-  const indexOfFirstItem1 = indexOfLastItem - itemsPerPage1;
-  const currentItems1 = productData.slice(indexOfFirstItem1, indexOfLastItem1);
+    fetchImages();
+  }, [communityData]);
 
   return (
     <S.SearchDetailStyles>
       <Header />
       <div className="search-detail-container">
-        <div className="top">"{searchTerm}"에 대한 결과입니다.</div>
+        <div className="top">"{searchTerm ? searchTerm : ''}"에 대한 결과입니다.</div>
         <ul className="nav-list">
           <li onClick={() => setSelectedTab('community')}>구몽 생활</li>
-          <li onClick={() => setSelectedTab('category1')}>재능</li>
+          <li onClick={() => setSelectedTab('itemList')}>재능</li>
         </ul>
         <div className="community-list" style={{ display: selectedTab === 'community' ? 'block' : 'none' }}>
-          {currentItems.map((item, index) => (
-            <BoardModel
-              key={index}
-              id={item.id}
-              p_category={item.p_category}
-              content={item.content}
-              local={item.local}
-              like={item.like}
-              comment={item.comment}
-              time={item.time}
-              title={item.title}
-            />
-          ))}
+          {communityData &&
+            communityData.map((item, index) => (
+              <BoardModel
+                key={index}
+                id={item.id}
+                p_category={item.postCategory}
+                title={item.postTitle}
+                content={item.postContent}
+                local={item.memberAddress}
+                like={item.postLikeNo}
+                comment={item.commentNo}
+                time={detailDate(item.regDate)}
+                isLastItem={index === communityData.length - 1}
+                imageURL={imageUrls && imageUrls[index] !== null ? imageUrls[index] : undefined}
+              />
+            ))}
         </div>
         <div className="product-list" style={{ display: selectedTab !== 'community' ? 'grid' : 'none' }}>
-          {currentItems1.map((product, index) => (
-            <Product
-              key={index}
-              sellerName={product.sellerName}
-              productName={product.productName}
-              price={product.price}
-              rating={product.rating}
-              review={product.review}
-            />
-          ))}
+          {itemList &&
+            itemList.map((item, index) => (
+              <Product
+                key={index}
+                id={item.id}
+                imageUrl={imageUrls && imageUrls[index]}
+                sellerName={item.member.name}
+                productName={item.title}
+                price={commaNumber(item.price)}
+                rating={item.rate}
+                review={item.reviewList.length}
+              />
+            ))}
         </div>
-        <Pagination
-          currentPage={selectedTab === 'community' ? currentPage : currentPage1}
-          totalPages={selectedTab === 'community' ? totalPages : totalPages1}
-          onPageChange={selectedTab === 'community' ? handlePageChange : handlePageChange1}
-        />
+        <Pagination currentPage={currentPage + 1} totalPages={totalPage} onPageChange={handlePageChange} />
       </div>
 
       <Footer />
