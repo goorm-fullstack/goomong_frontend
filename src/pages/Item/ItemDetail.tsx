@@ -68,7 +68,7 @@ export default function ItemDetail() {
     });
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     Instance.get(`/api/sellers/seller/${sellerId}`)
         .then((response) => {
           setSellerInfo(response.data);
@@ -76,7 +76,6 @@ export default function ItemDetail() {
         .catch(() => {
         })
   }, [sellerId]);
-
 
   useLayoutEffect(() => {
     const fetchImages = async () => {

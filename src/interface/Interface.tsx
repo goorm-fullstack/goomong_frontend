@@ -261,4 +261,5 @@ export interface SellerData {
   reviewCnt: number;
   regDate: Date;
   pageInfo: PageInfoData;
+  Itemlist: Array<any>;
 }

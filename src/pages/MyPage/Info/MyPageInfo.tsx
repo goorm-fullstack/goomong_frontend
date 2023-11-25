@@ -8,7 +8,6 @@ import { Cookies } from "react-cookie";
 import { MouseEvent } from "react";
 import Instance from "../../../util/API/axiosInstance";
 import {Image} from "../../../interface/Interface";
-import {Link} from "react-router-dom";
 
 interface UserInfo {
   imageUrl?: string;
@@ -72,6 +71,7 @@ const MyPageInfo: React.FC = () => {
     setSelectedImage(imageUrls[0]);
   }, [member]);
 
+  console.log(member);
 
   //이미지 불러오기
   const getImageFile = async (path: string) => {

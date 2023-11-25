@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import Instance from '../../../util/API/axiosInstance';
 import { Cookies } from 'react-cookie';
 
@@ -19,7 +19,23 @@ const Header: React.FC = () => {
   const [popularIndex, setPopularIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const cookies = new Cookies();
+  const location = useLocation();
   const isLogin = cookies.get('memberId');
+  const id = new URLSearchParams(location.search).get('id');
+
+  useEffect(() => {
+    if(id != null) {
+      Instance.get(`/api/member/id/${id}`)
+          .then((response) => {
+            cookies.set('memberId', response.data.memberId);
+            cookies.set('id', response.data.id)
+            cookies.set('memberRole', response.data.memberRole);
+
+            window.location.href=`/`;
+          })
+
+    }
+  }, [id]);
 
   const popularTerms: PopularTerms = { popular: ['인기검색어1', '인기검색어2', '인기검색어3', '인기검색어4', '인기검색어5'] };
   const currentTerms: CurrentTermProps[] = [
