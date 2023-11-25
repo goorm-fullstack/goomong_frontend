@@ -20,7 +20,7 @@ const HotItem: React.FC = () => {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
