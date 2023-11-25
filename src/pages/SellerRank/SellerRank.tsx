@@ -149,16 +149,16 @@ const SellerRank: React.FC = () => {
                       <div className="seller-name">{member.memberName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익 <span className="number">{formatCurrency(member.totalSales)}</span>
+                          총수익 <span className="number">{member.totalSales === null ? 0 : formatCurrency(member.totalSales)}원</span>
                         </span>
                         <span className="transaction">
-                          총거래 <span className="number">{member.transaction}</span>
+                          총거래 <span className="number">{member.transaction === null ? 0 : member.transaction}건</span>
                         </span>
                         <span className="review">
-                          총리뷰 <span className="number">{member.reviewCount}</span>
+                          총리뷰 <span className="number">{member.reviewCount === null ? 0 : member.reviewCount}개</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{member.totalRating.toFixed(1)}</span>
+                        <span className=" star-number">{member.totalRating === null ? 0 : member.totalRating.toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>

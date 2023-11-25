@@ -153,6 +153,7 @@ export interface MemberData {
   memberPassword: string;
   memberName: string;
   memberEmail: string;
+  memberAddress: string;
   likeList: LikeData[];
   memberSignupTime: Date;
 }
@@ -239,6 +240,7 @@ export interface FindMember {
 export interface SellerData {
   id: number;
   memberId: string;
+  name: string;
   description: string;
   income: number;
   rate: number;

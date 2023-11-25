@@ -7,14 +7,13 @@ interface SellerInfo {
   sellerId: number;
   imageUrl?: string;
   sellerName: string;
-  category: string;
   totalTransaction: number;
   totalReview: number;
   star: number;
   intro: string;
 }
 
-const MarkerInfoModel: React.FC<SellerInfo> = ({ sellerId, imageUrl, sellerName, category, totalTransaction, totalReview, star, intro }) => {
+const MarkerInfoModel: React.FC<SellerInfo> = ({ sellerId, imageUrl, sellerName, totalTransaction, totalReview, star, intro }) => {
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -32,17 +31,16 @@ const MarkerInfoModel: React.FC<SellerInfo> = ({ sellerId, imageUrl, sellerName,
           <div className="right">
             <ul className="top">
               <li>{sellerName}</li>
-              <li>{category}</li>
             </ul>
             <ul className="middle">
               <li className="transaction">
-                <span>총 거래</span> {totalTransaction}
+                <span>총 거래</span> {totalTransaction === null ? 0 : totalTransaction}
               </li>
               <li>
-                <span>총 리뷰</span> {totalReview}
+                <span>총 리뷰</span> {totalReview === null ? 0 : totalReview}
               </li>
               <li className="star">
-                ★ <span>{star}</span>
+                ★ <span>{star === null ? 0 : star.toFixed(1)}</span>
               </li>
             </ul>
             <div className="bottom">{intro}</div>
