@@ -59,6 +59,7 @@ export default function ItemDetail() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [sellerImageUrls, setSellerImageUrls] = useState<string[]>([]);
   const [sellerInfo, setSellerInfo] = useState<SellerData | null>(null);
+  const [sellerId, setSellerId] = useState<string>();
 
   useLayoutEffect(() => {
     Instance.get(`/api/item/${id}`).then((response) => {
