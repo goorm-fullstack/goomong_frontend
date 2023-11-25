@@ -7,7 +7,7 @@ import RankModel from '../../components/Popular/RankModel/RankModel';
 import Footer from '../../components/layout/Footer/Footer';
 import { Top5Ranking, RankingsState, FindMember } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
-import { getImageFile } from '../../util/func/functions';
+import { getImageFile, commaNumber } from '../../util/func/functions';
 
 const SellerRank: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(0);
@@ -112,6 +112,8 @@ const SellerRank: React.FC = () => {
     if (tenThousand > 0) {
       result += `${tenThousand.toLocaleString()}만`;
     }
+    if (money === null) return '0원';
+    else if (money < 10000) return commaNumber(money) + '원';
     return result + '원';
   };
 
@@ -152,13 +154,13 @@ const SellerRank: React.FC = () => {
                           총수익 <span className="number">{formatCurrency(member.totalSales)}</span>
                         </span>
                         <span className="transaction">
-                          총거래 <span className="number">{member.transaction}</span>
+                          총거래 <span className="number">{member.transaction === null ? 0 : member.transaction}건</span>
                         </span>
                         <span className="review">
-                          총리뷰 <span className="number">{member.reviewCount}</span>
+                          총리뷰 <span className="number">{member.reviewCount === null ? 0 : member.reviewCount}건</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{member.totalRating.toFixed(1)}</span>
+                        <span className=" star-number">{member.totalRating === null ? 0 : member.totalRating.toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>
