@@ -184,15 +184,17 @@ const Gnb = () => {
               )}
             </li>
             <li>
-              <ul className="service-menu">
-                {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
-                {itemCategoryData &&
-                  itemCategoryData.map((category, index) => (
-                    <li key={index}>
-                      <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
-                    </li>
-                  ))}
-              </ul>
+              {isServiceMenuVisible && (
+                <ul className="service-menu">
+                  {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
+                  {itemCategoryData &&
+                    itemCategoryData.map((category, index) => (
+                      <li key={index}>
+                        <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
+                      </li>
+                    ))}
+                </ul>
+              )}
             </li>
           </ul>
         )}
