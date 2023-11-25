@@ -28,6 +28,7 @@ const MyPageLeft: React.FC = () => {
   const [member, setMember] = useState<MemberData | null>(null);
   const location = useLocation();
   const [roomId, setRoomId] = useState(0);
+  const [isSeller, setIsSeller] = useState<boolean>(false);
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -141,65 +142,113 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <Link to="/mypage/info">
-            <button type="button">구매자로 전환하기</button>
-          </Link>
-          <Link to="/mypage/convertseller">
-            <button type="button">판매자로 전환하기</button>
-          </Link>
+          <button
+              type="button"
+              onClick={() => {
+                setIsSeller((prevState) => !prevState); // 현재 상태의 반대로 설정
+              }}
+          >
+            {isSeller ? '구매자로 전환하기' : '판매자로 전환하기'}
+          </button>
         </div>
         <div className="bottom">
-          <div className="info">
-            <div className="title">정보 관리</div>
-            <ul>
-              <li className="sale-info-set">
-                <Link to="/mypage/convertseller">판매자 계정 설정</Link>
-              </li>
-              <li className="buy-info-set">
-                <Link to="/mypage/info">구매자 계정 설정</Link>
-              </li>
-              <li className="change-pw">
-                <Link to="/mypage/changepw">비밀번호 변경</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="payment">
-            <div className="title">결제 관리</div>
-            <ul>
-              <li className="payment-history">
-                <Link to="/mypage/payment">구매내역</Link>
-              </li>
-              <li className="sell-history">
-                <Link to="/mypage/sellhistory">판매내역</Link>
-              </li>
-              <li className="sale-history">
-                <Link to="/mypage/sales">판매 내역</Link>
-              </li>
-              <li className="point">
-                <Link to="/mypage/point">포인트</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="active">
-            <div className="title">활동 관리</div>
-            <ul>
-              <li className="board-history">
-                <Link to="/mypage/board">작성한 글</Link>
-              </li>
-              <li className="product-reg">
-                <Link to="/write/productreg">재능 등록</Link>
-              </li>
-
-              <li className="chatting-history">
-                <Link to="/mypage/chatting" state={{ id: roomId }}>
-                  채팅 내역
-                </Link>
-              </li>
-              <li className="save-item">
-                <Link to="#">재능 등록</Link>
-              </li>
-            </ul>
-          </div>
+          {isSeller ? (   //판매자이면
+              <>
+                <div className="info">
+                  <div className="title">정보 관리</div>
+                  <ul>
+                    <li className="sale-info-set">
+                      <Link to="/mypage/convertseller" onClick={() => setIsSeller(true)}>
+                        판매자 계정 설정
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="payment">
+                  <div className="title">결제 관리</div>
+                  <ul>
+                    <li className="sell-history">
+                      <Link to="/mypage/sellhistory" onClick={() => setIsSeller(true)}>
+                        판매내역
+                      </Link>
+                    </li>
+                    <li className="sale-history">
+                      <Link to="/mypage/sales" onClick={() => setIsSeller(true)}>
+                        판매 내역
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="active">
+                  <div className="title">활동 관리</div>
+                  <ul>
+                    <li className="product-reg">
+                      <Link to="/write/productreg" onClick={() => setIsSeller(true)}>
+                        재능 등록
+                      </Link>
+                    </li>
+                    <li className="chatting-history">
+                      <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(true)}>
+                        채팅 내역
+                      </Link>
+                    </li>
+                    <li className="save-item">
+                      <Link to="#" onClick={() => setIsSeller(true)}>
+                        재능 등록
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </>
+          ) : (       //구매자이면
+              <>
+                <div className="info">
+                  <div className="title">정보 관리</div>
+                  <ul>
+                    <li className="buy-info-set">
+                      <Link to="/mypage/info" onClick={() => setIsSeller(false)}>
+                        구매자 계정 설정
+                      </Link>
+                    </li>
+                    <li className="change-pw">
+                      <Link to="/mypage/changepw" onClick={() => setIsSeller(false)}>
+                        비밀번호 변경
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="payment">
+                  <div className="title">결제 관리</div>
+                  <ul>
+                    <li className="payment-history">
+                      <Link to="/mypage/payment" onClick={() => setIsSeller(false)}>
+                        구매내역
+                      </Link>
+                    </li>
+                    <li className="point">
+                      <Link to="/mypage/point" onClick={() => setIsSeller(false)}>
+                        포인트
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="active">
+                  <div className="title">활동 관리</div>
+                  <ul>
+                    <li className="board-history">
+                      <Link to="/mypage/board" onClick={() => setIsSeller(false)}>
+                        작성한 글
+                      </Link>
+                    </li>
+                    <li className="chatting-history">
+                      <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(false)}>
+                        채팅 내역
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </>
+          )}
         </div>
       </div>
     </S.MyPageLeftStyles>

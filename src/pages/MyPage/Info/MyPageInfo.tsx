@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, {useState, useRef, useEffect, useLayoutEffect} from "react";
 
 import * as S from "./MyPageInfoStyles";
 import Header from "../../../components/layout/Header/Header";
@@ -31,18 +31,20 @@ interface Member {
 
 const MyPageInfo: React.FC = () => {
   const cookies = new Cookies();
-  const [memberNickname, setMemberNickname] = useState<string>("");
-  const [buyZipCode, setBuyZipCode] = useState<string>("");
-  const [buySido, setBuySido] = useState<string>("");
-  const [buySimpleAddress, setBuySimpleAddress] = useState<string>("");
-  const [buyDetailAddress, setBuyDetailAddress] = useState<string>("");
+  const [memberId, setMemberId] = useState<string>('');
+  const [memberNickname, setMemberNickname] = useState<string>('');
+  const [buyZipCode, setBuyZipCode] = useState<string>('');
+  const [buySido, setBuySido] = useState<string>('');
+  const [buySimpleAddress, setBuySimpleAddress] = useState<string>('');
+  const [buyDetailAddress, setBuyDetailAddress] = useState<string>('');
   const [member, setMember] = useState<Member>();
   const [fileName, setFileName] = useState<string>('');
   const imgRef = useRef<HTMLInputElement>(null);
 
   const id = cookies.get('id');
-  const memberId = cookies.get('memberId');
-  console.log(member);
+  useEffect(() => {
+    setMemberId(cookies.get('memberId'));
+  }, []);
 
   useEffect(() => {
     Instance.get(`/api/member/id/${id}`)
