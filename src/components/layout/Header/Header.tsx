@@ -14,23 +14,14 @@ const Header: React.FC = () => {
   const [popularSearch, setPopularSearch] = useState<PopularSearch[]>();
   const [isClick, setIsClick] = useState<boolean>(false);
   const cookies = new Cookies();
-  const [id, setId] = useState<string>('');
-  const [urlId, setUrlId] = useState<string>('');
+
+  const id = cookies.get('id');
   const location = useLocation();
   const isLogin = cookies.get('memberId');
+  const urlId = new URLSearchParams(location.search).get('id');
 
   useEffect(() => {
-    if (cookies.get('id') != null) {
-      setId(cookies.get('id'));
-    }
-    const urlId = new URLSearchParams(location.search).get('id');
-    if (urlId != null) {
-      setUrlId(urlId);
-    }
-  }, []);
-
-  useEffect(() => {
-    if(id != null) {
+    if(urlId != null) {
       Instance.get(`/api/member/id/${urlId}`)
           .then((response) => {
             cookies.set('memberId', response.data.memberId);
