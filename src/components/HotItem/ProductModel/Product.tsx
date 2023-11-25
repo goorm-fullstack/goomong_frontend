@@ -42,7 +42,7 @@ const Product: React.FC<ProductProps> = ({ id, imageUrl, sellerName, productName
               <div className="product-name">{productName}</div>
             </div>
             <div className="product-right">
-              <div className="product-price">{formatNumber2(price)}원</div>
+              <div className="product-price">{formatNumber2(price)}</div>
               <ul className="product-rating-review">
                 <li className="product-rating">
                   <span className="rating-star">★</span> <span className="rating">{formatRating(rating)}</span>
