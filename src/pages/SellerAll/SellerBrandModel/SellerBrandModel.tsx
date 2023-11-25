@@ -80,7 +80,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
                   총리뷰 <span className="number">{totalReview === null ? 0 : totalReview}개</span>
                 </span>
                 <span className="star"> ★</span>
-                <span className=" star-number">{star === null ? 0 : star.toFixed(1)}</span>
+                <span className=" star-number">{star === null ? 0 : (star / totalReview).toFixed(1)}</span>
               </div>
             </div>
           </div>

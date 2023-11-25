@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Main from './pages/Main/Main';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import GlobalStyle from './Style/GlobalStyles';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import FindId from './pages/FindId/FindId';
 import FindPw from './pages/FindPw/FindPw';
-import NewPw from "./pages/FindPw/NewPw";
+import NewPw from './pages/FindPw/NewPw';
 import RegisterByGoomong from './pages/RegisterByGoomong/RegisterByGoomong';
 import Admin from './pages/Admin/Admin';
 import AdminMail from './pages/Admin/Mail/AdminMail';
@@ -52,6 +52,12 @@ import MyPageChatting from './pages/MyPage/MyPageChatting/MyPageChatting';
 import MyPageSellHistory from './pages/MyPage/SelleHistory/MyPageSellHistory';
 
 const App: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <div className="App">
       <GlobalStyle />

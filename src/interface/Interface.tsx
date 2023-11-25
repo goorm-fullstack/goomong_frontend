@@ -4,10 +4,16 @@ export interface Image {
   saveFileName: string;
   path: string;
 }
-
+export interface MessageProductProps {
+  productName: string;
+  money: number;
+  nickName: string;
+}
 export interface Message {
   message: string;
   isYour: boolean;
+  imageUrl?: string;
+  product?: MessageProductProps;
 }
 
 export interface Files {

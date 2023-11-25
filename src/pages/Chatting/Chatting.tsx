@@ -11,21 +11,23 @@ import Instance from '../../util/API/axiosInstance';
 import { getCookie } from '../../util/func/functions';
 import { Message } from '../../interface/Interface';
 
-interface Opponent {
-  imageUrl?: string;
-  nickname: string;
-  product: string;
-  money: number;
-  date: string;
-  content: string[];
-}
+// interface Opponent {
+//   imageUrl?: string;
+//   nickname: string;
+//   product: string;
+//   money: number;
+//   date: string;
+//   content: string[];
+// }
 
 interface UIModel {
-  opponent: Opponent;
+  // opponent: Opponent;
   bigDate: string;
   nowDate: string;
   content: Message[];
 }
+
+
 
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
@@ -33,13 +35,6 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const [roomId, setRoomId] = useState(0);
 
   const chattingUIData: UIModel = {
-    opponent: {
-      nickname: '마켓',
-      product: '이거 구매했어요 상품명',
-      money: 500000,
-      date: '11월 13일 10:10',
-      content: ['첫 번째 메시지', '두 번째 메시지', '세 번째 메시지'],
-    },
     bigDate: '2023.11.14',
     nowDate: '11월 14일 10:10',
     content: [],
@@ -173,8 +168,8 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
       <div className="chatting-container">
         <ChattingRoom setRoomId={handlePropsState} />
         <ChattingUI
-          opponent={chattingUIData.opponent}
-          product={chattingUIData.opponent.product}
+          // opponent={chattingUIData.opponent}
+          // product={chattingUIData.opponent.product}
           bigDate={chattingUIData.bigDate}
           nowDate={chattingUIData.nowDate}
           content={content}
