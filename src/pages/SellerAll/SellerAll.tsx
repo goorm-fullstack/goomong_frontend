@@ -31,26 +31,50 @@ const SellerAll: React.FC = () => {
 
   // 판매자 데이터 가져오기
   useEffect(() => {
-    if (orderBy && direction) {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`)
-        .then((response) => {
-          const data = response.data;
-          setSellerData(data);
-          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (region !== null) {
+      if (orderBy && direction) {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } else {
-      Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
-        .then((response) => {
-          const data = response.data;
-          setSellerData(data);
-          if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (orderBy && direction) {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        Instance.get(`/api/sellers?page=${currentPage}&size=${itemsPerPage}`)
+          .then((response) => {
+            const data = response.data;
+            setSellerData(data);
+            if (data.length > 0) setTotalPage(data[0].pageInfo.totalPage);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
   }, [currentPage, orderBy, direction, region]);
 
