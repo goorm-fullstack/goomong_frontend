@@ -97,6 +97,10 @@ export const Header = styled.header`
     background: none;
     border: none;
     padding-right: 22px;
+    button {
+      background-color: transparent;
+      border: 0;
+    }
   }
   .join-list {
     display: flex;
@@ -228,7 +232,8 @@ export const Header = styled.header`
     display: flex;
     justify-content: space-between;
   }
-  .keyword-bottom ul li ,  .keyword-bottom ul li button{
+  .keyword-bottom ul li,
+  .keyword-bottom ul li button {
     color: var(--dim-black);
     font-size: 11px;
     font-weight: 400;

@@ -31,7 +31,7 @@ const Header: React.FC = () => {
   const [currentTerm, setCurrentTerm] = useState<CurrentTermProps[]>(currentTerms);
 
   //최근 검색어 x 표시 클릭시 삭제 로직
-  const handleCurrentDelete = (event: React.MouseEvent,id: number) => {
+  const handleCurrentDelete = (event: React.MouseEvent, id: number) => {
     event.stopPropagation(); // 이벤트 버블링 중단
     console.log('Deleting item with id:', id);
     const updatedCurrent = currentTerm.filter((item) => item.id !== id);
@@ -102,7 +102,9 @@ const Header: React.FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+  };
 
   return (
     <S.Header>
@@ -112,7 +114,7 @@ const Header: React.FC = () => {
             <Link to="/">
               <img src={logo} alt="logo" className="header-logo" />
             </Link>
-            <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
+            <form className="search-bar" onSubmit={handleSearchSubmit}>
               <div className="search-input-container">
                 {!isFocused && (
                   <div className="search-term" key={popularIndex}>
@@ -128,23 +130,25 @@ const Header: React.FC = () => {
                   onBlur={() => setIsFocused(false)}
                 />
               </div>
-              <Link to={`/search/${searchTerm}`} type="submit" className="search-button-container">
-                <svg
-                  version="1.0"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14px"
-                  height="14px"
-                  viewBox="0 0 48.000000 48.000000"
-                  preserveAspectRatio="xMidYMid meet">
-                  <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-                    <path
-                      d="M141 402 c-134 -68 -87 -264 63 -264 25 0 53 5 63 11 15 8 27 1 69
+              <Link to={`/search/${searchTerm}`} type="submit" className="search-button-container" >
+                <button>
+                  <svg
+                    version="1.0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14px"
+                    height="14px"
+                    viewBox="0 0 48.000000 48.000000"
+                    preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                      <path
+                        d="M141 402 c-134 -68 -87 -264 63 -264 25 0 53 5 63 11 15 8 27 1 69
 -40 48 -48 51 -49 67 -31 16 17 14 21 -32 66 -45 44 -49 51 -39 75 48 125 -74
 243 -191 183z m135 -43 c63 -59 40 -166 -40 -188 -91 -24 -171 65 -135 150 28
 68 122 88 175 38z"
-                    />
-                  </g>
-                </svg>
+                      />
+                    </g>
+                  </svg>
+                </button>
               </Link>
             </form>
             <div className="join">
@@ -202,7 +206,7 @@ const Header: React.FC = () => {
                       </div>
                       <span className="current-text">{term.term}</span>
                     </Link>
-                    <button className="delete-btn" onClick={(e) => handleCurrentDelete(e,term.id)}>
+                    <button className="delete-btn" onClick={(e) => handleCurrentDelete(e, term.id)}>
                       <svg
                         version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
