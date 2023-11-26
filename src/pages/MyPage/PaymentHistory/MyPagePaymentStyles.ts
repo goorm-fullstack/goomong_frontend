@@ -28,10 +28,10 @@ export const MyPagePaymentStyles = styled.div`
         justify-content: center;
       }
       :nth-child(1) {
-        width: 40%;
+        width: 30%;
       }
       :nth-child(2) {
-        width: 30%;
+        width: 25%;
       }
     }
     .payment-container {
@@ -98,10 +98,28 @@ export const MyPagePaymentStyles = styled.div`
         justify-content: center;
       }
       :nth-child(1) {
-        width: 40%;
+        width: 30%;
       }
       :nth-child(2) {
-        width: 30%;
+        width: 25%;
+      }
+      :nth-child(5) {
+        width: 15%;
+      }
+      .review-reg {
+        width: 100%;
+        border: 1px solid #4285f4;
+        background-color: transparent;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .review-reg:hover {
+        background-color: #4285f4;
+        border: 1px solid #4285f4;
+        color: #fff;
       }
     }
   }

@@ -1,56 +1,89 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import * as S from './SellerRankStyles';
 import Header from '../../components/layout/Header/Header';
 import { Link } from 'react-router-dom';
 import RankModel from '../../components/Popular/RankModel/RankModel';
 import Footer from '../../components/layout/Footer/Footer';
-
-interface SellerInfo {
-  money: string;
-  sellerName: string;
-  imageUrl: string;
-}
-
-interface CategoryRank {
-  category: string;
-  sellers: SellerInfo[];
-}
-
-interface SellerListInfo {
-  imageUrl?: string;
-  category: string;
-  sellerName: string;
-  totalMoney: number;
-  totalReview: number;
-  totalTransaction: number;
-  star: number;
-}
+import { Top5Ranking, RankingsState, FindMember } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { getImageFile, commaNumber } from '../../util/func/functions';
 
 const SellerRank: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState<number>(0);
+  const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
+  const [findMember, setFindMember] = useState<FindMember[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지
 
-  const rankData: CategoryRank[] = [
-    {
-      category: '카테고리명',
-      sellers: [
-        { money: '1,341,380,120원', sellerName: '판매자 브랜드명1', imageUrl: 'https://via.placeholder.com/800x300?text=seller+1' },
-        { money: '1,341,380,12원', sellerName: '판매자 브랜드명2', imageUrl: 'https://via.placeholder.com/800x300?text=seller+2' },
-        { money: '1,341,380,1원', sellerName: '판매자 브랜드명3', imageUrl: 'https://via.placeholder.com/800x300?text=seller+3' },
-        { money: '1,341,380원', sellerName: '판매자 브랜드명4', imageUrl: 'https://via.placeholder.com/800x300?text=seller+4' },
-        { money: '1,341,38원', sellerName: '판매자 브랜드명5', imageUrl: 'https://via.placeholder.com/800x300?text=seller+5' },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchAndProcessRankings = async () => {
+      try {
+        const response = await Instance.get<Top5Ranking[]>(`/api/ranking`);
+        const rankingsData = response.data;
 
-  const sellerData: SellerListInfo[] = [
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.8 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-    { category: '재능 카테고리', sellerName: '판매자명', totalMoney: 255220000, totalReview: 555, totalTransaction: 555, star: 4.6 },
-  ];
+        // 각 카테고리별로 데이터 필터링
+        const reviewRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '리뷰')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const orderedRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '주문')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const salesRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '판매 금액')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        // 카테고리별로 완성된 데이터를 상태에 저장
+        setRankings({ ordered: orderedRankings, review: reviewRankings, sales: salesRankings });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAndProcessRankings();
+  }, []);
+  useEffect(() => {
+    Instance.get(`/api/ranking/sellers`)
+      .then((response) => {
+        setFindMember(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (findMember) {
+        const urls = await Promise.all(
+          findMember.map((seller) => {
+            if (seller.imagePath !== null) return getImageFile(seller.imagePath);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [findMember]);
 
   useEffect(() => {
     const date = new Date();
@@ -67,7 +100,6 @@ const SellerRank: React.FC = () => {
     </svg>
   );
 
-
   //억,만 단위 표시 , 1000단위 ,찍기
   const formatCurrency = (money: number): string => {
     const billion: number = Math.floor(money / 100000000);
@@ -80,9 +112,10 @@ const SellerRank: React.FC = () => {
     if (tenThousand > 0) {
       result += `${tenThousand.toLocaleString()}만`;
     }
+    if (money === null) return '0원';
+    else if (money < 10000) return commaNumber(money) + '원';
     return result + '원';
   };
-
 
   return (
     <S.SellerRankStyles>
@@ -101,62 +134,33 @@ const SellerRank: React.FC = () => {
             {currentYear}년 {currentMonth}월 판매자 순위 TOP 5
           </div>
           <div className="rank-model">
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
+            {rankings.review.length > 0 && <RankModel top5Ranking={rankings.review} />}
+            {rankings.ordered.length > 0 && <RankModel top5Ranking={rankings.ordered} />}
+            {rankings.sales.length > 0 && <RankModel top5Ranking={rankings.sales} />}
           </div>
           <div className="bottom">
-            <div className="top">TOP 10</div>
-            <div className="align-menu">
-              <div className="left">
-                <div className="left-category">
-                  재능 카테고리
-                  <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                  </svg>
-                </div>
-                <div className="left-local">
-                  지역 선택
-                  <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                  </svg>
-                </div>
-              </div>
-              <div className="right">
-                <div className="align-standard">
-                  정렬 기준
-                  <svg height="17px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="17px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon transform="rotate(90 256 256)" points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <div className="top">TOP 5</div>
+            <div className="align-menu"></div>
             <div className="seller-list">
-              {sellerData.map((item, index) => (
-                <div className={`seller-list-item ${index === sellerData.length - 1 ? 'last-item' : ''}`} key={index}>
-                  <Link to="#null">
-                    <div className="image-container">{item.imageUrl ? <img src={item.imageUrl} alt="" /> : defaultImage}</div>
+              {findMember.map((member, index) => (
+                <div className={`seller-list-item ${index === findMember.length - 1 ? 'last-item' : ''}`} key={index}>
+                  <Link to={`/seller/detail/${member.memberId}`}>
+                    <div className="image-container">{imageUrls ? <img src={imageUrls[index]} alt="" /> : defaultImage}</div>
                     <div className="right">
-                      <div className="category">{item.category}</div>
-                      <div className="seller-name">{item.sellerName}</div>
+                      <div className="category">{member.saleSido}</div>
+                      <div className="seller-name">{member.memberName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익 <span className="number">{formatCurrency(item.totalMoney)}</span>
+                          총수익 <span className="number">{member.totalSales === null ? 0 : formatCurrency(member.totalSales)}원</span>
                         </span>
                         <span className="transaction">
-                          총거래 <span className="number">{item.totalTransaction}</span>
+                          총거래 <span className="number">{member.transaction === null ? 0 : member.transaction}건</span>
                         </span>
                         <span className="review">
-                          총리뷰 <span className="number">{item.totalReview}</span>
+                          총리뷰 <span className="number">{member.reviewCount === null ? 0 : member.reviewCount}건</span>
                         </span>
                         <span className="star"> ★</span>
-                        <span className=" star-number">{item.star}</span>
+                        <span className=" star-number">{member.totalRating === null ? 0 : (member.totalRating / member.reviewCount).toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>

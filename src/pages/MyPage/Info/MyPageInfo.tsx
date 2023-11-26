@@ -1,17 +1,154 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-import * as S from './MyPageInfoStyles';
-import Header from '../../../components/layout/Header/Header';
-import MyPageLeft from '../MyPageLeft/MyPageLeft';
-import Footer from '../../../components/layout/Footer/Footer';
+import * as S from "./MyPageInfoStyles";
+import Header from "../../../components/layout/Header/Header";
+import MyPageLeft from "../MyPageLeft/MyPageLeft";
+import Footer from "../../../components/layout/Footer/Footer";
+import { Cookies } from "react-cookie";
+import { MouseEvent } from "react";
+import Instance from "../../../util/API/axiosInstance";
+import {Image} from "../../../interface/Interface";
+import {Link} from "react-router-dom";
 
 interface UserInfo {
   imageUrl?: string;
 }
+
+declare global {
+  interface Window {
+    daum: any;
+  }
+}
+
+interface IAddr {
+  address: string;
+  zonecode: string;
+  sido: string;
+}
+
+interface Member {
+  profileImages: Array<Image>;
+}
+
 const MyPageInfo: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const cookies = new Cookies();
+  const [memberId, setMemberId] = useState<string>('');
+  const [memberNickname, setMemberNickname] = useState<string>('');
+  const [buyZipCode, setBuyZipCode] = useState<string>('');
+  const [buySido, setBuySido] = useState<string>('');
+  const [buySimpleAddress, setBuySimpleAddress] = useState<string>('');
+  const [buyDetailAddress, setBuyDetailAddress] = useState<string>('');
+  const [member, setMember] = useState<Member>();
+  const [fileName, setFileName] = useState<string>('');
+  const imgRef = useRef<HTMLInputElement>(null);
+
+  const id = cookies.get('id');
+
+  useEffect(() => {
+    setMemberId(cookies.get('memberId'));
+  }, []);
+
+  useEffect(() => {
+    Instance.get(`/api/member/id/${id}`)
+      .then((response) => {
+        setMemberNickname(response.data.memberName);
+        setBuyZipCode(response.data.buyZipCode);
+        setBuySido(response.data.buySido);
+        setBuySimpleAddress(response.data.buySimpleAddress);
+        setBuyDetailAddress(response.data.buyDetailAddress);
+        setMember(response.data);
+      })
+      .catch(() => console.log('회원 정보 불러오기 실패'));
+  }, [id]);
+
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (member) {
+        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+    console.log(imageUrls[0]);
+    setSelectedImage(imageUrls[0]);
+  }, [member]);
+
+  //이미지 불러오기
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
+
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const memberInfo = {
+      memberId: memberId,
+      memberName: memberNickname,
+      buyZipCode: buyZipCode,
+      buySimpleAddress: buySimpleAddress,
+      buyDetailAddress: buyDetailAddress,
+      buySido: buySido,
+    };
+
+    Instance.put(`/api/member/update/memberId`, memberInfo, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        alert('회원 정보가 수정되었습니다.');
+        window.location.reload();
+      })
+      .catch(() => {
+        alert('업데이트에 실패했습니다. 다시 시도해주세요.');
+      });
+
+    if (fileInputRef.current && fileInputRef.current.files) {
+      const imageInfo = new FormData();
+      imageInfo.append('memberId', memberId);
+      imageInfo.append('multipartFiles', fileInputRef.current.files[0]);
+
+      Instance.put(`/api/member/update/image`, imageInfo, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(() => {
+          alert('프로필 이미지가 수정되었습니다.');
+        })
+        .catch(() => {
+          alert('프로필 이미지 수정에 실패했습니다.');
+        });
+    }
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +188,19 @@ const MyPageInfo: React.FC = () => {
     }
   };
 
+  //주소 입력 처리
+  const onClickAddr = (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+
+    new window.daum.Postcode({
+      oncomplete: function (data: IAddr) {
+        setBuyZipCode(((document.getElementById('zipNo') as HTMLInputElement).value = data.zonecode));
+        setBuySido(((document.getElementById('sido') as HTMLInputElement).value = data.sido));
+        setBuySimpleAddress(((document.getElementById('addr') as HTMLInputElement).value = data.address));
+      },
+    }).open();
+  };
+
   return (
     <S.MyPageInfoStyles>
       <Header />
@@ -80,18 +230,66 @@ const MyPageInfo: React.FC = () => {
               </div>
               <div className="info-get">
                 <div className="input-text">
-                  회원 아이디
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <div className="text">회원 아이디</div>
+                  <input required type="memberId" value={memberId} onChange={(e) => setMemberId(e.target.value)} readOnly />
                 </div>
                 <div className="input-text">
-                  변경할 비밀번호
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <div className="text">별명</div>
+                  <input required type="memberNickname" value={memberNickname} onChange={(e) => setMemberNickname(e.target.value)} />
+                </div>
+                <div className="address">
+                  <div className="top">
+                    <div className="input-text">
+                      <div className="text">주소</div>
+                      <input
+                        onClick={onClickAddr}
+                        type="text"
+                        id="zipNo"
+                        name="zipNo"
+                        value={buyZipCode}
+                        onChange={(e) => setBuyZipCode(e.target.value)}
+                        readOnly
+                      />
+                      <button onClick={onClickAddr}>주소 검색</button>
+                    </div>
+                  </div>
+
+                  <div className="input-text">
+                    <div className="text">시/도</div>
+                    <input
+                      onClick={onClickAddr}
+                      type="text"
+                      id="sido"
+                      name="sido"
+                      value={buySido}
+                      onChange={(e) => setBuySido(e.target.value)}
+                      readOnly
+                    />
+                  </div>
+                  <div className="input-text">
+                    <div className="text">도로명 주소</div>
+                    <input
+                      type="text"
+                      id="addr"
+                      name="addr"
+                      value={buySimpleAddress}
+                      onChange={(e) => setBuySimpleAddress(e.target.value)}
+                      onClick={onClickAddr}
+                      readOnly
+                    />
+                  </div>
+                  <div className="input-text">
+                    <div className="text">상세 주소</div>
+                    <input type="text" value={buyDetailAddress} onChange={(e) => setBuyDetailAddress(e.target.value)} />
+                  </div>
                 </div>
               </div>
             </div>
-            <button type="submit" className="submit-btn">
-              저장
-            </button>
+            <div className="button-container">
+              <button type="submit" className="submit-btn">
+                저장
+              </button>
+            </div>
           </form>
         </div>
       </div>

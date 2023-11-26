@@ -1,55 +1,73 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import RankModel from './RankModel/RankModel';
 import * as S from './PopularStyles';
 import { Link } from 'react-router-dom';
-
-interface SellerInfo {
-  money: string;
-  sellerName: string;
-  imageUrl: string;
-}
-
-interface CategoryRank {
-  category: string;
-  sellers: SellerInfo[];
-}
+import { Top5Ranking, RankingsState } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { getImageFile } from '../../util/func/functions';
 
 const Popular: React.FC = () => {
-  const rankData: CategoryRank[] = [
-    {
-      category: '카테고리명',
-      sellers: [
-        { money: '1,341,380,120원', sellerName: '판매자 브랜드명1', imageUrl: 'https://via.placeholder.com/800x300?text=seller+1' },
-        { money: '1,341,380,12원', sellerName: '판매자 브랜드명2', imageUrl: 'https://via.placeholder.com/800x300?text=seller+2' },
-        { money: '1,341,380,1원', sellerName: '판매자 브랜드명3', imageUrl: 'https://via.placeholder.com/800x300?text=seller+3' },
-        { money: '1,341,380원', sellerName: '판매자 브랜드명4', imageUrl: 'https://via.placeholder.com/800x300?text=seller+4' },
-        { money: '1,341,38원', sellerName: '판매자 브랜드명5', imageUrl: 'https://via.placeholder.com/800x300?text=seller+5' },
-      ],
-    },
-  ];
+  const [rankings, setRankings] = useState<RankingsState>({ ordered: [], review: [], sales: [] });
+
+  useEffect(() => {
+    const fetchAndProcessRankings = async () => {
+      try {
+        const response = await Instance.get<Top5Ranking[]>(`/api/ranking`);
+        const rankingsData = response.data;
+
+        // 각 카테고리별로 데이터 필터링
+        const reviewRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '리뷰')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const orderedRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '주문')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        const salesRankings = await Promise.all(
+          rankingsData
+            .filter((r) => r.category === '판매 금액')
+            .map(async (ranking) => ({
+              ...ranking,
+              imageUrl: ranking.imagePath && (await getImageFile(ranking.imagePath)),
+            }))
+        );
+
+        // 카테고리별로 완성된 데이터를 상태에 저장
+        setRankings({ ordered: orderedRankings, review: reviewRankings, sales: salesRankings });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAndProcessRankings();
+  }, []);
 
   return (
     <S.Popular>
       <div className="popular-container">
         <div className="popular-top">
           <div className="popular-title">인기 판매자 순위 TOP 5</div>
-          <div className="popular-sub-title">상위 카테고리에서 가장 많이 판매한 인기 판매자에요.</div>
           <div className="ranking-container">
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
-            {rankData.map((rank, index) => (
-              <RankModel key={index} category={rank.category} sellers={rank.sellers} />
-            ))}
+            {rankings.review.length > 0 && <RankModel top5Ranking={rankings.review} />}
+            {rankings.ordered.length > 0 && <RankModel top5Ranking={rankings.ordered} />}
+            {rankings.sales.length > 0 && <RankModel top5Ranking={rankings.sales} />}
           </div>
         </div>
 
         <div className="more-btn">
-          <Link to="#null">
-            <button type='submit'>
+          <Link to="/seller/rank">
+            <button type="submit">
               판매자 더보기
               <svg
                 version="1.0"

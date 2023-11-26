@@ -4,6 +4,17 @@ export interface Image {
   saveFileName: string;
   path: string;
 }
+export interface MessageProductProps {
+  productName: string;
+  money: number;
+  nickName: string;
+}
+export interface Message {
+  message: string;
+  isYour: boolean;
+  imageUrl?: string;
+  product?: MessageProductProps;
+}
 
 export interface Files {
   id: number;
@@ -89,6 +100,7 @@ export interface Item {
   askList: Array<any>;
   rate: number;
   status: string;
+  regDate: Date;
 }
 
 export interface ItemData {
@@ -147,6 +159,7 @@ export interface MemberData {
   memberPassword: string;
   memberName: string;
   memberEmail: string;
+  memberAddress: string;
   likeList: LikeData[];
   memberSignupTime: Date;
 }
@@ -203,4 +216,56 @@ export interface ItemCategoryData {
   priority: number;
   parent: ItemCategoryData;
   childCategory: ItemCategoryData[];
+}
+export interface Top5Ranking {
+  memberId: number;
+  memberName: string;
+  imagePath: string;
+  imageUrl?: string; // 추가된 필드
+  count: string;
+  category: string;
+}
+
+export interface RankingsState {
+  ordered: Top5Ranking[];
+  review: Top5Ranking[];
+  sales: Top5Ranking[];
+}
+
+export interface FindMember {
+  memberId: number;
+  memberName: string;
+  imagePath: string;
+  saleSido: string;
+  transaction: number;
+  totalSales: number;
+  reviewCount: number;
+  totalRating: number;
+}
+
+export interface SellerData {
+  id: number;
+  memberId: string;
+  name: string;
+  description: string;
+  income: number;
+  rate: number;
+  saleZipCode: number;
+  saleSido: string;
+  saleSimpleAddress: string;
+  saleDetailAddress: string;
+  imagePath: string;
+  transactionCnt: number;
+  reviewCnt: number;
+  regDate: Date;
+  pageInfo: PageInfoData;
+}
+
+export interface CurrentSearch {
+  searchId: number;
+  keyword: string;
+}
+
+export interface PopularSearch {
+  keyword: string;
 }

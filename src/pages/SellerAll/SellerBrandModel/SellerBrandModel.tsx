@@ -2,11 +2,12 @@ import React from 'react';
 
 import * as S from './SellerBrandModelStyles';
 import { Link } from 'react-router-dom';
+import { commaNumber } from '../../../util/func/functions';
 
 interface SellerBrandProps {
+  id: number;
   imageUrl?: string;
   sellerName: string;
-  b_category: string;
   p_category: string;
   content: string;
   totalMoney: number;
@@ -25,9 +26,9 @@ const defaultImage = (
 );
 
 const SellerBrandModel: React.FC<SellerBrandProps> = ({
+  id,
   imageUrl,
   sellerName,
-  b_category,
   p_category,
   content,
   totalMoney,
@@ -47,12 +48,14 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
     if (tenThousand > 0) {
       result += `${tenThousand.toLocaleString()}만`;
     }
+    if (money === null) return '0원';
+    else if (money < 10000) return commaNumber(money) + '원';
     return result + '원';
   };
 
   return (
     <S.SellerBrandModelStyles>
-      <Link to="/seller/detail">
+      <Link to={`/seller/detail/${id}`}>
         <div className="seller-brand-model-container">
           <div className="top">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>
@@ -61,7 +64,6 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
             <div className="seller-brand-model-seller-info">
               <p className="seller-brand-model-seller-name">{sellerName}</p>
               <ul className="seller-brand-model-category-list">
-                <li>{b_category}</li>
                 <li>{p_category}</li>
               </ul>
             </div>
@@ -71,14 +73,14 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
                 총수익 <span className="number">{formatCurrency(totalMoney)}</span>
               </span>
               <span className="transaction">
-                총거래 <span className="number">{totalTransaction}</span>
+                총거래 <span className="number">{totalTransaction === null ? 0 : totalTransaction}건</span>
               </span>
               <div className="bottom">
                 <span className="review">
-                  총리뷰 <span className="number">{totalReview}</span>
+                  총리뷰 <span className="number">{totalReview === null ? 0 : totalReview}개</span>
                 </span>
                 <span className="star"> ★</span>
-                <span className=" star-number">{star}</span>
+                <span className=" star-number">{star === null ? 0 : (star / totalReview).toFixed(1)}</span>
               </div>
             </div>
           </div>

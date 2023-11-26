@@ -1,16 +1,57 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import Slide from '../Slide/Slide';
 import ReviewModel from './ReviewModel/ReviewModel';
 import * as S from './ReviewStyles';
 import { Link } from 'react-router-dom';
 import { ReviewData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { detailDate, getImageFile } from '../../util/func/functions';
+import Slider from 'react-slick';
 
 const Review: React.FC = () => {
   const [reviewData, setReviewData] = useState<ReviewData[]>(); // 리뷰 데이터 상태 관리
   const [imageUrls, setImageUrls] = useState<string[]>(); // 이미지 데이터 상태 관리
   const [reviewAve, setReviewAve] = useState<string>(); // 전체 평균 평점
+
+  const settings = {
+    infinite: true,
+    slidesToShow: reviewData ? Math.min(reviewData.length, 5.3) : 0,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 4000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
+
+    responsive: [
+      {
+        breakpoint: 1900,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 780,
+        settings: {
+          slidesToShow: 1.5,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   // 전체 리뷰 중 최신 10건 상태 저장
   useEffect(() => {
@@ -66,7 +107,7 @@ const Review: React.FC = () => {
         </div>
 
         {reviewData && (
-          <Slide>
+          <Slider {...settings}>
             {reviewData.map((reviewModel, index) => (
               <Link to={`/item/detail/${reviewModel.itemId}`} key={index}>
                 <ReviewModel
@@ -81,7 +122,7 @@ const Review: React.FC = () => {
                 />
               </Link>
             ))}
-          </Slide>
+          </Slider>
         )}
       </div>
     </S.Review>

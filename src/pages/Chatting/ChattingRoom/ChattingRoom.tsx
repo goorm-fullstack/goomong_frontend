@@ -1,55 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as S from './ChattingRoomStyles';
 import ChattingRoomModel from './ChattingRoomModel/ChattingRoomModel';
+import Instance from '../../../util/API/axiosInstance';
+import { getCookie } from '../../../util/func/functions';
 
 interface RoomModel {
-  imageUrl?: string;
-  nickName: string;
-  date: string;
-  contentShorts: string;
-  type: string;
-  product?: string;
-  id: number;
+  roomId: string;
+  roomName: string;
+  lastMessage: string;
+  itemDto: any;
+  lastDate: Date;
 }
-const ChattingRoom: React.FC = () => {
-  const roomListData: RoomModel[] = [
-    { id: 1, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 2, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 3, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 4, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 5, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 6, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 7, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 8, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 9, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 10, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 11, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 12, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-    { id: 13, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '디자인', product: '상품명' },
-    { id: 14, nickName: '닉네임', date: '2023.10.18', contentShorts: '채팅내용입니다.', type: '문의' },
-  ];
 
+interface Props {
+  setRoomId: (number : number) => void;
+}
+
+const ChattingRoom: React.FC<Props> = ({ setRoomId }) => {
+  const [roomListData, setRoomListData] = useState<RoomModel[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const memberId = getCookie('id');
+
+  useEffect(() => {
+    Instance.get('/api/chat/' + memberId).then((response) => {
+      setRoomListData(response.data);
+    });
+  }, []);
 
   const handleRoomClick = (id: number) => {
     setSelectedId(id);
+    setRoomId(id);
   };
+
   return (
     <S.ChattingRoomStyles>
       <div className="chatting-room-container">
         <div className="all-room">전체 채팅</div>
         {roomListData.map((room) => (
           <ChattingRoomModel
-            key={room.id}
-            nickName={room.nickName}
-            date={room.date}
-            contentShorts={room.contentShorts}
-            type={room.type}
-            product={room.product}
-            id={room.id}
-            isSelected={room.id === selectedId}
-            onRoomClick={() => handleRoomClick(room.id)}
+            key={room.roomId}
+            roomId={room.roomId}
+            roomName={room.roomName}
+            lastMessage={room.lastMessage}
+            itemDto={room.itemDto}
+            lastDate={room.lastDate}
+            isSelected={Number(room.roomId) === selectedId}
+            onRoomClick={() => handleRoomClick(Number(room.roomId))}
           />
         ))}
       </div>

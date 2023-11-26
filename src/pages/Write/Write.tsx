@@ -11,6 +11,7 @@ const Write: React.FC = () => {
   //mypage에서 item을 가져온 경우 setting
   const location = useLocation();
   const mypageitem = location.state?.mypageitem;
+  const reviewItemId = location.state?.itemId;
   const [title, setTitle] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('카테고리 목록');
   const [content, setContent] = useState<string>('');
@@ -21,7 +22,7 @@ const Write: React.FC = () => {
   const imgRef = useRef<HTMLInputElement>(null);
   const cookies = new Cookies();
   const type = useParams().type;
-  const itemId = location.state.itemId;
+  const itemId = type !== 'productreg' ? location.state?.itemId : undefined;
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -126,9 +127,33 @@ const Write: React.FC = () => {
     <S.WriteStyles>
       <Header />
       <div className="write-container">
-        <div className="write-title">{type === 'community' ? '게시글 작성하기' : '문의하기'}</div>
+        <div className="write-title">
+          <div className="write-title">
+            {type === 'community' ? '게시글 작성하기' : type === 'productreg' ? '재능 등록' : type === 'reviewreg' ? '리뷰 작성하기' : '문의하기'}
+          </div>
+        </div>
         <form onSubmit={handleWriteSubmit} className="write-form">
           {type === 'community' && (
+            <>
+              <div className="input-text">카테고리를 선택해주세요</div>
+              <div className="write-category" onClick={toggleDropdown}>
+                {selectedCategory}
+                {isDropdownOpen ? (
+                  <div className="dropdown-category">
+                    <ul>
+                      {categoryData &&
+                        categoryData.map((category, index) => (
+                          <li onClick={() => handleCategorySelect(category.categoryName, category.id)} key={index}>
+                            {category.categoryName}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+            </>
+          )}
+          {type === 'productreg' && (
             <>
               <div className="input-text">카테고리를 선택해주세요</div>
               <div className="write-category" onClick={toggleDropdown}>
@@ -153,6 +178,33 @@ const Write: React.FC = () => {
           <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
           <div className="input-text">내용</div>
           <textarea className="content-box" required value={content} onChange={(e) => setContent(e.target.value)} />
+          {type === 'reviewreg' && (
+            <div className="rating-container">
+              <div className="input-text">평점</div>
+              <div className="radio-container">
+                <div>
+                  <input type="radio" id="rating1" name="rating" value="1" required />
+                  <label htmlFor="rating1">★</label>
+                </div>
+                <div>
+                  <input type="radio" id="rating2" name="rating" value="2" required />
+                  <label htmlFor="rating2">★★</label>
+                </div>
+                <div>
+                  <input type="radio" id="rating3" name="rating" value="3" required />
+                  <label htmlFor="rating3">★★★</label>
+                </div>
+                <div>
+                  <input type="radio" id="rating4" name="rating" value="4" required />
+                  <label htmlFor="rating4">★★★★</label>
+                </div>
+                <div>
+                  <input type="radio" id="rating5" name="rating" value="5" required />
+                  <label htmlFor="rating5">★★★★★</label>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="input-text">첨부파일</div>
           <label className="file-upload">
             {fileName ? fileName : '파일 추가 또는 파일을 여기로 드래그하세요.'}
