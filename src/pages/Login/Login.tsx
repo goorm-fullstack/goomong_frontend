@@ -131,21 +131,21 @@ const Login: React.FC = () => {
           <div className="easy-login">간편 로그인</div>
         </Link>
         <div className="oauth">
-          <Link to="#null">
+          <Link to="https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback&response_type=code">
             <div className="kakao">
               <img src={Kakao} alt="kakao" />
             </div>
           </Link>
-          <Link to="#null">
-            <div className="google">
-              <img src={Google} alt="google" />
-            </div>
-          </Link>
-          <Link to="#null">
-            <div className="naver">
-              <img src={Naver} alt="naver" />
-            </div>
-          </Link>
+          {/*<Link to="#null">*/}
+          {/*  <div className="google">*/}
+          {/*    <img src={Google} alt="google" />*/}
+          {/*  </div>*/}
+          {/*</Link>*/}
+          {/*<Link to="#null">*/}
+          {/*  <div className="naver">*/}
+          {/*    <img src={Naver} alt="naver" />*/}
+          {/*  </div>*/}
+          {/*</Link>*/}
         </div>
         <div className="bottom">
           <span className="text">아직 구몽 회원이 아니세요?</span>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, {useState, useRef, useEffect, useLayoutEffect} from "react";
 
 import * as S from "./MyPageInfoStyles";
 import Header from "../../../components/layout/Header/Header";
@@ -8,7 +8,6 @@ import { Cookies } from "react-cookie";
 import { MouseEvent } from "react";
 import Instance from "../../../util/API/axiosInstance";
 import {Image} from "../../../interface/Interface";
-import {Link} from "react-router-dom";
 
 interface UserInfo {
   imageUrl?: string;
@@ -43,7 +42,6 @@ const MyPageInfo: React.FC = () => {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const id = cookies.get('id');
-
   useEffect(() => {
     setMemberId(cookies.get('memberId'));
   }, []);
@@ -72,7 +70,6 @@ const MyPageInfo: React.FC = () => {
     };
 
     fetchImages();
-    console.log(imageUrls[0]);
     setSelectedImage(imageUrls[0]);
   }, [member]);
 

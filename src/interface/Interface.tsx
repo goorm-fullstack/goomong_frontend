@@ -154,6 +154,13 @@ export interface LikeData {
   reviewId: number;
 }
 
+export interface profileImages {
+  id: number;
+  fileName: string;
+  path: string;
+  saveFileName: string;
+}
+
 export interface MemberData {
   memberId: string;
   memberPassword: string;
@@ -162,6 +169,8 @@ export interface MemberData {
   memberAddress: string;
   likeList: LikeData[];
   memberSignupTime: Date;
+  saleSido: string;
+  profileImages: [];
 }
 
 export interface AskData {
@@ -259,6 +268,7 @@ export interface SellerData {
   reviewCnt: number;
   regDate: Date;
   pageInfo: PageInfoData;
+  Itemlist: Array<any>;
 }
 
 export interface CurrentSearch {

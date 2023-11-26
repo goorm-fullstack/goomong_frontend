@@ -4,13 +4,15 @@ import Logo from '../../assets/images/common/logo.png';
 import Kakao from '../../assets/images/oauth/ico_kakao.png';
 import Google from '../../assets/images/oauth/ico_google.png';
 import Naver from '../../assets/images/oauth/ico_naver.png';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-const KakaoLogin = () => {
-  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:3000`;
-}
 
 const Register: React.FC = () => {
+
+  const KakaoLogin = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback&response_type=code`;
+  }
+
   return (
     <S.Register>
       <div className="register-container">
@@ -34,22 +36,22 @@ const Register: React.FC = () => {
               </button>
             </div>
           </Link>
-          <Link to="#null">
-            <div className="google">
-              <button type="submit" className="btn google-btn">
-                <img src={Google} alt="google" />
-                구글로 가입하기
-              </button>
-            </div>
-          </Link>
-          <Link to="#null">
-            <div className="naver">
-              <button type="submit" className="btn naver-btn">
-                <img src={Naver} alt="naver" />
-                네이버로 가입하기
-              </button>
-            </div>
-          </Link>
+          {/*<Link to="#null">*/}
+          {/*  <div className="google">*/}
+          {/*    <button type="submit" className="btn google-btn">*/}
+          {/*      <img src={Google} alt="google" />*/}
+          {/*      구글로 가입하기*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*</Link>*/}
+          {/*<Link to="#null">*/}
+          {/*  <div className="naver">*/}
+          {/*    <button type="submit" className="btn naver-btn">*/}
+          {/*      <img src={Naver} alt="naver" />*/}
+          {/*      네이버로 가입하기*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*</Link>*/}
           <div className="and">또는</div>
           <Link to="/register/step2">
             <div className="goomong-reg">
