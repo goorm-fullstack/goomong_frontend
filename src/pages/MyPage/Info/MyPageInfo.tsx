@@ -1,13 +1,13 @@
-import React, {useState, useRef, useEffect, useLayoutEffect} from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-import * as S from "./MyPageInfoStyles";
-import Header from "../../../components/layout/Header/Header";
-import MyPageLeft from "../MyPageLeft/MyPageLeft";
-import Footer from "../../../components/layout/Footer/Footer";
-import { Cookies } from "react-cookie";
-import { MouseEvent } from "react";
-import Instance from "../../../util/API/axiosInstance";
-import {Image} from "../../../interface/Interface";
+import * as S from './MyPageInfoStyles';
+import Header from '../../../components/layout/Header/Header';
+import MyPageLeft from '../MyPageLeft/MyPageLeft';
+import Footer from '../../../components/layout/Footer/Footer';
+import { Cookies } from 'react-cookie';
+import { MouseEvent } from 'react';
+import Instance from '../../../util/API/axiosInstance';
+import { Image } from '../../../interface/Interface';
 
 interface UserInfo {
   imageUrl?: string;
@@ -43,7 +43,7 @@ const MyPageInfo: React.FC = () => {
 
   const id = cookies.get('id');
   useEffect(() => {
-    setMemberId(cookies.get('memberId'));
+    setMemberId(cookies.get('memberId') || '');
   }, []);
 
   useEffect(() => {
@@ -185,15 +185,23 @@ const MyPageInfo: React.FC = () => {
     }
   };
 
+  const [readOnly, setReadOnly] = useState<boolean>(true);
+
   //주소 입력 처리
   const onClickAddr = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
+
+    const currentReadOnlyState = readOnly;
+
+    setReadOnly(false);
 
     new window.daum.Postcode({
       oncomplete: function (data: IAddr) {
         setBuyZipCode(((document.getElementById('zipNo') as HTMLInputElement).value = data.zonecode));
         setBuySido(((document.getElementById('sido') as HTMLInputElement).value = data.sido));
         setBuySimpleAddress(((document.getElementById('addr') as HTMLInputElement).value = data.address));
+
+        setReadOnly(currentReadOnlyState);
       },
     }).open();
   };
@@ -228,11 +236,11 @@ const MyPageInfo: React.FC = () => {
               <div className="info-get">
                 <div className="input-text">
                   <div className="text">회원 아이디</div>
-                  <input required type="memberId" value={memberId} onChange={(e) => setMemberId(e.target.value)} readOnly />
+                  <input required type="memberId" value={memberId || ''} onChange={(e) => setMemberId(e.target.value)} readOnly />
                 </div>
                 <div className="input-text">
                   <div className="text">별명</div>
-                  <input required type="memberNickname" value={memberNickname} onChange={(e) => setMemberNickname(e.target.value)} />
+                  <input required type="memberNickname" value={memberNickname || ''} onChange={(e) => setMemberNickname(e.target.value)} />
                 </div>
                 <div className="address">
                   <div className="top">
@@ -243,9 +251,9 @@ const MyPageInfo: React.FC = () => {
                         type="text"
                         id="zipNo"
                         name="zipNo"
-                        value={buyZipCode}
+                        value={buyZipCode || ''}
                         onChange={(e) => setBuyZipCode(e.target.value)}
-                        readOnly
+                        readOnly={readOnly}
                       />
                       <button onClick={onClickAddr}>주소 검색</button>
                     </div>
@@ -258,9 +266,9 @@ const MyPageInfo: React.FC = () => {
                       type="text"
                       id="sido"
                       name="sido"
-                      value={buySido}
+                      value={buySido || ''}
                       onChange={(e) => setBuySido(e.target.value)}
-                      readOnly
+                      readOnly={readOnly}
                     />
                   </div>
                   <div className="input-text">
@@ -269,15 +277,15 @@ const MyPageInfo: React.FC = () => {
                       type="text"
                       id="addr"
                       name="addr"
-                      value={buySimpleAddress}
+                      value={buySimpleAddress || ''}
                       onChange={(e) => setBuySimpleAddress(e.target.value)}
                       onClick={onClickAddr}
-                      readOnly
+                      readOnly={readOnly}
                     />
                   </div>
                   <div className="input-text">
                     <div className="text">상세 주소</div>
-                    <input type="text" value={buyDetailAddress} onChange={(e) => setBuyDetailAddress(e.target.value)} />
+                    <input type="text" value={buyDetailAddress || ''} onChange={(e) => setBuyDetailAddress(e.target.value)} />
                   </div>
                 </div>
               </div>
