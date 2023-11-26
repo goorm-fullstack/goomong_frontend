@@ -90,7 +90,13 @@ export interface PostData {
 export interface Item {
   id: number;
   title: string;
-  member: any;
+  // member: any;
+  memberId: string;
+  memberName: string;
+  memberEmail: string;
+  saleSido: string;
+  memberAddress: string;
+  profileImages: Image[];
   price: number;
   description: string;
   itemOptions: Array<any>;
@@ -104,7 +110,7 @@ export interface Item {
 }
 
 export interface ItemData {
-  data: Item;
+  data: Item[];
   pageNum: number;
 }
 
@@ -154,13 +160,23 @@ export interface LikeData {
   reviewId: number;
 }
 
+export interface profileImages {
+  id: number;
+  fileName: string;
+  path: string;
+  saveFileName: string;
+}
+
 export interface MemberData {
   memberId: string;
   memberPassword: string;
   memberName: string;
   memberEmail: string;
+  memberAddress: string;
   likeList: LikeData[];
   memberSignupTime: Date;
+  saleSido: string;
+  profileImages: [];
 }
 
 export interface AskData {
@@ -245,6 +261,7 @@ export interface FindMember {
 export interface SellerData {
   id: number;
   memberId: string;
+  name: string;
   description: string;
   income: number;
   rate: number;
@@ -257,6 +274,7 @@ export interface SellerData {
   reviewCnt: number;
   regDate: Date;
   pageInfo: PageInfoData;
+  Itemlist: Array<any>;
 }
 
 export interface CurrentSearch {

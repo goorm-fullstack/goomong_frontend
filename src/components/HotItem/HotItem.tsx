@@ -74,7 +74,7 @@ const HotItem: React.FC = () => {
                   key={index}
                   id={item.id}
                   imageUrl={imageUrls && imageUrls[index]}
-                  sellerName={item.member.name}
+                  sellerName={item.memberId}
                   productName={item.title}
                   price={commaNumber(item.price)}
                   rating={item.rate}

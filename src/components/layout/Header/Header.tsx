@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import Instance from '../../../util/API/axiosInstance';
 import { CurrentSearch, PopularSearch } from '../../../interface/Interface';
 import { Cookies } from 'react-cookie';
@@ -14,8 +14,25 @@ const Header: React.FC = () => {
   const [popularSearch, setPopularSearch] = useState<PopularSearch[]>();
   const [isClick, setIsClick] = useState<boolean>(false);
   const cookies = new Cookies();
+
   const id = cookies.get('id');
+  const location = useLocation();
   const isLogin = cookies.get('memberId');
+  const urlId = new URLSearchParams(location.search).get('id');
+
+  useEffect(() => {
+    if(urlId != null) {
+      Instance.get(`/api/member/id/${urlId}`)
+          .then((response) => {
+            cookies.set('memberId', response.data.memberId);
+            cookies.set('id', response.data.id)
+            cookies.set('memberRole', response.data.memberRole);
+
+            window.location.href=`/`;
+          })
+
+    }
+  }, [urlId]);
 
   useEffect(() => {
     if (id && isClick === true) {

@@ -1,56 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/layout/Header/Header';
 import * as S from './SellerMapStyles';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/layout/Footer/Footer';
 import KakaoMap from './KakaoMap';
 import MarkerInfoModel from './MarkerInfoModel/MarkerInfoModel';
+import { SellerData } from '../../interface/Interface';
+import Instance from '../../util/API/axiosInstance';
+import { Cookies } from 'react-cookie';
+import { getImageFile } from '../../util/func/functions';
 
-interface User {
-  userPlace: string;
-}
-
-interface Seller {
-  sellerId: number;
-  sellerPlace: string;
-}
-interface MapProps {
-  user?: User;
-  seller?: Seller[];
-}
-
-interface SellerInfo {
-  sellerId: number;
-  imageUrl?: string;
-  sellerName: string;
-  category: string;
-  totalTransaction: number;
-  totalReview: number;
-  star: number;
-  intro: string;
-}
 const SellerMap: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [sellerData, setSellerData] = useState<SellerData[]>(); // 판매자 데이터
+  const [userAddress, setUserAddress] = useState<string>(); // 로그인한 유저 주소
+  const [selectId, setSelectId] = useState<number>(); // 마커 클릭한 판매자 id
+  const [selectedMarkerData, setSelectedMarkerData] = useState<SellerData>(); // 클릭한 마커의 판매자 데이터
+  const [selectedMarkerDataImage, setSelectedMarkerDataImage] = useState<string>(); // 클릭한 마커의 판매자 이미지
+  const cookies = new Cookies();
+  const id = cookies.get('id');
 
-  const mapData: MapProps = {
-    seller: [
-      { sellerId: 2, sellerPlace: '경기도 성남시 분당구 판교로 264' },
-      { sellerId: 3, sellerPlace: '경기도 성남시 분당구 판교로 256번길 7' },
-      { sellerId: 4, sellerPlace: '경기도 성남시 분당구 판교로228번길 15 윈스동 4F' },
-      { sellerId: 5, sellerPlace: '경기도 성남시 삼평동 621' },
-      { sellerId: 6, sellerPlace: '경기도 성남시 분당구 삼평동 726' },
-    ],
-  };
+  // 판매자 데이터 가져오기
+  useEffect(() => {
+    Instance.get('/api/sellers/all')
+    .then((response) => {
+      const data = response.data;
+      setSellerData(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }, [])
 
-  const markerData: SellerInfo = {
-    sellerId: 2,
-    sellerName: '판매자명',
-    category: '재능 카테고리',
-    totalTransaction: 555,
-    totalReview: 555,
-    star: 4.9,
-    intro: '판매자 소개글',
-  };
+  // 로그인한 유저 주소 가져오기
+  useEffect(() => {
+    if(id !== undefined){
+      Instance.get(`/api/member/${id}`)
+      .then((response) => {
+        const data = response.data;
+        if(data.memberAddress) setUserAddress(data.memberAddress);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
+  }, [id])
+
+  // 마커 클릭 시 클릭한 마커의 판매자 데이터 가져오기
+  useEffect(() => {
+    if(showDetail && selectId && sellerData){
+      const member = sellerData.find((item) => selectId === item.id);
+      if(member !== undefined) {
+        setSelectedMarkerData(member);
+        if(member.imagePath){
+          getImageFile(member.imagePath)
+          .then((response) => {
+            setSelectedMarkerDataImage(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+        }
+      }
+    }
+  }, [selectId, sellerData, showDetail])
+
   return (
     <S.SellerMapStyles>
       <Header />
@@ -64,20 +78,20 @@ const SellerMap: React.FC = () => {
           </Link>
         </div>
         <KakaoMap
-          user={mapData.user ? mapData.user : { userPlace: '경기도 성남시 분당구 판교로 242 PDC A동 902호' }}
-          seller={mapData.seller}
+          user={userAddress ? {userPlace: userAddress} : { userPlace: '경기도 성남시 분당구 판교로 242 PDC A동 902호' }}
+          seller={sellerData}
           isClicked={setShowDetail}
+          isSelected={setSelectId}
         />
-        {showDetail && (
+        {showDetail && selectedMarkerData && (
           <MarkerInfoModel
-            sellerId={markerData.sellerId}
-            imageUrl={markerData.imageUrl}
-            sellerName={markerData.sellerName}
-            category={markerData.category}
-            totalTransaction={markerData.totalTransaction}
-            totalReview={markerData.totalReview}
-            star={markerData.star}
-            intro={markerData.intro}
+            sellerId={selectedMarkerData.id}
+            imageUrl={selectedMarkerDataImage}
+            sellerName={selectedMarkerData.name}
+            totalTransaction={selectedMarkerData.transactionCnt}
+            totalReview={selectedMarkerData.reviewCnt}
+            star={selectedMarkerData.reviewCnt !== null ? selectedMarkerData.rate / selectedMarkerData.reviewCnt : 0}
+            intro={selectedMarkerData.description}
           />
         )}
       </div>

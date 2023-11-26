@@ -144,4 +144,32 @@ export const WriteStyles = styled.div`
     background-color: #fff;
     width: 1200px;
   }
+  .rating-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    .input-text {
+      margin: 0;
+      margin-right: 30px;
+    }
+    .radio-container {
+      display: flex;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+      }
+      input {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        padding: 0;
+      }
+      label {
+        margin-left: 5px;
+        color: var(--yellow);
+      }
+    }
+  }
 `;

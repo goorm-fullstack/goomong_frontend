@@ -25,11 +25,8 @@ const SearchDetail = () => {
   const id = cookies.get(`id`);
 
   useEffect(() => {
-    console.log('mount');
     setDidMount(true);
-    return () => {
-      console.log('unmount');
-    };
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -100,20 +97,20 @@ const SearchDetail = () => {
     fetchImages();
   }, [communityData]);
 
-    useLayoutEffect(() => {
-      const fetchImages = async () => {
-        if (itemList) {
-          const urls = await Promise.all(
-            itemList.map((item) => {
-              if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
-              else return null;
-            })
-          );
-          setImageUrls(urls.filter((url) => url !== null) as string[]);
-        }
-      };
-      fetchImages();
-    }, [itemList]);
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (itemList) {
+        const urls = await Promise.all(
+          itemList.map((item) => {
+            if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
+            else return null;
+          })
+        );
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+    fetchImages();
+  }, [itemList]);
 
   return (
     <S.SearchDetailStyles>
@@ -149,7 +146,7 @@ const SearchDetail = () => {
                 key={index}
                 id={item.id}
                 imageUrl={imageUrls && imageUrls[index]}
-                sellerName={item.member.name}
+                sellerName={item.memberId}
                 productName={item.title}
                 price={commaNumber(item.price)}
                 rating={item.rate}

@@ -279,15 +279,6 @@ export const ItemDetail = styled.div`
         line-height: 18px;
         margin-bottom: 8px;
         font-weight: bold;
-
-        span:last-child::before {
-          content: '';
-          display: inline-block;
-          width: 1px;
-          height: 9px;
-          background: rgb(191, 198, 210);
-          margin: 0 8px 0 9px;
-        }
       }
 
       h2 {

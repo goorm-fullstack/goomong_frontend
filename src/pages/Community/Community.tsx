@@ -37,7 +37,7 @@ const Community: React.FC = () => {
   const region = location.state && location.state.region;
   const itemsPerPage = 5; // 페이지당 표시할 아이템 수
   const cookies = new Cookies();
-  console.log(region);
+
   // 페이지 변경 함수
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber - 1);
@@ -70,7 +70,6 @@ const Community: React.FC = () => {
     if (region) {
       if (category === 'all') {
         if (orderBy && direction) {
-          console.log('호출 1');
           Instance.get(
             `/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`
           )
@@ -85,7 +84,6 @@ const Community: React.FC = () => {
               console.error(error);
             });
         } else {
-          console.log('호출 2');
           Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
             .then((response) => {
               const data = response.data;
@@ -100,7 +98,6 @@ const Community: React.FC = () => {
         }
       } else {
         if (orderBy && direction) {
-          console.log('호출 3');
           Instance.get(
             `/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}&region=${region}`
           )
@@ -115,7 +112,6 @@ const Community: React.FC = () => {
               console.error(error);
             });
         } else {
-          console.log('호출 4');
           Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&region=${region}`)
             .then((response) => {
               const data = response.data;
@@ -132,7 +128,6 @@ const Community: React.FC = () => {
     } else {
       if (category === 'all') {
         if (orderBy && direction) {
-          console.log('호출 1');
           Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
             .then((response) => {
               const data = response.data;
@@ -145,7 +140,6 @@ const Community: React.FC = () => {
               console.error(error);
             });
         } else {
-          console.log('호출 2');
           Instance.get(`/api/posts/notdeletedtype/COMMUNITY?page=${currentPage}&size=${itemsPerPage}`)
             .then((response) => {
               const data = response.data;
@@ -160,7 +154,6 @@ const Community: React.FC = () => {
         }
       } else {
         if (orderBy && direction) {
-          console.log('호출 3');
           Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}&orderBy=${orderBy}&direction=${direction}`)
             .then((response) => {
               const data = response.data;
@@ -173,7 +166,6 @@ const Community: React.FC = () => {
               console.error(error);
             });
         } else {
-          console.log('호출 4');
           Instance.get(`/api/posts/notdeletedcategory/${category}?page=${currentPage}&size=${itemsPerPage}`)
             .then((response) => {
               const data = response.data;

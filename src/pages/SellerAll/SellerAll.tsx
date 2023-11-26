@@ -239,13 +239,14 @@ const SellerAll: React.FC = () => {
               <SellerBrandModel
                 key={index}
                 id={item.id}
-                sellerName={item.memberId}
+                sellerName={item.name}
+                sellerId={item.memberId}
                 p_category={item.saleSido}
                 content={item.description}
                 totalMoney={item.income}
                 totalReview={item.reviewCnt}
                 totalTransaction={item.transactionCnt}
-                star={item.rate / item.reviewCnt}
+                star={item.reviewCnt >= 0 ? item.rate / item.reviewCnt : 0}
                 imageUrl={imageUrls && imageUrls[index]}
               />
             ))}

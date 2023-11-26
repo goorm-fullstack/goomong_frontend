@@ -144,14 +144,14 @@ const SellerRank: React.FC = () => {
             <div className="seller-list">
               {findMember.map((member, index) => (
                 <div className={`seller-list-item ${index === findMember.length - 1 ? 'last-item' : ''}`} key={index}>
-                  <Link to={`/seller/detail/${member.memberId}`}>
+                  <Link to={`/seller/detail/${member.memberName}`}>
                     <div className="image-container">{imageUrls ? <img src={imageUrls[index]} alt="" /> : defaultImage}</div>
                     <div className="right">
                       <div className="category">{member.saleSido}</div>
                       <div className="seller-name">{member.memberName}</div>
                       <div className="total-list">
                         <span className="money">
-                          총수익 <span className="number">{formatCurrency(member.totalSales)}</span>
+                          총수익 <span className="number">{member.totalSales === null ? 0 : formatCurrency(member.totalSales)}원</span>
                         </span>
                         <span className="transaction">
                           총거래 <span className="number">{member.transaction === null ? 0 : member.transaction}건</span>

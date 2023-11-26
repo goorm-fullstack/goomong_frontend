@@ -8,6 +8,7 @@ interface SellerBrandProps {
   id: number;
   imageUrl?: string;
   sellerName: string;
+  sellerId: string;
   p_category: string;
   content: string;
   totalMoney: number;
@@ -29,6 +30,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
   id,
   imageUrl,
   sellerName,
+  sellerId,
   p_category,
   content,
   totalMoney,
@@ -55,7 +57,7 @@ const SellerBrandModel: React.FC<SellerBrandProps> = ({
 
   return (
     <S.SellerBrandModelStyles>
-      <Link to={`/seller/detail/${id}`}>
+      <Link to={`/seller/detail/${sellerId}`}>
         <div className="seller-brand-model-container">
           <div className="top">
             <div className="image-container">{imageUrl ? <img src={imageUrl} alt="" /> : defaultImage}</div>

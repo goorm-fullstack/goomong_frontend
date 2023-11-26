@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import * as S from './MyPageLeftStyles';
 import { Link } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import Instance from '../../../util/API/axiosInstance';
 import { useLocation } from 'react-router-dom';
+import { Image } from '../../../interface/Interface';
 
 interface UserInfo {
   imageUrl?: string;
@@ -13,13 +14,21 @@ interface UserInfo {
   userLocal: string;
 }
 
+interface MemberData {
+  memberName: string;
+  memberEmail: string;
+  saleSido: string;
+  profileImages: Array<Image>;
+}
+
 const MyPageLeft: React.FC = () => {
   const cookies = new Cookies();
   const isLogin: string = cookies.get('memberId');
   const id: number = cookies.get('id');
-  const [member, setMember] = useState<string>('');
+  const [member, setMember] = useState<MemberData | null>(null);
   const location = useLocation();
   const [roomId, setRoomId] = useState(0);
+  const [isSeller, setIsSeller] = useState<boolean>(false);
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
       <path
@@ -40,7 +49,6 @@ const MyPageLeft: React.FC = () => {
 
     Instance.get('/api/chat/' + id).then((response) => {
       const data = response.data;
-      console.log(data);
       if (data.length !== 0) {
         if (data[0].roomId) {
           setRoomId(data[0].roomId);
@@ -49,11 +57,63 @@ const MyPageLeft: React.FC = () => {
     });
   }, [id]);
 
-  const defaultUser: UserInfo = {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (imageUrls.length > 0) {
+      setDefaultUser({
+        ...defaultUser,
+        imageUrl: imageUrls[0],
+      });
+    }
+  }, [imageUrls]);
+
+  useLayoutEffect(() => {
+    const fetchImages = async () => {
+      if (member) {
+        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        setImageUrls(urls.filter((url) => url !== null) as string[]);
+      }
+    };
+
+    fetchImages();
+  }, [member]);
+
+  //이미지 불러오기
+  const getImageFile = async (path: string) => {
+    try {
+      const response = await Instance.get('/api/image', {
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        responseType: 'blob',
+        params: {
+          imagePath: path,
+        },
+      });
+
+      if (response.status === 200) {
+        return URL.createObjectURL(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const [defaultUser, setDefaultUser] = useState<UserInfo>({
     userName: '별명',
     userEmail: 'goomong@goomong.com',
     userLocal: '서울',
-  };
+  });
+
+  useEffect(() => {
+    if (member) {
+      setDefaultUser({
+        userName: member.memberName,
+        userEmail: member.memberEmail,
+        userLocal: member.saleSido,
+      });
+    }
+  }, [member]);
 
   useEffect(() => {
     if (isLogin == null) {
@@ -79,65 +139,113 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <Link to="/mypage/info">
-            <button type="button">구매자로 전환하기</button>
-          </Link>
-          <Link to="/mypage/convertseller">
-            <button type="button">판매자로 전환하기</button>
-          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              setIsSeller((prevState) => !prevState); // 현재 상태의 반대로 설정
+            }}>
+            {isSeller ? '구매자로 전환하기' : '판매자로 전환하기'}
+          </button>
         </div>
         <div className="bottom">
-          <div className="info">
-            <div className="title">정보 관리</div>
-            <ul>
-              <li className="sale-info-set">
-                <Link to="/mypage/convertseller">판매자 계정 설정</Link>
-              </li>
-              <li className="buy-info-set">
-                <Link to="/mypage/info">구매자 계정 설정</Link>
-              </li>
-              <li className="change-pw">
-                <Link to="/mypage/changepw">비밀번호 변경</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="payment">
-            <div className="title">결제 관리</div>
-            <ul>
-              <li className="payment-history">
-                <Link to="/mypage/payment">구매내역</Link>
-              </li>
-              <li className="sell-history">
-                <Link to="/mypage/sellhistory">판매내역</Link>
-              </li>
-              <li className="sale-history">
-                <Link to="/mypage/sales">판매 내역</Link>
-              </li>
-              <li className="point">
-                <Link to="/mypage/point">포인트</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="active">
-            <div className="title">활동 관리</div>
-            <ul>
-              <li className="board-history">
-                <Link to="/mypage/board">작성한 글</Link>
-              </li>
-              <li className="product-reg">
-                <Link to="/write/productreg">재능 등록</Link>
-              </li>
-
-              <li className="chatting-history">
-                <Link to="/mypage/chatting" state={{ id: roomId }}>
-                  채팅 내역
-                </Link>
-              </li>
-              <li className="save-item">
-                <Link to="#">재능 등록</Link>
-              </li>
-            </ul>
-          </div>
+          {isSeller ? ( //판매자이면
+            <>
+              <div className="info">
+                <div className="title">정보 관리</div>
+                <ul>
+                  <li className="sale-info-set">
+                    <Link to="/mypage/convertseller" onClick={() => setIsSeller(true)}>
+                      판매자 계정 설정
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="payment">
+                <div className="title">결제 관리</div>
+                <ul>
+                  <li className="sell-history">
+                    <Link to="/mypage/sellhistory" onClick={() => setIsSeller(true)}>
+                      판매내역
+                    </Link>
+                  </li>
+                  <li className="sale-history">
+                    <Link to="/mypage/sales" onClick={() => setIsSeller(true)}>
+                      판매 내역
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="active">
+                <div className="title">활동 관리</div>
+                <ul>
+                  <li className="product-reg">
+                    <Link to="/write/productreg" onClick={() => setIsSeller(true)}>
+                      재능 등록
+                    </Link>
+                  </li>
+                  <li className="chatting-history">
+                    <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(true)}>
+                      채팅 내역
+                    </Link>
+                  </li>
+                  <li className="save-item">
+                    <Link to="#" onClick={() => setIsSeller(true)}>
+                      재능 등록
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            //구매자이면
+            <>
+              <div className="info">
+                <div className="title">정보 관리</div>
+                <ul>
+                  <li className="buy-info-set">
+                    <Link to="/mypage/info" onClick={() => setIsSeller(false)}>
+                      구매자 계정 설정
+                    </Link>
+                  </li>
+                  <li className="change-pw">
+                    <Link to="/mypage/changepw" onClick={() => setIsSeller(false)}>
+                      비밀번호 변경
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="payment">
+                <div className="title">결제 관리</div>
+                <ul>
+                  <li className="payment-history">
+                    <Link to="/mypage/payment" onClick={() => setIsSeller(false)}>
+                      구매내역
+                    </Link>
+                  </li>
+                  <li className="point">
+                    <Link to="/mypage/point" onClick={() => setIsSeller(false)}>
+                      포인트
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="active">
+                <div className="title">활동 관리</div>
+                <ul>
+                  <li className="board-history">
+                    <Link to="/mypage/board" onClick={() => setIsSeller(false)}>
+                      작성한 글
+                    </Link>
+                  </li>
+                  <li className="chatting-history">
+                    <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(false)}>
+                      채팅 내역
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </S.MyPageLeftStyles>

@@ -73,7 +73,6 @@ const MyPagePayment: React.FC = () => {
   useEffect(() => {
     if (memberId) {
       Instance.get(`/api/order/member/${memberId}/list`).then((response) => {
-        console.log(response.data);
         setOrderDetails(response.data);
       });
     }
@@ -123,11 +122,10 @@ const MyPagePayment: React.FC = () => {
               <li>{commaNumber(item.price)}원</li>
               <li>{formattingStatus(item.status)}</li>
               <li>
-              <Link to="#null">
-                <button className='review-reg'>리뷰 작성</button>
-              </Link>
-            </li>
-              
+                <Link to="/write/reviewreg" state={item.id}>
+                  <button className="review-reg">리뷰 작성</button>
+                </Link>
+              </li>
             </ul>
           ))}
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />

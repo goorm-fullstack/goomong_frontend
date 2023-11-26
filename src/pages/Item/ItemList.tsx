@@ -77,7 +77,7 @@ export default function ItemList() {
         },
       }).then((response) => {
         setItemList(response.data.data);
-        setPageNum(response.data.pageNum);
+        if (response.data.data.length > 0) setPageNum(response.data.pageNum);
       });
     }
   }, [url, orderBy, direction, page, location, region, categoryName]);
@@ -94,7 +94,7 @@ export default function ItemList() {
           },
         }).then((response) => {
           setItemList(response.data.data);
-          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
+          if (response.data.data.length > 0) setPageNum(response.data.pageNum);
         });
       } else {
         Instance.get(`/api/item/list/${location}`, {
@@ -107,7 +107,7 @@ export default function ItemList() {
           },
         }).then((response) => {
           setItemList(response.data.data);
-          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
+          if (response.data.data.length > 0) setPageNum(response.data.pageNum);
         });
       }
     }
@@ -228,7 +228,7 @@ export default function ItemList() {
                       key={index}
                       id={item.id}
                       imageUrl={imageUrls && imageUrls[index]}
-                      sellerName={item.member.name}
+                      sellerName={item.memberId}
                       productName={item.title}
                       price={commaNumber(item.price)}
                       rating={item.rate}

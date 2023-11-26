@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { SellerData } from '../../interface/Interface';
+import { Cookies } from 'react-cookie';
 
 declare global {
   interface Window {
@@ -9,23 +11,22 @@ interface UserLatLng {
   userPlace?: string;
 }
 
-interface SellerMarker {
-  sellerId: number;
-  sellerPlace: string;
-}
 interface MapProps {
   user?: UserLatLng;
-  seller?: SellerMarker[];
+  seller?: SellerData[];
   isClicked: (clicked: boolean) => void;
+  isSelected: (selectedId: number) => void;
 }
 
-const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
+const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) => {
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
   const [map, setMap] = useState<any>(null);
   const [changedCenter, setChangedCenter] = useState<{ lat: number; lng: number }>({ lat: 37.4022864, lng: 127.1003289 });
+  const cookies = new Cookies();
+  const id = cookies.get('id');
 
   //마커 추가 함수
-  const addMarker = (map: any, lat: number, lng: number) => {
+  const addMarker = (map: any, lat: number, lng: number, id: number) => {
     const markerPosition = new window.kakao.maps.LatLng(lat, lng);
     const marker = new window.kakao.maps.Marker({
       position: markerPosition,
@@ -35,6 +36,7 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
     // 마커 클릭 이벤트 리스너 추가
     window.kakao.maps.event.addListener(marker, 'click', () => {
       isClicked(true);
+      isSelected(id);
     });
   };
 
@@ -92,7 +94,6 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
         geocoder.addressSearch(user.userPlace, function (result: any[], status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
             userCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            console.log('User Coordinates: ', userCoords);
             initialMap.setCenter(userCoords);
             setChangedCenter({ lat: userCoords.getLat(), lng: userCoords.getLng() });
 
@@ -116,8 +117,6 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
       window.kakao.maps.event.addListener(initialMap, 'center_changed', () => {
         let newCenter = initialMap.getCenter();
         setChangedCenter({ lat: newCenter.getLat(), lng: newCenter.getLng() });
-        console.log('changeCenter', newCenter.getLat());
-        console.log('changeCenter', newCenter.getLng());
       });
     }
   }, [scriptLoaded, user]);
@@ -127,12 +126,12 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked }) => {
     if (map && seller) {
       const geocoder = new window.kakao.maps.services.Geocoder();
       seller.forEach((seller) => {
-        geocoder.addressSearch(seller.sellerPlace, function (result: any[], status: any) {
+        geocoder.addressSearch(seller.saleSimpleAddress, function (result: any[], status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
             const sellerCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
             const distance = getDistanceFromLatLonInM(changedCenter.lat, changedCenter.lng, sellerCoords.getLat(), sellerCoords.getLng());
-            if (distance <= 500) {
-              addMarker(map, sellerCoords.getLat(), sellerCoords.getLng());
+            if (distance <= 500 && id !== seller.id) {
+              addMarker(map, sellerCoords.getLat(), sellerCoords.getLng(), seller.id);
             }
           }
         });
