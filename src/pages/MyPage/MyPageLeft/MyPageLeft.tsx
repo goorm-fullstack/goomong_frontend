@@ -183,7 +183,7 @@ const MyPageLeft: React.FC = () => {
                       to="/mypage/convertseller"
                       style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
                       state={{ isSeller: true }}>
-                      판매자 계정 설정
+                      판매자 프로필 설정
                     </NavLink>
                   </li>
                 </ul>
