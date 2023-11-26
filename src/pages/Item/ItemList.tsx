@@ -76,8 +76,9 @@ export default function ItemList() {
           categoryName: categoryName,
         },
       }).then((response) => {
+        console.log(response);
         setItemList(response.data.data);
-        setPageNum(response.data.pageNum);
+        if (response.data.data.length > 0) setPageNum(response.data.pageNum);
       });
     }
   }, [url, orderBy, direction, page, location, region, categoryName]);
@@ -94,7 +95,7 @@ export default function ItemList() {
           },
         }).then((response) => {
           setItemList(response.data.data);
-          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
+          if (response.data.data.length > 0) setPageNum(response.data.pageNum);
         });
       } else {
         Instance.get(`/api/item/list/${location}`, {
@@ -107,7 +108,7 @@ export default function ItemList() {
           },
         }).then((response) => {
           setItemList(response.data.data);
-          if (response.data.length > 0) setPageNum(response.data[0].pageNum);
+          if (response.data.data.length > 0) setPageNum(response.data.pageNum);
         });
       }
     }

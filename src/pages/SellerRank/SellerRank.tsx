@@ -144,7 +144,7 @@ const SellerRank: React.FC = () => {
             <div className="seller-list">
               {findMember.map((member, index) => (
                 <div className={`seller-list-item ${index === findMember.length - 1 ? 'last-item' : ''}`} key={index}>
-                  <Link to={`/seller/detail/${member.memberId}`}>
+                  <Link to={`/seller/detail/${member.memberName}`}>
                     <div className="image-container">{imageUrls ? <img src={imageUrls[index]} alt="" /> : defaultImage}</div>
                     <div className="right">
                       <div className="category">{member.saleSido}</div>

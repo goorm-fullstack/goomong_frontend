@@ -16,43 +16,65 @@ const SellerDetail: React.FC = () => {
   const [sellerData, setSellerData] = useState<SellerData>(); // 판매자 데이터
   const [sellerImage, setSellerImage] = useState<string>(); // 판매자 이미지
   const [sellerReviewData, setSellerReviewData] = useState<ReviewData[]>(); // 판매자가 받은 리뷰 데이터
-  const [sellerItemData, setSellerItemData] = useState<ItemData[]>(); // 판매자 상품 데이터
+  const [sellerItemData, setSellerItemData] = useState<ItemData>(); // 판매자 상품 데이터
+  //페이징처리
+  const [currentItemPage, setCurrentItemPage] = useState<number>(0); // 현재 상품 페이지
+  const [currentReviewPage, setCurrentReviewPage] = useState<number>(0); // 현재 리뷰 페이지
+  const [totalItemPage, setTotalItemPage] = useState<number>(1); // 총 상품 페이지 수
+  const [totalReviewPage, setTotalReviewPage] = useState<number>(1); // 총 리뷰 페이지 수
+  const itemsPerPage = 6; // 페이지당 표시할 아이템 수
   const sellerId = useParams().sellerid;
 
   // 판매자 데이터 가져오기
   useEffect(() => {
     Instance.get(`/api/sellers/seller/${sellerId}`)
-    .then((response) => {
-      const data = response.data;
-      setSellerData(data);
-      if(data.imagePath){
-        getImageFile(data.imagePath)
+      .then((response) => {
+        const data = response.data;
+        setSellerData(data);
+        if (data.imagePath) {
+          getImageFile(data.imagePath)
+            .then((response) => {
+              setSellerImage(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [sellerId]);
+
+  // 판매자 상품 데이터 가져오기
+  useEffect(() => {
+    if (sellerData) {
+      Instance.get(`/api/member/items?memberId=${sellerData.memberId}&page=${currentItemPage}&size=${itemsPerPage}`)
         .then((response) => {
-          setSellerImage(response);
+          const data = response.data;
+          setSellerItemData(data);
+          if (data.data.length > 0) setTotalItemPage(data.pageNum);
         })
         .catch((error) => {
           console.error(error);
-        })
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }, [sellerId])
+        });
+    }
+  }, [sellerData, currentItemPage]);
 
   // 판매자 리뷰 데이터 가져오기
   useEffect(() => {
-    Instance.get(`/api/member/id/${sellerId}`)
-    .then((response) => {
-      const data = response.data;
-      setSellerReviewData(data.reviewList);
-      setSellerItemData(data.itemList);
-      console.log(data.itemList);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }, [sellerId])
+    if (sellerData) {
+      Instance.get(`/api/member/reviews?memberId=${sellerData.memberId}&page=${currentReviewPage}&size=${itemsPerPage}`)
+        .then((response) => {
+          const data = response.data;
+          setSellerItemData(data);
+          if (data.length > 0) setTotalReviewPage(data[0].pageInfo.totalPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [sellerData, currentReviewPage]);
 
   const defaultImage = (
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="36px" height="32px">
@@ -75,7 +97,7 @@ const SellerDetail: React.FC = () => {
     if (tenThousand > 0) {
       result += `${tenThousand.toLocaleString()}만`;
     }
-    if(money < 10000) return commaNumber(money) + '원';
+    if (money < 10000) return commaNumber(money) + '원';
     return result + '원';
   };
 
@@ -84,12 +106,12 @@ const SellerDetail: React.FC = () => {
     return num.toLocaleString();
   };
 
-  //페이징처리
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // 페이지당 표시할 아이템 수
+  const handleItemPageChange = (pageNumber: number) => {
+    setCurrentItemPage(pageNumber - 1);
+  };
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+  const handleReviewPageChange = (pageNumber: number) => {
+    setCurrentReviewPage(pageNumber - 1);
   };
 
   const [activeTab, setActiveTab] = useState('seller-intro');
@@ -118,7 +140,7 @@ const SellerDetail: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  console.log(sellerReviewData);
   return (
     <S.SellerDetailStyles>
       <Header />
@@ -147,14 +169,17 @@ const SellerDetail: React.FC = () => {
                   총수익 <span className="number">{sellerData && sellerData.income !== null ? formatCurrency(sellerData.income) : '0원'}</span>
                 </span>
                 <span className="transaction">
-                  총거래 <span className="number">{sellerData && sellerData.transactionCnt !== null ? commaNumber(sellerData.transactionCnt) : 0}건</span>
+                  총거래{' '}
+                  <span className="number">{sellerData && sellerData.transactionCnt !== null ? commaNumber(sellerData.transactionCnt) : 0}건</span>
                 </span>
               </div>
               <span className="review">
                 총리뷰 <span className="number">{sellerData && sellerData.reviewCnt !== null ? commaNumber(sellerData.reviewCnt) : 0}개의 평가</span>
               </span>
               <span className="star"> ★</span>
-              <span className=" star-number">{sellerData && sellerData.reviewCnt !== null ? (sellerData.rate / sellerData.reviewCnt).toFixed(1) : 0}</span>
+              <span className=" star-number">
+                {sellerData && sellerData.reviewCnt !== null ? (sellerData.rate / sellerData.reviewCnt).toFixed(1) : 0}
+              </span>
             </div>
           </div>
         </div>
@@ -207,41 +232,45 @@ const SellerDetail: React.FC = () => {
                 </div>
               </div>
               <div className="review-list">
-                {sellerReviewData?.length === 0 && <NoItem>등록된 리뷰가 없습니다.</NoItem>}
-                {sellerReviewData && sellerReviewData.map((item, index) => (
-                  <Link to={`/item/detail/${item.itemId}`} key={index}>
-                    <ReviewPageModel
-                      p_category={item.itemCategory}
-                      title={item.title}
-                      content={item.content}
-                      like={item.likeNo}
-                      comment={item.commentNo}
-                      time={detailDate(item.regDate)}
-                      star={item.rate}
-                    />
-                  </Link>
-                ))}
+                {(sellerReviewData === undefined || sellerReviewData?.length === 0) && <NoItem>등록된 리뷰가 없습니다.</NoItem>}
+                {sellerReviewData &&
+                  sellerReviewData.map((item, index) => (
+                    <Link to={`/item/detail/${item.itemId}`} key={index}>
+                      <ReviewPageModel
+                        p_category={item.itemCategory}
+                        title={item.title}
+                        content={item.content}
+                        like={item.likeNo}
+                        comment={item.commentNo}
+                        time={detailDate(item.regDate)}
+                        star={item.rate}
+                      />
+                    </Link>
+                  ))}
               </div>
-              <Pagination currentPage={currentPage} totalPages={1} onPageChange={handlePageChange} />
+              <Pagination currentPage={currentReviewPage + 1} totalPages={totalReviewPage} onPageChange={handleReviewPageChange} />
             </div>
           )}
           {activeTab === 'seller-item' && (
             <div className="product-container">
               <div className="product-title">판매 재능</div>
               <div className="product-list">
-                {sellerItemData?.length === 0 && <NoItem>등록된 상품이 없습니다.</NoItem>}
-                {sellerItemData && sellerData && sellerItemData.map((item, index) => (
-                  <Product
-                    key={index}
-                    sellerName={sellerData && sellerData.name}
-                    productName={item.data.title}
-                    price={String(item.data.price)}
-                    rating={item.data.rate}
-                    review={item.data.reviewList.length}
-                  />
-                ))}
+                {sellerItemData?.data?.length === 0 && <NoItem>등록된 상품이 없습니다.</NoItem>}
+                {sellerItemData &&
+                  sellerData &&
+                  sellerItemData.data.map((item, index) => (
+                    <Product
+                      key={index}
+                      id={item.id}
+                      sellerName={sellerData.name}
+                      productName={item.title}
+                      price={commaNumber(item.price)}
+                      rating={item.rate}
+                      review={item.reviewList.length}
+                    />
+                  ))}
               </div>
-              <Pagination currentPage={currentPage} totalPages={1} onPageChange={handlePageChange} />
+              <Pagination currentPage={currentItemPage + 1} totalPages={totalItemPage} onPageChange={handleItemPageChange} />
             </div>
           )}
         </div>

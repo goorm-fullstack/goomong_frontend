@@ -104,7 +104,7 @@ export interface Item {
 }
 
 export interface ItemData {
-  data: Item;
+  data: Item[];
   pageNum: number;
 }
 

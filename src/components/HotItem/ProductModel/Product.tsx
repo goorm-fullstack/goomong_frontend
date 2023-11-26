@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './ProductStyles';
 import { Link } from 'react-router-dom';
+import { commaNumber } from '../../../util/func/functions';
 
 interface ProductProps {
   id?: number;

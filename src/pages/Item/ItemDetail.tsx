@@ -393,27 +393,31 @@ export default function ItemDetail() {
                 <svg viewBox="0 0 24 24">
                   <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
                 </svg>
-                <span>재능 카테고리</span>
+                <span>
+                  {item?.itemCategories?.find((item, index) => index === 0)?.title !== undefined
+                    ? item?.itemCategories.find((item, index) => index === 0).title
+                    : '재능카테고리'}
+                </span>
               </p>
               <p className="seller-category">
                 <svg viewBox="0 0 24 24">
                   <path d="M2,10c0,8.491,9.126,13.658,9.514,13.874a1,1,0,0,0,.972,0C12.874,23.658,22,18.491,22,10A10,10,0,0,0,2,10ZM12,2a8.009,8.009,0,0,1,8,8c0,6.274-6.2,10.68-8,11.83C10.2,20.68,4,16.274,4,10A8.009,8.009,0,0,1,12,2Z" />
                   <path d="M12,15a5,5,0,1,0-5-5A5.006,5.006,0,0,0,12,15Zm0-8a3,3,0,1,1-3,3A3,3,0,0,1,12,7Z" />
                 </svg>
-                <span>지역</span>
+                <span>{seller?.saleSido}</span>
               </p>
               <ul className="summary">
                 <li>
                   <p className="title">총 거래</p>
-                  <p>{seller?.transactionCnt}건</p>
+                  <p>{seller?.transactionCnt === null ? 0 : seller?.transactionCnt}건</p>
                 </li>
                 <li>
                   <p className="title">총 리뷰</p>
-                  <p>{seller?.reviewCnt}건</p>
+                  <p>{seller?.reviewCnt === null ? 0 : seller?.reviewCnt}건</p>
                 </li>
                 <li>
                   <p className="title">만족도</p>
-                  <p>100%</p>
+                  <p>{seller && seller?.reviewCnt !== null ? (seller?.rate / seller?.reviewCnt / 5.0) * 100 : 0}%</p>
                 </li>
               </ul>
               <div>
