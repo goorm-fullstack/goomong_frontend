@@ -64,7 +64,7 @@ export default function ItemDetail() {
   useLayoutEffect(() => {
     Instance.get(`/api/item/${id}`).then((response) => {
       setItem(response.data);
-      setSellerId(response.data.member.memberId);
+      setSellerId(response.data.memberId);
     });
   }, []);
 
@@ -85,7 +85,6 @@ export default function ItemDetail() {
     };
 
     fetchImages();
-    console.log(imageUrls);
   }, [item]);
 
   useLayoutEffect(() => {
@@ -97,7 +96,6 @@ export default function ItemDetail() {
     };
 
     fetchImages();
-    console.log(sellerImageUrls);
   }, [sellerInfo]);
 
   const handleBuyClick = () => {

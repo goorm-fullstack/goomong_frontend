@@ -87,7 +87,6 @@ const Review: React.FC = () => {
     Instance.get('/api/reviews/aveRate')
       .then((response) => {
         const data = response.data;
-        console.log(data);
         setReviewAve(data);
       })
       .catch((error) => {

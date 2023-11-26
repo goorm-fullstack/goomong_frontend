@@ -94,7 +94,6 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
         geocoder.addressSearch(user.userPlace, function (result: any[], status: any) {
           if (status === window.kakao.maps.services.Status.OK) {
             userCoords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            console.log('User Coordinates: ', userCoords);
             initialMap.setCenter(userCoords);
             setChangedCenter({ lat: userCoords.getLat(), lng: userCoords.getLng() });
 
@@ -118,8 +117,6 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
       window.kakao.maps.event.addListener(initialMap, 'center_changed', () => {
         let newCenter = initialMap.getCenter();
         setChangedCenter({ lat: newCenter.getLat(), lng: newCenter.getLng() });
-        console.log('changeCenter', newCenter.getLat());
-        console.log('changeCenter', newCenter.getLng());
       });
     }
   }, [scriptLoaded, user]);

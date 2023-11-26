@@ -140,7 +140,7 @@ const SellerDetail: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  console.log(sellerReviewData);
+
   return (
     <S.SellerDetailStyles>
       <Header />

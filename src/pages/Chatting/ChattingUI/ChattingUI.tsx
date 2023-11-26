@@ -49,7 +49,6 @@ const ChattingUI: React.FC<UIModel> = ({ userId, bigDate, nowDate, content, room
           id: roomId,
         },
       }).then((response) => {
-        console.log(response.data.itemDto);
         setItem(response.data.itemDto);
       });
     }
@@ -81,10 +80,7 @@ const ChattingUI: React.FC<UIModel> = ({ userId, bigDate, nowDate, content, room
   };
 
   const handleBuyClick = async () => {
-    console.log(item);
-    console.log('================');
     if (item && memberId) {
-      console.log(memberId);
       if (item.status === 'SALE') {
         let data = {
           id: 1,
@@ -156,7 +152,6 @@ const ChattingUI: React.FC<UIModel> = ({ userId, bigDate, nowDate, content, room
               )} */}
 
               {content.map((message, index) => {
-                
                 // 사용자의 메시지이고, product 정보가 있는 경우
                 if (message.isYour && message.product) {
                   return (

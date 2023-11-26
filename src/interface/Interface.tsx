@@ -90,7 +90,13 @@ export interface PostData {
 export interface Item {
   id: number;
   title: string;
-  member: any;
+  // member: any;
+  memberId: string;
+  memberName: string;
+  memberEmail: string;
+  saleSido: string;
+  memberAddress: string;
+  profileImages: Image[];
   price: number;
   description: string;
   itemOptions: Array<any>;

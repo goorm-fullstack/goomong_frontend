@@ -76,7 +76,6 @@ export default function ItemList() {
           categoryName: categoryName,
         },
       }).then((response) => {
-        console.log(response);
         setItemList(response.data.data);
         if (response.data.data.length > 0) setPageNum(response.data.pageNum);
       });
@@ -229,7 +228,7 @@ export default function ItemList() {
                       key={index}
                       id={item.id}
                       imageUrl={imageUrls && imageUrls[index]}
-                      sellerName={item.member.name}
+                      sellerName={item.memberId}
                       productName={item.title}
                       price={commaNumber(item.price)}
                       rating={item.rate}

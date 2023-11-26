@@ -38,7 +38,6 @@ const MyPageSales: React.FC = () => {
   useEffect(() => {
     if (memberId) {
       Instance.get(`/api/member/id/${memberId}`).then((response) => {
-        console.log(response.data);
         setItem(response.data.itemList);
       });
     }
