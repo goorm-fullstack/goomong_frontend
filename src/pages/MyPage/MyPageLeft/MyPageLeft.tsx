@@ -127,8 +127,11 @@ const MyPageLeft: React.FC = () => {
       setIsSeller(location.state.isSeller);
     }
   }, [location]);
-  console.log(isSeller);
-  console.log(location.state && location.state);
+
+  const clickItemReg = () => {
+    if (member?.saleSido === null) alert('판매자 프로필을 먼저 작성해주세요.');
+  };
+  console.log(member);
   return (
     <S.MyPageLeftStyles>
       <div className="mypage-left-container">
@@ -207,12 +210,18 @@ const MyPageLeft: React.FC = () => {
                 <div className="title">활동 관리</div>
                 <ul>
                   <li className="product-reg">
-                    <NavLink
-                      to="/write/productreg"
-                      style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
-                      state={{ isSeller: true }}>
-                      재능 등록
-                    </NavLink>
+                    {member?.saleSido !== null ? (
+                      <NavLink
+                        to={'/write/productreg'}
+                        style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
+                        state={{ isSeller: true }}>
+                        재능 등록
+                      </NavLink>
+                    ) : (
+                      <NavLink to={'/mypage/convertseller'} state={{ isSeller: true }} onClick={clickItemReg}>
+                        재능 등록
+                      </NavLink>
+                    )}
                   </li>
                   <li className="chatting-history">
                     <NavLink
