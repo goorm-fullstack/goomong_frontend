@@ -13,7 +13,7 @@ function Footer() {
     if (cookies.get('id') === undefined) {
       alert('로그인 후 이용하실 수 있습니다.');
       window.location.href = '/login';
-    } else window.location.href = '#'; // 판매자 등록 페이지로 이동
+    }
   };
 
   return (
@@ -29,9 +29,11 @@ function Footer() {
               <div className="bg-text bg-second-text">수익을 만들어 보세요.</div>
             </div>
             <div className="btn">
-              <button type="submit" className="bg-btn" onClick={isLogin}>
-                판매자 등록하기
-              </button>
+              <Link to={cookies.get('id') !== undefined ? '/mypage/convertseller' : '#'} state={{ isSeller: true }}>
+                <button type="submit" className="bg-btn" onClick={isLogin}>
+                  판매자 등록하기
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@ function Footer() {
             </div>
             <div className="footer-top-right">
               <div className="footer-faq">
-                <Link to="#null">
+                <Link to={'/cs/faq/all'}>
                   자주하는 질문
                   <svg
                     version="1.0"
@@ -84,7 +86,7 @@ function Footer() {
                 </Link>
               </div>
               <div className="footer-customer-center">
-                <Link to="#null">
+                <Link to={'/cs/home'}>
                   고객센터
                   <svg
                     version="1.0"
@@ -130,13 +132,13 @@ function Footer() {
             <div className="footer-bottom-left">
               <ul className="footer-bottom-left-list">
                 <li>
-                  <Link to="#null">공지사항</Link>
+                  <Link to={'/cs/notice'}>공지사항</Link>
                 </li>
                 <li>
-                  <Link to="#null">개인정보처리방침</Link>
+                  <Link to={'/cs/agreement'}>개인정보처리방침</Link>
                 </li>
                 <li>
-                  <Link to="#null">이용약관</Link>
+                  <Link to={'/cs/agreement'}>이용약관</Link>
                 </li>
                 <li>
                   <Link to="/admin">관리자 로그인</Link>
@@ -145,7 +147,7 @@ function Footer() {
             </div>
             <div className="footer-bottom-right">
               <div className="instagram">
-                <Link to="#null">
+                <a href="https://www.instagram.com/goorm.co/" target="_blank" rel="noopener noreferrer">
                   <svg
                     version="1.0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,10 +183,10 @@ m392 -428 c125 -34 220 -92 321 -193 103 -102 159 -196 196 -331 28 -98 30
                       />
                     </g>
                   </svg>
-                </Link>
+                </a>
               </div>
               <div className="youtube">
-                <Link to="#null">
+                <a href="https://www.youtube.com/@goorm" target="_blank" rel="noopener noreferrer">
                   <svg
                     version="1.0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +203,7 @@ m392 -428 c125 -34 220 -92 321 -193 103 -102 159 -196 196 -331 28 -98 30
                       />
                     </g>
                   </svg>
-                </Link>
+                </a>
               </div>
             </div>
           </div>

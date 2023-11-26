@@ -34,13 +34,13 @@ const CSFooter: React.FC = () => {
           <div className="footer-left">
             <ul className="footer-left-list">
               <li>
-                <Link to="#null">공지 사항</Link>
+                <Link to={'/cs/notice'}>공지 사항</Link>
               </li>
               <li>
-                <Link to="#null">개인정보처리방침</Link>
+                <Link to={'/cs/agreement'}>개인정보처리방침</Link>
               </li>
               <li>
-                <Link to="#null">이용약관</Link>
+                <Link to={'/cs/agreement'}>이용약관</Link>
               </li>
               <li>
                 <Link to="/admin">관리자 로그인</Link>

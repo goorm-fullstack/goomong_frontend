@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as S from './GnbStyles';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { ItemCategoryData } from '../../../interface/Interface';
 import Instance from '../../../util/API/axiosInstance';
@@ -12,6 +12,7 @@ const Gnb = () => {
   const [isServiceMenuVisible, setIsServiceMenuVisible] = useState(false);
   const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
   const cookies = new Cookies();
+  const location = useLocation();
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,7 +51,7 @@ const Gnb = () => {
     if (cookies.get('id') === undefined) {
       alert('로그인 후 이용하실 수 있습니다.');
       window.location.href = '/login';
-    } else window.location.href = '#'; // 판매자 등록 페이지로 이동
+    }
   };
 
   // 상품 카테고리 가져오기
@@ -114,9 +115,11 @@ const Gnb = () => {
             <div className="right-txt">
               재능을 판매하고 <strong>수익</strong>을 만들어 보세요!
             </div>
-            <button type="submit" className="right-btn" onClick={isLogin}>
-              판매자 등록하기
-            </button>
+            <Link to={cookies.get('id') !== undefined ? '/mypage/convertseller' : '#'} state={{ isSeller: true }}>
+              <button type="submit" className="right-btn" onClick={isLogin}>
+                판매자 등록하기
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -185,17 +188,18 @@ const Gnb = () => {
               )}
             </li>
             <li>
-              {isServiceMenuVisible && (
-                <ul className="service-menu">
-                  {itemCategoryData?.length === 0 && <li>등록된 카테고리가 없습니다.</li>}
-                  {itemCategoryData &&
-                    itemCategoryData.map((category, index) => (
-                      <li key={index}>
-                        <Link to={`/item/sale/${category.title}`}>{category.title}</Link>
-                      </li>
-                    ))}
-                </ul>
-              )}
+              <ul className="service-menu">
+                {itemCategoryData?.length === 0 && isServiceMenuVisible && <NoItem>등록된 카테고리가 없습니다.</NoItem>}
+                {itemCategoryData &&
+                  isServiceMenuVisible &&
+                  itemCategoryData.map((category, index) => (
+                    <li key={index}>
+                      <Link to={`/item/sale/${category.title}/1`} state={location.state && { region: location.state.region }}>
+                        {category.title}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
             </li>
           </ul>
         )}
