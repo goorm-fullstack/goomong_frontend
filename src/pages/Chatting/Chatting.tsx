@@ -27,8 +27,6 @@ interface UIModel {
   content: Message[];
 }
 
-
-
 const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const location = useLocation();
   const { state } = location;
@@ -47,11 +45,8 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   const [selectRoomId, setSelectRoomId] = useState(0);
 
   useEffect(() => {
-    console.log('mount');
     setDidMount(true);
-    return () => {
-      console.log('unmount');
-    };
+    return () => {};
   }, []);
 
   // 최초 세팅
@@ -66,7 +61,6 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
             itemId: Number(itemId),
           };
           Instance.post('/api/chat', data).then((response) => {
-            console.log(response.data);
             setRoomId(response.data.roomId);
           });
         }
@@ -86,9 +80,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   };
 
   const handlePropsState = (Id: number) => {
-    console.log('call');
     setSelectRoomId(Id);
-    console.log(selectRoomId);
   };
 
   const connectCallback = () => {
@@ -118,7 +110,6 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   useEffect(() => {
     if (roomId && didMount) {
-      console.log('call');
       connect();
     }
   }, [roomId, didMount]);
@@ -131,13 +122,11 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
 
   const onMessageReceived = (message: any) => {
     const data = JSON.parse(message.body);
-    console.log(typeof memberId);
     if (data.memberId !== Number(memberId)) {
       let new_message = {
         message: data.message,
         isYour: false,
       };
-      console.log('calling');
       setContent((p) => [...p, new_message]);
     }
   };

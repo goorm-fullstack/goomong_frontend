@@ -73,7 +73,6 @@ const MyPagePayment: React.FC = () => {
   useEffect(() => {
     if (memberId) {
       Instance.get(`/api/order/member/${memberId}/list`).then((response) => {
-        console.log(response.data);
         setOrderDetails(response.data);
       });
     }

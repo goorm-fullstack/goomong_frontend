@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as S from './MarkerInfoModelStyles';
 import { Link } from 'react-router-dom';
+import { commaNumber } from '../../../util/func/functions';
 
 interface SellerInfo {
   sellerId: number;
@@ -34,10 +35,10 @@ const MarkerInfoModel: React.FC<SellerInfo> = ({ sellerId, imageUrl, sellerName,
             </ul>
             <ul className="middle">
               <li className="transaction">
-                <span>총 거래</span> {totalTransaction === null ? 0 : totalTransaction}
+                <span>총 거래</span> {totalTransaction === null ? 0 : commaNumber(totalTransaction)}건
               </li>
               <li>
-                <span>총 리뷰</span> {totalReview === null ? 0 : totalReview}
+                <span>총 리뷰</span> {totalReview === null ? 0 : commaNumber(totalReview)}개의 평가
               </li>
               <li className="star">
                 ★ <span>{star === null ? 0 : star.toFixed(1)}</span>

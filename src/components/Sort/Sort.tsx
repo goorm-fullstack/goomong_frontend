@@ -122,7 +122,7 @@ const Sort: React.FC<SortProp> = ({ type }) => {
   const onChangeRegion = () => {
     setShow(!show);
   };
-  console.log(location.state);
+
   return (
     <S.Sort>
       <div className="header-wrap" onClick={toggleVisibility}>
