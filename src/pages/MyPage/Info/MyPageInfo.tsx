@@ -129,7 +129,7 @@ const MyPageInfo: React.FC = () => {
         alert('업데이트에 실패했습니다. 다시 시도해주세요.');
       });
 
-    if (fileInputRef.current && fileInputRef.current.files) {
+    if (fileInputRef.current && fileInputRef.current.files && fileInputRef.current.files.length > 0) {
       const imageInfo = new FormData();
       imageInfo.append('memberId', memberId);
       imageInfo.append('multipartFiles', fileInputRef.current.files[0]);
@@ -141,6 +141,7 @@ const MyPageInfo: React.FC = () => {
       })
         .then(() => {
           alert('프로필 이미지가 수정되었습니다.');
+          window.location.reload();
         })
         .catch(() => {
           alert('프로필 이미지 수정에 실패했습니다.');
