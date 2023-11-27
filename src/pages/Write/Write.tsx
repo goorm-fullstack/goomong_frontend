@@ -104,7 +104,7 @@ const Write: React.FC = () => {
       const itemDto = {
         title: title,
         price: price,
-        describe: content,
+        description: content,
         status: selectedItemTypeValue,
         itemCategories: [selectedCategoryId],
         memberId: cookies.get('id'),
