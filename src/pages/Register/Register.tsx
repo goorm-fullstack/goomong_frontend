@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 const Register: React.FC = () => {
 
   const KakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback&response_type=code`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=https://keba1da28866ea.user-app.krampoline.com/api/member/kakao/callback&response_type=code`;
   }
 
   return (
