@@ -81,7 +81,7 @@ const MyPagePayment: React.FC = () => {
   useEffect(() => {
     for (let i = 0; i < orderDetails.length; i++) {
       if (orderDetails[0].status === 'WAITING') {
-        setDoingOrder(doingOrder + 1);
+        setDoingOrder(doingOrder);
       } else if (orderDetails[0].status === 'COMPLETE') {
         setCompleteOrder(completeOrder + 1);
       }
