@@ -23,47 +23,47 @@ const SellerMap: React.FC = () => {
   // 판매자 데이터 가져오기
   useEffect(() => {
     Instance.get('/api/sellers/all')
-    .then((response) => {
-      const data = response.data;
-      setSellerData(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }, [])
-
-  // 로그인한 유저 주소 가져오기
-  useEffect(() => {
-    if(id !== undefined){
-      Instance.get(`/api/member/${id}`)
       .then((response) => {
         const data = response.data;
-        if(data.memberAddress) setUserAddress(data.memberAddress);
+        setSellerData(data);
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
+  }, []);
+
+  // 로그인한 유저 주소 가져오기
+  useEffect(() => {
+    if (id !== undefined) {
+      Instance.get(`/api/member/${id}`)
+        .then((response) => {
+          const data = response.data;
+          if (data.memberAddress) setUserAddress(data.memberAddress);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, [id])
+  }, [id]);
 
   // 마커 클릭 시 클릭한 마커의 판매자 데이터 가져오기
   useEffect(() => {
-    if(showDetail && selectId && sellerData){
+    if (showDetail && selectId && sellerData) {
       const member = sellerData.find((item) => selectId === item.id);
-      if(member !== undefined) {
+      if (member !== undefined) {
         setSelectedMarkerData(member);
-        if(member.imagePath){
+        if (member.imagePath) {
           getImageFile(member.imagePath)
-          .then((response) => {
-            setSelectedMarkerDataImage(response);
-          })
-          .catch((error) => {
-            console.error(error);
-          })
+            .then((response) => {
+              setSelectedMarkerDataImage(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         }
       }
     }
-  }, [selectId, sellerData, showDetail])
+  }, [selectId, sellerData, showDetail]);
 
   return (
     <S.SellerMapStyles>
@@ -78,14 +78,14 @@ const SellerMap: React.FC = () => {
           </Link>
         </div>
         <KakaoMap
-          user={userAddress ? {userPlace: userAddress} : { userPlace: '경기도 성남시 분당구 판교로 242 PDC A동 902호' }}
+          user={userAddress ? { userPlace: userAddress } : { userPlace: '경기도 성남시 분당구 판교로 242 PDC A동 902호' }}
           seller={sellerData}
           isClicked={setShowDetail}
           isSelected={setSelectId}
         />
         {showDetail && selectedMarkerData && (
           <MarkerInfoModel
-            sellerId={selectedMarkerData.id}
+            sellerId={selectedMarkerData.memberId}
             imageUrl={selectedMarkerDataImage}
             sellerName={selectedMarkerData.name}
             totalTransaction={selectedMarkerData.transactionCnt}

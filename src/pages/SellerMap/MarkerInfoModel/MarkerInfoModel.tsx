@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { commaNumber } from '../../../util/func/functions';
 
 interface SellerInfo {
-  sellerId: number;
+  sellerId: string;
   imageUrl?: string;
   sellerName: string;
   totalTransaction: number;
