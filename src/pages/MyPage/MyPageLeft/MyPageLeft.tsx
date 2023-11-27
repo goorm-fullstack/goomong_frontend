@@ -71,7 +71,7 @@ const MyPageLeft: React.FC = () => {
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
-      if (member) {
+      if (member && member.profileImages.length > 0) {
         const urls = await Promise.all(member.profileImages.map((img) => (img.path !== null ? getImageFile(img.path) : null)));
         setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
