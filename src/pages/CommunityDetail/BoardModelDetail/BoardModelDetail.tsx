@@ -138,7 +138,15 @@ const BoardModelDetail: React.FC<BoardModelDetailProps> = ({
   return (
     <S.BoardModelDetailStyles>
       <div className="board-model-detail-container">
-        <div className="board-image-container">{boardImage ? <img src={boardImage} alt="" /> : defaultImage}</div>
+        <div
+          className="board-image-container"
+          style={{
+            backgroundImage: boardImage ? `url(${boardImage})` : `url(${defaultImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}></div>
+
         <div className="page-location">
           <div className="big-location">구몽생활</div>
           <svg height="15px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="11px" xmlns="http://www.w3.org/2000/svg" fill="#8e94a0">

@@ -226,20 +226,34 @@ export default function ItemList() {
             <ul>
               {/* 선웅님표 컴포넌트 Product 재사용 */}
               {itemList && itemList.length > 0 ? (
-                itemList.map((item, index) => (
-                  <li key={index}>
-                    <Product
-                      key={index}
-                      id={item.id}
-                      imageUrl={imageUrls && imageUrls[index]}
-                      sellerName={item.memberId}
-                      productName={item.title}
-                      price={commaNumber(item.price)}
-                      rating={item.rate}
-                      review={item.reviewList.length}
-                    />
-                  </li>
-                ))
+                itemList.map((item, index) =>
+                  item.price ? (
+                    <li key={index}>
+                      <Product
+                        key={index}
+                        id={item.id}
+                        imageUrl={imageUrls && imageUrls[index]}
+                        sellerName={item.memberId}
+                        productName={item.title}
+                        price={commaNumber(item.price)}
+                        rating={item.rate}
+                        review={item.reviewList.length}
+                      />
+                    </li>
+                  ) : (
+                    <li key={index}>
+                      <Product
+                        key={index}
+                        id={item.id}
+                        imageUrl={imageUrls && imageUrls[index]}
+                        sellerName={item.memberId}
+                        productName={item.title}
+                        rating={item.rate}
+                        review={item.reviewList.length}
+                      />
+                    </li>
+                  )
+                )
               ) : (
                 <>데이터가 없습니다.</>
               )}
