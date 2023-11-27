@@ -56,7 +56,7 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
 
   //카카오 맵 스크립트 로드
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_KAKAO_MAPS_API_KEY;
+    const apiKey = process.env.KAKAO_MAPS_API_KEY;
     const script = document.createElement('script');
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false&libraries=services,clusterer,drawing`;
@@ -65,8 +65,6 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
         setScriptLoaded(true);
       });
     };
-    console.log(`env = ` + process.env.REACT_APP_KAKAO_MAPS_API_KEY);
-    console.log(`apiKey = ` + apiKey);
     document.head.appendChild(script);
 
     return () => {
