@@ -14,7 +14,7 @@ interface RoomModel {
 }
 
 interface Props {
-  setRoomId: (number : number) => void;
+  setRoomId: (number: number) => void;
 }
 
 const ChattingRoom: React.FC<Props> = ({ setRoomId }) => {

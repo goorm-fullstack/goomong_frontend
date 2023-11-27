@@ -18,7 +18,7 @@ const Agreement: React.FC = () => {
             <button className="top-btn">1:1 문의하기</button>
           </div>
           <div className="history">
-            <Link to="#null">구몽 고객센터</Link>
+            <Link to={'/cs/home'}>구몽 고객센터</Link>
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"

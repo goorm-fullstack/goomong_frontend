@@ -71,7 +71,7 @@ const Review: React.FC = () => {
       if (reviewData) {
         const urls = await Promise.all(
           reviewData.map((review) => {
-            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            if (review.imageList.length > 0 && review.imageList[0].path !== null) return getImageFile(review.imageList[0].path);
             else return null;
           })
         );

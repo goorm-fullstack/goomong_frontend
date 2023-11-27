@@ -170,7 +170,7 @@ export default function ItemList() {
       if (itemList) {
         const urls = await Promise.all(
           itemList.map((item) => {
-            if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
+            if (item.thumbNailList.length > 0 && item.thumbNailList[0].path !== null) return getImageFile(item.thumbNailList[0].path);
             else return null;
           })
         );
@@ -179,6 +179,9 @@ export default function ItemList() {
     };
     fetchImages();
   }, [itemList]);
+
+  // 오류 해결용
+  const handleCheckChange = () => {};
 
   return (
     <>
@@ -208,6 +211,7 @@ export default function ItemList() {
                         type="checkbox"
                         id={category.title}
                         checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
+                        onChange={handleCheckChange}
                       />
                       {category.title}
                     </label>
@@ -222,20 +226,34 @@ export default function ItemList() {
             <ul>
               {/* 선웅님표 컴포넌트 Product 재사용 */}
               {itemList && itemList.length > 0 ? (
-                itemList.map((item, index) => (
-                  <li key={index}>
-                    <Product
-                      key={index}
-                      id={item.id}
-                      imageUrl={imageUrls && imageUrls[index]}
-                      sellerName={item.memberId}
-                      productName={item.title}
-                      price={commaNumber(item.price)}
-                      rating={item.rate}
-                      review={item.reviewList.length}
-                    />
-                  </li>
-                ))
+                itemList.map((item, index) =>
+                  item.price ? (
+                    <li key={index}>
+                      <Product
+                        key={index}
+                        id={item.id}
+                        imageUrl={imageUrls && imageUrls[index]}
+                        sellerName={item.memberId}
+                        productName={item.title}
+                        price={commaNumber(item.price)}
+                        rating={item.rate}
+                        review={item.reviewList.length}
+                      />
+                    </li>
+                  ) : (
+                    <li key={index}>
+                      <Product
+                        key={index}
+                        id={item.id}
+                        imageUrl={imageUrls && imageUrls[index]}
+                        sellerName={item.memberId}
+                        productName={item.title}
+                        rating={item.rate}
+                        review={item.reviewList.length}
+                      />
+                    </li>
+                  )
+                )
               ) : (
                 <>데이터가 없습니다.</>
               )}

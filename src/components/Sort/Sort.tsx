@@ -36,7 +36,7 @@ const SortData = {
 
 const Sort: React.FC<SortProp> = ({ type }) => {
   const [nowSortType, setSortType] = useState<string[]>(SortData['order']); // 정렬 기준 리스트
-  const [sortValue, setSortValue] = useState<string>(); // 현재 선택된 정렬 기준
+  const [sortValue, setSortValue] = useState<string>('최신순'); // 현재 선택된 정렬 기준
   const [show, setShow] = useState<boolean>(false);
   const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
   const location = useLocation();

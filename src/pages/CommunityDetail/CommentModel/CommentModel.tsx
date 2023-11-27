@@ -57,7 +57,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ comment, addReply }) => {
   useLayoutEffect(() => {
     const fetchImages = () => {
       if (comment) {
-        if (comment.memberImageList.length > 0) {
+        if (comment.memberImageList.length > 0 && comment.memberImageList[0].path !== null) {
           getImageFile(comment.memberImageList[0].path)
             .then((response) => {
               setImageUrl(response);

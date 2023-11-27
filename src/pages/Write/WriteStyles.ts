@@ -6,7 +6,18 @@ export const WriteStyles = styled.div`
     margin: 0 auto;
     padding: 0 40px;
   }
-
+  .option-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  .plus-minus {
+    display: flex;
+    gap: 10px;
+    button {
+      background-color: inherit;
+      border: 0;
+    }
+  }
   .dropdown-category ul {
     padding: 0;
     margin: 0;
@@ -45,6 +56,13 @@ export const WriteStyles = styled.div`
     border: 1px solid #dbdee2;
     color: rgba(85, 85, 85, 0.6);
     font-size: 15px;
+  }
+  .write-form .option-input {
+    width: 40%;
+    margin-right: 100px;
+  }
+  .write-form .option-price-input {
+    width: 40%;
   }
   .write-category {
     width: 1200px;

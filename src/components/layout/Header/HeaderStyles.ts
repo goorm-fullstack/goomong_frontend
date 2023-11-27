@@ -174,12 +174,18 @@ export const Header = styled.header`
   .current li {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .current-text {
     font-weight: 400;
     font-size: 12px;
     letter-spacing: -0.04em;
+    display: inline-block;
+    width: 202px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .title {
     margin-bottom: 19px;
@@ -189,6 +195,10 @@ export const Header = styled.header`
   }
   .popular li {
     margin-bottom: 13px;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .popular li a {
     font-weight: 400;

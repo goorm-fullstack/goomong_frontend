@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import * as S from './MyPageLeftStyles';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import Instance from '../../../util/API/axiosInstance';
 import { useLocation } from 'react-router-dom';
@@ -19,6 +19,7 @@ interface MemberData {
   memberEmail: string;
   saleSido: string;
   profileImages: Array<Image>;
+  isKakao: boolean;
 }
 
 const MyPageLeft: React.FC = () => {
@@ -70,8 +71,8 @@ const MyPageLeft: React.FC = () => {
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
-      if (member) {
-        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+      if (member && member.profileImages.length > 0) {
+        const urls = await Promise.all(member.profileImages.map((img) => (img.path !== null ? getImageFile(img.path) : null)));
         setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
     };
@@ -116,10 +117,20 @@ const MyPageLeft: React.FC = () => {
   }, [member]);
 
   useEffect(() => {
-    if (isLogin == null) {
+    if (isLogin === null) {
       window.location.href = `/`;
     }
   }, [isLogin]);
+
+  useLayoutEffect(() => {
+    if (location.state) {
+      setIsSeller(location.state.isSeller);
+    }
+  }, [location]);
+
+  const clickItemReg = () => {
+    if (member?.saleSido === null) alert('판매자 프로필을 먼저 작성해주세요.');
+  };
 
   return (
     <S.MyPageLeftStyles>
@@ -139,13 +150,27 @@ const MyPageLeft: React.FC = () => {
             </svg>
             {defaultUser.userLocal}
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setIsSeller((prevState) => !prevState); // 현재 상태의 반대로 설정
-            }}>
-            {isSeller ? '구매자로 전환하기' : '판매자로 전환하기'}
-          </button>
+          {isSeller ? (
+            <Link to={'/mypage/info'} state={{ isSeller: false }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSeller((prevState) => !prevState); // 현재 상태의 반대로 설정
+                }}>
+                구매자로 전환하기
+              </button>
+            </Link>
+          ) : (
+            <Link to={'/mypage/convertseller'} state={{ isSeller: true }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSeller((prevState) => !prevState); // 현재 상태의 반대로 설정
+                }}>
+                판매자로 전환하기
+              </button>
+            </Link>
+          )}
         </div>
         <div className="bottom">
           {isSeller ? ( //판매자이면
@@ -154,24 +179,22 @@ const MyPageLeft: React.FC = () => {
                 <div className="title">정보 관리</div>
                 <ul>
                   <li className="sale-info-set">
-                    <Link to="/mypage/convertseller" onClick={() => setIsSeller(true)}>
-                      판매자 계정 설정
-                    </Link>
+                    <NavLink
+                      to="/mypage/convertseller"
+                      style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
+                      state={{ isSeller: true }}>
+                      판매자 프로필 설정
+                    </NavLink>
                   </li>
                 </ul>
               </div>
               <div className="payment">
-                <div className="title">결제 관리</div>
+                <div className="title">판매 관리</div>
                 <ul>
-                  <li className="sell-history">
-                    <Link to="/mypage/sellhistory" onClick={() => setIsSeller(true)}>
-                      판매내역
-                    </Link>
-                  </li>
                   <li className="sale-history">
-                    <Link to="/mypage/sales" onClick={() => setIsSeller(true)}>
-                      판매 내역
-                    </Link>
+                    <NavLink to="/mypage/sales" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: true }}>
+                      판매내역
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -179,19 +202,26 @@ const MyPageLeft: React.FC = () => {
                 <div className="title">활동 관리</div>
                 <ul>
                   <li className="product-reg">
-                    <Link to="/write/productreg" onClick={() => setIsSeller(true)}>
-                      재능 등록
-                    </Link>
+                    {member?.saleSido !== null ? (
+                      <NavLink
+                        to={'/write/productreg'}
+                        style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
+                        state={{ isSeller: true }}>
+                        재능 등록
+                      </NavLink>
+                    ) : (
+                      <NavLink to={'/mypage/convertseller'} state={{ isSeller: true }} onClick={clickItemReg}>
+                        재능 등록
+                      </NavLink>
+                    )}
                   </li>
                   <li className="chatting-history">
-                    <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(true)}>
+                    <NavLink
+                      to="/mypage/chatting"
+                      state={{ id: roomId, isSeller: true }}
+                      style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}>
                       채팅 내역
-                    </Link>
-                  </li>
-                  <li className="save-item">
-                    <Link to="#" onClick={() => setIsSeller(true)}>
-                      재능 등록
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -203,29 +233,34 @@ const MyPageLeft: React.FC = () => {
                 <div className="title">정보 관리</div>
                 <ul>
                   <li className="buy-info-set">
-                    <Link to="/mypage/info" onClick={() => setIsSeller(false)}>
+                    <NavLink to="/mypage/info" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: false }}>
                       구매자 계정 설정
-                    </Link>
+                    </NavLink>
                   </li>
-                  <li className="change-pw">
-                    <Link to="/mypage/changepw" onClick={() => setIsSeller(false)}>
-                      비밀번호 변경
-                    </Link>
-                  </li>
+                  {!member?.isKakao && (
+                    <li className="change-pw">
+                      <NavLink
+                        to="/mypage/changepw"
+                        style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
+                        state={{ isSeller: false }}>
+                        비밀번호 변경
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
               </div>
               <div className="payment">
                 <div className="title">결제 관리</div>
                 <ul>
                   <li className="payment-history">
-                    <Link to="/mypage/payment" onClick={() => setIsSeller(false)}>
+                    <NavLink to="/mypage/payment" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: false }}>
                       구매내역
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="point">
-                    <Link to="/mypage/point" onClick={() => setIsSeller(false)}>
+                    <NavLink to="/mypage/point" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: false }}>
                       포인트
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -233,14 +268,17 @@ const MyPageLeft: React.FC = () => {
                 <div className="title">활동 관리</div>
                 <ul>
                   <li className="board-history">
-                    <Link to="/mypage/board" onClick={() => setIsSeller(false)}>
+                    <NavLink to="/mypage/board" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: false }}>
                       작성한 글
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="chatting-history">
-                    <Link to="/mypage/chatting" state={{ id: roomId }} onClick={() => setIsSeller(false)}>
+                    <NavLink
+                      to="/mypage/chatting"
+                      state={{ id: roomId, isSeller: false }}
+                      style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}>
                       채팅 내역
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </div>

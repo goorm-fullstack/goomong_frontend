@@ -3,10 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as S from './WriteStyles';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
-import { CommunityCategoryData } from '../../interface/Interface';
+import { CommunityCategoryData, ItemCategoryData } from '../../interface/Interface';
 import Instance from '../../util/API/axiosInstance';
 import { Cookies } from 'react-cookie';
 import { useLocation, useNavigate, useParams } from 'react-router';
+import { commaNumber } from '../../util/func/functions';
+
+const typeOfItem = [
+  { name: '판매', value: 'SALE' },
+  { name: '교환', value: 'GIVE' },
+  { name: '기부', value: 'EXCHANGE' },
+];
+
 const Write: React.FC = () => {
   //mypage에서 item을 가져온 경우 setting
   const location = useLocation();
@@ -14,19 +22,29 @@ const Write: React.FC = () => {
   const reviewItemId = location.state?.itemId;
   const [title, setTitle] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('카테고리 목록');
+  const [selectedItemType, setSelectedItemType] = useState<string>('판매 타입');
+  const [selectedItemTypeValue, setSelectedItemTypeValue] = useState<string>();
   const [content, setContent] = useState<string>('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [price, setPrice] = useState<number>(0);
+  const [isDropdownOpenCategory, setIsDropdownOpenCategory] = useState(false);
+  const [isDropdownOpenItemType, setIsDropdownOpenItemType] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(); // 선택한 카테고리 id
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
+  const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
   const [fileName, setFileName] = useState<string>(); // 업로드한 파일 이름
+  const [reviewRate, setReviewRate] = useState<number>(0); // 리뷰 점수
   const imgRef = useRef<HTMLInputElement>(null);
   const cookies = new Cookies();
   const type = useParams().type;
   const itemId = type !== 'productreg' ? location.state?.itemId : undefined;
   const navigate = useNavigate();
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const categoryToggleDropdown = () => {
+    setIsDropdownOpenCategory(!isDropdownOpenCategory);
+  };
+
+  const itemTypeToggleDropdown = () => {
+    setIsDropdownOpenItemType(!isDropdownOpenItemType);
   };
 
   const handleWriteSubmit = (e: React.FormEvent) => {
@@ -71,6 +89,71 @@ const Write: React.FC = () => {
             console.error(error);
           });
       }
+    } else if (type === 'productreg') {
+      if (selectedItemTypeValue === undefined) {
+        alert('판매 타입을 선택해주세요');
+        return;
+      }
+
+      const initItem = new FormData();
+
+      const itemOption = inputOption.map((value, index) => ({
+        option: value,
+        price: inputPrice[index],
+      }));
+      const itemDto = {
+        title: title,
+        price: price,
+        describe: content,
+        status: selectedItemTypeValue,
+        itemCategories: [selectedCategoryId],
+        memberId: cookies.get('id'),
+        itemOptions: itemOption,
+      };
+
+      initItem.append('itemDto', new Blob([JSON.stringify(itemDto)], { type: 'application/json' }));
+      if (imgRef.current && imgRef.current.files) {
+        initItem.append('multipartFiles', imgRef.current.files[0]);
+      }
+
+      Instance.post('/api/item/save', initItem, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(() => {
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (type === 'reviewreg') {
+      if (reviewRate === 0) {
+        alert('평점을 선택해주세요');
+        return;
+      }
+
+      const initReview = new FormData();
+      initReview.append('memberId', String(cookies.get('id')));
+      initReview.append('itemId', String(reviewItemId));
+      initReview.append('title', title);
+      initReview.append('content', content);
+      initReview.append('rate', String(reviewRate));
+      if (imgRef.current && imgRef.current.files) {
+        initReview.append('images', imgRef.current.files[0]);
+      }
+
+      Instance.post('/api/reviews/review', initReview, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(() => {
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       const initQuestion = new FormData();
       initQuestion.append('memberId', String(cookies.get('id')));
@@ -98,19 +181,36 @@ const Write: React.FC = () => {
   const handleCategorySelect = (category: string, id: number) => {
     setSelectedCategory(category);
     setSelectedCategoryId(id);
-    setIsDropdownOpen(false);
+    setIsDropdownOpenCategory(false);
+  };
+
+  const handleItemTypeSelect = (typeName: string, typeValue: string) => {
+    setSelectedItemType(typeName);
+    setSelectedItemTypeValue(typeValue);
+    setIsDropdownOpenItemType(false);
   };
 
   // 카테고리 데이터 가져오기
   useEffect(() => {
-    Instance.get('/api/categorys')
-      .then((response) => {
-        const data = response.data;
-        setCategoryData(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (type === 'community') {
+      Instance.get('/api/categorys')
+        .then((response) => {
+          const data = response.data;
+          setCategoryData(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (type === 'productreg') {
+      Instance.get('/api/item-category/list/lv1')
+        .then((response) => {
+          const data = response.data;
+          setItemCategoryData(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
 
     // mypageitem 데이터가 있는 경우
     if (mypageitem) {
@@ -121,7 +221,48 @@ const Write: React.FC = () => {
       if (mypageitem.filesList.length > 0) setFileName(mypageitem.filesList[0].fileName);
       else if (mypageitem.imageList.length > 0) setFileName(mypageitem.imageList[0].fileName);
     }
-  }, [mypageitem]);
+  }, [mypageitem, type]);
+
+  const [inputCount, setInputCount] = useState<number>(1);
+  const [inputOption, setInputOption] = useState(Array.from({ length: inputCount }, () => ''));
+  const [inputPrice, setInputPrice] = useState(Array.from({ length: inputCount }, () => 0));
+
+  const handleInputOptionChange = (index: number, value: string) => {
+    const newInputValues = [...inputOption];
+    newInputValues[index] = value;
+    setInputOption(newInputValues);
+  };
+
+  const handleInputPriceChange = (index: number, value: number) => {
+    const newInputValues = [...inputPrice];
+    newInputValues[index] = value;
+    setInputPrice(newInputValues);
+  };
+
+  const addInput = () => {
+    setInputCount(inputCount + 1);
+    setInputOption([...inputOption, '']);
+    setInputPrice([...inputPrice, 0]);
+  };
+
+  const deleteInput = () => {
+    setInputCount((prevCount) => {
+      if (prevCount === 1) {
+        return prevCount;
+      }
+
+      const newInputOption = [...inputOption];
+      const newInputPrice = [...inputPrice];
+
+      newInputOption.pop();
+      newInputPrice.pop();
+
+      setInputOption(newInputOption);
+      setInputPrice(newInputPrice);
+
+      return prevCount - 1;
+    });
+  };
 
   return (
     <S.WriteStyles>
@@ -136,9 +277,9 @@ const Write: React.FC = () => {
           {type === 'community' && (
             <>
               <div className="input-text">카테고리를 선택해주세요</div>
-              <div className="write-category" onClick={toggleDropdown}>
+              <div className="write-category" onClick={categoryToggleDropdown}>
                 {selectedCategory}
-                {isDropdownOpen ? (
+                {isDropdownOpenCategory ? (
                   <div className="dropdown-category">
                     <ul>
                       {categoryData &&
@@ -156,15 +297,15 @@ const Write: React.FC = () => {
           {type === 'productreg' && (
             <>
               <div className="input-text">카테고리를 선택해주세요</div>
-              <div className="write-category" onClick={toggleDropdown}>
+              <div className="write-category" onClick={categoryToggleDropdown}>
                 {selectedCategory}
-                {isDropdownOpen ? (
+                {isDropdownOpenCategory ? (
                   <div className="dropdown-category">
                     <ul>
-                      {categoryData &&
-                        categoryData.map((category, index) => (
-                          <li onClick={() => handleCategorySelect(category.categoryName, category.id)} key={index}>
-                            {category.categoryName}
+                      {itemCategoryData &&
+                        itemCategoryData.map((category, index) => (
+                          <li onClick={() => handleCategorySelect(category.title, category.id)} key={index}>
+                            {category.title}
                           </li>
                         ))}
                     </ul>
@@ -174,32 +315,105 @@ const Write: React.FC = () => {
             </>
           )}
 
-          <div className="input-text">제목</div>
-          <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
-          <div className="input-text">내용</div>
+          {type === 'productreg' ? (
+            <>
+              <div className="input-text">상품 이름</div>
+              <input required type="text" value={title} placeholder="상품 이름을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
+            </>
+          ) : (
+            <>
+              <div className="input-text">제목</div>
+              <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
+            </>
+          )}
+          {type === 'productreg' && (
+            <>
+              <div className="input-text">가격 (원)</div>
+              <input
+                required
+                type="text"
+                value={commaNumber(price)}
+                placeholder="가격을 입력하세요"
+                onChange={(e) => setPrice(Number(e.target.value.replace(/,/g, '')))}
+              />
+              <div className="input-text">판매 타입을 선택해주세요</div>
+              <div className="write-category" onClick={itemTypeToggleDropdown}>
+                {selectedItemType}
+                {isDropdownOpenItemType ? (
+                  <div className="dropdown-category">
+                    <ul>
+                      {typeOfItem.map((item, index) => (
+                        <li onClick={() => handleItemTypeSelect(item.name, item.value)} key={index}>
+                          {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+              <div className="option-wrapper">
+                <div className="input-text">옵션</div>
+                <div className="plus-minus">
+                  <div>
+                    <button type="button" onClick={addInput}>
+                      ➕
+                    </button>
+                  </div>
+                  <div>
+                    <button type="button" onClick={deleteInput}>
+                      ➖
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="option-input-wrapper">
+                {inputOption.map((value, index) => (
+                  <React.Fragment key={index}>
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => handleInputOptionChange(index, e.target.value)}
+                      placeholder={'옵션' + (index + 1)}
+                      className="option-input"
+                      required
+                    />
+                    <input
+                      type="text"
+                      value={commaNumber(inputPrice[index])}
+                      onChange={(e) => handleInputPriceChange(index, Number(e.target.value.replace(/,/g, '')))}
+                      placeholder="가격"
+                      className="option-price-input"
+                      required
+                    />
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+          <div className="input-text">{type === 'productreg' ? '상품 설명' : '내용'}</div>
           <textarea className="content-box" required value={content} onChange={(e) => setContent(e.target.value)} />
           {type === 'reviewreg' && (
             <div className="rating-container">
               <div className="input-text">평점</div>
               <div className="radio-container">
                 <div>
-                  <input type="radio" id="rating1" name="rating" value="1" required />
+                  <input type="radio" id="rating1" name="rating" value="1" onChange={() => setReviewRate(1.0)} required />
                   <label htmlFor="rating1">★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating2" name="rating" value="2" required />
+                  <input type="radio" id="rating2" name="rating" value="2" onChange={() => setReviewRate(2.0)} required />
                   <label htmlFor="rating2">★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating3" name="rating" value="3" required />
+                  <input type="radio" id="rating3" name="rating" value="3" onChange={() => setReviewRate(3.0)} required />
                   <label htmlFor="rating3">★★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating4" name="rating" value="4" required />
+                  <input type="radio" id="rating4" name="rating" value="4" onChange={() => setReviewRate(4.0)} required />
                   <label htmlFor="rating4">★★★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating5" name="rating" value="5" required />
+                  <input type="radio" id="rating5" name="rating" value="5" onChange={() => setReviewRate(5.0)} required />
                   <label htmlFor="rating5">★★★★★</label>
                 </div>
               </div>
