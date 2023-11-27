@@ -73,7 +73,7 @@ const AdminPostDetail: React.FC = () => {
   useLayoutEffect(() => {
     const fetchImages = () => {
       if (postData) {
-        if (postData.imageList.length > 0) {
+        if (postData.imageList.length > 0 && postData.imageList[0].path !== null) {
           getImageFile(postData.imageList[0].path)
             .then((response) => {
               setImageUrl(response);
@@ -82,7 +82,7 @@ const AdminPostDetail: React.FC = () => {
               console.error(error);
             });
         }
-        if (postData.memberImageList.length > 0) {
+        if (postData.memberImageList.length > 0 && postData.memberImageList[0].path !== null) {
           getImageFile(postData.memberImageList[0].path)
             .then((response) => {
               setMemberImageUrl(response);

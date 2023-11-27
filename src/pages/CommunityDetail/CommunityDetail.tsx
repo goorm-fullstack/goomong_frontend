@@ -87,7 +87,7 @@ const CommunityDetail: React.FC = () => {
   useLayoutEffect(() => {
     const fetchImages = () => {
       if (communityData) {
-        if (communityData.imageList.length > 0) {
+        if (communityData.imageList.length > 0 && communityData.imageList[0].path !== null) {
           getImageFile(communityData.imageList[0].path)
             .then((response) => {
               setImageUrl(response);
@@ -96,7 +96,7 @@ const CommunityDetail: React.FC = () => {
               console.error(error);
             });
         }
-        if (communityData.memberImageList.length > 0) {
+        if (communityData.memberImageList.length > 0 && communityData.memberImageList[0].path !== null) {
           getImageFile(communityData.memberImageList[0].path)
             .then((response) => {
               setMemberImageUrl(response);

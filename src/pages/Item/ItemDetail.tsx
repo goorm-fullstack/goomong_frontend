@@ -66,20 +66,24 @@ export default function ItemDetail() {
       setItem(response.data);
       setSellerId(response.data.memberId);
     });
-  }, []);
+  }, [id]);
 
   useLayoutEffect(() => {
-    Instance.get(`/api/sellers/seller/${sellerId}`)
-      .then((response) => {
-        setSellerInfo(response.data);
-      })
-      .catch(() => {});
+    if (sellerId !== undefined) {
+      Instance.get(`/api/sellers/seller/${sellerId}`)
+        .then((response) => {
+          setSellerInfo(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [sellerId]);
 
   useLayoutEffect(() => {
     const fetchImages = async () => {
       if (item) {
-        const urls = await Promise.all(item.thumbNailList.map((img) => getImageFile(img.path)));
+        const urls = await Promise.all(item.thumbNailList.map((img) => (img.path !== null ? getImageFile(img.path) : null)));
         setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
     };
@@ -90,7 +94,7 @@ export default function ItemDetail() {
   useLayoutEffect(() => {
     const fetchImages = async () => {
       if (sellerInfo) {
-        const urls = await Promise.all([getImageFile(sellerInfo.imagePath)]);
+        const urls = await Promise.all([sellerInfo.imagePath !== null ? getImageFile(sellerInfo.imagePath) : null]);
         setSellerImageUrls(urls.filter((url) => url !== null) as string[]);
       }
     };
@@ -208,7 +212,7 @@ export default function ItemDetail() {
       if (reviewData) {
         const urls = await Promise.all(
           reviewData.map((review) => {
-            if (review.imageList.length > 0) return getImageFile(review.imageList[0].path);
+            if (review.imageList.length > 0 && review.imageList[0].path !== null) return getImageFile(review.imageList[0].path);
             else return null;
           })
         );
