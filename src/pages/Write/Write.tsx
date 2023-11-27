@@ -32,6 +32,7 @@ const Write: React.FC = () => {
   const [categoryData, setCategoryData] = useState<CommunityCategoryData[]>(); // 카테고리 데이터
   const [itemCategoryData, setItemCategoryData] = useState<ItemCategoryData[]>(); // 상품 카테고리 데이터
   const [fileName, setFileName] = useState<string>(); // 업로드한 파일 이름
+  const [reviewRate, setReviewRate] = useState<number>(0); // 리뷰 점수
   const imgRef = useRef<HTMLInputElement>(null);
   const cookies = new Cookies();
   const type = useParams().type;
@@ -116,6 +117,33 @@ const Write: React.FC = () => {
       }
 
       Instance.post('/api/item/save', initItem, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(() => {
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (type === 'reviewreg') {
+      if (reviewRate === 0) {
+        alert('평점을 선택해주세요');
+        return;
+      }
+
+      const initReview = new FormData();
+      initReview.append('memberId', String(cookies.get('id')));
+      initReview.append('itemId', String(reviewItemId));
+      initReview.append('title', title);
+      initReview.append('content', content);
+      initReview.append('rate', String(reviewRate));
+      if (imgRef.current && imgRef.current.files) {
+        initReview.append('images', imgRef.current.files[0]);
+      }
+
+      Instance.post('/api/reviews/review', initReview, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -287,8 +315,17 @@ const Write: React.FC = () => {
             </>
           )}
 
-          <div className="input-text">상품 이름</div>
-          <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
+          {type === 'productreg' ? (
+            <>
+              <div className="input-text">상품 이름</div>
+              <input required type="text" value={title} placeholder="상품 이름을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
+            </>
+          ) : (
+            <>
+              <div className="input-text">제목</div>
+              <input required type="text" value={title} placeholder="제목을 입력하세요." onChange={(e) => setTitle(e.target.value)} />
+            </>
+          )}
           {type === 'productreg' && (
             <>
               <div className="input-text">가격 (원)</div>
@@ -360,23 +397,23 @@ const Write: React.FC = () => {
               <div className="input-text">평점</div>
               <div className="radio-container">
                 <div>
-                  <input type="radio" id="rating1" name="rating" value="1" required />
+                  <input type="radio" id="rating1" name="rating" value="1" onChange={() => setReviewRate(1.0)} required />
                   <label htmlFor="rating1">★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating2" name="rating" value="2" required />
+                  <input type="radio" id="rating2" name="rating" value="2" onChange={() => setReviewRate(2.0)} required />
                   <label htmlFor="rating2">★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating3" name="rating" value="3" required />
+                  <input type="radio" id="rating3" name="rating" value="3" onChange={() => setReviewRate(3.0)} required />
                   <label htmlFor="rating3">★★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating4" name="rating" value="4" required />
+                  <input type="radio" id="rating4" name="rating" value="4" onChange={() => setReviewRate(4.0)} required />
                   <label htmlFor="rating4">★★★★</label>
                 </div>
                 <div>
-                  <input type="radio" id="rating5" name="rating" value="5" required />
+                  <input type="radio" id="rating5" name="rating" value="5" onChange={() => setReviewRate(5.0)} required />
                   <label htmlFor="rating5">★★★★★</label>
                 </div>
               </div>
