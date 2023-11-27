@@ -76,15 +76,21 @@ const MyPagePayment: React.FC = () => {
         setOrderDetails(response.data);
       });
     }
-  }, []);
+  }, [memberId]);
+
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
-    for (let i = 0; i < orderDetails.length; i++) {
-      if (orderDetails[0].status === 'WAITING') {
-        setDoingOrder(doingOrder);
-      } else if (orderDetails[0].status === 'COMPLETE') {
-        setCompleteOrder(completeOrder + 1);
-      }
+    if (orderDetails && orderDetails.length > 0 && !isUpdate) {
+      let newDoingOrder = doingOrder;
+      let newCompleteOrder = completeOrder;
+      orderDetails.forEach((item) => {
+        if (item.status === 'WAITING') newDoingOrder += 1;
+        else if (item.status === 'COMPLETE') newCompleteOrder += 1;
+      });
+      setDoingOrder(newDoingOrder);
+      setCompleteOrder(newCompleteOrder);
+      setIsUpdate(true);
     }
   }, [orderDetails]);
 
