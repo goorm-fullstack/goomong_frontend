@@ -14,7 +14,7 @@ interface SellerBrandProps {
   totalMoney: number;
   totalReview: number;
   totalTransaction: number;
-  star: number;
+  star: number | null;
 }
 
 const defaultImage = (
