@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as S from './MyPagePaymentStyles';
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
@@ -70,7 +70,7 @@ const MyPagePayment: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (memberId) {
       Instance.get(`/api/order/member/${memberId}/list`).then((response) => {
         setOrderDetails(response.data);
