@@ -132,7 +132,7 @@ const Login: React.FC = () => {
           <div className="easy-login">간편 로그인</div>
         </Link>
         <div className="oauth">
-          <Link to="https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=https://keba1da28866ea.user-app.krampoline.com/api/member/kakao/callback&response_type=code">
+          <Link to="https://kauth.kakao.com/oauth/authorize?client_id=116cb3fda2149f8eaddf828c4f308179&redirect_uri=http://localhost:8080/api/member/kakao/callback&response_type=code">
             <div className="kakao">
               <img src={Kakao} alt="kakao" />
             </div>
