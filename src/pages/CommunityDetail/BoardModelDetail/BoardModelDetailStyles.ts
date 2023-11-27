@@ -4,7 +4,6 @@ export const BoardModelDetailStyles = styled.div`
   .board-image-container {
     width: 680px;
     height: 400px;
-    background-color: #f7f8f9;
     display: flex;
     justify-content: center;
     align-items: center;
