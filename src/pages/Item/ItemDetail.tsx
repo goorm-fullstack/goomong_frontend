@@ -426,7 +426,9 @@ export default function ItemDetail() {
               <h4>소개</h4>
               <p className="seller-summary">{sellerInfo?.description}</p>
               <h4>위치</h4>
-              <div className="map">{/* 판매자 위치 지도 */}</div>
+              <div className="map">
+                {''}
+              </div>
             </div>
           </div>
         </S.ItemDetail>
