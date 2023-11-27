@@ -72,7 +72,7 @@ const MyPageLeft: React.FC = () => {
   useLayoutEffect(() => {
     const fetchImages = async () => {
       if (member) {
-        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        const urls = await Promise.all(member.profileImages.map((img) => (img.path !== null ? getImageFile(img.path) : null)));
         setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
     };
@@ -131,7 +131,7 @@ const MyPageLeft: React.FC = () => {
   const clickItemReg = () => {
     if (member?.saleSido === null) alert('판매자 프로필을 먼저 작성해주세요.');
   };
-  console.log(member);
+
   return (
     <S.MyPageLeftStyles>
       <div className="mypage-left-container">

@@ -64,7 +64,7 @@ const MyPageInfo: React.FC = () => {
   useLayoutEffect(() => {
     const fetchImages = async () => {
       if (member) {
-        const urls = await Promise.all(member.profileImages.map((img) => getImageFile(img.path)));
+        const urls = await Promise.all(member.profileImages.map((img) => (img.path !== null ? getImageFile(img.path) : null)));
         setImageUrls(urls.filter((url) => url !== null) as string[]);
       }
     };
