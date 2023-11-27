@@ -191,17 +191,9 @@ const MyPageLeft: React.FC = () => {
               <div className="payment">
                 <div className="title">판매 관리</div>
                 <ul>
-                  <li className="sell-history">
-                    <NavLink
-                      to="/mypage/sellhistory"
-                      style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)}
-                      state={{ isSeller: true }}>
-                      판매내역
-                    </NavLink>
-                  </li>
                   <li className="sale-history">
                     <NavLink to="/mypage/sales" style={({ isActive }) => (isActive ? { color: '#558ff5' } : undefined)} state={{ isSeller: true }}>
-                      판매 내역
+                      판매내역
                     </NavLink>
                   </li>
                 </ul>
