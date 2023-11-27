@@ -122,7 +122,7 @@ const MyPagePayment: React.FC = () => {
               <li>{commaNumber(item.price)}원</li>
               <li>{formattingStatus(item.status)}</li>
               <li>
-                <Link to="/write/reviewreg" state={item.id}>
+                <Link to="/write/reviewreg" state={{ itemId: item.id }}>
                   <button className="review-reg">리뷰 작성</button>
                 </Link>
               </li>

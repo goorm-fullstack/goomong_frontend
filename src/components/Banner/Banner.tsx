@@ -16,12 +16,30 @@ interface BannerProps {
 }
 
 const defaultAds: Ad[] = [
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+1', altText: '광고 1 설명', linkUrl: '#' },
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+2', altText: '광고 2 설명', linkUrl: '#' },
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+3', altText: '광고 3 설명', linkUrl: '#' },
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+4', altText: '광고 4 설명', linkUrl: '#' },
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+5', altText: '광고 5 설명', linkUrl: '#' },
-  { imageUrl: 'https://via.placeholder.com/700x395?text=Ad+6', altText: '광고 5 설명', linkUrl: '#' },
+  { imageUrl: 'https://blog.goorm.io/wp-content/uploads/2023/11/%EA%B5%AC%EB%A6%84-COMMIT-1-958x575.png', altText: '광고 1 설명', linkUrl: '#' },
+  {
+    imageUrl: 'https://blog.goorm.io/wp-content/uploads/2023/11/%EA%B5%AC%EB%A6%84%ED%86%A4-%EC%B1%8C%EB%A6%B0%EC%A7%80-958x575.png',
+    altText: '광고 2 설명',
+    linkUrl: '#',
+  },
+  {
+    imageUrl:
+      'https://blog.goorm.io/wp-content/uploads/2023/11/%EA%B5%AC%EB%A6%84-2023-SW-%EA%B5%90%EC%9C%A1-%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C-%EC%B0%B8%EC%97%AC-1024x612.png',
+    altText: '광고 3 설명',
+    linkUrl: '#',
+  },
+  { imageUrl: 'https://blog.goorm.io/wp-content/uploads/2023/10/1-5-1024x562.png', altText: '광고 4 설명', linkUrl: '#' },
+  {
+    imageUrl:
+      'https://blog.goorm.io/wp-content/uploads/2023/09/230911_BLOG_%EA%B5%90%EC%9C%A1-%EC%9A%B4%EC%98%81-%EB%A7%A4%EB%8B%88%EC%A0%80-%EB%A7%90%EB%A1%A0-1-1024x558.png',
+    altText: '광고 5 설명',
+    linkUrl: '#',
+  },
+  {
+    imageUrl: 'https://blog.goorm.io/wp-content/uploads/2023/04/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C-1024x767.png',
+    altText: '광고 5 설명',
+    linkUrl: '#',
+  },
 ];
 
 export const NextArrow: React.FC<any> = (props) => {
@@ -121,7 +139,7 @@ const Banner: React.FC<BannerProps> = ({ ads = defaultAds }) => {
         {ads.map((ad, index) => (
           <div key={index}>
             <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer">
-              <img src="#" alt="" className="ad-image" width={'100%'} />
+              <img src={ad.imageUrl} alt="" className="ad-image" width={'100%'} />
             </a>
           </div>
         ))}

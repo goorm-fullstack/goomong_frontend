@@ -120,7 +120,7 @@ function Footer() {
                 </ul>
               </div>
               <div className="footer-top-right-1-by-1">
-                <Link to="#null">
+                <Link to={'/cs/inquiry'}>
                   <button type="submit" className="footer-top-right-1-by-1-btn">
                     1:1 문의
                   </button>

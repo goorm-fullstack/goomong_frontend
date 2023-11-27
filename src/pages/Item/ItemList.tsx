@@ -170,7 +170,7 @@ export default function ItemList() {
       if (itemList) {
         const urls = await Promise.all(
           itemList.map((item) => {
-            if (item.thumbNailList.length > 0) return getImageFile(item.thumbNailList[0].path);
+            if (item.thumbNailList.length > 0 && item.thumbNailList[0].path !== null) return getImageFile(item.thumbNailList[0].path);
             else return null;
           })
         );
