@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as S from './MyPagePaymentStyles';
 import Header from '../../../components/layout/Header/Header';
 import MyPageLeft from '../MyPageLeft/MyPageLeft';
@@ -70,7 +70,7 @@ const MyPagePayment: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (memberId) {
       Instance.get(`/api/order/member/${memberId}/list`).then((response) => {
         setOrderDetails(response.data);
@@ -122,7 +122,7 @@ const MyPagePayment: React.FC = () => {
               <li>{commaNumber(item.price)}원</li>
               <li>{formattingStatus(item.status)}</li>
               <li>
-                <Link to="/write/reviewreg" state={item.id}>
+                <Link to="/write/reviewreg" state={{ itemId: item.id }}>
                   <button className="review-reg">리뷰 작성</button>
                 </Link>
               </li>

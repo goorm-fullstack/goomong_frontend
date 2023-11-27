@@ -146,7 +146,7 @@ const ConvertSeller = () => {
         <MyPageLeft />
         <div className="info-container">
           <div className="title">
-            판매자로 전환하기
+            판매자 프로필 입력
             <div className="small">상세한 정보 입력을 통해 판매자로 전환할 수 있어요.</div>
           </div>
           <form onSubmit={handleInfoSubmit} className="info-form">
@@ -154,7 +154,7 @@ const ConvertSeller = () => {
               <div className="info-get">
                 <div className="input-text">
                   <div className="text">판매자 소개</div>
-                  <input required type="saleInfo" value={saleInfo} onChange={(e) => setSaleInfo(e.target.value)} />
+                  <input required type="saleInfo" value={saleInfo || ''} onChange={(e) => setSaleInfo(e.target.value)} />
                 </div>
                 <div className="address">
                   <div className="top">
@@ -165,7 +165,7 @@ const ConvertSeller = () => {
                         type="text"
                         id="zipNo"
                         name="zipNo"
-                        value={saleZipCode}
+                        value={saleZipCode || ''}
                         onChange={(e) => setSaleZipCode(e.target.value)}
                         readOnly
                       />
@@ -180,7 +180,7 @@ const ConvertSeller = () => {
                       type="text"
                       id="sido"
                       name="sido"
-                      value={saleSido}
+                      value={saleSido || ''}
                       onChange={(e) => setSaleSido(e.target.value)}
                       readOnly
                     />
@@ -191,7 +191,7 @@ const ConvertSeller = () => {
                       type="text"
                       id="addr"
                       name="addr"
-                      value={saleSimpleAddress}
+                      value={saleSimpleAddress || ''}
                       onChange={(e) => setSaleSimpleAddress(e.target.value)}
                       onClick={onClickAddr}
                       readOnly
@@ -199,7 +199,7 @@ const ConvertSeller = () => {
                   </div>
                   <div className="input-text">
                     <div className="text">상세 주소</div>
-                    <input type="text" value={saleDetailAddress} onChange={(e) => setSaleDetailAddress(e.target.value)} />
+                    <input type="text" value={saleDetailAddress || ''} onChange={(e) => setSaleDetailAddress(e.target.value)} />
                   </div>
                 </div>
               </div>

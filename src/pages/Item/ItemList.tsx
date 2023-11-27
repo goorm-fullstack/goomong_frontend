@@ -180,6 +180,9 @@ export default function ItemList() {
     fetchImages();
   }, [itemList]);
 
+  // 오류 해결용
+  const handleCheckChange = () => {};
+
   return (
     <>
       <Header />
@@ -208,6 +211,7 @@ export default function ItemList() {
                         type="checkbox"
                         id={category.title}
                         checked={categoryName === 'all' ? category.title === '전체' : category.title === categoryName}
+                        onChange={handleCheckChange}
                       />
                       {category.title}
                     </label>

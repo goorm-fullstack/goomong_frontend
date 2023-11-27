@@ -48,7 +48,7 @@ const Main: React.FC = () => {
               </div>
             </div>
             <div className="btn">
-              <Link to="#null">
+              <Link to={'/register/step1'}>
                 <button type="submit" className="bg-btn">
                   회원가입 바로가기
                 </button>

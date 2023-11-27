@@ -85,6 +85,7 @@ export const ReviewPageStyles = styled.div`
   }
   .hot-review-container {
     display: flex;
+    justify-content: space-between;
   }
 
   .slide-btn {
@@ -228,4 +229,6 @@ export const ReviewPageStyles = styled.div`
   .btn a:hover button {
     background-color: #f5f6f7;
   }
+
+  
 `;

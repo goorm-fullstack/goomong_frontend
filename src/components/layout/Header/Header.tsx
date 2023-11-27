@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as S from './HeaderStyles';
 import logo from '../../../assets/images/common/logo.png';
 import Gnb from '../Gnb/Gnb';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Instance from '../../../util/API/axiosInstance';
 import { CurrentSearch, PopularSearch } from '../../../interface/Interface';
 import { Cookies } from 'react-cookie';
@@ -21,16 +21,14 @@ const Header: React.FC = () => {
   const urlId = new URLSearchParams(location.search).get('id');
 
   useEffect(() => {
-    if(urlId != null) {
-      Instance.get(`/api/member/id/${urlId}`)
-          .then((response) => {
-            cookies.set('memberId', response.data.memberId);
-            cookies.set('id', response.data.id)
-            cookies.set('memberRole', response.data.memberRole);
+    if (urlId != null) {
+      Instance.get(`/api/member/id/${urlId}`).then((response) => {
+        cookies.set('memberId', response.data.memberId);
+        cookies.set('id', response.data.id);
+        cookies.set('memberRole', response.data.memberRole);
 
-            window.location.href=`/`;
-          })
-
+        window.location.href = `/`;
+      });
     }
   }, [urlId]);
 
@@ -68,14 +66,6 @@ const Header: React.FC = () => {
       .catch((e) => console.log(e));
     setCurrentSearch([]);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (popularSearch) setPopularIndex((prevIndex) => (prevIndex + 1) % popularSearch.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [popularSearch]);
 
   const handleLogout = () => {
     Instance.post(`/api/member/logout`, {})
@@ -125,11 +115,39 @@ const Header: React.FC = () => {
   }
 
   const [searchTerm, setSearchTerm] = useState('');
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  };
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (popularSearch) setPopularIndex((prevIndex) => (prevIndex + 1) % popularSearch.length);
+  //   }, 4000);
+
+  //   return () => clearInterval(interval);
+  // }, [popularSearch]);
+
+  const [showPopularTerms, setShowPopularTerms] = useState(true);
+
+  // 인기 검색어 자동 변경 시작
+  useEffect(() => {
+    if (!isFocused && popularSearch) {
+      const interval = setInterval(() => {
+        setPopularIndex((prevIndex) => (prevIndex + 1) % popularSearch.length);
+      }, 4000);
+
+      return () => clearInterval(interval);
+    }
+  }, [popularSearch, isFocused]);
+
+  // 입력 필드에 텍스트가 있을 때 인기 검색어 숨기기
+  useEffect(() => {
+    setShowPopularTerms(searchTerm.length === 0);
+  }, [searchTerm]);
+
+  // 입력 필드 변경 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -142,7 +160,7 @@ const Header: React.FC = () => {
             </Link>
             <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
               <div className="search-input-container">
-                {!isFocused && popularSearch && (
+                {!isFocused && showPopularTerms && popularSearch && (
                   <div className="search-term" key={popularIndex}>
                     <span className="term-number">{popularIndex + 1}.</span>
                     {popularSearch[popularIndex]?.keyword}
@@ -274,7 +292,6 @@ l-62 63 62 63 c60 61 75 87 50 87 -7 0 -41 -28 -75 -62 l-63 -62 -63 62 c-61
                     전체 삭제
                   </button>
                 </li>
-                <li>자동완성 끄기</li>
               </ul>
             </div>
           </div>
