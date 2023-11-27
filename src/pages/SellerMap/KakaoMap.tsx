@@ -65,6 +65,8 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
         setScriptLoaded(true);
       });
     };
+    console.log(`env = ` + process.env.REACT_APP_KAKAO_MAPS_API_KEY);
+    console.log(`apiKey = ` + apiKey);
     document.head.appendChild(script);
 
     return () => {
