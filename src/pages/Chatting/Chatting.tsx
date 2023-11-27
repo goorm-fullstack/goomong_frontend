@@ -72,7 +72,7 @@ const Chatting: React.FC<{ showLayout: boolean }> = ({ showLayout = true }) => {
   }, [didMount, state, memberId]);
 
   const connect = () => {
-    const socket = new SockJS('http://localhost:8080/ws/chat');
+    const socket = new SockJS('https://k5fb919a75e08a.user-app.krampoline.com/ws/chat');
     client.current = Stomp.over(socket);
 
     client.current.connect({}, connectCallback, errorCallback);
