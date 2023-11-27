@@ -24,7 +24,6 @@ const ChattingRoom: React.FC<Props> = ({ setRoomId }) => {
 
   useEffect(() => {
     Instance.get('/api/chat/' + memberId).then((response) => {
-      console.log(response.data);
       setRoomListData(response.data);
     });
   }, []);
