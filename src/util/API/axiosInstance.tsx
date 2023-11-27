@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Instance = axios.create({
-  baseURL: process.env.REACT_APP_URL,
+  baseURL: `https://keba1da28866ea.user-app.krampoline.com`,
   headers: {
     'Access-Control-Allow-Origin': '*', // 서버 domain
     'Access-Control-Allow-Credentials': 'true',

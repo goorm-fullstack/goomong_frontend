@@ -56,17 +56,14 @@ const KakaoMap: React.FC<MapProps> = ({ user, seller, isClicked, isSelected }) =
 
   //카카오 맵 스크립트 로드
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_KAKAO_MAPS_API_KEY;
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false&libraries=services,clusterer,drawing`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=99238f1ec32873c5fdb35ad478189b17&autoload=false&libraries=services,clusterer,drawing`;
     script.onload = () => {
       window.kakao.maps.load(() => {
         setScriptLoaded(true);
       });
     };
-    console.log(`api = ${process.env.REACT_APP_URL}`);
-    console.log(`map = ${process.env.REACT_APP_KAKAO_MAPS_API_KEY}`);
     document.head.appendChild(script);
 
     return () => {
