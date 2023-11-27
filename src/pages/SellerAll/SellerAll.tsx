@@ -246,7 +246,7 @@ const SellerAll: React.FC = () => {
                 totalMoney={item.income}
                 totalReview={item.reviewCnt}
                 totalTransaction={item.transactionCnt}
-                star={item.reviewCnt >= 0 ? item.rate / item.reviewCnt : 0}
+                star={item.reviewCnt !== null ? item.rate / item.reviewCnt : null}
                 imageUrl={imageUrls && imageUrls[index]}
               />
             ))}
