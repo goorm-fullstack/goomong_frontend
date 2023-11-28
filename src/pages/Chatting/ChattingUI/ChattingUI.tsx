@@ -85,9 +85,9 @@ const ChattingUI: React.FC<UIModel> = ({ userId, bigDate, nowDate, content, room
         let data = {
           id: 1,
           orderName: '테스트 결제',
-          successURL: 'http://localhost:3000/order/success',
-          failURL: 'http://localhost:3000/api/payment/kakao/fail',
-          cancelURL: 'http://localhost:3000/api/payment/kakao/cancel',
+          successURL: 'https://keba1da28866ea.user-app.krampoline.com/order/success',
+          failURL: 'https://keba1da28866ea.user-app.krampoline.com/api/payment/kakao/fail',
+          cancelURL: 'https://keba1da28866ea.user-app.krampoline.com/api/payment/kakao/cancel',
           price: item?.price,
           orderDto: {
             orderItem: item?.id,
